@@ -1,0 +1,17 @@
+{
+    "name": "Village",
+    "alias": "village",
+    "description": "",
+    "version": "v0.1",
+    "keywords": [],
+    "active": 1,
+    "order": 1,
+    "providers": [
+        "Modules\\Village\\Providers\\VillageServiceProvider",
+        "Modules\\Village\\Providers\\RouteServiceProvider"
+    ],
+    "aliases":{},
+    "files": [
+        
+    ]
+}

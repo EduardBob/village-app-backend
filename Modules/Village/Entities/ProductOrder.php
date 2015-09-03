@@ -10,4 +10,14 @@ class ProductOrder extends Model
     protected $table = 'village__productorders';
     public $translatedAttributes = [];
     protected $fillable = [];
+
+    public function product()
+    {
+    	return $this->belongsTo('Modules\Village\Entities\Product');
+    }
+
+    public function user()
+    {
+    	return $this->belongsTo('Modules\Village\Entities\User');
+    }
 }

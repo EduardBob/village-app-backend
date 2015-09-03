@@ -1996,16 +1996,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.1.12",
+            "version": "v5.1.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "76a9816f37a58383f6ba093ccf08f253e5488555"
+                "reference": "2226a0abfe3776c5023601e59d496784d1de21fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/76a9816f37a58383f6ba093ccf08f253e5488555",
-                "reference": "76a9816f37a58383f6ba093ccf08f253e5488555",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/2226a0abfe3776c5023601e59d496784d1de21fd",
+                "reference": "2226a0abfe3776c5023601e59d496784d1de21fd",
                 "shasum": ""
             },
             "require": {
@@ -2120,7 +2120,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-08-30 23:25:48"
+            "time": "2015-09-02 16:18:46"
         },
         {
             "name": "laravelcollective/html",
@@ -2672,12 +2672,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nWidart/modules.git",
-                "reference": "b0d4434c26dca3d1c4b2e426936508a1ec41301b"
+                "reference": "7551466442ae7f4d4e61d8db9eda338968289d20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nWidart/modules/zipball/b0d4434c26dca3d1c4b2e426936508a1ec41301b",
-                "reference": "b0d4434c26dca3d1c4b2e426936508a1ec41301b",
+                "url": "https://api.github.com/repos/nWidart/modules/zipball/7551466442ae7f4d4e61d8db9eda338968289d20",
+                "reference": "7551466442ae7f4d4e61d8db9eda338968289d20",
                 "shasum": ""
             },
             "require": {
@@ -2717,7 +2717,7 @@
             "support": {
                 "source": "https://github.com/nWidart/modules/tree/feature/5.1"
             },
-            "time": "2015-08-27 14:24:28"
+            "time": "2015-09-03 06:46:10"
         },
         {
             "name": "pingpong/support",

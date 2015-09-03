@@ -10,4 +10,14 @@ class Service extends Model
     protected $table = 'village__services';
     public $translatedAttributes = [];
     protected $fillable = [];
+
+    public function category()
+    {
+    	return $this->hasOne('Modules\Village\Entities\ServiceCategory');
+    }
+
+    public function orders()
+    {
+    	return $this->belongsToMany('Modules\Village\Entities\ServiceOrder', 'service_id');
+    }
 }

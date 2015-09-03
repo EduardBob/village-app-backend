@@ -10,4 +10,9 @@ class ProductCategory extends Model
     protected $table = 'village__productcategories';
     public $translatedAttributes = [];
     protected $fillable = [];
+
+    public function products()
+    {
+    	return $this->belongsToMany('Modules\Village\Entities\Product', 'product_category_id');
+    }
 }

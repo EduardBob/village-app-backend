@@ -10,4 +10,20 @@ class User extends Model
     protected $table = 'village__users';
     public $translatedAttributes = [];
     protected $fillable = [];
+
+
+    public function building() 
+    {
+    	return $this->hasOne('Modules\Village\Entities\Building');
+    }
+
+    public function orders()
+    {
+    	return $this->hasMany('Modules\Village\Entities\ProductOrder', 'user_id');
+    }
+
+    public function votes()
+    {
+        return $this->hasMany('Modules\Village\Entities\SurveyVote', 'user_id');
+    }
 }

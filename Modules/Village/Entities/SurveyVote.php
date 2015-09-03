@@ -10,4 +10,14 @@ class SurveyVote extends Model
     protected $table = 'village__surveyvotes';
     public $translatedAttributes = [];
     protected $fillable = [];
+
+    public function survey()
+    {
+    	return $this->belongsTo('Modules\Village\Entities\Survey');
+    }
+
+    public function user()
+    {
+    	return $this->belongsTo('Modules\Village\Entities\User');
+    }
 }

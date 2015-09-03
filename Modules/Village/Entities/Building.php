@@ -10,4 +10,10 @@ class Building extends Model
     protected $table = 'village__buildings';
     public $translatedAttributes = [];
     protected $fillable = [];
+
+
+    public function user()
+    {
+    	return $this->belongsTo('Modules\Village\Entities\User', 'building_id');
+    }
 }

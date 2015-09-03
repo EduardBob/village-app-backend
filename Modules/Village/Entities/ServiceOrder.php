@@ -10,4 +10,9 @@ class ServiceOrder extends Model
     protected $table = 'village__serviceorders';
     public $translatedAttributes = [];
     protected $fillable = [];
+
+    public function service()
+    {
+    	return $this->hasOne('Modules\Village\Entities\Service');
+    }
 }

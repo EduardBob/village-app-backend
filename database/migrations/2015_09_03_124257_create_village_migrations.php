@@ -64,7 +64,7 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::create('village__servicecategories', function(Blueprint $table) 
+        Schema::create('village__service_categories', function(Blueprint $table) 
         {
             $table->increments('id');
             
@@ -82,7 +82,7 @@ class CreateVillageMigrations extends Migration
             $table->increments('id');
 
             $table->integer('service_category_id')->unsigned();
-            $table->foreign('service_category_id')->references('id')->on('village__servicecategories');
+            $table->foreign('service_category_id')->references('id')->on('village__service_categories');
 
             $table->string('title')->unique();
             $table->decimal('price', 10, 2);
@@ -92,7 +92,7 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::create('village__serviceorders', function(Blueprint $table) 
+        Schema::create('village__service_orders', function(Blueprint $table) 
         {
             $table->increments('id');
 
@@ -109,7 +109,7 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::create('village__productcategories', function(Blueprint $table) 
+        Schema::create('village__product_categories', function(Blueprint $table) 
         {
             $table->increments('id');
 
@@ -126,7 +126,7 @@ class CreateVillageMigrations extends Migration
             $table->increments('id');
 
             $table->integer('product_category_id')->unsigned();
-            $table->foreign('product_category_id')->references('id')->on('village__productcategories');
+            $table->foreign('product_category_id')->references('id')->on('village__product_categories');
 
             $table->string('title')->unique();
             $table->decimal('price', 10, 2);
@@ -138,7 +138,7 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::create('village__productorders', function(Blueprint $table) 
+        Schema::create('village__product_orders', function(Blueprint $table) 
         {
             $table->increments('id');
 
@@ -170,7 +170,7 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::create('village__surveyvotes', function(Blueprint $table) 
+        Schema::create('village__survey_votes', function(Blueprint $table) 
         {
             $table->increments('id');
 
@@ -219,16 +219,16 @@ class CreateVillageMigrations extends Migration
         Schema::drop('village__margins');
         Schema::drop('village__options');
         
-        Schema::drop('village__surveyvotes');
+        Schema::drop('village__survey_votes');
         Schema::drop('village__surveys');
         
-        Schema::drop('village__productorders');
+        Schema::drop('village__product_orders');
         Schema::drop('village__products');
-        Schema::drop('village__productcategories');
+        Schema::drop('village__product_categories');
         
-        Schema::drop('village__serviceorders');
+        Schema::drop('village__service_orders');
         Schema::drop('village__services');
-        Schema::drop('village__servicecategories');
+        Schema::drop('village__service_categories');
 
         Schema::drop('village__articles');
         Schema::drop('village__tokens');

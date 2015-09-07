@@ -69,7 +69,7 @@ class VillageSeeder extends Seeder
 
 
 		Service::create([
-			'service_category_id' => $faker->randomElement($this->getItems('village__servicecategories')),
+			'service_category_id' => $faker->randomElement($this->getItems('village__service_categories')),
 			'title' => $faker->unique()->sentence(3),
 			'price' => $faker->randomFloat(4, 0)
 		]);
@@ -90,7 +90,7 @@ class VillageSeeder extends Seeder
 
 
 		Product::create([
-			'product_category_id' => $faker->randomElement($this->getItems('village__productcategories')),
+			'product_category_id' => $faker->randomElement($this->getItems('village__product_categories')),
 			'title' => $faker->unique()->sentence(3),
 			'price' => $faker->randomFloat(4, 0),
 			'image' => $faker->imageUrl(640, 480)

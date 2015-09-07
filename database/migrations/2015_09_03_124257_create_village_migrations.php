@@ -3,6 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+use Modules\Village\Entities\Margin;
+use Modules\Village\Entities\Token;
+
 class CreateVillageMigrations extends Migration
 {
     /**
@@ -46,7 +49,7 @@ class CreateVillageMigrations extends Migration
             
             $table->string('code')->unique();
             $table->string('phone');
-            $table->enum('type', ['RESTORE', 'RESET', 'CREATE']);
+            $table->enum('type', (new Token)->getTypes());
 
             $table->timestamps();
         });
@@ -201,7 +204,7 @@ class CreateVillageMigrations extends Migration
             $table->increments('id');
 
             $table->boolean('is_removable')->default(true);
-            $table->enum('type', ['PERCENT', 'CASH']);
+            $table->enum('type', (new Margin)->getTypes());
             $table->decimal('value', 3, 2);
             $table->integer('order')->default(1);
 

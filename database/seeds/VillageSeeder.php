@@ -51,7 +51,7 @@ class VillageSeeder extends Seeder
 		Token::create([
 			'code' => str_random(10),
 			'phone' => $faker->phoneNumber,
-			'type' => 'CREATE'
+			'type' => $faker->randomElement((new Token)->getTypes()),
 		]);
 
 
@@ -128,7 +128,7 @@ class VillageSeeder extends Seeder
 
 
 		Margin::create([
-			'type' => $faker->randomElement(['PERCENT', 'CASH']),
+			'type' => $faker->randomElement((new Margin)->getTypes()),
 			'value' => $faker->randomFloat(3, 0)
 		]);
     }

@@ -1,15 +1,15 @@
 <?php namespace Modules\Village\Entities;
 
-use Dimsav\Translatable\Translatable;
+// use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
-    use Translatable;
+    // use Translatable;
 
     protected $table = 'village__users';
     public $translatedAttributes = [];
-    protected $fillable = [];
+    protected $fillable = ['first_name', 'last_name', 'phone', 'password', 'building_id'];
 
 
     public function building() 

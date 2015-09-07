@@ -46,7 +46,7 @@ class CreateVillageMigrations extends Migration
             
             $table->string('code')->unique();
             $table->string('phone');
-            $table->enum('type', ['RESTORE', 'RESET']);
+            $table->enum('type', ['RESTORE', 'RESET', 'CREATE']);
 
             $table->timestamps();
         });
@@ -101,9 +101,9 @@ class CreateVillageMigrations extends Migration
 
             $table->dateTime('dateTime');
             $table->decimal('price', 10, 2);
-            $table->text('comment');
+            $table->text('comment')->nullable();
             $table->enum('status', ['PROCESSED', 'IN PROGRESS', 'DONE', 'REJECTED']);
-            $table->text('decllineReason');
+            $table->text('decllineReason')->nullable();
 
             $table->timestamps();
         });

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b96f06100308033576382276620c31c5",
+    "hash": "eff005072f3ac16419f0fef48553f7de",
     "packages": [
         {
             "name": "asgardcms/adminlte-theme",
@@ -1480,6 +1480,56 @@
             ],
             "description": "Laravel 5 theming package.",
             "time": "2015-06-09 18:46:08"
+        },
+        {
+            "name": "fzaninotto/faker",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fzaninotto/Faker.git",
+                "reference": "7f842c2dbcbb9d7395a656ad68039a654047f907"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/7f842c2dbcbb9d7395a656ad68039a654047f907",
+                "reference": "7f842c2dbcbb9d7395a656ad68039a654047f907",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "ext-intl": "*",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.6.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Faker\\": "src/Faker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2015-09-02 08:31:45"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -4991,7 +5041,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "pingpong/modules": 20
+        "pingpong/modules": 20,
+        "fzaninotto/faker": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

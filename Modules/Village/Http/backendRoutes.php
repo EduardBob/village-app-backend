@@ -2,7 +2,6 @@
 
 use Illuminate\Routing\Router;
 /** @var Router $router */
-
 $router->group(['prefix' =>'/village'], function (Router $router) {
         $router->bind('users', function ($id) {
             return app('Modules\Village\Repositories\UserRepository')->find($id);

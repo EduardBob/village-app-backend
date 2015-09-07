@@ -7,7 +7,7 @@ class ServiceOrder extends Model
 {
     // use Translatable;
 
-    protected $table = 'village__serviceorders';
+    protected $table = 'village__service_orders';
     public $translatedAttributes = [];
     protected $fillable = ['service_id', 'dateTime', 'price', 'status'];
 

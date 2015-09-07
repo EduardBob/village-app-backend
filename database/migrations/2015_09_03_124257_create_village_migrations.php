@@ -81,8 +81,8 @@ class CreateVillageMigrations extends Migration
         {
             $table->increments('id');
 
-            $table->integer('service_category_id')->unsigned();
-            $table->foreign('service_category_id')->references('id')->on('village__service_categories');
+            $table->integer('category_id')->unsigned();
+            $table->foreign('category_id')->references('id')->on('village__service_categories');
 
             $table->string('title')->unique();
             $table->decimal('price', 10, 2);
@@ -125,8 +125,8 @@ class CreateVillageMigrations extends Migration
         {
             $table->increments('id');
 
-            $table->integer('product_category_id')->unsigned();
-            $table->foreign('product_category_id')->references('id')->on('village__product_categories');
+            $table->integer('category_id')->unsigned();
+            $table->foreign('category_id')->references('id')->on('village__product_categories');
 
             $table->string('title')->unique();
             $table->decimal('price', 10, 2);

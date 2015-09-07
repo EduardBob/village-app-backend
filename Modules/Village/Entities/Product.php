@@ -9,7 +9,7 @@ class Product extends Model
 
     protected $table = 'village__products';
     public $translatedAttributes = [];
-    protected $fillable = ['product_category_id', 'title', 'price', 'image'];
+    protected $fillable = ['category_id', 'title', 'price', 'image'];
 
     public function category()
     {

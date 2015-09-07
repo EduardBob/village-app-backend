@@ -7,7 +7,7 @@ class SurveyVote extends Model
 {
     // use Translatable;
 
-    protected $table = 'village__surveyvotes';
+    protected $table = 'village__survey_votes';
     public $translatedAttributes = [];
     protected $fillable = ['user_id', 'survey_id', 'choice'];
 

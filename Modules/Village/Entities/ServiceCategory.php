@@ -7,7 +7,7 @@ class ServiceCategory extends Model
 {
     // use Translatable;
 
-    protected $table = 'village__servicecategories';
+    protected $table = 'village__service_categories';
     public $translatedAttributes = [];
     protected $fillable = ['title', 'order'];
 
@@ -23,6 +23,6 @@ class ServiceCategory extends Model
 
     public function services()
     {
-        return $this->belongsToMany('Modules\Village\Entities\Service', 'service_category_id');
+        return $this->belongsToMany('Modules\Village\Entities\Service', 'category_id');
     }
 }

@@ -7,7 +7,7 @@ class ProductOrder extends Model
 {
     // use Translatable;
 
-    protected $table = 'village__productorders';
+    protected $table = 'village__product_orders';
     public $translatedAttributes = [];
     protected $fillable = ['product_id', 'user_id', 'dateTime', 'price', 'quantity', 'comment', 'status'];
 

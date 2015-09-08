@@ -9,7 +9,7 @@ class Survey extends Model
 
     protected $table = 'village__surveys';
     public $translatedAttributes = [];
-    protected $fillable = ['title', 'options', 'endsAt'];
+    protected $fillable = ['title', 'options', 'ends_at'];
 
     public function votes()
     {

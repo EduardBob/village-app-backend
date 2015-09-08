@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
 use Modules\Village\Entities\Building;
-use Modules\Village\Entities\User;
+use Modules\Village\Entities\VillageUser;
 use Modules\Village\Entities\Token;
 use Modules\Village\Entities\Article;
 
@@ -39,12 +39,14 @@ class VillageSeeder extends Seeder
 		]);
 
 
-		User::create([
-            'first_name' => $faker->firstName,
-            'last_name' => $faker->lastName,
+		VillageUser::create([
+            'first_name' => $faker->unique()->firstName,
+            'last_name' => $faker->unique()->lastName,
             'phone' => $faker->unique()->phoneNumber,
             'password' => Hash::make($faker->password),
             'building_id' => $faker->randomElement($this->getItems('village__buildings')),
+            'activated' => true,
+            'email' => $faker->unique()->email
 		]);
 
 

@@ -28,7 +28,7 @@ class SurveyController extends AdminBaseController
     public function index()
     {
         //$surveys = $this->survey->all();
-
+        
         return view('village::admin.surveys.index', compact(''));
     }
 

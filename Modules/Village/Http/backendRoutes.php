@@ -2,29 +2,8 @@
 
 use Illuminate\Routing\Router;
 /** @var Router $router */
+
 $router->group(['prefix' =>'/village'], function (Router $router) {
-        $router->bind('users', function ($id) {
-            return app('Modules\Village\Repositories\UserRepository')->find($id);
-        });
-        $router->resource('users', 'UserController', ['except' => ['show'], 'names' => [
-            'index' => 'admin.village.user.index',
-            'create' => 'admin.village.user.create',
-            'store' => 'admin.village.user.store',
-            'edit' => 'admin.village.user.edit',
-            'update' => 'admin.village.user.update',
-            'destroy' => 'admin.village.user.destroy',
-        ]]);
-        $router->bind('tokens', function ($id) {
-            return app('Modules\Village\Repositories\TokenRepository')->find($id);
-        });
-        $router->resource('tokens', 'TokenController', ['except' => ['show'], 'names' => [
-            'index' => 'admin.village.token.index',
-            'create' => 'admin.village.token.create',
-            'store' => 'admin.village.token.store',
-            'edit' => 'admin.village.token.edit',
-            'update' => 'admin.village.token.update',
-            'destroy' => 'admin.village.token.destroy',
-        ]]);
         $router->bind('articles', function ($id) {
             return app('Modules\Village\Repositories\ArticleRepository')->find($id);
         });
@@ -47,49 +26,16 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
             'update' => 'admin.village.building.update',
             'destroy' => 'admin.village.building.destroy',
         ]]);
-        $router->bind('servicecategories', function ($id) {
-            return app('Modules\Village\Repositories\ServiceCategoryRepository')->find($id);
+        $router->bind('options', function ($id) {
+            return app('Modules\Village\Repositories\OptionRepository')->find($id);
         });
-        $router->resource('servicecategories', 'ServiceCategoryController', ['except' => ['show'], 'names' => [
-            'index' => 'admin.village.servicecategory.index',
-            'create' => 'admin.village.servicecategory.create',
-            'store' => 'admin.village.servicecategory.store',
-            'edit' => 'admin.village.servicecategory.edit',
-            'update' => 'admin.village.servicecategory.update',
-            'destroy' => 'admin.village.servicecategory.destroy',
-        ]]);
-        $router->bind('services', function ($id) {
-            return app('Modules\Village\Repositories\ServiceRepository')->find($id);
-        });
-        $router->resource('services', 'ServiceController', ['except' => ['show'], 'names' => [
-            'index' => 'admin.village.service.index',
-            'create' => 'admin.village.service.create',
-            'store' => 'admin.village.service.store',
-            'edit' => 'admin.village.service.edit',
-            'update' => 'admin.village.service.update',
-            'destroy' => 'admin.village.service.destroy',
-        ]]);
-        $router->bind('serviceorders', function ($id) {
-            return app('Modules\Village\Repositories\ServiceOrderRepository')->find($id);
-        });
-        $router->resource('serviceorders', 'ServiceOrderController', ['except' => ['show'], 'names' => [
-            'index' => 'admin.village.serviceorder.index',
-            'create' => 'admin.village.serviceorder.create',
-            'store' => 'admin.village.serviceorder.store',
-            'edit' => 'admin.village.serviceorder.edit',
-            'update' => 'admin.village.serviceorder.update',
-            'destroy' => 'admin.village.serviceorder.destroy',
-        ]]);
-        $router->bind('productcategories', function ($id) {
-            return app('Modules\Village\Repositories\ProductCategoryRepository')->find($id);
-        });
-        $router->resource('productcategories', 'ProductCategoryController', ['except' => ['show'], 'names' => [
-            'index' => 'admin.village.productcategory.index',
-            'create' => 'admin.village.productcategory.create',
-            'store' => 'admin.village.productcategory.store',
-            'edit' => 'admin.village.productcategory.edit',
-            'update' => 'admin.village.productcategory.update',
-            'destroy' => 'admin.village.productcategory.destroy',
+        $router->resource('options', 'OptionController', ['except' => ['show'], 'names' => [
+            'index' => 'admin.village.option.index',
+            'create' => 'admin.village.option.create',
+            'store' => 'admin.village.option.store',
+            'edit' => 'admin.village.option.edit',
+            'update' => 'admin.village.option.update',
+            'destroy' => 'admin.village.option.destroy',
         ]]);
         $router->bind('products', function ($id) {
             return app('Modules\Village\Repositories\ProductRepository')->find($id);
@@ -102,6 +48,17 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
             'update' => 'admin.village.product.update',
             'destroy' => 'admin.village.product.destroy',
         ]]);
+        $router->bind('productcategories', function ($id) {
+            return app('Modules\Village\Repositories\ProductCategoryRepository')->find($id);
+        });
+        $router->resource('productcategories', 'ProductCategoryController', ['except' => ['show'], 'names' => [
+            'index' => 'admin.village.productcategory.index',
+            'create' => 'admin.village.productcategory.create',
+            'store' => 'admin.village.productcategory.store',
+            'edit' => 'admin.village.productcategory.edit',
+            'update' => 'admin.village.productcategory.update',
+            'destroy' => 'admin.village.productcategory.destroy',
+        ]]);
         $router->bind('productorders', function ($id) {
             return app('Modules\Village\Repositories\ProductOrderRepository')->find($id);
         });
@@ -112,6 +69,39 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
             'edit' => 'admin.village.productorder.edit',
             'update' => 'admin.village.productorder.update',
             'destroy' => 'admin.village.productorder.destroy',
+        ]]);
+        $router->bind('services', function ($id) {
+            return app('Modules\Village\Repositories\ServiceRepository')->find($id);
+        });
+        $router->resource('services', 'ServiceController', ['except' => ['show'], 'names' => [
+            'index' => 'admin.village.service.index',
+            'create' => 'admin.village.service.create',
+            'store' => 'admin.village.service.store',
+            'edit' => 'admin.village.service.edit',
+            'update' => 'admin.village.service.update',
+            'destroy' => 'admin.village.service.destroy',
+        ]]);
+        $router->bind('servicecategories', function ($id) {
+            return app('Modules\Village\Repositories\ServiceCategoryRepository')->find($id);
+        });
+        $router->resource('servicecategories', 'ServiceCategoryController', ['except' => ['show'], 'names' => [
+            'index' => 'admin.village.servicecategory.index',
+            'create' => 'admin.village.servicecategory.create',
+            'store' => 'admin.village.servicecategory.store',
+            'edit' => 'admin.village.servicecategory.edit',
+            'update' => 'admin.village.servicecategory.update',
+            'destroy' => 'admin.village.servicecategory.destroy',
+        ]]);
+        $router->bind('serviceorders', function ($id) {
+            return app('Modules\Village\Repositories\ServiceOrderRepository')->find($id);
+        });
+        $router->resource('serviceorders', 'ServiceOrderController', ['except' => ['show'], 'names' => [
+            'index' => 'admin.village.serviceorder.index',
+            'create' => 'admin.village.serviceorder.create',
+            'store' => 'admin.village.serviceorder.store',
+            'edit' => 'admin.village.serviceorder.edit',
+            'update' => 'admin.village.serviceorder.update',
+            'destroy' => 'admin.village.serviceorder.destroy',
         ]]);
         $router->bind('surveys', function ($id) {
             return app('Modules\Village\Repositories\SurveyRepository')->find($id);
@@ -135,16 +125,16 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
             'update' => 'admin.village.surveyvote.update',
             'destroy' => 'admin.village.surveyvote.destroy',
         ]]);
-        $router->bind('options', function ($id) {
-            return app('Modules\Village\Repositories\OptionRepository')->find($id);
+        $router->bind('tokens', function ($id) {
+            return app('Modules\Village\Repositories\TokenRepository')->find($id);
         });
-        $router->resource('options', 'OptionController', ['except' => ['show'], 'names' => [
-            'index' => 'admin.village.option.index',
-            'create' => 'admin.village.option.create',
-            'store' => 'admin.village.option.store',
-            'edit' => 'admin.village.option.edit',
-            'update' => 'admin.village.option.update',
-            'destroy' => 'admin.village.option.destroy',
+        $router->resource('tokens', 'TokenController', ['except' => ['show'], 'names' => [
+            'index' => 'admin.village.token.index',
+            'create' => 'admin.village.token.create',
+            'store' => 'admin.village.token.store',
+            'edit' => 'admin.village.token.edit',
+            'update' => 'admin.village.token.update',
+            'destroy' => 'admin.village.token.destroy',
         ]]);
         $router->bind('margins', function ($id) {
             return app('Modules\Village\Repositories\MarginRepository')->find($id);
@@ -158,7 +148,6 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
             'destroy' => 'admin.village.margin.destroy',
         ]]);
 // append
-
 
 
 

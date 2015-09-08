@@ -34,30 +34,6 @@ class VillageServiceProvider extends ServiceProvider
     private function registerBindings()
     {
         $this->app->bind(
-            'Modules\Village\Repositories\UserRepository',
-            function () {
-                $repository = new \Modules\Village\Repositories\Eloquent\EloquentUserRepository(new \Modules\Village\Entities\User());
-
-                if (! config('app.cache')) {
-                    return $repository;
-                }
-
-                return new \Modules\Village\Repositories\Cache\CacheUserDecorator($repository);
-            }
-        );
-        $this->app->bind(
-            'Modules\Village\Repositories\TokenRepository',
-            function () {
-                $repository = new \Modules\Village\Repositories\Eloquent\EloquentTokenRepository(new \Modules\Village\Entities\Token());
-
-                if (! config('app.cache')) {
-                    return $repository;
-                }
-
-                return new \Modules\Village\Repositories\Cache\CacheTokenDecorator($repository);
-            }
-        );
-        $this->app->bind(
             'Modules\Village\Repositories\ArticleRepository',
             function () {
                 $repository = new \Modules\Village\Repositories\Eloquent\EloquentArticleRepository(new \Modules\Village\Entities\Article());
@@ -82,51 +58,15 @@ class VillageServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
-            'Modules\Village\Repositories\ServiceCategoryRepository',
+            'Modules\Village\Repositories\OptionRepository',
             function () {
-                $repository = new \Modules\Village\Repositories\Eloquent\EloquentServiceCategoryRepository(new \Modules\Village\Entities\ServiceCategory());
+                $repository = new \Modules\Village\Repositories\Eloquent\EloquentOptionRepository(new \Modules\Village\Entities\Option());
 
                 if (! config('app.cache')) {
                     return $repository;
                 }
 
-                return new \Modules\Village\Repositories\Cache\CacheServiceCategoryDecorator($repository);
-            }
-        );
-        $this->app->bind(
-            'Modules\Village\Repositories\ServiceRepository',
-            function () {
-                $repository = new \Modules\Village\Repositories\Eloquent\EloquentServiceRepository(new \Modules\Village\Entities\Service());
-
-                if (! config('app.cache')) {
-                    return $repository;
-                }
-
-                return new \Modules\Village\Repositories\Cache\CacheServiceDecorator($repository);
-            }
-        );
-        $this->app->bind(
-            'Modules\Village\Repositories\ServiceOrderRepository',
-            function () {
-                $repository = new \Modules\Village\Repositories\Eloquent\EloquentServiceOrderRepository(new \Modules\Village\Entities\ServiceOrder());
-
-                if (! config('app.cache')) {
-                    return $repository;
-                }
-
-                return new \Modules\Village\Repositories\Cache\CacheServiceOrderDecorator($repository);
-            }
-        );
-        $this->app->bind(
-            'Modules\Village\Repositories\ProductCategoryRepository',
-            function () {
-                $repository = new \Modules\Village\Repositories\Eloquent\EloquentProductCategoryRepository(new \Modules\Village\Entities\ProductCategory());
-
-                if (! config('app.cache')) {
-                    return $repository;
-                }
-
-                return new \Modules\Village\Repositories\Cache\CacheProductCategoryDecorator($repository);
+                return new \Modules\Village\Repositories\Cache\CacheOptionDecorator($repository);
             }
         );
         $this->app->bind(
@@ -142,6 +82,18 @@ class VillageServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
+            'Modules\Village\Repositories\ProductCategoryRepository',
+            function () {
+                $repository = new \Modules\Village\Repositories\Eloquent\EloquentProductCategoryRepository(new \Modules\Village\Entities\ProductCategory());
+
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+
+                return new \Modules\Village\Repositories\Cache\CacheProductCategoryDecorator($repository);
+            }
+        );
+        $this->app->bind(
             'Modules\Village\Repositories\ProductOrderRepository',
             function () {
                 $repository = new \Modules\Village\Repositories\Eloquent\EloquentProductOrderRepository(new \Modules\Village\Entities\ProductOrder());
@@ -151,6 +103,42 @@ class VillageServiceProvider extends ServiceProvider
                 }
 
                 return new \Modules\Village\Repositories\Cache\CacheProductOrderDecorator($repository);
+            }
+        );
+        $this->app->bind(
+            'Modules\Village\Repositories\ServiceRepository',
+            function () {
+                $repository = new \Modules\Village\Repositories\Eloquent\EloquentServiceRepository(new \Modules\Village\Entities\Service());
+
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+
+                return new \Modules\Village\Repositories\Cache\CacheServiceDecorator($repository);
+            }
+        );
+        $this->app->bind(
+            'Modules\Village\Repositories\ServiceCategoryRepository',
+            function () {
+                $repository = new \Modules\Village\Repositories\Eloquent\EloquentServiceCategoryRepository(new \Modules\Village\Entities\ServiceCategory());
+
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+
+                return new \Modules\Village\Repositories\Cache\CacheServiceCategoryDecorator($repository);
+            }
+        );
+        $this->app->bind(
+            'Modules\Village\Repositories\ServiceOrderRepository',
+            function () {
+                $repository = new \Modules\Village\Repositories\Eloquent\EloquentServiceOrderRepository(new \Modules\Village\Entities\ServiceOrder());
+
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+
+                return new \Modules\Village\Repositories\Cache\CacheServiceOrderDecorator($repository);
             }
         );
         $this->app->bind(
@@ -178,15 +166,15 @@ class VillageServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
-            'Modules\Village\Repositories\OptionRepository',
+            'Modules\Village\Repositories\TokenRepository',
             function () {
-                $repository = new \Modules\Village\Repositories\Eloquent\EloquentOptionRepository(new \Modules\Village\Entities\Option());
+                $repository = new \Modules\Village\Repositories\Eloquent\EloquentTokenRepository(new \Modules\Village\Entities\Token());
 
                 if (! config('app.cache')) {
                     return $repository;
                 }
 
-                return new \Modules\Village\Repositories\Cache\CacheOptionDecorator($repository);
+                return new \Modules\Village\Repositories\Cache\CacheTokenDecorator($repository);
             }
         );
         $this->app->bind(
@@ -202,7 +190,6 @@ class VillageServiceProvider extends ServiceProvider
             }
         );
 // add bindings
-
 
 
 

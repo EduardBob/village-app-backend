@@ -1,22 +1,6 @@
 <?php
 
 return [
-    'village.users' => [
-        'index',
-        'create',
-        'store',
-        'edit',
-        'update',
-        'destroy',
-    ],
-    'village.tokens' => [
-        'index',
-        'create',
-        'store',
-        'edit',
-        'update',
-        'destroy',
-    ],
     'village.articles' => [
         'index',
         'create',
@@ -33,31 +17,7 @@ return [
         'update',
         'destroy',
     ],
-    'village.servicecategories' => [
-        'index',
-        'create',
-        'store',
-        'edit',
-        'update',
-        'destroy',
-    ],
-    'village.services' => [
-        'index',
-        'create',
-        'store',
-        'edit',
-        'update',
-        'destroy',
-    ],
-    'village.serviceorders' => [
-        'index',
-        'create',
-        'store',
-        'edit',
-        'update',
-        'destroy',
-    ],
-    'village.productcategories' => [
+    'village.options' => [
         'index',
         'create',
         'store',
@@ -73,7 +33,39 @@ return [
         'update',
         'destroy',
     ],
+    'village.productcategories' => [
+        'index',
+        'create',
+        'store',
+        'edit',
+        'update',
+        'destroy',
+    ],
     'village.productorders' => [
+        'index',
+        'create',
+        'store',
+        'edit',
+        'update',
+        'destroy',
+    ],
+    'village.services' => [
+        'index',
+        'create',
+        'store',
+        'edit',
+        'update',
+        'destroy',
+    ],
+    'village.servicecategories' => [
+        'index',
+        'create',
+        'store',
+        'edit',
+        'update',
+        'destroy',
+    ],
+    'village.serviceorders' => [
         'index',
         'create',
         'store',
@@ -97,7 +89,7 @@ return [
         'update',
         'destroy',
     ],
-    'village.options' => [
+    'village.tokens' => [
         'index',
         'create',
         'store',
@@ -114,7 +106,6 @@ return [
         'destroy',
     ],
 // append
-
 
 
 

@@ -11,7 +11,7 @@ class SurveyVoteController extends AdminBaseController
     /**
      * @var SurveyVoteRepository
      */
-    private $surveyvote;
+    private $surveyVote;
 
     public function __construct(SurveyVoteRepository $surveyVote)
     {
@@ -71,13 +71,13 @@ class SurveyVoteController extends AdminBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  SurveyVote $surveyvote
+     * @param  SurveyVote $surveyVote
      * @param  Request $request
      * @return Response
      */
-    public function update(SurveyVote $surveyvote, Request $request)
+    public function update(SurveyVote $surveyVote, Request $request)
     {
-        $this->surveyVote->update($surveyvote, $request->all());
+        $this->surveyVote->update($surveyVote, $request->all());
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::surveyvotes.title.surveyvotes')]));
 
@@ -87,12 +87,12 @@ class SurveyVoteController extends AdminBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  SurveyVote $surveyvote
+     * @param  SurveyVote $surveyVote
      * @return Response
      */
-    public function destroy(SurveyVote $surveyvote)
+    public function destroy(SurveyVote $surveyVote)
     {
-        $this->surveyVote->destroy($surveyvote);
+        $this->surveyVote->destroy($surveyVote);
 
         flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::surveyvotes.title.surveyvotes')]));
 

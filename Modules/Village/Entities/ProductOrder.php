@@ -9,7 +9,7 @@ class ProductOrder extends Model
 
     protected $table = 'village__product_orders';
     public $translatedAttributes = [];
-    protected $fillable = ['product_id', 'user_id', 'dateTime', 'price', 'quantity', 'comment', 'status'];
+    protected $fillable = ['product_id', 'user_id', 'price', 'quantity', 'comment', 'status'];
 
     public function product()
     {
@@ -18,6 +18,6 @@ class ProductOrder extends Model
 
     public function user()
     {
-    	return $this->belongsTo('Modules\Village\Entities\User');
+    	return $this->belongsTo('Modules\Village\Entities\VillageUser');
     }
 }

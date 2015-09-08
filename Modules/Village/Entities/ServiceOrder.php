@@ -9,7 +9,7 @@ class ServiceOrder extends Model
 
     protected $table = 'village__service_orders';
     public $translatedAttributes = [];
-    protected $fillable = ['service_id', 'dateTime', 'price', 'status'];
+    protected $fillable = ['service_id', 'price', 'status'];
 
     public function service()
     {

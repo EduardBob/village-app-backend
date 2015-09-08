@@ -18,6 +18,6 @@ class SurveyVote extends Model
 
     public function user()
     {
-    	return $this->belongsTo('Modules\Village\Entities\User');
+    	return $this->belongsTo('Modules\Village\Entities\VillageUser');
     }
 }

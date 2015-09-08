@@ -2,14 +2,15 @@
 
 // use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
+use Modules\User\Entities\Sentinel\User;
 
-class User extends Model
+class VillageUser extends User
 {
     // use Translatable;
 
-    protected $table = 'village__users';
-    public $translatedAttributes = [];
-    protected $fillable = ['first_name', 'last_name', 'phone', 'password', 'building_id'];
+    // protected $table = 'village__users';
+    // public $translatedAttributes = [];
+    // protected $fillable = ['first_name', 'last_name', 'phone', 'password', 'building_id'];
 
 
     public function building() 

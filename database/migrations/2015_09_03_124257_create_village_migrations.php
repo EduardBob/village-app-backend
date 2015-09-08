@@ -6,6 +6,8 @@ use Illuminate\Database\Migrations\Migration;
 use Modules\Village\Entities\Margin;
 use Modules\Village\Entities\Token;
 
+use Modules\Village\Entities\VillageUser;
+
 class CreateVillageMigrations extends Migration
 {
     /**
@@ -26,20 +28,12 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::create('village__users', function(Blueprint $table) 
-        {
-            $table->increments('id');
+        Schema::table('users', function ($table) {            
+            $table->boolean('activated')->default(false)->after('last_name');
+            $table->string('phone')->unique()->after('last_name');
 
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('phone')->unique();
-            $table->string('password');
-            $table->boolean('activated')->default(false);
-
-            $table->integer('building_id')->unsigned();
+            $table->integer('building_id')->nullable()->unsigned()->after('last_name');
             $table->foreign('building_id')->references('id')->on('village__buildings');
-
-            $table->timestamps();
         });
 
 
@@ -102,10 +96,9 @@ class CreateVillageMigrations extends Migration
             $table->integer('service_id')->unsigned();
             $table->foreign('service_id')->references('id')->on('village__services');
 
-            $table->dateTime('dateTime');
             $table->decimal('price', 10, 2);
             $table->text('comment')->nullable();
-            $table->enum('status', ['PROCESSED', 'IN PROGRESS', 'DONE', 'REJECTED']);
+            $table->enum('status', config('village.order.statuses'));
             $table->text('decllineReason')->nullable();
 
             $table->timestamps();
@@ -148,14 +141,13 @@ class CreateVillageMigrations extends Migration
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('village__products');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('village__users');
+            $table->foreign('user_id')->references('id')->on('users');
 
-            $table->dateTime('dateTime');
             $table->decimal('price', 10, 2);
             $table->string('unit_title')->default('kg');
             $table->decimal('quantity', 5, 2);
             $table->text('comment');
-            $table->enum('status', ['PROCESSED', 'IN PROGRESS', 'DONE', 'REJECTED']);
+            $table->enum('status', config('village.order.statuses'));
 
             $table->timestamps();
         });
@@ -167,7 +159,7 @@ class CreateVillageMigrations extends Migration
 
             $table->string('title');
             $table->json('options');
-            $table->dateTime('endsAt');
+            $table->dateTime('ends_at');
 
             $table->timestamps();
         });
@@ -178,7 +170,7 @@ class CreateVillageMigrations extends Migration
             $table->increments('id');
 
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('village__users');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->integer('survey_id')->unsigned();
             $table->foreign('survey_id')->references('id')->on('village__surveys');
 
@@ -235,7 +227,13 @@ class CreateVillageMigrations extends Migration
 
         Schema::drop('village__articles');
         Schema::drop('village__tokens');
-        Schema::drop('village__users');
+
+        VillageUser::where('activated', 1)->delete();
+        Schema::table('users', function ($table) {
+            $table->dropForeign(['building_id']);
+            $table->dropColumn(['activated', 'phone', 'building_id']);
+        });
+
         Schema::drop('village__buildings');
     }
 }

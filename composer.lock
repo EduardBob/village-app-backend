@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b96f06100308033576382276620c31c5",
+    "hash": "eff005072f3ac16419f0fef48553f7de",
     "packages": [
         {
             "name": "asgardcms/adminlte-theme",
@@ -1482,6 +1482,56 @@
             "time": "2015-06-09 18:46:08"
         },
         {
+            "name": "fzaninotto/faker",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fzaninotto/Faker.git",
+                "reference": "7f842c2dbcbb9d7395a656ad68039a654047f907"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/7f842c2dbcbb9d7395a656ad68039a654047f907",
+                "reference": "7f842c2dbcbb9d7395a656ad68039a654047f907",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "ext-intl": "*",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.6.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Faker\\": "src/Faker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2015-09-02 08:31:45"
+        },
+        {
             "name": "guzzlehttp/guzzle",
             "version": "5.3.0",
             "source": {
@@ -1996,16 +2046,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.1.12",
+            "version": "v5.1.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "76a9816f37a58383f6ba093ccf08f253e5488555"
+                "reference": "2226a0abfe3776c5023601e59d496784d1de21fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/76a9816f37a58383f6ba093ccf08f253e5488555",
-                "reference": "76a9816f37a58383f6ba093ccf08f253e5488555",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/2226a0abfe3776c5023601e59d496784d1de21fd",
+                "reference": "2226a0abfe3776c5023601e59d496784d1de21fd",
                 "shasum": ""
             },
             "require": {
@@ -2120,7 +2170,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-08-30 23:25:48"
+            "time": "2015-09-02 16:18:46"
         },
         {
             "name": "laravelcollective/html",
@@ -2672,12 +2722,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nWidart/modules.git",
-                "reference": "b0d4434c26dca3d1c4b2e426936508a1ec41301b"
+                "reference": "7551466442ae7f4d4e61d8db9eda338968289d20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nWidart/modules/zipball/b0d4434c26dca3d1c4b2e426936508a1ec41301b",
-                "reference": "b0d4434c26dca3d1c4b2e426936508a1ec41301b",
+                "url": "https://api.github.com/repos/nWidart/modules/zipball/7551466442ae7f4d4e61d8db9eda338968289d20",
+                "reference": "7551466442ae7f4d4e61d8db9eda338968289d20",
                 "shasum": ""
             },
             "require": {
@@ -2717,7 +2767,7 @@
             "support": {
                 "source": "https://github.com/nWidart/modules/tree/feature/5.1"
             },
-            "time": "2015-08-27 14:24:28"
+            "time": "2015-09-03 06:46:10"
         },
         {
             "name": "pingpong/support",
@@ -4991,7 +5041,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "pingpong/modules": 20
+        "pingpong/modules": 20,
+        "fzaninotto/faker": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

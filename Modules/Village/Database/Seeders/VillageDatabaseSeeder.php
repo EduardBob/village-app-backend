@@ -1,9 +1,9 @@
-<?php
+<?php namespace Modules\Village\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class DatabaseSeeder extends Seeder {
+class VillageDatabaseSeeder extends Seeder {
 
 	/**
 	 * Run the database seeds.
@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder {
 	public function run()
 	{
 		Model::unguard();
-
-		$this->call('VillageSeeder');
+		
+		// $this->call("OthersTableSeeder");
 	}
 
 }

@@ -100,7 +100,7 @@ class VillageSeeder extends Seeder
 
 		ProductOrder::create([
 			'product_id' => $faker->randomElement($this->getItems('village__products')),
-			'user_id' => $faker->randomElement($this->getItems('village__users')),
+			'user_id' => $faker->randomElement($this->getItems('users')),
 			'price' => $faker->randomFloat(4, 0),
 			'quantity' => $faker->randomDigit,
 			'comment' => $faker->text,
@@ -115,7 +115,7 @@ class VillageSeeder extends Seeder
 
 
 		SurveyVote::create([
-			'user_id' => $faker->randomElement($this->getItems('village__users')),
+			'user_id' => $faker->randomElement($this->getItems('users')),
 			'survey_id' => $faker->randomElement($this->getItems('village__surveys')),
 			'choice' => $faker->randomElement(array(0, 1, 2))
 		]);

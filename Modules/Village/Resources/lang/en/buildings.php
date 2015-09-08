@@ -12,6 +12,7 @@ return [
     'table' => [
     ],
     'form' => [
+        'address' => 'Address'
     ],
     'messages' => [
     ],

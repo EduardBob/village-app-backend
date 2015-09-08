@@ -6,6 +6,8 @@ use Modules\Village\Entities\Building;
 use Modules\Village\Repositories\BuildingRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
+use Validator;
+
 class BuildingController extends AdminBaseController
 {
     /**
@@ -27,9 +29,9 @@ class BuildingController extends AdminBaseController
      */
     public function index()
     {
-        //$buildings = $this->building->all();
+        $buildings = $this->building->all()->sortBy('address');
 
-        return view('village::admin.buildings.index', compact(''));
+        return view('village::admin.buildings.index', compact('buildings'));
     }
 
     /**
@@ -50,6 +52,13 @@ class BuildingController extends AdminBaseController
      */
     public function store(Request $request)
     {
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        dd($request->all());
         $this->building->create($request->all());
 
         flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::buildings.title.buildings')]));
@@ -77,6 +86,12 @@ class BuildingController extends AdminBaseController
      */
     public function update(Building $building, Request $request)
     {
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        
         $this->building->update($building, $request->all());
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::buildings.title.buildings')]));
@@ -97,5 +112,12 @@ class BuildingController extends AdminBaseController
         flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::buildings.title.buildings')]));
 
         return redirect()->route('admin.village.building.index');
+    }
+
+
+    public function validate($data) {
+        return Validator::make($data, [
+            'address' => 'required'
+        ]);
     }
 }

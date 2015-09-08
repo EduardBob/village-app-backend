@@ -2,7 +2,7 @@
 
 return [
     'title' => [
-        'buildings' => 'Buildings',
+        'buildings' => 'Building',
         'create building' => 'Create a building',
         'edit building' => 'Edit a building',
     ],

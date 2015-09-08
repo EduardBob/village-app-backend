@@ -11,13 +11,13 @@ class ProductOrderController extends AdminBaseController
     /**
      * @var ProductOrderRepository
      */
-    private $productOrder;
+    private $productorder;
 
-    public function __construct(ProductOrderRepository $productOrder)
+    public function __construct(ProductOrderRepository $productorder)
     {
         parent::__construct();
 
-        $this->productOrder = $productOrder;
+        $this->productorder = $productorder;
     }
 
     /**
@@ -27,7 +27,7 @@ class ProductOrderController extends AdminBaseController
      */
     public function index()
     {
-        //$productOrders = $this->productOrder->all();
+        //$productorders = $this->productorder->all();
 
         return view('village::admin.productorders.index', compact(''));
     }
@@ -50,7 +50,7 @@ class ProductOrderController extends AdminBaseController
      */
     public function store(Request $request)
     {
-        $this->productOrder->create($request->all());
+        $this->productorder->create($request->all());
 
         flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::productorders.title.productorders')]));
 
@@ -60,10 +60,10 @@ class ProductOrderController extends AdminBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  ProductOrder $productOrder
+     * @param  ProductOrder $productorder
      * @return Response
      */
-    public function edit(ProductOrder $productOrder)
+    public function edit(ProductOrder $productorder)
     {
         return view('village::admin.productorders.edit', compact('productorder'));
     }
@@ -71,13 +71,13 @@ class ProductOrderController extends AdminBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  ProductOrder $productOrder
+     * @param  ProductOrder $productorder
      * @param  Request $request
      * @return Response
      */
-    public function update(ProductOrder $productOrder, Request $request)
+    public function update(ProductOrder $productorder, Request $request)
     {
-        $this->productOrder->update($productOrder, $request->all());
+        $this->productorder->update($productorder, $request->all());
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::productorders.title.productorders')]));
 
@@ -87,12 +87,12 @@ class ProductOrderController extends AdminBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  ProductOrder $productOrder
+     * @param  ProductOrder $productorder
      * @return Response
      */
-    public function destroy(ProductOrder $productOrder)
+    public function destroy(ProductOrder $productorder)
     {
-        $this->productOrder->destroy($productOrder);
+        $this->productorder->destroy($productorder);
 
         flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::productorders.title.productorders')]));
 

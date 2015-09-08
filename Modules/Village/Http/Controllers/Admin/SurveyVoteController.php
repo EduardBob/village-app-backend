@@ -13,11 +13,11 @@ class SurveyVoteController extends AdminBaseController
      */
     private $surveyvote;
 
-    public function __construct(SurveyVoteRepository $surveyVote)
+    public function __construct(SurveyVoteRepository $surveyvote)
     {
         parent::__construct();
 
-        $this->surveyVote = $surveyVote;
+        $this->surveyvote = $surveyvote;
     }
 
     /**
@@ -27,7 +27,7 @@ class SurveyVoteController extends AdminBaseController
      */
     public function index()
     {
-        //$surveyVotes = $this->surveyVote->all();
+        //$surveyvotes = $this->surveyvote->all();
 
         return view('village::admin.surveyvotes.index', compact(''));
     }
@@ -50,7 +50,7 @@ class SurveyVoteController extends AdminBaseController
      */
     public function store(Request $request)
     {
-        $this->surveyVote->create($request->all());
+        $this->surveyvote->create($request->all());
 
         flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::surveyvotes.title.surveyvotes')]));
 
@@ -60,10 +60,10 @@ class SurveyVoteController extends AdminBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  SurveyVote $surveyVote
+     * @param  SurveyVote $surveyvote
      * @return Response
      */
-    public function edit(SurveyVote $surveyVote)
+    public function edit(SurveyVote $surveyvote)
     {
         return view('village::admin.surveyvotes.edit', compact('surveyvote'));
     }
@@ -77,7 +77,7 @@ class SurveyVoteController extends AdminBaseController
      */
     public function update(SurveyVote $surveyvote, Request $request)
     {
-        $this->surveyVote->update($surveyvote, $request->all());
+        $this->surveyvote->update($surveyvote, $request->all());
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::surveyvotes.title.surveyvotes')]));
 
@@ -92,7 +92,7 @@ class SurveyVoteController extends AdminBaseController
      */
     public function destroy(SurveyVote $surveyvote)
     {
-        $this->surveyVote->destroy($surveyvote);
+        $this->surveyvote->destroy($surveyvote);
 
         flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::surveyvotes.title.surveyvotes')]));
 

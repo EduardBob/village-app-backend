@@ -1,23 +1,13 @@
 <?php namespace Modules\Village\Entities;
 
-// use Dimsav\Translatable\Translatable;
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
 class SurveyVote extends Model
 {
-    // use Translatable;
+    use Translatable;
 
-    protected $table = 'village__survey_votes';
+    protected $table = 'village__surveyvotes';
     public $translatedAttributes = [];
-    protected $fillable = ['user_id', 'survey_id', 'choice'];
-
-    public function survey()
-    {
-    	return $this->belongsTo('Modules\Village\Entities\Survey');
-    }
-
-    public function user()
-    {
-    	return $this->belongsTo('Modules\Village\Entities\User');
-    }
+    protected $fillable = [];
 }

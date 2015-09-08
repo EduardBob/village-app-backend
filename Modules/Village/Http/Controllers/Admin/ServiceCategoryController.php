@@ -11,13 +11,13 @@ class ServiceCategoryController extends AdminBaseController
     /**
      * @var ServiceCategoryRepository
      */
-    private $serviceCategory;
+    private $servicecategory;
 
-    public function __construct(ServiceCategoryRepository $serviceCategory)
+    public function __construct(ServiceCategoryRepository $servicecategory)
     {
         parent::__construct();
 
-        $this->serviceCategory = $serviceCategory;
+        $this->servicecategory = $servicecategory;
     }
 
     /**
@@ -27,7 +27,7 @@ class ServiceCategoryController extends AdminBaseController
      */
     public function index()
     {
-        //$servicecategories = $this->serviceCategory->all();
+        //$servicecategories = $this->servicecategory->all();
 
         return view('village::admin.servicecategories.index', compact(''));
     }
@@ -50,7 +50,7 @@ class ServiceCategoryController extends AdminBaseController
      */
     public function store(Request $request)
     {
-        $this->serviceCategory->create($request->all());
+        $this->servicecategory->create($request->all());
 
         flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::servicecategories.title.servicecategories')]));
 
@@ -60,10 +60,10 @@ class ServiceCategoryController extends AdminBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  ServiceCategory $serviceCategory
+     * @param  ServiceCategory $servicecategory
      * @return Response
      */
-    public function edit(ServiceCategory $serviceCategory)
+    public function edit(ServiceCategory $servicecategory)
     {
         return view('village::admin.servicecategories.edit', compact('servicecategory'));
     }
@@ -71,13 +71,13 @@ class ServiceCategoryController extends AdminBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  ServiceCategory $serviceCategory
+     * @param  ServiceCategory $servicecategory
      * @param  Request $request
      * @return Response
      */
-    public function update(ServiceCategory $serviceCategory, Request $request)
+    public function update(ServiceCategory $servicecategory, Request $request)
     {
-        $this->serviceCategory->update($serviceCategory, $request->all());
+        $this->servicecategory->update($servicecategory, $request->all());
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::servicecategories.title.servicecategories')]));
 
@@ -87,12 +87,12 @@ class ServiceCategoryController extends AdminBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  ServiceCategory $serviceCategory
+     * @param  ServiceCategory $servicecategory
      * @return Response
      */
-    public function destroy(ServiceCategory $serviceCategory)
+    public function destroy(ServiceCategory $servicecategory)
     {
-        $this->serviceCategory->destroy($serviceCategory);
+        $this->servicecategory->destroy($servicecategory);
 
         flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::servicecategories.title.servicecategories')]));
 

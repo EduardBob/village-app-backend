@@ -11,13 +11,13 @@ class ServiceOrderController extends AdminBaseController
     /**
      * @var ServiceOrderRepository
      */
-    private $serviceOrder;
+    private $serviceorder;
 
-    public function __construct(ServiceOrderRepository $serviceOrder)
+    public function __construct(ServiceOrderRepository $serviceorder)
     {
         parent::__construct();
 
-        $this->serviceOrder = $serviceOrder;
+        $this->serviceorder = $serviceorder;
     }
 
     /**
@@ -27,7 +27,7 @@ class ServiceOrderController extends AdminBaseController
      */
     public function index()
     {
-        //$serviceOrders = $this->serviceOrder->all();
+        //$serviceorders = $this->serviceorder->all();
 
         return view('village::admin.serviceorders.index', compact(''));
     }
@@ -50,7 +50,7 @@ class ServiceOrderController extends AdminBaseController
      */
     public function store(Request $request)
     {
-        $this->serviceOrder->create($request->all());
+        $this->serviceorder->create($request->all());
 
         flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::serviceorders.title.serviceorders')]));
 
@@ -60,10 +60,10 @@ class ServiceOrderController extends AdminBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  ServiceOrder $serviceOrder
+     * @param  ServiceOrder $serviceorder
      * @return Response
      */
-    public function edit(ServiceOrder $serviceOrder)
+    public function edit(ServiceOrder $serviceorder)
     {
         return view('village::admin.serviceorders.edit', compact('serviceorder'));
     }
@@ -71,13 +71,13 @@ class ServiceOrderController extends AdminBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  ServiceOrder $serviceOrder
+     * @param  ServiceOrder $serviceorder
      * @param  Request $request
      * @return Response
      */
-    public function update(ServiceOrder $serviceOrder, Request $request)
+    public function update(ServiceOrder $serviceorder, Request $request)
     {
-        $this->serviceOrder->update($serviceOrder, $request->all());
+        $this->serviceorder->update($serviceorder, $request->all());
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::serviceorders.title.serviceorders')]));
 
@@ -87,12 +87,12 @@ class ServiceOrderController extends AdminBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  ServiceOrder $serviceOrder
+     * @param  ServiceOrder $serviceorder
      * @return Response
      */
-    public function destroy(ServiceOrder $serviceOrder)
+    public function destroy(ServiceOrder $serviceorder)
     {
-        $this->serviceOrder->destroy($serviceOrder);
+        $this->serviceorder->destroy($serviceorder);
 
         flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::serviceorders.title.serviceorders')]));
 

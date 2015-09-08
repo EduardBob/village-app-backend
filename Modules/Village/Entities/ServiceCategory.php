@@ -1,28 +1,13 @@
 <?php namespace Modules\Village\Entities;
 
-// use Dimsav\Translatable\Translatable;
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
 class ServiceCategory extends Model
 {
-    // use Translatable;
+    use Translatable;
 
-    protected $table = 'village__service_categories';
+    protected $table = 'village__servicecategories';
     public $translatedAttributes = [];
-    protected $fillable = ['title', 'order'];
-
-    public function parent()
-    {
-        return $this->belongsTo('Modules\Village\Entities\ServiceCategory', 'parent_id');
-    }
-
-    public function children()
-    {
-        return $this->hasMany('Modules\Village\Entities\ServiceCategory', 'parent_id');
-    }
-
-    public function services()
-    {
-        return $this->belongsToMany('Modules\Village\Entities\Service', 'category_id');
-    }
+    protected $fillable = [];
 }

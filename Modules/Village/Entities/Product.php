@@ -1,23 +1,13 @@
 <?php namespace Modules\Village\Entities;
 
-// use Dimsav\Translatable\Translatable;
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    // use Translatable;
+    use Translatable;
 
     protected $table = 'village__products';
     public $translatedAttributes = [];
-    protected $fillable = ['category_id', 'title', 'price', 'image'];
-
-    public function category()
-    {
-    	return $this->hasOne('Modules\Village\Entities\ProductCategory');
-    }
-
-    public function orders()
-    {
-    	return $this->hasMany('Modules\Village\Entities\ProductOrder', 'product_id');
-    }
+    protected $fillable = [];
 }

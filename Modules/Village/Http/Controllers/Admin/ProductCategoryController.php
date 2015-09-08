@@ -11,13 +11,13 @@ class ProductCategoryController extends AdminBaseController
     /**
      * @var ProductCategoryRepository
      */
-    private $productcategory;
+    private $productCategory;
 
-    public function __construct(ProductCategoryRepository $productcategory)
+    public function __construct(ProductCategoryRepository $productCategory)
     {
         parent::__construct();
 
-        $this->productcategory = $productcategory;
+        $this->productCategory = $productCategory;
     }
 
     /**
@@ -27,7 +27,7 @@ class ProductCategoryController extends AdminBaseController
      */
     public function index()
     {
-        //$productcategories = $this->productcategory->all();
+        //$productcategories = $this->productCategory->all();
 
         return view('village::admin.productcategories.index', compact(''));
     }
@@ -50,7 +50,7 @@ class ProductCategoryController extends AdminBaseController
      */
     public function store(Request $request)
     {
-        $this->productcategory->create($request->all());
+        $this->productCategory->create($request->all());
 
         flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::productcategories.title.productcategories')]));
 
@@ -60,10 +60,10 @@ class ProductCategoryController extends AdminBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  ProductCategory $productcategory
+     * @param  ProductCategory $productCategory
      * @return Response
      */
-    public function edit(ProductCategory $productcategory)
+    public function edit(ProductCategory $productCategory)
     {
         return view('village::admin.productcategories.edit', compact('productcategory'));
     }
@@ -71,13 +71,13 @@ class ProductCategoryController extends AdminBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  ProductCategory $productcategory
+     * @param  ProductCategory $productCategory
      * @param  Request $request
      * @return Response
      */
-    public function update(ProductCategory $productcategory, Request $request)
+    public function update(ProductCategory $productCategory, Request $request)
     {
-        $this->productcategory->update($productcategory, $request->all());
+        $this->productCategory->update($productCategory, $request->all());
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::productcategories.title.productcategories')]));
 
@@ -87,12 +87,12 @@ class ProductCategoryController extends AdminBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  ProductCategory $productcategory
+     * @param  ProductCategory $productCategory
      * @return Response
      */
-    public function destroy(ProductCategory $productcategory)
+    public function destroy(ProductCategory $productCategory)
     {
-        $this->productcategory->destroy($productcategory);
+        $this->productCategory->destroy($productCategory);
 
         flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::productcategories.title.productcategories')]));
 

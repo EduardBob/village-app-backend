@@ -26,31 +26,13 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::table('users', function ($table) {
+        Schema::table('users', function ($table) {            
             $table->boolean('activated')->default(false);
             $table->string('phone')->unique();
 
-            $table->integer('building_id')->unsigned();
+            $table->integer('building_id')->nullable()->unsigned();
             $table->foreign('building_id')->references('id')->on('village__buildings');
         });
-
-
-        // Schema::create('village__users', function(Blueprint $table) 
-        // {
-        //     $table->increments('id');
-
-        //     $table->string('first_name');
-        //     $table->string('last_name');
-        //     $table->string('phone')->unique();
-        //     $table->string('password');
-
-        //     $table->boolean('activated')->default(false);
-
-        //     $table->integer('building_id')->unsigned();
-        //     $table->foreign('building_id')->references('id')->on('village__buildings');
-
-        //     $table->timestamps();
-        // });
 
 
         Schema::create('village__tokens', function(Blueprint $table) 
@@ -158,7 +140,7 @@ class CreateVillageMigrations extends Migration
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('village__products');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('village__users');
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->dateTime('dateTime');
             $table->decimal('price', 10, 2);
@@ -188,7 +170,7 @@ class CreateVillageMigrations extends Migration
             $table->increments('id');
 
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('village__users');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->integer('survey_id')->unsigned();
             $table->foreign('survey_id')->references('id')->on('village__surveys');
 
@@ -245,8 +227,8 @@ class CreateVillageMigrations extends Migration
 
         Schema::drop('village__articles');
         Schema::drop('village__tokens');
-        // Schema::drop('village__users');
         Schema::table('users', function ($table) {
+            $table->dropForeign(['building_id']);
             $table->dropColumn(['activated', 'phone', 'building_id']);
         });
         Schema::drop('village__buildings');

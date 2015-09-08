@@ -99,7 +99,7 @@ class CreateVillageMigrations extends Migration
             $table->dateTime('dateTime');
             $table->decimal('price', 10, 2);
             $table->text('comment')->nullable();
-            $table->enum('status', ['PROCESSED', 'IN PROGRESS', 'DONE', 'REJECTED']);
+            $table->enum('status', config('status'));
             $table->text('decllineReason')->nullable();
 
             $table->timestamps();
@@ -149,7 +149,7 @@ class CreateVillageMigrations extends Migration
             $table->string('unit_title')->default('kg');
             $table->decimal('quantity', 5, 2);
             $table->text('comment');
-            $table->enum('status', ['PROCESSED', 'IN PROGRESS', 'DONE', 'REJECTED']);
+            $table->enum('status', config('status'));
 
             $table->timestamps();
         });

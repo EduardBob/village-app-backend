@@ -58,8 +58,16 @@ class BuildingController extends AdminBaseController
             return back()->withErrors($validator)->withInput();
         }
 
-        dd($request->all());
-        $this->building->create($request->all());
+        $nextId = $this->building->all()->max('id') + 1;
+        $code = $this->getCode();
+        $record = $this->checkRecord($code);
+
+        while ($record !== null) {
+            $code = $this->getCode();
+            $record = $this->checkRecord($code);
+        }
+
+        $this->building->create(array_merge($request->all(), ['code' => $code]));
 
         flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::buildings.title.buildings')]));
 
@@ -115,9 +123,17 @@ class BuildingController extends AdminBaseController
     }
 
 
-    public function validate($data) {
+    static function validate($data) {
         return Validator::make($data, [
             'address' => 'required'
         ]);
+    }
+
+    static function getCode($length = 7) {
+        return substr( md5(rand()), 0, $length);
+    }
+
+    public function checkRecord($code) {
+        return $this->building->all()->where('code', $code)->first();
     }
 }

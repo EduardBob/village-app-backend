@@ -2,11 +2,11 @@
 
 @section('content-header')
     <h1>
-        {{ trans('village::buildings.title.buildings') }}
+        {{ trans('village::profiles.title.profiles') }}
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
-        <li class="active">{{ trans('village::buildings.title.buildings') }}</li>
+        <li class="active">{{ trans('village::profiles.title.profiles') }}</li>
     </ol>
 @stop
 
@@ -15,8 +15,8 @@
         <div class="col-xs-12">
             <div class="row">
                 <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
-                    <a href="{{ route('admin.village.building.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
-                        <i class="fa fa-pencil"></i> {{ trans('village::buildings.button.create building') }}
+                    <a href="{{ route('admin.village.profile.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
+                        <i class="fa fa-pencil"></i> {{ trans('village::profiles.button.create profile') }}
                     </a>
                 </div>
             </div>
@@ -28,27 +28,23 @@
                     <table class="data-table table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>{{ trans('core::core.table.address') }}</th>
-                            <th>{{ trans('core::core.table.code') }}</th>
+                            <th>{{ trans('core::core.table.created at') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php if (isset($buildings)): ?>
-                        <?php foreach ($buildings as $building): ?>
+                        <?php if (isset($profiles)): ?>
+                        <?php foreach ($profiles as $profile): ?>
                         <tr>
                             <td>
-                                <a href="{{ route('admin.village.building.edit', [$building->id]) }}">
-                                    {{ $building->address }}
+                                <a href="{{ route('admin.village.profile.edit', [$profile->id]) }}">
+                                    {{ $profile->created_at }}
                                 </a>
                             </td>
                             <td>
-                                {{ $building->code }}
-                            </td>
-                            <td>
                                 <div class="btn-group">
-                                    <a href="{{ route('admin.village.building.edit', [$building->id]) }}" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>
-                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $building->id }}"><i class="glyphicon glyphicon-trash"></i></button>
+                                    <a href="{{ route('admin.village.profile.edit', [$profile->id]) }}" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $profile->id }}"><i class="glyphicon glyphicon-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -57,8 +53,7 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>{{ trans('core::core.table.address') }}</th>
-                            <th>{{ trans('core::core.table.code') }}</th>
+                            <th>{{ trans('core::core.table.created at') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </tfoot>
@@ -69,10 +64,10 @@
             </div>
         </div>
     </div>
-    <?php if (isset($buildings)): ?>
-    <?php foreach ($buildings as $building): ?>
+    <?php if (isset($profiles)): ?>
+    <?php foreach ($profiles as $profile): ?>
     <!-- Modal -->
-    <div class="modal fade modal-danger" id="confirmation-{{ $building->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade modal-danger" id="confirmation-{{ $profile->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -84,7 +79,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline btn-flat" data-dismiss="modal">{{ trans('core::core.button.cancel') }}</button>
-                    {!! Form::open(['route' => ['admin.village.building.destroy', $building->id], 'method' => 'delete', 'class' => 'pull-left']) !!}
+                    {!! Form::open(['route' => ['admin.village.profile.destroy', $profile->id], 'method' => 'delete', 'class' => 'pull-left']) !!}
                     <button type="submit" class="btn btn-outline btn-flat"><i class="glyphicon glyphicon-trash"></i> {{ trans('core::core.button.delete') }}</button>
                     {!! Form::close() !!}
                 </div>
@@ -101,7 +96,7 @@
 @section('shortcuts')
     <dl class="dl-horizontal">
         <dt><code>c</code></dt>
-        <dd>{{ trans('village::buildings.title.create building') }}</dd>
+        <dd>{{ trans('village::profiles.title.create profile') }}</dd>
     </dl>
 @stop
 
@@ -110,7 +105,7 @@
         $( document ).ready(function() {
             $(document).keypressAction({
                 actions: [
-                    { key: 'c', route: "<?= route('admin.village.building.create') ?>" }
+                    { key: 'c', route: "<?= route('admin.village.profile.create') ?>" }
                 ]
             });
         });

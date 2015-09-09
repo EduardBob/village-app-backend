@@ -12,8 +12,8 @@ class Building extends Model
     protected $fillable = ['address', 'code'];
 
 
-    public function user()
+    public function profile()
     {
-    	return $this->hasOne('Modules\Village\Entities\VillageUser');
+    	return $this->hasOne('Modules\Village\Entities\Profile');
     }
 }

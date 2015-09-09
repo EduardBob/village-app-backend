@@ -3,8 +3,9 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
+use Modules\Village\Entities\Profile;
+
 use Modules\Village\Entities\Building;
-use Modules\Village\Entities\VillageUser;
 use Modules\Village\Entities\Token;
 use Modules\Village\Entities\Article;
 
@@ -39,14 +40,11 @@ class VillageSeeder extends Seeder
 		]);
 
 
-		VillageUser::create([
-            'first_name' => $faker->unique()->firstName,
-            'last_name' => $faker->unique()->lastName,
-            'phone' => $faker->unique()->phoneNumber,
-            'password' => Hash::make($faker->password),
-            'building_id' => $faker->randomElement($this->getItems('village__buildings')),
-            'activated' => true,
-            'email' => $faker->unique()->email
+		Profile::create([
+			'phone' => $faker->unique()->phoneNumber,
+			'user_id' => 1,
+			'building_id' => $faker->randomElement($this->getItems('village__buildings')),
+			'activated' => true
 		]);
 
 
@@ -100,7 +98,7 @@ class VillageSeeder extends Seeder
 
 		ProductOrder::create([
 			'product_id' => $faker->randomElement($this->getItems('village__products')),
-			'user_id' => $faker->randomElement($this->getItems('users')),
+			'user_id' => $faker->randomElement($this->getItems('village__profiles')),
 			'price' => $faker->randomFloat(4, 0),
 			'quantity' => $faker->randomDigit,
 			'comment' => $faker->text,
@@ -115,7 +113,7 @@ class VillageSeeder extends Seeder
 
 
 		SurveyVote::create([
-			'user_id' => $faker->randomElement($this->getItems('users')),
+			'user_id' => $faker->randomElement($this->getItems('village__profiles')),
 			'survey_id' => $faker->randomElement($this->getItems('village__surveys')),
 			'choice' => $faker->randomElement(array(0, 1, 2))
 		]);

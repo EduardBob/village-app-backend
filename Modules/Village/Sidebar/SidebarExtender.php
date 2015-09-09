@@ -36,7 +36,6 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                 $item->authorize(
                      /* append */
                 );
-
                 $item->item(trans('village::buildings.title.buildings'), function (Item $item) {
                     $item->icon('fa fa-home');
                     $item->weight(0);
@@ -46,7 +45,6 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                         $this->auth->hasAccess('village.buildings.index')
                     );
                 });
-
                 // $item->item(trans('village::articles.title.articles'), function (Item $item) {
                 //     $item->icon('fa fa-copy');
                 //     $item->weight(0);
@@ -56,6 +54,15 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                 //         $this->auth->hasAccess('village.articles.index')
                 //     );
                 // }); 
+                // $item->item(trans('village::margins.title.margins'), function (Item $item) {
+                //     $item->icon('fa fa-copy');
+                //     $item->weight(0);
+                //     $item->append('admin.village.margin.create');
+                //     $item->route('admin.village.margin.index');
+                //     $item->authorize(
+                //         $this->auth->hasAccess('village.margins.index')
+                //     );
+                // });
                 // $item->item(trans('village::options.title.options'), function (Item $item) {
                 //     $item->icon('fa fa-copy');
                 //     $item->weight(0);
@@ -146,16 +153,17 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                 //         $this->auth->hasAccess('village.tokens.index')
                 //     );
                 // });
-                // $item->item(trans('village::margins.title.margins'), function (Item $item) {
+                // $item->item(trans('village::profiles.title.profiles'), function (Item $item) {
                 //     $item->icon('fa fa-copy');
                 //     $item->weight(0);
-                //     $item->append('admin.village.margin.create');
-                //     $item->route('admin.village.margin.index');
+                //     $item->append('admin.village.profile.create');
+                //     $item->route('admin.village.profile.index');
                 //     $item->authorize(
-                //         $this->auth->hasAccess('village.margins.index')
+                //         $this->auth->hasAccess('village.profiles.index')
                 //     );
                 // });
 // append
+
 
 
 

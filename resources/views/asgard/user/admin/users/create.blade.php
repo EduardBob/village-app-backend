@@ -61,17 +61,17 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-4">
-                                <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
-                                    {!! Form::label('phone', trans('user::users.form.phone')) !!}
-                                    {!! Form::text('phone', Input::old('phone'), ['class' => 'form-control', 'placeholder' => trans('user::users.form.phone')]) !!}
-                                    {!! $errors->first('phone', '<span class="help-block">:message</span>') !!}
+                                <div class="form-group{{ $errors->has('profile.phone') ? ' has-error has-feedback' : '' }}">
+                                    {!! Form::label('profile[phone]', trans('village::profiles.form.phone')) !!}
+                                    {!! Form::text('profile[phone]', Input::old('profile.phone'), ['class' => 'form-control', 'placeholder' => trans('village::profiles.form.phone')]) !!}
+                                    {!! $errors->first('profile.phone', '<span class="help-block">:message</span>') !!}
                                 </div>
                             </div>
                             <div class="col-sm-8">
-                                <div class="form-group{{ $errors->has('building_id') ? ' has-error' : '' }}">
-                                    {!! Form::label('building_id', trans('user::users.form.address')) !!}
-                                    {!! Form::select('building_id', Input::old('building_id', $homes), null, ['class' => 'form-control', 'placeholder' => trans('user::users.form.address')]) !!}
-                                    {!! $errors->first('building_id', '<span class="help-block">:message</span>') !!}
+                                <div class="form-group{{ $errors->has('profile.building_id') ? ' has-error has-feedback' : '' }}">
+                                    {!! Form::label('profile[building_id]', trans('village::profiles.form.building_id')) !!}
+                                    {!! Form::select('profile[building_id]', Input::old('profile[building_id]', [1 => 'Here']), null, ['class' => 'form-control', 'placeholder' => trans('user::users.form.address')]) !!}
+                                    {!! $errors->first('profile.building_id', '<span class="help-block">:message</span>') !!}
                                 </div>
                             </div>
                         </div>

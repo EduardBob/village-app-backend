@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'title' => 'Village'
+	'title' => 'Village'
 ];

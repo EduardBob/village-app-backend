@@ -10,9 +10,9 @@ return [
         'create building' => 'Create a building',
     ],
     'table' => [
+        'address' => 'Address'
     ],
     'form' => [
-        'address' => 'Address'
     ],
     'messages' => [
     ],

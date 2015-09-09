@@ -14,9 +14,9 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 
-		for ($i=0; $i < 10; $i++) { 
-			$this->call('VillageSeeder');
-		}
+		// for ($i=0; $i < 10; $i++) { 
+		// }
+		$this->call('VillageSeeder');
 	}
 
 }

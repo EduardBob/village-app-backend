@@ -60,6 +60,22 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+                                    {!! Form::label('phone', trans('user::users.form.phone')) !!}
+                                    {!! Form::text('phone', Input::old('phone'), ['class' => 'form-control', 'placeholder' => trans('user::users.form.phone')]) !!}
+                                    {!! $errors->first('phone', '<span class="help-block">:message</span>') !!}
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="form-group{{ $errors->has('building_id') ? ' has-error' : '' }}">
+                                    {!! Form::label('building_id', trans('user::users.form.address')) !!}
+                                    {!! Form::select('building_id', Input::old('building_id', $homes), null, ['class' => 'form-control', 'placeholder' => trans('user::users.form.address')]) !!}
+                                    {!! $errors->first('building_id', '<span class="help-block">:message</span>') !!}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                     {!! Form::label('password', trans('user::users.form.password')) !!}

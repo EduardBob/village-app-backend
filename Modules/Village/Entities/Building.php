@@ -14,6 +14,6 @@ class Building extends Model
 
     public function user()
     {
-    	return $this->belongsTo('Modules\Village\Entities\VillageUser', 'building_id');
+    	return $this->hasOne('Modules\Village\Entities\VillageUser');
     }
 }

@@ -28,10 +28,10 @@
                 <table class="data-table table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>{{ trans('user::users.table.created-at') }}</th>
                             <th>{{ trans('user::users.table.first-name') }}</th>
                             <th>{{ trans('user::users.table.last-name') }}</th>
-                            <th>{{ trans('user::users.table.email') }}</th>
+                            <th>{{ trans('user::users.table.phone') }}</th>
+                            <th>{{ trans('core::core.table.address') }}</th>
                             <th>{{ trans('user::users.table.actions') }}</th>
                         </tr>
                     </thead>
@@ -39,11 +39,6 @@
                     <?php if (isset($users)): ?>
                         <?php foreach ($users as $user): ?>
                             <tr>
-                                <td>
-                                    <a href="{{ URL::route('admin.user.user.edit', [$user->id]) }}">
-                                        {{ $user->created_at }}
-                                    </a>
-                                </td>
                                 <td>
                                     <a href="{{ URL::route('admin.user.user.edit', [$user->id]) }}">
                                         {{ $user->first_name }}
@@ -56,8 +51,13 @@
                                 </td>
                                 <td>
                                     <a href="{{ URL::route('admin.user.user.edit', [$user->id]) }}">
-                                        {{ $user->email }}
+                                        {{ $user->phone }}
                                     </a>
+                                </td>
+                                <td>
+                                    @if ($user->building()->first())
+                                        {{ $user->building()->first()->address }}
+                                    @endif
                                 </td>
                                 <td>
                                     <div class="btn-group">
@@ -73,10 +73,10 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th>{{ trans('user::users.table.created-at') }}</th>
                             <th>{{ trans('user::users.table.first-name') }}</th>
                             <th>{{ trans('user::users.table.last-name') }}</th>
-                            <th>{{ trans('user::users.table.email') }}</th>
+                            <th>{{ trans('user::users.table.phone') }}</th>
+                            <th>{{ trans('core::core.table.address') }}</th>
                             <th>{{ trans('user::users.table.actions') }}</th>
                         </tr>
                     </tfoot>

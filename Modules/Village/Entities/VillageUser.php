@@ -15,7 +15,7 @@ class VillageUser extends User
 
     public function building() 
     {
-    	return $this->hasOne('Modules\Village\Entities\Building');
+        return $this->belongsTo('Modules\Village\Entities\Building');
     }
 
     public function orders()

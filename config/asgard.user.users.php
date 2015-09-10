@@ -36,5 +36,6 @@ return [
         'permissions',
         'first_name',
         'last_name',
+        'profile',
     ],
 ];

@@ -3,6 +3,12 @@
 // use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
+use Modules\User\Entities\Sentinel\User;
+use Modules\Village\Entities\Building;
+
+use Validator;
+use Request;
+
 class Profile extends Model
 {
     // use Translatable;
@@ -20,7 +26,7 @@ class Profile extends Model
 
     public function building() 
     {
-        return $this->belongsTo('Modules\Village\Entities\Building')->first();
+        return $this->belongsTo('Modules\Village\Entities\Building');
     }
 
     public function orders()
@@ -31,5 +37,26 @@ class Profile extends Model
     public function votes()
     {
         return $this->hasMany('Modules\Village\Entities\SurveyVote', 'user_id');
+    }
+
+    public function updateItem($user, $data)
+    {
+        $profile = $user->profile();
+
+        $profile->update(['phone' => $data['phone']]);
+        $profile->building()->associate(Building::find($data['building_id']));
+        $profile->save();
+    }
+
+    public function createItem($data, $id)
+    {
+        $profile = new Profile(['phone' => $data['phone']]);
+
+        $user = User::find($id);
+        $building = Building::find($data['building_id']);
+
+        $profile->user()->associate($user);
+        $profile->building()->associate($building);
+        $profile->save();
     }
 }

@@ -35,7 +35,7 @@ class CreateVillageMigrations extends Migration
             $table->string('phone')->unique();
 
             $table->integer('building_id')->nullable()->unsigned();
-            $table->foreign('building_id')->references('id')->on('village__buildings');
+            $table->foreign('building_id')->references('id')->on('village__buildings')->onDelete('SET NULL');
 
             $table->integer('user_id')->nullable()->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

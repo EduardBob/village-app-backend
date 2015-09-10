@@ -57,8 +57,8 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($user->profile() && $user->profile()->building())
-                                        {{ $user->profile()->building()->address }}
+                                    @if ($user->profile() && $user->profile()->building()->first())
+                                        {{ $user->profile()->building()->first()->address }}
                                     @endif
                                 </td>
                                 <td>

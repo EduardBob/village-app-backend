@@ -7,5 +7,11 @@
                 {!! $errors->first('address', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
+        <div class="col-sm-4">
+        	<div class="form-group">
+	        	{!! Form::label('null', trans('village::buildings.form.code')) !!}
+        		{!! Form::text('null', $building->code, ['class' => 'form-control', 'readonly' => true]) !!}
+        	</div>
+        </div>
     </div>
 </div>

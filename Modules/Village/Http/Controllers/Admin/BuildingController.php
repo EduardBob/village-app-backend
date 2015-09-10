@@ -123,7 +123,8 @@ class BuildingController extends AdminBaseController
     }
 
 
-    static function validate($data) {
+    static function validate($data) 
+    {
         return Validator::make($data, [
             'address' => 'required'
         ]);

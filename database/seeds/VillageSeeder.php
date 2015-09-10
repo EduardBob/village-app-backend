@@ -78,7 +78,8 @@ class VillageSeeder extends Seeder
 		ServiceOrder::create([
 			'service_id' => $faker->randomElement($this->getItems('village__services')),
 			'price' => $faker->randomFloat(4, 0),
-			'status' => 'IN PROGRESS'
+			'status' => 'IN PROGRESS',
+			'perform_at' => $faker->dateTime('now')
 		]);
 
 
@@ -102,7 +103,8 @@ class VillageSeeder extends Seeder
 			'price' => $faker->randomFloat(4, 0),
 			'quantity' => $faker->randomDigit,
 			'comment' => $faker->text,
-			'status' => 'IN PROGRESS'
+			'status' => 'IN PROGRESS',
+			'perform_at' => $faker->dateTime('now')
 		]);
 
 		Survey::create([

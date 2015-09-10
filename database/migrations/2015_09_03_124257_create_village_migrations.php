@@ -103,6 +103,7 @@ class CreateVillageMigrations extends Migration
             $table->integer('service_id')->unsigned();
             $table->foreign('service_id')->references('id')->on('village__services');
 
+            $table->dateTime('perform_at');
             $table->decimal('price', 10, 2);
             $table->text('comment')->nullable();
             $table->enum('status', config('village.order.statuses'));
@@ -150,6 +151,7 @@ class CreateVillageMigrations extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('village__profiles');
 
+            $table->dateTime('perform_at');
             $table->decimal('price', 10, 2);
             $table->string('unit_title')->default('kg');
             $table->decimal('quantity', 5, 2);

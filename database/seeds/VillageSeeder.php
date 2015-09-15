@@ -77,9 +77,9 @@ class VillageSeeder extends Seeder
 
 		ServiceOrder::create([
 			'service_id' => $faker->randomElement($this->getItems('village__services')),
-			'price' => $faker->randomFloat(4, 0),
 			'status' => 'IN PROGRESS',
-			'perform_at' => $faker->dateTime('now')
+			'perform_at' => $faker->dateTime('now'),
+			'user_id' => $faker->randomElement($this->getItems('village__profiles'))
 		]);
 
 

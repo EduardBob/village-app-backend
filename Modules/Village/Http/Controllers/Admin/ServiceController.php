@@ -6,6 +6,9 @@ use Modules\Village\Entities\Service;
 use Modules\Village\Repositories\ServiceRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
+use Modules\Village\Entities\ServiceCategory;
+use Validator;
+
 class ServiceController extends AdminBaseController
 {
     /**
@@ -27,9 +30,9 @@ class ServiceController extends AdminBaseController
      */
     public function index()
     {
-        //$services = $this->service->all();
+        $services = $this->service->all();
 
-        return view('village::admin.services.index', compact(''));
+        return view('village::admin.services.index', compact('services'));
     }
 
     /**
@@ -50,7 +53,16 @@ class ServiceController extends AdminBaseController
      */
     public function store(Request $request)
     {
-        $this->service->create($request->all());
+        $category = ServiceCategory::find($request['category']);
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $item = $this->service->create($request->all());
+        $item->category()->associate($category);
+        $item->save();
 
         flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::services.title.services')]));
 
@@ -77,7 +89,16 @@ class ServiceController extends AdminBaseController
      */
     public function update(Service $service, Request $request)
     {
-        $this->service->update($service, $request->all());
+        $category = ServiceCategory::find($request['category']);
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $item = $this->service->update($service, $request->all());
+        $item->category()->associate($category);
+        $item->save();
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::services.title.services')]));
 
@@ -97,5 +118,14 @@ class ServiceController extends AdminBaseController
         flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::services.title.services')]));
 
         return redirect()->route('admin.village.service.index');
+    }
+
+    static function validate($data) 
+    {
+        return Validator::make($data, [
+            'title' => 'required|string',
+            'category' => 'required|numeric',
+            'price' => 'required|numeric'
+        ]);
     }
 }

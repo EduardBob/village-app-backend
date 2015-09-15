@@ -74,7 +74,7 @@ class CreateVillageMigrations extends Migration
             
             $table->string('title')->unique();
             $table->integer('parent_id')->default(0);
-            $table->integer('order');
+            $table->integer('order')->default(0);
             $table->boolean('active')->default(true);
 
             $table->timestamps();
@@ -85,8 +85,8 @@ class CreateVillageMigrations extends Migration
         {
             $table->increments('id');
 
-            $table->integer('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('village__service_categories');
+            $table->integer('category_id')->nullable()->unsigned();
+            $table->foreign('category_id')->references('id')->on('village__service_categories')->onDelete('SET NULL');
 
             $table->string('title')->unique();
             $table->decimal('price', 10, 2);
@@ -100,14 +100,15 @@ class CreateVillageMigrations extends Migration
         {
             $table->increments('id');
 
-            $table->integer('service_id')->unsigned();
+            $table->integer('service_id')->nullable()->unsigned();
             $table->foreign('service_id')->references('id')->on('village__services');
+            $table->integer('user_id')->nullable()->unsigned();
+            $table->foreign('user_id')->references('id')->on('village__profiles');
 
             $table->dateTime('perform_at');
-            $table->decimal('price', 10, 2);
             $table->text('comment')->nullable();
-            $table->enum('status', config('village.order.statuses'));
-            $table->text('decllineReason')->nullable();
+            $table->enum('status', config('village.order.statuses'))->default(config('village.order.statuses')[0]);
+            $table->text('declline_reason')->nullable();
 
             $table->timestamps();
         });

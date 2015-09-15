@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "eff005072f3ac16419f0fef48553f7de",
+    "hash": "0f13e6b80c04e0b494930d827615246b",
     "packages": [
         {
             "name": "asgardcms/adminlte-theme",
@@ -1491,7 +1491,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/4d1acafbfc49d0d4dcce327971fd69fdec5df7a4",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/56d5ed438eaf45bac2d63cdd50a5c92d9b3f3b01",
                 "reference": "4d1acafbfc49d0d4dcce327971fd69fdec5df7a4",
                 "shasum": ""
             },
@@ -5036,7 +5036,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "pingpong/modules": 20,
-        "fzaninotto/faker": 20
+        "fzaninotto/faker": 20,
+        "nesbot/carbon": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

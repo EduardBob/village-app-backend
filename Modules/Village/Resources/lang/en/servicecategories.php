@@ -2,14 +2,15 @@
 
 return [
     'title' => [
-        'servicecategories' => 'ServiceCategory',
-        'create servicecategory' => 'Create a servicecategory',
-        'edit servicecategory' => 'Edit a servicecategory',
+        'servicecategories' => 'Service Categories',
+        'create servicecategory' => 'Create a service category',
+        'edit servicecategory' => 'Edit a service category',
     ],
     'button' => [
-        'create servicecategory' => 'Create a servicecategory',
+        'create servicecategory' => 'Create a service category',
     ],
     'table' => [
+        'title' => 'Title'
     ],
     'form' => [
     ],

@@ -8,6 +8,7 @@ use Modules\Village\Entities\Building;
 
 use Validator;
 use Request;
+use DB;
 
 class Profile extends Model
 {
@@ -58,5 +59,16 @@ class Profile extends Model
         $profile->user()->associate($user);
         $profile->building()->associate($building);
         $profile->save();
+    }
+
+    public function getAll() {
+        $first = DB::table('users')->lists('first_name', 'id');
+        $last = DB::table('users')->lists('last_name', 'id');
+        
+        foreach ($first as $key => $value) {
+            $first[$key] = $first[$key] . ' ' . $last[$key];
+        }
+        
+        return $first;
     }
 }

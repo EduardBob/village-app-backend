@@ -9,10 +9,15 @@ class ServiceOrder extends Model
 
     protected $table = 'village__service_orders';
     public $translatedAttributes = [];
-    protected $fillable = ['service_id', 'price', 'status'];
+    protected $fillable = ['status', 'perform_at'];
 
     public function service()
     {
-    	return $this->hasOne('Modules\Village\Entities\Service');
+    	return $this->belongsTo('Modules\Village\Entities\Service', 'service_id');
+    }
+
+    public function profile()
+    {
+    	return $this->belongsTo('Modules\Village\Entities\Profile', 'user_id');
     }
 }

@@ -9,11 +9,11 @@ class Product extends Model
 
     protected $table = 'village__products';
     public $translatedAttributes = [];
-    protected $fillable = ['category_id', 'title', 'price', 'image'];
+    protected $fillable = ['title', 'price', 'image'];
 
     public function category()
     {
-    	return $this->hasOne('Modules\Village\Entities\ProductCategory');
+    	return $this->belongsTo('Modules\Village\Entities\ProductCategory', 'category_id');
     }
 
     public function orders()

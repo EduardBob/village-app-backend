@@ -2,14 +2,15 @@
 
 return [
     'title' => [
-        'productcategories' => 'ProductCategory',
-        'create productcategory' => 'Create a productcategory',
-        'edit productcategory' => 'Edit a productcategory',
+        'productcategories' => 'Product Category',
+        'create productcategory' => 'Create a product category',
+        'edit productcategory' => 'Edit a product category',
     ],
     'button' => [
-        'create productcategory' => 'Create a productcategory',
+        'create productcategory' => 'Create a product category',
     ],
     'table' => [
+        'title' => 'Title'
     ],
     'form' => [
     ],

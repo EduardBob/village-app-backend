@@ -57,7 +57,7 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                 });
 
                 $item->item(trans('village::services.title.service_list'), function(Item $item) {
-                    $item->icon('fa fa-cog');
+                    $item->icon('fa fa-cube');
                     $item->weight(5);
                     $item->append('admin.village.service.create');
                     $item->route('admin.village.service.index');
@@ -67,7 +67,7 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                 });
 
                 $item->item(trans('village::servicecategories.title.servicecategories'), function (Item $item) {
-                    $item->icon('fa fa-copy');
+                    $item->icon('fa fa-list');
                     $item->weight(5);
                     $item->append('admin.village.servicecategory.create');
                     $item->route('admin.village.servicecategory.index');
@@ -75,8 +75,43 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                         $this->auth->hasAccess('village.servicecategories.index')
                     );
                 });
+            });
 
-                
+            $group->item(trans('village::products.title.products'), function (Item $item) {
+                $item->icon('fa fa-list-alt');
+                $item->weight(11);
+                $item->authorize(
+                );
+
+                $item->item(trans('village::productorders.title.productorders'), function (Item $item) {
+                    $item->icon('fa fa-shopping-cart');
+                    $item->weight(5);
+                    $item->append('admin.village.productorder.create');
+                    $item->route('admin.village.productorder.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('village.productorders.index')
+                    );
+                });
+
+                $item->item(trans('village::products.title.products'), function (Item $item) {
+                    $item->icon('fa fa-cube');
+                    $item->weight(5);
+                    $item->append('admin.village.product.create');
+                    $item->route('admin.village.product.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('village.products.index')
+                    );
+                });
+
+                $item->item(trans('village::productcategories.title.productcategories'), function (Item $item) {
+                    $item->icon('fa fa-list');
+                    $item->weight(0);
+                    $item->append('admin.village.productcategory.create');
+                    $item->route('admin.village.productcategory.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('village.productcategories.index')
+                    );
+                });
             });
         });
 
@@ -125,32 +160,32 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
         //             );
         //         });
         //         $item->item(trans('village::products.title.products'), function (Item $item) {
-        //             $item->icon('fa fa-copy');
-        //             $item->weight(0);
-        //             $item->append('admin.village.product.create');
-        //             $item->route('admin.village.product.index');
-        //             $item->authorize(
-        //                 $this->auth->hasAccess('village.products.index')
-        //             );
+                    // $item->icon('fa fa-copy');
+                    // $item->weight(0);
+                    // $item->append('admin.village.product.create');
+                    // $item->route('admin.village.product.index');
+                    // $item->authorize(
+                    //     $this->auth->hasAccess('village.products.index')
+                    // );
         //         });
-        //         $item->item(trans('village::productcategories.title.productcategories'), function (Item $item) {
-        //             $item->icon('fa fa-copy');
-        //             $item->weight(0);
-        //             $item->append('admin.village.productcategory.create');
-        //             $item->route('admin.village.productcategory.index');
-        //             $item->authorize(
-        //                 $this->auth->hasAccess('village.productcategories.index')
-        //             );
-        //         });
-        //         $item->item(trans('village::productorders.title.productorders'), function (Item $item) {
-        //             $item->icon('fa fa-copy');
-        //             $item->weight(0);
-        //             $item->append('admin.village.productorder.create');
-        //             $item->route('admin.village.productorder.index');
-        //             $item->authorize(
-        //                 $this->auth->hasAccess('village.productorders.index')
-        //             );
-        //         });
+                // $item->item(trans('village::productcategories.title.productcategories'), function (Item $item) {
+                //     $item->icon('fa fa-copy');
+                //     $item->weight(0);
+                //     $item->append('admin.village.productcategory.create');
+                //     $item->route('admin.village.productcategory.index');
+                //     $item->authorize(
+                //         $this->auth->hasAccess('village.productcategories.index')
+                //     );
+                // });
+                // $item->item(trans('village::productorders.title.productorders'), function (Item $item) {
+                //     $item->icon('fa fa-copy');
+                //     $item->weight(0);
+                //     $item->append('admin.village.productorder.create');
+                //     $item->route('admin.village.productorder.index');
+                //     $item->authorize(
+                //         $this->auth->hasAccess('village.productorders.index')
+                //     );
+                // });
         //         $item->item(trans('village::services.title.services'), function (Item $item) {
         //             $item->icon('fa fa-copy');
         //             $item->weight(0);

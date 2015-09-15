@@ -6,6 +6,8 @@ use Modules\Village\Entities\ProductCategory;
 use Modules\Village\Repositories\ProductCategoryRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
+use Validator;
+
 class ProductCategoryController extends AdminBaseController
 {
     /**
@@ -27,9 +29,9 @@ class ProductCategoryController extends AdminBaseController
      */
     public function index()
     {
-        //$productcategories = $this->productCategory->all();
+        $productCategories = $this->productCategory->all();
 
-        return view('village::admin.productcategories.index', compact(''));
+        return view('village::admin.productcategories.index', compact('productCategories'));
     }
 
     /**
@@ -50,6 +52,12 @@ class ProductCategoryController extends AdminBaseController
      */
     public function store(Request $request)
     {
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         $this->productCategory->create($request->all());
 
         flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::productcategories.title.productcategories')]));
@@ -65,7 +73,7 @@ class ProductCategoryController extends AdminBaseController
      */
     public function edit(ProductCategory $productCategory)
     {
-        return view('village::admin.productcategories.edit', compact('productcategory'));
+        return view('village::admin.productcategories.edit', compact('productCategory'));
     }
 
     /**
@@ -77,6 +85,12 @@ class ProductCategoryController extends AdminBaseController
      */
     public function update(ProductCategory $productCategory, Request $request)
     {
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        
         $this->productCategory->update($productCategory, $request->all());
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::productcategories.title.productcategories')]));
@@ -97,5 +111,12 @@ class ProductCategoryController extends AdminBaseController
         flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::productcategories.title.productcategories')]));
 
         return redirect()->route('admin.village.productcategory.index');
+    }
+
+    static function validate($data) 
+    {
+        return Validator::make($data, [
+            'title' => 'required|string'
+        ]);
     }
 }

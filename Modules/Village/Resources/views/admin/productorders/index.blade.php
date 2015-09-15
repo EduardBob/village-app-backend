@@ -28,23 +28,47 @@
                     <table class="data-table table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('village::productorder.table.product') }}</th>
+                            <th>{{ trans('village::productorder.table.quantity') }}</th>
+                            <th>{{ trans('village::productorder.table.address') }}</th>
+                            <th>{{ trans('village::productorder.table.perform_at') }}</th>
+                            <th>{{ trans('village::productorder.table.price') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php if (isset($productorders)): ?>
-                        <?php foreach ($productorders as $productorder): ?>
+                        <?php if (isset($productOrders)): ?>
+                        <?php foreach ($productOrders as $productOrder): ?>
                         <tr>
                             <td>
-                                <a href="{{ route('admin.village.productorder.edit', [$productorder->id]) }}">
-                                    {{ $productorder->created_at }}
+                                <a href="{{ route('admin.village.product.edit', [$productOrder->product->id]) }}">
+                                    {{ $productOrder->product->title }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.village.productorder.edit', [$productOrder->id]) }}">
+                                    {{ $productOrder->quantity }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.user.user.edit', [$productOrder->profile->user->id]) }}">
+                                    {{ $productOrder->profile->address }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.village.productorder.edit', [$productOrder->id]) }}">
+                                    {!! Carbon\Carbon::parse($productOrder->perform_at)->format(config('village.dateFormat')) !!}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.village.productorder.edit', [$productOrder->id]) }}">
+                                    {{ $productOrder->price }}
                                 </a>
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{ route('admin.village.productorder.edit', [$productorder->id]) }}" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>
-                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $productorder->id }}"><i class="glyphicon glyphicon-trash"></i></button>
+                                    <a href="{{ route('admin.village.productorder.edit', [$productOrder->id]) }}" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $productOrder->id }}"><i class="glyphicon glyphicon-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -53,7 +77,11 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('village::productorder.table.product') }}</th>
+                            <th>{{ trans('village::productorder.table.quantity') }}</th>
+                            <th>{{ trans('village::productorder.table.address') }}</th>
+                            <th>{{ trans('village::productorder.table.perform_at') }}</th>
+                            <th>{{ trans('village::productorder.table.price') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </tfoot>
@@ -64,10 +92,10 @@
             </div>
         </div>
     </div>
-    <?php if (isset($productorders)): ?>
-    <?php foreach ($productorders as $productorder): ?>
+    <?php if (isset($productOrders)): ?>
+    <?php foreach ($productOrders as $productOrder): ?>
     <!-- Modal -->
-    <div class="modal fade modal-danger" id="confirmation-{{ $productorder->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade modal-danger" id="confirmation-{{ $productOrder->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -79,7 +107,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline btn-flat" data-dismiss="modal">{{ trans('core::core.button.cancel') }}</button>
-                    {!! Form::open(['route' => ['admin.village.productorder.destroy', $productorder->id], 'method' => 'delete', 'class' => 'pull-left']) !!}
+                    {!! Form::open(['route' => ['admin.village.productorder.destroy', $productOrder->id], 'method' => 'delete', 'class' => 'pull-left']) !!}
                     <button type="submit" class="btn btn-outline btn-flat"><i class="glyphicon glyphicon-trash"></i> {{ trans('core::core.button.delete') }}</button>
                     {!! Form::close() !!}
                 </div>

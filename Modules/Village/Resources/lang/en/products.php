@@ -10,11 +10,15 @@ return [
         'create product' => 'Create a product',
     ],
     'table' => [
+        'title' => 'Title',
+        'category' => 'Category',
+        'price' => 'Price'
     ],
     'form' => [
     ],
     'messages' => [
     ],
     'validation' => [
+        'category' => 'Please select a category'
     ],
 ];

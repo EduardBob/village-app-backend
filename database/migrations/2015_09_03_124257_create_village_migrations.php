@@ -119,7 +119,7 @@ class CreateVillageMigrations extends Migration
             $table->increments('id');
 
             $table->string('title')->unique();
-            $table->integer('order');
+            $table->integer('order')->default(0);
             $table->boolean('active')->default(true);
 
             $table->timestamps();
@@ -130,8 +130,8 @@ class CreateVillageMigrations extends Migration
         {
             $table->increments('id');
 
-            $table->integer('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('village__product_categories');
+            $table->integer('category_id')->nullable()->unsigned();
+            $table->foreign('category_id')->references('id')->on('village__product_categories')->onDelete('SET NULL');
 
             $table->string('title')->unique();
             $table->decimal('price', 10, 2);
@@ -147,9 +147,9 @@ class CreateVillageMigrations extends Migration
         {
             $table->increments('id');
 
-            $table->integer('product_id')->unsigned();
+            $table->integer('product_id')->nullable()->unsigned();
             $table->foreign('product_id')->references('id')->on('village__products');
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->nullable()->unsigned();
             $table->foreign('user_id')->references('id')->on('village__profiles');
 
             $table->dateTime('perform_at');

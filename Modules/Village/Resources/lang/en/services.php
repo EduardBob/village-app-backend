@@ -20,6 +20,6 @@ return [
     'messages' => [
     ],
     'validation' => [
-        'title' => 'Please select a category'
+        'category' => 'Please select a category'
     ],
 ];

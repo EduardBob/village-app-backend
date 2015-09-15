@@ -28,7 +28,9 @@
                     <table class="data-table table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('village::products.table.category') }}</th>
+                            <th>{{ trans('village::products.table.title') }}</th>
+                            <th>{{ trans('village::products.table.price') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </thead>
@@ -37,8 +39,20 @@
                         <?php foreach ($products as $product): ?>
                         <tr>
                             <td>
+                                @if ($product->category)
+                                    <a href="{{ route('admin.village.productcategory.edit', [$product->category->id]) }}">
+                                        {{ $product->category->title }}
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
                                 <a href="{{ route('admin.village.product.edit', [$product->id]) }}">
-                                    {{ $product->created_at }}
+                                    {{ $product->title }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.village.product.edit', [$product->id]) }}">
+                                    {{ $product->price }}
                                 </a>
                             </td>
                             <td>
@@ -53,7 +67,9 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('village::products.table.category') }}</th>
+                            <th>{{ trans('village::products.table.title') }}</th>
+                            <th>{{ trans('village::products.table.price') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </tfoot>

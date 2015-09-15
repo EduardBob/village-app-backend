@@ -27,9 +27,9 @@ class ProductOrderController extends AdminBaseController
      */
     public function index()
     {
-        //$productOrders = $this->productOrder->all();
+        $productOrders = $this->productOrder->all();
 
-        return view('village::admin.productorders.index', compact(''));
+        return view('village::admin.productorders.index', compact('productOrders'));
     }
 
     /**

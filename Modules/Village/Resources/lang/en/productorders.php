@@ -10,6 +10,11 @@ return [
         'create productorder' => 'Create a productorder',
     ],
     'table' => [
+        'product' => 'Product',
+        'quantity' => 'Quantity',
+        'address' => 'Address',
+        'perform_at' => 'Perform at',
+        'price' => 'Price'
     ],
     'form' => [
     ],

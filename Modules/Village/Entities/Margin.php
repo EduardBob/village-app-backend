@@ -7,13 +7,19 @@ class Margin extends Model
 {
     // use Translatable;
 	const TYPE_PERCENT = 'percent';
-	const TYPE_CASH = 'percent';
+	const TYPE_CASH = 'cash';
 
     protected $table = 'village__margins';
     public $translatedAttributes = [];
-    protected $fillable = ['type', 'price'];
+    protected $fillable = ['type', 'value', 'title'];
 
-    public function getTypes() {
+    public function getTypes() 
+    {
     	return [self::TYPE_CASH, self::TYPE_PERCENT];
+    }
+
+    public function getTypeId($type)
+    {
+    	
     }
 }

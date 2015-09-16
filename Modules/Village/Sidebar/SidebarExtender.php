@@ -32,7 +32,7 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
         $menu->group(trans('village::village.title'), function (Group $group) {
             $group->item(trans('village::buildings.title.buildings'), function (Item $item) {
                 $item->icon('fa fa-home');
-                $item->weight(10);
+                $item->weight(0);
                 $item->append('admin.village.building.create');
                 $item->route('admin.village.building.index');
                 $item->authorize(
@@ -42,7 +42,7 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
 
             $group->item(trans('village::services.title.services'), function (Item $item) {
                 $item->icon('fa fa-list-alt');
-                $item->weight(10);
+                $item->weight(1);
                 $item->authorize(
                 );
 
@@ -79,7 +79,7 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
 
             $group->item(trans('village::products.title.products'), function (Item $item) {
                 $item->icon('fa fa-list-alt');
-                $item->weight(11);
+                $item->weight(2);
                 $item->authorize(
                 );
 
@@ -113,6 +113,16 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                     );
                 });
             });
+
+            $group->item(trans('village::margins.title.margins'), function (Item $item) {
+                $item->icon('fa fa-money');
+                $item->weight(3);
+                $item->append('admin.village.margin.create');
+                $item->route('admin.village.margin.index');
+                $item->authorize(
+                    $this->auth->hasAccess('village.margins.index')
+                );
+            });
         });
 
 
@@ -141,15 +151,15 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
         //                 $this->auth->hasAccess('village.articles.index')
         //             );
         //         }); 
-        //         $item->item(trans('village::margins.title.margins'), function (Item $item) {
-        //             $item->icon('fa fa-copy');
-        //             $item->weight(0);
-        //             $item->append('admin.village.margin.create');
-        //             $item->route('admin.village.margin.index');
-        //             $item->authorize(
-        //                 $this->auth->hasAccess('village.margins.index')
-        //             );
-        //         });
+                // $item->item(trans('village::margins.title.margins'), function (Item $item) {
+                //     $item->icon('fa fa-copy');
+                //     $item->weight(0);
+                //     $item->append('admin.village.margin.create');
+                //     $item->route('admin.village.margin.index');
+                //     $item->authorize(
+                //         $this->auth->hasAccess('village.margins.index')
+                //     );
+                // });
         //         $item->item(trans('village::options.title.options'), function (Item $item) {
         //             $item->icon('fa fa-copy');
         //             $item->weight(0);

@@ -10,6 +10,9 @@ return [
         'create margin' => 'Create a margin',
     ],
     'table' => [
+        'title' => 'Title',
+        'amount' => 'Amount',
+        'type' => 'Type'
     ],
     'form' => [
     ],

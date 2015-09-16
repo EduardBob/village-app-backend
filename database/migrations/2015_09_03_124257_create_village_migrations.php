@@ -205,6 +205,7 @@ class CreateVillageMigrations extends Migration
         {
             $table->increments('id');
 
+            $table->string('title');
             $table->boolean('is_removable')->default(true);
             $table->enum('type', (new Margin)->getTypes());
             $table->decimal('value', 3, 2);

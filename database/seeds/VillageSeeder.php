@@ -128,6 +128,7 @@ class VillageSeeder extends Seeder
 
 
 		Margin::create([
+			'title' => $faker->sentence(3),
 			'type' => $faker->randomElement((new Margin)->getTypes()),
 			'value' => $faker->randomFloat(3, 0)
 		]);

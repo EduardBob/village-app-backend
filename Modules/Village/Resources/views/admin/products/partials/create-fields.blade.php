@@ -1,7 +1,7 @@
 <div class="box-body">
     <div class="row">
         <div class="col-sm-4">
-            <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
+            <div class="form-group{{ $errors->has('category') ? ' has-error' : '' }}">
                 {!! Form::label('category', trans('village::products.table.category')) !!}
                 {!! Form::select('category', (new Modules\Village\Entities\ProductCategory)->getAll(),
                 Input::old('category'), ['class' => 'form-control']) !!}

@@ -28,7 +28,9 @@
                     <table class="data-table table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('village::margins.table.title') }}</th>
+                            <th>{{ trans('village::margins.table.amount') }}</th>
+                            <th>{{ trans('village::margins.table.type') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </thead>
@@ -38,7 +40,17 @@
                         <tr>
                             <td>
                                 <a href="{{ route('admin.village.margin.edit', [$margin->id]) }}">
-                                    {{ $margin->created_at }}
+                                    {{ $margin->title }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.village.margin.edit', [$margin->id]) }}">
+                                    {{ $margin->value }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.village.margin.edit', [$margin->id]) }}">
+                                    {{ $margin->type }}
                                 </a>
                             </td>
                             <td>
@@ -53,7 +65,9 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('village::margins.table.title') }}</th>
+                            <th>{{ trans('village::margins.table.amount') }}</th>
+                            <th>{{ trans('village::margins.table.type') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </tfoot>

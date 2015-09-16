@@ -99,6 +99,7 @@ class ProductOrderController extends AdminBaseController
         $product = Product::find($request['product']);
         $user = User::find($request['profile']);
         $request['perform_at'] = Carbon::parse($request['perform_at']);
+        $request['status'] = config('village.order.statuses')[$request['status']];
 
         $validator = $this->validate($request->all());
 

@@ -58,6 +58,7 @@ class ServiceOrderController extends AdminBaseController
         $service = Service::find($request['service']);
         $user = User::find($request['profile']);
         $request['perform_at'] = Carbon::parse($request['perform_at']);
+        $request['status'] = config('village.order.statuses')[$request['status']];
 
         $validator = $this->validate($request->all());
 
@@ -138,7 +139,7 @@ class ServiceOrderController extends AdminBaseController
             'perform_at' => 'required|date|after:yesterday',
             'status' => 'sometimes|required',
             'comment' => 'sometimes|required|string',
-            'decline_reason' => 'sometimes|required_if|status,rejected|string',
+            'decline_reason' => 'sometimes|required_if:status,rejected|string',
             'profile' => 'required',
             'service' => 'required'
         ]);

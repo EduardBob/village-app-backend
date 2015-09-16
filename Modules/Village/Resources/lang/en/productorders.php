@@ -17,7 +17,9 @@ return [
         'price' => 'Price',
         'profile' => 'Profile',
         'status' => 'Status',
-        'decline_reason' => 'Decline reason'
+        'decline_reason' => 'Decline reason',
+        'name' => 'User name',
+        'phone' => 'Phone'
     ],
     'form' => [
     ],

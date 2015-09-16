@@ -17,7 +17,8 @@ return [
         'phone' => 'Phone number',
         'price' => 'Price',
         'status' => 'Status',
-        'profile' => 'Profile'
+        'profile' => 'Profile',
+        'decline_reason' => 'Decline reason'
     ],
     'form' => [
     ],

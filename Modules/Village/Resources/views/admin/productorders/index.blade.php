@@ -33,6 +33,9 @@
                             <th>{{ trans('village::productorders.table.address') }}</th>
                             <th>{{ trans('village::productorders.table.perform_at') }}</th>
                             <th>{{ trans('village::productorders.table.price') }}</th>
+                            <th>{{ trans('village::productorders.table.name') }}</th>
+                            <th>{{ trans('village::productorders.table.phone') }}</th>
+                            <th>{{ trans('village::productorders.table.status') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </thead>
@@ -66,6 +69,25 @@
                                 </a>
                             </td>
                             <td>
+                                @if ($productOrder->profile)
+                                    <a href="{{ route('admin.user.user.edit', [$productOrder->profile->user->id]) }}">
+                                        {{ $productOrder->profile->user->first_name }} {{ $productOrder->profile->user->last_name }}
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($productOrder->profile)
+                                    <a href="{{ route('admin.user.user.edit', [$productOrder->profile->user->id]) }}">
+                                        {{ $productOrder->profile->phone }}
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.village.productorder.edit', [$productOrder->id]) }}">
+                                    {{ $productOrder->status }}
+                                </a>
+                            </td>
+                            <td>
                                 <div class="btn-group">
                                     <a href="{{ route('admin.village.productorder.edit', [$productOrder->id]) }}" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>
                                     <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $productOrder->id }}"><i class="glyphicon glyphicon-trash"></i></button>
@@ -82,6 +104,9 @@
                             <th>{{ trans('village::productorders.table.address') }}</th>
                             <th>{{ trans('village::productorders.table.perform_at') }}</th>
                             <th>{{ trans('village::productorders.table.price') }}</th>
+                            <th>{{ trans('village::productorders.table.name') }}</th>
+                            <th>{{ trans('village::productorders.table.phone') }}</th>
+                            <th>{{ trans('village::productorders.table.status') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </tfoot>
@@ -153,6 +178,9 @@
                     "url": '<?php echo Module::asset("core:js/vendor/datatables/{$locale}.json") ?>'
                 },
                 "columns": [
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     null,

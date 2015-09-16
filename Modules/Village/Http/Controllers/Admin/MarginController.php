@@ -6,6 +6,8 @@ use Modules\Village\Entities\Margin;
 use Modules\Village\Repositories\MarginRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
+use Validator;
+
 class MarginController extends AdminBaseController
 {
     /**
@@ -13,11 +15,15 @@ class MarginController extends AdminBaseController
      */
     private $margin;
 
-    public function __construct(MarginRepository $margin)
+    public function __construct(
+        MarginRepository $margin,
+        Margin $model
+    )
     {
         parent::__construct();
 
         $this->margin = $margin;
+        $this->model = $model;
     }
 
     /**
@@ -27,9 +33,9 @@ class MarginController extends AdminBaseController
      */
     public function index()
     {
-        //$margins = $this->margin->all();
+        $margins = $this->margin->all();
 
-        return view('village::admin.margins.index', compact(''));
+        return view('village::admin.margins.index', compact('margins'));
     }
 
     /**
@@ -50,6 +56,14 @@ class MarginController extends AdminBaseController
      */
     public function store(Request $request)
     {
+        $validator = $this->validate($request->all());
+        
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $request['type'] = $this->model->getTypes()[$request['type']];
+
         $this->margin->create($request->all());
 
         flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::margins.title.margins')]));
@@ -77,6 +91,19 @@ class MarginController extends AdminBaseController
      */
     public function update(Margin $margin, Request $request)
     {
+        if ($request['is_primary'] === null)
+        {
+            $request['is_primary'] = 0;
+        }
+
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $request['type'] = $this->model->getTypes()[$request['type']];
+
         $this->margin->update($margin, $request->all());
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::margins.title.margins')]));
@@ -92,10 +119,26 @@ class MarginController extends AdminBaseController
      */
     public function destroy(Margin $margin)
     {
-        $this->margin->destroy($margin);
+        if (!$margin->is_removable)
+        {
+            flash()->error(trans('village::margins.messages.removable', ['name' => trans('village::margins.title.margins')]));
+        } else {
+            $this->margin->destroy($margin);
 
-        flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::margins.title.margins')]));
+            flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::margins.title.margins')]));
+        }
 
         return redirect()->route('admin.village.margin.index');
+    }
+
+    static function validate($data) 
+    {
+        return Validator::make($data, [
+            'title' => 'required|string',
+            'value' => 'required|numeric',
+            'type' => 'required|numeric',
+            'order' => 'required|numeric',
+            'is_primary' => 'boolean'
+        ]);
     }
 }

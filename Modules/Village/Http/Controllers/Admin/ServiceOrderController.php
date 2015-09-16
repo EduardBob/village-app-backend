@@ -6,6 +6,11 @@ use Modules\Village\Entities\ServiceOrder;
 use Modules\Village\Repositories\ServiceOrderRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
+use Modules\Village\Entities\Service;
+use Modules\User\Entities\Sentinel\User;
+use Carbon\Carbon;
+use Validator;
+
 class ServiceOrderController extends AdminBaseController
 {
     /**
@@ -13,7 +18,7 @@ class ServiceOrderController extends AdminBaseController
      */
     private $serviceOrder;
 
-    public function __construct(ServiceOrderRepository $serviceOrder)
+    public function __construct(ServiceOrderRepository $serviceOrder) 
     {
         parent::__construct();
 
@@ -27,9 +32,9 @@ class ServiceOrderController extends AdminBaseController
      */
     public function index()
     {
-        //$serviceOrders = $this->serviceOrder->all();
-
-        return view('village::admin.serviceorders.index', compact(''));
+        $serviceOrders = $this->serviceOrder->all();
+        
+        return view('village::admin.serviceorders.index', compact('serviceOrders'));
     }
 
     /**
@@ -50,7 +55,22 @@ class ServiceOrderController extends AdminBaseController
      */
     public function store(Request $request)
     {
-        $this->serviceOrder->create($request->all());
+        $service = Service::find($request['service']);
+        $user = User::find($request['profile']);
+        $request['perform_at'] = Carbon::parse($request['perform_at']);
+        $request['status'] = config('village.order.statuses')[$request['status']];
+
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        
+        $item = $this->serviceOrder->create($request->all());
+
+        $item->service()->associate($service);
+        $item->profile()->associate($user->profile());
+        $item->save();
 
         flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::serviceorders.title.serviceorders')]));
 
@@ -65,7 +85,7 @@ class ServiceOrderController extends AdminBaseController
      */
     public function edit(ServiceOrder $serviceOrder)
     {
-        return view('village::admin.serviceorders.edit', compact('serviceorder'));
+        return view('village::admin.serviceorders.edit', compact('serviceOrder'));
     }
 
     /**
@@ -77,7 +97,21 @@ class ServiceOrderController extends AdminBaseController
      */
     public function update(ServiceOrder $serviceOrder, Request $request)
     {
-        $this->serviceOrder->update($serviceOrder, $request->all());
+        $service = Service::find($request['service']);
+        $user = User::find($request['profile']);
+        $request['perform_at'] = Carbon::parse($request['perform_at']);
+
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $item = $this->serviceOrder->update($serviceOrder, $request->all());
+
+        $item->service()->associate($service);
+        $item->profile()->associate($user->profile());
+        $item->save();
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::serviceorders.title.serviceorders')]));
 
@@ -97,5 +131,17 @@ class ServiceOrderController extends AdminBaseController
         flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::serviceorders.title.serviceorders')]));
 
         return redirect()->route('admin.village.serviceorder.index');
+    }
+
+    static function validate($data) 
+    {
+        return Validator::make($data, [
+            'perform_at' => 'required|date|after:yesterday',
+            'status' => 'sometimes|required',
+            'comment' => 'sometimes|required|string',
+            'decline_reason' => 'sometimes|required_if:status,rejected|string',
+            'profile' => 'required',
+            'service' => 'required'
+        ]);
     }
 }

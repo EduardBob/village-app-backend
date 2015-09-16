@@ -28,23 +28,65 @@
                     <table class="data-table table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('village::serviceorders.table.service') }}</th>
+                            <th>{{ trans('village::serviceorders.table.perform_at') }}</th>
+                            <th>{{ trans('village::serviceorders.table.address') }}</th>
+                            <th>{{ trans('village::serviceorders.table.name') }}</th>
+                            <th>{{ trans('village::serviceorders.table.phone') }}</th>
+                            <th>{{ trans('village::serviceorders.table.price') }}</th>
+                            <th>{{ trans('village::serviceorders.table.status') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php if (isset($serviceorders)): ?>
-                        <?php foreach ($serviceorders as $serviceorder): ?>
+                        <?php if (isset($serviceOrders)): ?>
+                        <?php foreach ($serviceOrders as $serviceOrder): ?>
                         <tr>
                             <td>
-                                <a href="{{ route('admin.village.serviceorder.edit', [$serviceorder->id]) }}">
-                                    {{ $serviceorder->created_at }}
+                                <a href="{{ route('admin.village.service.edit', [$serviceOrder->service->id]) }}">
+                                    {{ $serviceOrder->service->title }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.village.serviceorder.edit', [$serviceOrder->id]) }}">
+                                    {!! Carbon\Carbon::parse($serviceOrder->perform_at)->format(config('village.dateFormat')) !!}
+                                </a>
+                            </td>
+                            <td>
+                                @if ($serviceOrder->profile && $serviceOrder->profile->building)
+                                    <a href="{{ route('admin.village.building.edit', [$serviceOrder->profile->building->id]) }}">
+                                        {{ $serviceOrder->profile->building->address }}
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($serviceOrder->profile)
+                                    <a href="{{ route('admin.user.user.edit', [$serviceOrder->profile->user->id]) }}">
+                                        {{ $serviceOrder->profile->user->first_name }} {{ $serviceOrder->profile->user->last_name }}
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($serviceOrder->profile)
+                                    <a href="{{ route('admin.user.user.edit', [$serviceOrder->profile->user->id]) }}">
+                                        {{ $serviceOrder->profile->phone }}
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.village.service.edit', [$serviceOrder->service->id]) }}">
+                                    {{ $serviceOrder->service()->first()->price }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.village.serviceorder.edit', [$serviceOrder->id]) }}">
+                                    {{ $serviceOrder->status }}
                                 </a>
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{ route('admin.village.serviceorder.edit', [$serviceorder->id]) }}" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>
-                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $serviceorder->id }}"><i class="glyphicon glyphicon-trash"></i></button>
+                                    <a href="{{ route('admin.village.serviceorder.edit', [$serviceOrder->id]) }}" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $serviceOrder->id }}"><i class="glyphicon glyphicon-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -53,7 +95,13 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('village::serviceorders.table.service') }}</th>
+                            <th>{{ trans('village::serviceorders.table.perform_at') }}</th>
+                            <th>{{ trans('village::serviceorders.table.address') }}</th>
+                            <th>{{ trans('village::serviceorders.table.name') }}</th>
+                            <th>{{ trans('village::serviceorders.table.phone') }}</th>
+                            <th>{{ trans('village::serviceorders.table.price') }}</th>
+                            <th>{{ trans('village::serviceorders.table.status') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </tfoot>
@@ -64,10 +112,10 @@
             </div>
         </div>
     </div>
-    <?php if (isset($serviceorders)): ?>
-    <?php foreach ($serviceorders as $serviceorder): ?>
+    <?php if (isset($serviceOrders)): ?>
+    <?php foreach ($serviceOrders as $serviceOrder): ?>
     <!-- Modal -->
-    <div class="modal fade modal-danger" id="confirmation-{{ $serviceorder->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade modal-danger" id="confirmation-{{ $serviceOrder->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -79,7 +127,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline btn-flat" data-dismiss="modal">{{ trans('core::core.button.cancel') }}</button>
-                    {!! Form::open(['route' => ['admin.village.serviceorder.destroy', $serviceorder->id], 'method' => 'delete', 'class' => 'pull-left']) !!}
+                    {!! Form::open(['route' => ['admin.village.serviceorder.destroy', $serviceOrder->id], 'method' => 'delete', 'class' => 'pull-left']) !!}
                     <button type="submit" class="btn btn-outline btn-flat"><i class="glyphicon glyphicon-trash"></i> {{ trans('core::core.button.delete') }}</button>
                     {!! Form::close() !!}
                 </div>
@@ -125,6 +173,11 @@
                     "url": '<?php echo Module::asset("core:js/vendor/datatables/{$locale}.json") ?>'
                 },
                 "columns": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     { "sortable": false }

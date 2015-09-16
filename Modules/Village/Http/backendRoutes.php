@@ -26,6 +26,17 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
             'update' => 'admin.village.building.update',
             'destroy' => 'admin.village.building.destroy',
         ]]);
+        $router->bind('margins', function ($id) {
+            return app('Modules\Village\Repositories\MarginRepository')->find($id);
+        });
+        $router->resource('margins', 'MarginController', ['except' => ['show'], 'names' => [
+            'index' => 'admin.village.margin.index',
+            'create' => 'admin.village.margin.create',
+            'store' => 'admin.village.margin.store',
+            'edit' => 'admin.village.margin.edit',
+            'update' => 'admin.village.margin.update',
+            'destroy' => 'admin.village.margin.destroy',
+        ]]);
         $router->bind('options', function ($id) {
             return app('Modules\Village\Repositories\OptionRepository')->find($id);
         });
@@ -136,18 +147,19 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
             'update' => 'admin.village.token.update',
             'destroy' => 'admin.village.token.destroy',
         ]]);
-        $router->bind('margins', function ($id) {
-            return app('Modules\Village\Repositories\MarginRepository')->find($id);
+        $router->bind('profiles', function ($id) {
+            return app('Modules\Village\Repositories\ProfileRepository')->find($id);
         });
-        $router->resource('margins', 'MarginController', ['except' => ['show'], 'names' => [
-            'index' => 'admin.village.margin.index',
-            'create' => 'admin.village.margin.create',
-            'store' => 'admin.village.margin.store',
-            'edit' => 'admin.village.margin.edit',
-            'update' => 'admin.village.margin.update',
-            'destroy' => 'admin.village.margin.destroy',
+        $router->resource('profiles', 'ProfileController', ['except' => ['show'], 'names' => [
+            'index' => 'admin.village.profile.index',
+            'create' => 'admin.village.profile.create',
+            'store' => 'admin.village.profile.store',
+            'edit' => 'admin.village.profile.edit',
+            'update' => 'admin.village.profile.update',
+            'destroy' => 'admin.village.profile.destroy',
         ]]);
 // append
+
 
 
 

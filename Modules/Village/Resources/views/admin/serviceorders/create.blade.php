@@ -14,6 +14,7 @@
 @section('styles')
     {!! Theme::script('js/vendor/ckeditor/ckeditor.js') !!}
     {!! Theme::style('css/vendor/iCheck/flat/blue.css') !!}
+    <link rel="stylesheet" type="text/css" href="{{ URL::asset('custom/css/bootstrap-datetimepicker.css') }}">
 @stop
 
 @section('content')
@@ -53,6 +54,9 @@
 @stop
 
 @section('scripts')
+    <script type="text/javascript" src={{ URL::asset('custom/js/moment.min.js') }}></script>
+    <script type="text/javascript" src={{ URL::asset('custom/js/bootstrap-datetimepicker.min.js') }}></script>
+
     <script type="text/javascript">
         $( document ).ready(function() {
             $(document).keypressAction({
@@ -77,6 +81,11 @@
                 var name = $(this).attr('name'),
                     input = '<input type="hidden" name="' + name + '" value="0" />';
                 $(this).parent().append(input);
+            });
+
+            $('.js-date-field').datetimepicker({
+                minDate: new Date(),
+                format: 'YYYY-MM-DD HH:mm'
             });
         });
     </script>

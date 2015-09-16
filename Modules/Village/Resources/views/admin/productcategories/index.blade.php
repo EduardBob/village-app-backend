@@ -28,23 +28,23 @@
                     <table class="data-table table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('village::productcategories.table.title') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php if (isset($productcategories)): ?>
-                        <?php foreach ($productcategories as $productcategory): ?>
+                        <?php if (isset($productCategories)): ?>
+                        <?php foreach ($productCategories as $productCategory): ?>
                         <tr>
                             <td>
-                                <a href="{{ route('admin.village.productcategory.edit', [$productcategory->id]) }}">
-                                    {{ $productcategory->created_at }}
+                                <a href="{{ route('admin.village.productcategory.edit', [$productCategory->id]) }}">
+                                    {{ $productCategory->title }}
                                 </a>
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{ route('admin.village.productcategory.edit', [$productcategory->id]) }}" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>
-                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $productcategory->id }}"><i class="glyphicon glyphicon-trash"></i></button>
+                                    <a href="{{ route('admin.village.productcategory.edit', [$productCategory->id]) }}" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $productCategory->id }}"><i class="glyphicon glyphicon-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -53,7 +53,7 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('village::productcategories.table.title') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </tfoot>
@@ -64,10 +64,10 @@
             </div>
         </div>
     </div>
-    <?php if (isset($productcategories)): ?>
-    <?php foreach ($productcategories as $productcategory): ?>
+    <?php if (isset($productCategories)): ?>
+    <?php foreach ($productCategories as $productCategory): ?>
     <!-- Modal -->
-    <div class="modal fade modal-danger" id="confirmation-{{ $productcategory->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade modal-danger" id="confirmation-{{ $productCategory->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -79,7 +79,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline btn-flat" data-dismiss="modal">{{ trans('core::core.button.cancel') }}</button>
-                    {!! Form::open(['route' => ['admin.village.productcategory.destroy', $productcategory->id], 'method' => 'delete', 'class' => 'pull-left']) !!}
+                    {!! Form::open(['route' => ['admin.village.productcategory.destroy', $productCategory->id], 'method' => 'delete', 'class' => 'pull-left']) !!}
                     <button type="submit" class="btn btn-outline btn-flat"><i class="glyphicon glyphicon-trash"></i> {{ trans('core::core.button.delete') }}</button>
                     {!! Form::close() !!}
                 </div>
@@ -125,7 +125,6 @@
                     "url": '<?php echo Module::asset("core:js/vendor/datatables/{$locale}.json") ?>'
                 },
                 "columns": [
-                    null,
                     null,
                     { "sortable": false }
                 ]

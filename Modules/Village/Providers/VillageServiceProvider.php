@@ -58,6 +58,18 @@ class VillageServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
+            'Modules\Village\Repositories\MarginRepository',
+            function () {
+                $repository = new \Modules\Village\Repositories\Eloquent\EloquentMarginRepository(new \Modules\Village\Entities\Margin());
+
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+
+                return new \Modules\Village\Repositories\Cache\CacheMarginDecorator($repository);
+            }
+        );
+        $this->app->bind(
             'Modules\Village\Repositories\OptionRepository',
             function () {
                 $repository = new \Modules\Village\Repositories\Eloquent\EloquentOptionRepository(new \Modules\Village\Entities\Option());
@@ -178,18 +190,19 @@ class VillageServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
-            'Modules\Village\Repositories\MarginRepository',
+            'Modules\Village\Repositories\ProfileRepository',
             function () {
-                $repository = new \Modules\Village\Repositories\Eloquent\EloquentMarginRepository(new \Modules\Village\Entities\Margin());
+                $repository = new \Modules\Village\Repositories\Eloquent\EloquentProfileRepository(new \Modules\Village\Entities\Profile());
 
                 if (! config('app.cache')) {
                     return $repository;
                 }
 
-                return new \Modules\Village\Repositories\Cache\CacheMarginDecorator($repository);
+                return new \Modules\Village\Repositories\Cache\CacheProfileDecorator($repository);
             }
         );
 // add bindings
+
 
 
 

@@ -2,6 +2,7 @@
 
 // use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Village\Entities\Profile;
 
 class Building extends Model
 {
@@ -12,8 +13,32 @@ class Building extends Model
     protected $fillable = ['address', 'code'];
 
 
-    public function user()
+    public function profile()
     {
-    	return $this->belongsTo('Modules\Village\Entities\VillageUser', 'building_id');
+    	return $this->hasOne('Modules\Village\Entities\Profile');
+    }
+
+    /**
+     * Get available buildings
+     * $id = profile id, if profile has building add to response
+     */
+    public function getAvailable($id = false)
+    {
+    	$items = $this->all();
+
+    	$response = [];
+
+    	foreach ($items as $item) {
+    	    if ($item->profile()->first() === null) {
+    	        $response = array_add($response, $item->id, $item->address);
+    	    }
+    	}
+
+    	if ($id) {
+    		$item = Profile::find($id)->building()->first();
+    		$response = array_add($response, $item->id, $item->address);
+    	}
+
+    	return $response;
     }
 }

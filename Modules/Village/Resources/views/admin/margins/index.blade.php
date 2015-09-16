@@ -27,10 +27,12 @@
                 <div class="box-body">
                     <table class="data-table table table-bordered table-hover">
                         <thead>
-                        <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
-                            <th>{{ trans('core::core.table.actions') }}</th>
-                        </tr>
+                            <tr>
+                                <th>{{ trans('village::margins.table.title') }}</th>
+                                <th>{{ trans('village::margins.table.amount') }}</th>
+                                <th>{{ trans('village::margins.table.type') }}</th>
+                                <th>{{ trans('core::core.table.actions') }}</th>
+                            </tr>
                         </thead>
                         <tbody>
                         <?php if (isset($margins)): ?>
@@ -38,13 +40,26 @@
                         <tr>
                             <td>
                                 <a href="{{ route('admin.village.margin.edit', [$margin->id]) }}">
-                                    {{ $margin->created_at }}
+                                    {{ $margin->title }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.village.margin.edit', [$margin->id]) }}">
+                                    {{ $margin->value }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.village.margin.edit', [$margin->id]) }}">
+                                    {{ $margin->type }}
                                 </a>
                             </td>
                             <td>
                                 <div class="btn-group">
                                     <a href="{{ route('admin.village.margin.edit', [$margin->id]) }}" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>
-                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $margin->id }}"><i class="glyphicon glyphicon-trash"></i></button>
+
+                                    @if ($margin->is_removable)
+                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $margin->id }}"><i class="glyphicon glyphicon-trash"></i></button>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -53,7 +68,9 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('village::margins.table.title') }}</th>
+                            <th>{{ trans('village::margins.table.amount') }}</th>
+                            <th>{{ trans('village::margins.table.type') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </tfoot>
@@ -125,6 +142,7 @@
                     "url": '<?php echo Module::asset("core:js/vendor/datatables/{$locale}.json") ?>'
                 },
                 "columns": [
+                    null,
                     null,
                     null,
                     { "sortable": false }

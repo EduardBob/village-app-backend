@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Modules\Village\Entities\Margin;
 use Modules\Village\Entities\Token;
 
-use Modules\Village\Entities\VillageUser;
+use Modules\Village\Entities\Profile;
 
 class CreateVillageMigrations extends Migration
 {
@@ -28,12 +28,19 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::table('users', function ($table) {            
-            $table->boolean('activated')->default(false)->after('last_name');
-            $table->string('phone')->unique()->after('last_name');
+        Schema::create('village__profiles', function(Blueprint $table) {
+            $table->increments('id');
 
-            $table->integer('building_id')->nullable()->unsigned()->after('last_name');
-            $table->foreign('building_id')->references('id')->on('village__buildings');
+            $table->boolean('activated')->default(false);
+            $table->string('phone')->unique();
+
+            $table->integer('building_id')->nullable()->unsigned();
+            $table->foreign('building_id')->references('id')->on('village__buildings')->onDelete('SET NULL');
+
+            $table->integer('user_id')->nullable()->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->timestamps();
         });
 
 
@@ -67,7 +74,7 @@ class CreateVillageMigrations extends Migration
             
             $table->string('title')->unique();
             $table->integer('parent_id')->default(0);
-            $table->integer('order');
+            $table->integer('order')->default(0);
             $table->boolean('active')->default(true);
 
             $table->timestamps();
@@ -78,8 +85,8 @@ class CreateVillageMigrations extends Migration
         {
             $table->increments('id');
 
-            $table->integer('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('village__service_categories');
+            $table->integer('category_id')->nullable()->unsigned();
+            $table->foreign('category_id')->references('id')->on('village__service_categories')->onDelete('SET NULL');
 
             $table->string('title')->unique();
             $table->decimal('price', 10, 2);
@@ -93,13 +100,15 @@ class CreateVillageMigrations extends Migration
         {
             $table->increments('id');
 
-            $table->integer('service_id')->unsigned();
+            $table->integer('service_id')->nullable()->unsigned();
             $table->foreign('service_id')->references('id')->on('village__services');
+            $table->integer('user_id')->nullable()->unsigned();
+            $table->foreign('user_id')->references('id')->on('village__profiles');
 
-            $table->decimal('price', 10, 2);
+            $table->dateTime('perform_at');
             $table->text('comment')->nullable();
-            $table->enum('status', config('village.order.statuses'));
-            $table->text('decllineReason')->nullable();
+            $table->enum('status', config('village.order.statuses'))->default(config('village.order.statuses')[0]);
+            $table->text('decline_reason')->nullable();
 
             $table->timestamps();
         });
@@ -110,7 +119,7 @@ class CreateVillageMigrations extends Migration
             $table->increments('id');
 
             $table->string('title')->unique();
-            $table->integer('order');
+            $table->integer('order')->default(0);
             $table->boolean('active')->default(true);
 
             $table->timestamps();
@@ -121,8 +130,8 @@ class CreateVillageMigrations extends Migration
         {
             $table->increments('id');
 
-            $table->integer('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('village__product_categories');
+            $table->integer('category_id')->nullable()->unsigned();
+            $table->foreign('category_id')->references('id')->on('village__product_categories')->onDelete('SET NULL');
 
             $table->string('title')->unique();
             $table->decimal('price', 10, 2);
@@ -138,15 +147,17 @@ class CreateVillageMigrations extends Migration
         {
             $table->increments('id');
 
-            $table->integer('product_id')->unsigned();
+            $table->integer('product_id')->nullable()->unsigned();
             $table->foreign('product_id')->references('id')->on('village__products');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('user_id')->nullable()->unsigned();
+            $table->foreign('user_id')->references('id')->on('village__profiles');
 
+            $table->dateTime('perform_at');
             $table->decimal('price', 10, 2);
             $table->string('unit_title')->default('kg');
             $table->decimal('quantity', 5, 2);
             $table->text('comment');
+            $table->text('decline_reason')->nullable();
             $table->enum('status', config('village.order.statuses'));
 
             $table->timestamps();
@@ -170,7 +181,7 @@ class CreateVillageMigrations extends Migration
             $table->increments('id');
 
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('village__profiles');
             $table->integer('survey_id')->unsigned();
             $table->foreign('survey_id')->references('id')->on('village__surveys');
 
@@ -195,7 +206,9 @@ class CreateVillageMigrations extends Migration
         {
             $table->increments('id');
 
+            $table->string('title');
             $table->boolean('is_removable')->default(true);
+            $table->boolean('is_primary')->default(false);
             $table->enum('type', (new Margin)->getTypes());
             $table->decimal('value', 3, 2);
             $table->integer('order')->default(1);
@@ -228,11 +241,7 @@ class CreateVillageMigrations extends Migration
         Schema::drop('village__articles');
         Schema::drop('village__tokens');
 
-        VillageUser::where('activated', 1)->delete();
-        Schema::table('users', function ($table) {
-            $table->dropForeign(['building_id']);
-            $table->dropColumn(['activated', 'phone', 'building_id']);
-        });
+        Schema::drop('village__profiles');
 
         Schema::drop('village__buildings');
     }

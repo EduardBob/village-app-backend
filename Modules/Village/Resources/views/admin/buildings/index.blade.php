@@ -28,7 +28,8 @@
                     <table class="data-table table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('core::core.table.address') }}</th>
+                            <th>{{ trans('core::core.table.code') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </thead>
@@ -38,8 +39,11 @@
                         <tr>
                             <td>
                                 <a href="{{ route('admin.village.building.edit', [$building->id]) }}">
-                                    {{ $building->created_at }}
+                                    {{ $building->address }}
                                 </a>
+                            </td>
+                            <td>
+                                {{ $building->code }}
                             </td>
                             <td>
                                 <div class="btn-group">
@@ -53,7 +57,8 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('core::core.table.address') }}</th>
+                            <th>{{ trans('core::core.table.code') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </tfoot>

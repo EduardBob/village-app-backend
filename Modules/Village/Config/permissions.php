@@ -17,6 +17,14 @@ return [
         'update',
         'destroy',
     ],
+    'village.margins' => [
+        'index',
+        'create',
+        'store',
+        'edit',
+        'update',
+        'destroy',
+    ],
     'village.options' => [
         'index',
         'create',
@@ -97,7 +105,7 @@ return [
         'update',
         'destroy',
     ],
-    'village.margins' => [
+    'village.profiles' => [
         'index',
         'create',
         'store',
@@ -106,6 +114,7 @@ return [
         'destroy',
     ],
 // append
+
 
 
 

@@ -6,6 +6,8 @@ use Modules\Village\Entities\Building;
 use Modules\Village\Repositories\BuildingRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
+use Validator;
+
 class BuildingController extends AdminBaseController
 {
     /**
@@ -27,9 +29,9 @@ class BuildingController extends AdminBaseController
      */
     public function index()
     {
-        //$buildings = $this->building->all();
+        $buildings = $this->building->all()->sortBy('address');
 
-        return view('village::admin.buildings.index', compact(''));
+        return view('village::admin.buildings.index', compact('buildings'));
     }
 
     /**
@@ -50,7 +52,22 @@ class BuildingController extends AdminBaseController
      */
     public function store(Request $request)
     {
-        $this->building->create($request->all());
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $nextId = $this->building->all()->max('id') + 1;
+        $code = $this->getCode();
+        $record = $this->checkRecord($code);
+
+        while ($record !== null) {
+            $code = $this->getCode();
+            $record = $this->checkRecord($code);
+        }
+
+        $this->building->create(array_merge($request->all(), ['code' => $code]));
 
         flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::buildings.title.buildings')]));
 
@@ -77,6 +94,12 @@ class BuildingController extends AdminBaseController
      */
     public function update(Building $building, Request $request)
     {
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        
         $this->building->update($building, $request->all());
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::buildings.title.buildings')]));
@@ -97,5 +120,21 @@ class BuildingController extends AdminBaseController
         flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::buildings.title.buildings')]));
 
         return redirect()->route('admin.village.building.index');
+    }
+
+
+    static function validate($data) 
+    {
+        return Validator::make($data, [
+            'address' => 'required'
+        ]);
+    }
+
+    static function getCode($length = 7) {
+        return substr( md5(rand()), 0, $length);
+    }
+
+    public function checkRecord($code) {
+        return $this->building->all()->where('code', $code)->first();
     }
 }

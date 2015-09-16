@@ -6,5 +6,7 @@
 return [
     'order' => [
         'statuses' => ['in progress', 'done', 'rejected']
-    ]
+    ],
+
+    'dateFormat' => 'Y-m-d H:m'
 ];

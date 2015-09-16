@@ -17,7 +17,7 @@
 @stop
 
 @section('content')
-    {!! Form::open(['route' => ['admin.village.servicecategory.update', $servicecategory->id], 'method' => 'put']) !!}
+    {!! Form::open(['route' => ['admin.village.servicecategory.update', $serviceCategory->id], 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="nav-tabs-custom">

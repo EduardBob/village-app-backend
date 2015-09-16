@@ -3,6 +3,9 @@
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
+use Modules\User\Entities\Sentinel\User;
+use App\Observers\UserObserver;
+
 class EventServiceProvider extends ServiceProvider {
 
 	/**
@@ -11,10 +14,11 @@ class EventServiceProvider extends ServiceProvider {
 	 * @var array
 	 */
 	protected $listen = [
-		'event.name' => [
-			'EventListener',
+		'Modules\User\Events\UserWasUpdated' => [
+			'App\Observers\UserObserver',
 		],
 	];
+
 
 	/**
 	 * Register any other events for your application.
@@ -26,7 +30,7 @@ class EventServiceProvider extends ServiceProvider {
 	{
 		parent::boot($events);
 
-		//
+		User::observe(new UserObserver);
 	}
 
 }

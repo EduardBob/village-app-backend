@@ -16,8 +16,8 @@ class SurveyVote extends Model
     	return $this->belongsTo('Modules\Village\Entities\Survey');
     }
 
-    public function user()
+    public function profile()
     {
-    	return $this->belongsTo('Modules\Village\Entities\VillageUser');
+    	return $this->belongsTo('Modules\Village\Entities\Profile');
     }
 }

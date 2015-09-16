@@ -2,7 +2,7 @@
 
 // use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
-
+use DB;
 class ServiceCategory extends Model
 {
     // use Translatable;
@@ -23,6 +23,12 @@ class ServiceCategory extends Model
 
     public function services()
     {
-        return $this->belongsToMany('Modules\Village\Entities\Service', 'category_id');
+        return $this->hasMany('Modules\Village\Entities\Service', 'category_id');
+    }
+
+    public function getAll() {
+        $items = DB::table($this->table)->lists('title', 'id');
+
+        return $items;
     }
 }

@@ -28,7 +28,9 @@
                     <table class="data-table table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('village::services.table.category') }}</th>
+                            <th>{{ trans('village::services.table.title') }}</th>
+                            <th>{{ trans('village::services.table.price') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </thead>
@@ -37,8 +39,20 @@
                         <?php foreach ($services as $service): ?>
                         <tr>
                             <td>
+                                @if ($service->category)
+                                    <a href="{{ route('admin.village.servicecategory.edit', [$service->category->id]) }}">
+                                        {{ $service->category->title }}
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
                                 <a href="{{ route('admin.village.service.edit', [$service->id]) }}">
-                                    {{ $service->created_at }}
+                                    {{ $service->title }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.village.service.edit', [$service->id]) }}">
+                                    {{ $service->price }}
                                 </a>
                             </td>
                             <td>
@@ -53,7 +67,9 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
+                            <th>{{ trans('village::services.table.category') }}</th>
+                            <th>{{ trans('village::services.table.title') }}</th>
+                            <th>{{ trans('village::services.table.price') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </tfoot>
@@ -125,6 +141,7 @@
                     "url": '<?php echo Module::asset("core:js/vendor/datatables/{$locale}.json") ?>'
                 },
                 "columns": [
+                    null,
                     null,
                     null,
                     { "sortable": false }

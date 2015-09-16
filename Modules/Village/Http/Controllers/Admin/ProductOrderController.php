@@ -6,6 +6,11 @@ use Modules\Village\Entities\ProductOrder;
 use Modules\Village\Repositories\ProductOrderRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
+use Modules\Village\Entities\Product;
+use Modules\User\Entities\Sentinel\User;
+use Carbon\Carbon;
+use Validator;
+
 class ProductOrderController extends AdminBaseController
 {
     /**
@@ -27,9 +32,9 @@ class ProductOrderController extends AdminBaseController
      */
     public function index()
     {
-        //$productOrders = $this->productOrder->all();
+        $productOrders = $this->productOrder->all();
 
-        return view('village::admin.productorders.index', compact(''));
+        return view('village::admin.productorders.index', compact('productOrders'));
     }
 
     /**
@@ -50,7 +55,21 @@ class ProductOrderController extends AdminBaseController
      */
     public function store(Request $request)
     {
-        $this->productOrder->create($request->all());
+        $product = Product::find($request['product']);
+        $user = User::find($request['profile']);
+        $request['perform_at'] = Carbon::parse($request['perform_at']);
+
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $item = $this->productOrder->create($request->all());
+
+        $item->product()->associate($product);
+        $item->profile()->associate($user->profile());
+        $item->save();
 
         flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::productorders.title.productorders')]));
 
@@ -65,7 +84,7 @@ class ProductOrderController extends AdminBaseController
      */
     public function edit(ProductOrder $productOrder)
     {
-        return view('village::admin.productorders.edit', compact('productorder'));
+        return view('village::admin.productorders.edit', compact('productOrder'));
     }
 
     /**
@@ -77,7 +96,22 @@ class ProductOrderController extends AdminBaseController
      */
     public function update(ProductOrder $productOrder, Request $request)
     {
-        $this->productOrder->update($productOrder, $request->all());
+        $product = Product::find($request['product']);
+        $user = User::find($request['profile']);
+        $request['perform_at'] = Carbon::parse($request['perform_at']);
+        $request['status'] = config('village.order.statuses')[$request['status']];
+
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $item = $this->productOrder->update($productOrder, $request->all());
+        
+        $item->product()->associate($product);
+        $item->profile()->associate($user->profile());
+        $item->save();
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::productorders.title.productorders')]));
 
@@ -97,5 +131,18 @@ class ProductOrderController extends AdminBaseController
         flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::productorders.title.productorders')]));
 
         return redirect()->route('admin.village.productorder.index');
+    }
+
+    static function validate($data) 
+    {
+        return Validator::make($data, [
+            'perform_at' => 'required|date|after:yesterday',
+            'status' => 'sometimes|required',
+            'comment' => 'sometimes|required|string',
+            'decline_reason' => 'sometimes|required_if:status,rejected|string',
+            'profile' => 'required',
+            'product' => 'required',
+            'quantity' => 'required|numeric'
+        ]);
     }
 }

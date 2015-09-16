@@ -1,5 +1,17 @@
 <div class="box-body">
-    <p>
-        Your fields //
-    </p>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
+                {!! Form::label('address', trans('village::buildings.form.address')) !!}
+                {!! Form::text('address', Input::old('address', $building->address), ['class' => 'form-control', 'placeholder' => trans('village::buildings.form.address')]) !!}
+                {!! $errors->first('address', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-4">
+        	<div class="form-group">
+	        	{!! Form::label('null', trans('village::buildings.form.code')) !!}
+        		{!! Form::text('null', $building->code, ['class' => 'form-control', 'readonly' => true]) !!}
+        	</div>
+        </div>
+    </div>
 </div>

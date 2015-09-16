@@ -2,7 +2,8 @@
 
 return [
     'title' => [
-        'services' => 'Service',
+        'services' => 'Services',
+        'service_list' => 'Service',
         'create service' => 'Create a service',
         'edit service' => 'Edit a service',
     ],
@@ -10,11 +11,15 @@ return [
         'create service' => 'Create a service',
     ],
     'table' => [
+        'category' => 'Category',
+        'title' => 'Title',
+        'price' => 'Price'
     ],
     'form' => [
     ],
     'messages' => [
     ],
     'validation' => [
+        'category' => 'Please select a category'
     ],
 ];

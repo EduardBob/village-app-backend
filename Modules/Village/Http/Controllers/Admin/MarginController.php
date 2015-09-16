@@ -91,9 +91,9 @@ class MarginController extends AdminBaseController
      */
     public function update(Margin $margin, Request $request)
     {
-        if($request['is_removable'] === null)
+        if ($request['is_primary'] === null)
         {
-            $request['is_removable'] = 0;
+            $request['is_primary'] = 0;
         }
 
         $validator = $this->validate($request->all());
@@ -119,9 +119,14 @@ class MarginController extends AdminBaseController
      */
     public function destroy(Margin $margin)
     {
-        $this->margin->destroy($margin);
+        if (!$margin->is_removable)
+        {
+            flash()->error(trans('village::margins.messages.removable', ['name' => trans('village::margins.title.margins')]));
+        } else {
+            $this->margin->destroy($margin);
 
-        flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::margins.title.margins')]));
+            flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::margins.title.margins')]));
+        }
 
         return redirect()->route('admin.village.margin.index');
     }
@@ -132,7 +137,8 @@ class MarginController extends AdminBaseController
             'title' => 'required|string',
             'value' => 'required|numeric',
             'type' => 'required|numeric',
-            'is_removable' => 'boolean'
+            'order' => 'required|numeric',
+            'is_primary' => 'boolean'
         ]);
     }
 }

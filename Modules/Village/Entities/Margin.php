@@ -11,7 +11,7 @@ class Margin extends Model
 
     protected $table = 'village__margins';
     public $translatedAttributes = [];
-    protected $fillable = ['type', 'value', 'title', 'is_removable'];
+    protected $fillable = ['type', 'value', 'title', 'order', 'is_primary'];
 
     public function getTypes() 
     {
@@ -28,5 +28,10 @@ class Margin extends Model
     			return $key;
     		}
     	}
+    }
+
+    public function getFinalPrice($price)
+    {
+    	
     }
 }

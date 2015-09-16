@@ -15,7 +15,7 @@
                 {!! $errors->first('type', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <div class="form-group{{ $errors->has('value') ? ' has-error' : '' }}">
                 {!! Form::label('value', trans('village::margins.table.amount')) !!}
                 {!! Form::text('value', Input::old('value', $margin->value), ['class' => 'form-control', 'placeholder' => trans('village::margins.table.amount')]) !!}
@@ -23,10 +23,18 @@
             </div>
         </div>
         <div class="col-sm-1">
-            <div class="form-group{{ $errors->has('is_removable') ? ' has-error' : '' }}">
-                {!! Form::label('is_removable', trans('village::margins.table.removable')) !!}
-                {!! Form::checkbox('is_removable', true, $margin->is_removable) !!}
-                {!! $errors->first('is_removable', '<span class="help-block">:message</span>') !!}
+            <div class="form-group{{ $errors->has('order') ? ' has-error' : '' }}">
+                {!! Form::label('order', trans('village::margins.table.order')) !!}
+                {!! Form::text('order', Input::old('order', $margin->order), ['class' => 'form-control', 'placeholder' => trans('village::margins.table.order')]) !!}
+                {!! $errors->first('order', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group{{ $errors->has('is_primary') ? ' has-error' : '' }}">
+                {!! Form::label('is_primary', trans('village::margins.table.is_primary')) !!}
+                <br>
+                {!! Form::checkbox('is_primary', 1, Input::old('is_primary', $margin->is_primary)) !!}
+                {!! $errors->first('is_primary', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
     </div>

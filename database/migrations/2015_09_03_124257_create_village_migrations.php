@@ -108,7 +108,7 @@ class CreateVillageMigrations extends Migration
             $table->dateTime('perform_at');
             $table->text('comment')->nullable();
             $table->enum('status', config('village.order.statuses'))->default(config('village.order.statuses')[0]);
-            $table->text('declline_reason')->nullable();
+            $table->text('decline_reason')->nullable();
 
             $table->timestamps();
         });
@@ -157,6 +157,7 @@ class CreateVillageMigrations extends Migration
             $table->string('unit_title')->default('kg');
             $table->decimal('quantity', 5, 2);
             $table->text('comment');
+            $table->text('decline_reason')->nullable();
             $table->enum('status', config('village.order.statuses'));
 
             $table->timestamps();
@@ -207,6 +208,7 @@ class CreateVillageMigrations extends Migration
 
             $table->string('title');
             $table->boolean('is_removable')->default(true);
+            $table->boolean('is_primary')->default(false);
             $table->enum('type', (new Margin)->getTypes());
             $table->decimal('value', 3, 2);
             $table->integer('order')->default(1);

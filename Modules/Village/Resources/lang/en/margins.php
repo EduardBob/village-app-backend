@@ -13,11 +13,14 @@ return [
         'title' => 'Title',
         'amount' => 'Amount',
         'type' => 'Type',
-        'removable' => 'Is Removable'
+        'removable' => 'Is Removable',
+        'order' => 'Order',
+        'is_primary' => 'Is primary'
     ],
     'form' => [
     ],
     'messages' => [
+        'removable' => 'This tax is not removable.'
     ],
     'validation' => [
     ],

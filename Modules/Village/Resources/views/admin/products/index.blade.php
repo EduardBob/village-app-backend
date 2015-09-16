@@ -143,6 +143,7 @@
                 "columns": [
                     null,
                     null,
+                    null,
                     { "sortable": false }
                 ]
             });

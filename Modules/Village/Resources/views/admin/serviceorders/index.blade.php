@@ -175,6 +175,11 @@
                 "columns": [
                     null,
                     null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     { "sortable": false }
                 ]
             });

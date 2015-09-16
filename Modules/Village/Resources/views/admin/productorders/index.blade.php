@@ -28,11 +28,11 @@
                     <table class="data-table table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>{{ trans('village::productorder.table.product') }}</th>
-                            <th>{{ trans('village::productorder.table.quantity') }}</th>
-                            <th>{{ trans('village::productorder.table.address') }}</th>
-                            <th>{{ trans('village::productorder.table.perform_at') }}</th>
-                            <th>{{ trans('village::productorder.table.price') }}</th>
+                            <th>{{ trans('village::productorders.table.product') }}</th>
+                            <th>{{ trans('village::productorders.table.quantity') }}</th>
+                            <th>{{ trans('village::productorders.table.address') }}</th>
+                            <th>{{ trans('village::productorders.table.perform_at') }}</th>
+                            <th>{{ trans('village::productorders.table.price') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </thead>
@@ -52,7 +52,7 @@
                             </td>
                             <td>
                                 <a href="{{ route('admin.user.user.edit', [$productOrder->profile->user->id]) }}">
-                                    {{ $productOrder->profile->address }}
+                                    {{ $productOrder->profile->building->address }}
                                 </a>
                             </td>
                             <td>
@@ -77,11 +77,11 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>{{ trans('village::productorder.table.product') }}</th>
-                            <th>{{ trans('village::productorder.table.quantity') }}</th>
-                            <th>{{ trans('village::productorder.table.address') }}</th>
-                            <th>{{ trans('village::productorder.table.perform_at') }}</th>
-                            <th>{{ trans('village::productorder.table.price') }}</th>
+                            <th>{{ trans('village::productorders.table.product') }}</th>
+                            <th>{{ trans('village::productorders.table.quantity') }}</th>
+                            <th>{{ trans('village::productorders.table.address') }}</th>
+                            <th>{{ trans('village::productorders.table.perform_at') }}</th>
+                            <th>{{ trans('village::productorders.table.price') }}</th>
                             <th>{{ trans('core::core.table.actions') }}</th>
                         </tr>
                         </tfoot>
@@ -153,6 +153,9 @@
                     "url": '<?php echo Module::asset("core:js/vendor/datatables/{$locale}.json") ?>'
                 },
                 "columns": [
+                    null,
+                    null,
+                    null,
                     null,
                     null,
                     { "sortable": false }

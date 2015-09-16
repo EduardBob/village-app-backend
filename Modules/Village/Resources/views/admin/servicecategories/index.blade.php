@@ -126,7 +126,6 @@
                 },
                 "columns": [
                     null,
-                    null,
                     { "sortable": false }
                 ]
             });

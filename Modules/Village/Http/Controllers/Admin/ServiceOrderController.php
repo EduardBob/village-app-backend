@@ -137,6 +137,8 @@ class ServiceOrderController extends AdminBaseController
         return Validator::make($data, [
             'perform_at' => 'required|date|after:yesterday',
             'status' => 'sometimes|required',
+            'comment' => 'sometimes|required|string',
+            'decline_reason' => 'sometimes|required_if|status,rejected|string',
             'profile' => 'required',
             'service' => 'required'
         ]);

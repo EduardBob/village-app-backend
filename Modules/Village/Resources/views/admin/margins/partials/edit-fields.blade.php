@@ -11,7 +11,7 @@
             <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
                 {!! Form::label('type', trans('village::margins.table.type')) !!}
                 {!! Form::select('type', (new Modules\Village\Entities\Margin)->getTypes(),
-                $margin->type, ['class' => 'form-control']) !!}
+                (new Modules\Village\Entities\Margin)->getTypeId($margin->type), ['class' => 'form-control']) !!}
                 {!! $errors->first('type', '<span class="help-block">:message</span>') !!}
             </div>
         </div>

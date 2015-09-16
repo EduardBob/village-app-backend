@@ -18,8 +18,15 @@ class Margin extends Model
     	return [self::TYPE_CASH, self::TYPE_PERCENT];
     }
 
-    public function getTypeId($type)
+    public function getTypeId($formType)
     {
-    	
+    	$types = $this->getTypes();
+
+    	foreach ($types as $key => $type) {
+    		if ($formType === $type)
+    		{
+    			return $key;
+    		}
+    	}
     }
 }

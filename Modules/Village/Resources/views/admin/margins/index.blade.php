@@ -56,7 +56,10 @@
                             <td>
                                 <div class="btn-group">
                                     <a href="{{ route('admin.village.margin.edit', [$margin->id]) }}" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>
-                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $margin->id }}"><i class="glyphicon glyphicon-trash"></i></button>
+                                    
+                                    @if ($margin->is_removable)
+                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $margin->id }}"><i class="glyphicon glyphicon-trash"></i></button>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

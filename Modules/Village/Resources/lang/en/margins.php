@@ -12,7 +12,8 @@ return [
     'table' => [
         'title' => 'Title',
         'amount' => 'Amount',
-        'type' => 'Type'
+        'type' => 'Type',
+        'removable' => 'Is Removable'
     ],
     'form' => [
     ],

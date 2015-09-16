@@ -91,6 +91,11 @@ class MarginController extends AdminBaseController
      */
     public function update(Margin $margin, Request $request)
     {
+        if($request['is_removable'] === null)
+        {
+            $request['is_removable'] = 0;
+        }
+
         $validator = $this->validate($request->all());
 
         if ($validator->fails()) {
@@ -126,7 +131,8 @@ class MarginController extends AdminBaseController
         return Validator::make($data, [
             'title' => 'required|string',
             'value' => 'required|numeric',
-            'type' => 'required|numeric'
+            'type' => 'required|numeric',
+            'is_removable' => 'boolean'
         ]);
     }
 }

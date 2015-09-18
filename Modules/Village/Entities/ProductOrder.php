@@ -1,12 +1,9 @@
 <?php namespace Modules\Village\Entities;
 
-// use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductOrder extends Model
 {
-    // use Translatable;
-
     protected $table = 'village__product_orders';
     public $translatedAttributes = [];
     protected $fillable = ['product_id', 'user_id', 'price', 'quantity', 'comment', 'status', 'perform_at', 'decline_reason'];
@@ -21,14 +18,18 @@ class ProductOrder extends Model
     	return $this->belongsTo('Modules\Village\Entities\Profile', 'user_id');
     }
 
+    /**
+     * @param string $status
+     *
+     * @return string
+     */
     public function getStatusIndex($status)
     {
-        $items = config('village.order.statuses');
+        $statuses = config('village.order.statuses');
 
-        foreach ($items as $key => $item) {
-            if ($status === $item)
-            {
-                return $key;
+        foreach ($statuses as $key => $value) {
+            if ($status === $key) {
+                return $value;
             }
         }
     }

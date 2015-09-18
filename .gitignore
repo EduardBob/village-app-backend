@@ -1,7 +1,14 @@
 /.idea
 /vendor
 /node_modules
+/bootstrap/compiled.php
+.env.*.php
+.env.php
 .env
 .DS_Store
 Thumbs.db
 composer.phar
+
+/.phpstorm.meta.php
+/_ide_helper.php
+/_ide_helper_models.php

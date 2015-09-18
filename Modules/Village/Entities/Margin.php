@@ -1,8 +1,11 @@
 <?php namespace Modules\Village\Entities;
 
-// use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property bool is_removable
+ * @property mixed id
+ */
 class Margin extends Model
 {
     // use Translatable;
@@ -11,27 +14,17 @@ class Margin extends Model
 
     protected $table = 'village__margins';
     public $translatedAttributes = [];
-    protected $fillable = ['type', 'value', 'title', 'order', 'is_primary'];
+    protected $fillable = ['type', 'value', 'title', 'order', 'is_removable'];
 
-    public function getTypes() 
+    /**
+     * @return array
+     */
+    public static function getTypes()
     {
     	return [self::TYPE_CASH, self::TYPE_PERCENT];
     }
 
-    public function getTypeId($formType)
-    {
-    	$types = $this->getTypes();
-
-    	foreach ($types as $key => $type) {
-    		if ($formType === $type)
-    		{
-    			return $key;
-    		}
-    	}
-    }
-
     public function getFinalPrice($price)
     {
-    	
     }
 }

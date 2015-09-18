@@ -61,7 +61,7 @@ return [
 	|
 	*/
 
-	'locale' => 'en',
+	'locale' => 'ru',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -155,6 +155,8 @@ return [
 		'App\Providers\RouteServiceProvider',
 
 		'Modules\Core\Providers\AsgardServiceProvider',
+
+		Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 	],
 
 	/*

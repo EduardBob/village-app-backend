@@ -1,10 +1,10 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Laracasts\Flash\Flash;
 use Illuminate\Http\Request;
 use Modules\Village\Entities\Profile;
 use Modules\Village\Repositories\ProfileRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
+use Validator;
 
 class ProfileController extends AdminBaseController
 {
@@ -50,6 +50,12 @@ class ProfileController extends AdminBaseController
      */
     public function store(Request $request)
     {
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         $this->profile->create($request->all());
 
         flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::profiles.title.profiles')]));
@@ -77,6 +83,12 @@ class ProfileController extends AdminBaseController
      */
     public function update(Profile $profile, Request $request)
     {
+//        $validator = $this->validate($request->all());
+//
+//        if ($validator->fails()) {
+//            return back()->withErrors($validator)->withInput();
+//        }
+
         $this->profile->update($profile, $request->all());
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::profiles.title.profiles')]));
@@ -97,5 +109,17 @@ class ProfileController extends AdminBaseController
         flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::profiles.title.profiles')]));
 
         return redirect()->route('admin.village.profile.index');
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return mixed
+     */
+    static function validate(array $data)
+    {
+        return Validator::make($data, [
+            'phone' => 'required|unique',
+        ]);
     }
 }

@@ -2,15 +2,15 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
-                {!! Form::label('address', trans('village::buildings.form.address')) !!}
-                {!! Form::text('address', Input::old('address', $building->address), ['class' => 'form-control', 'placeholder' => trans('village::buildings.form.address')]) !!}
+                {!! Form::label('address', $admin->trans('table.address')) !!}
+                {!! Form::text('address', Input::old('address', $model->address), ['class' => 'form-control', 'placeholder' => $admin->trans('form.address')]) !!}
                 {!! $errors->first('address', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
         <div class="col-sm-4">
         	<div class="form-group">
-	        	{!! Form::label('null', trans('village::buildings.form.code')) !!}
-        		{!! Form::text('null', $building->code, ['class' => 'form-control', 'readonly' => true]) !!}
+	        	{!! Form::label('null', $admin->trans('table.code')) !!}
+        		{!! Form::text('null', $model->code, ['class' => 'form-control', 'readonly' => true]) !!}
         	</div>
         </div>
     </div>

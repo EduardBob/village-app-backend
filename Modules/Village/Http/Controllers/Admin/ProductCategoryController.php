@@ -1,122 +1,40 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Laracasts\Flash\Flash;
-use Illuminate\Http\Request;
 use Modules\Village\Entities\ProductCategory;
 use Modules\Village\Repositories\ProductCategoryRepository;
-use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
 use Validator;
 
-class ProductCategoryController extends AdminBaseController
+class ProductCategoryController extends AdminController
 {
     /**
-     * @var ProductCategoryRepository
+     * @param ProductCategoryRepository $productCategory
      */
-    private $productCategory;
-
     public function __construct(ProductCategoryRepository $productCategory)
     {
-        parent::__construct();
-
-        $this->productCategory = $productCategory;
+        parent::__construct($productCategory);
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return string
      */
-    public function index()
+    public function getViewName()
     {
-        $productCategories = $this->productCategory->all();
-
-        return view('village::admin.productcategories.index', compact('productCategories'));
+        return 'productcategories';
     }
 
     /**
-     * Show the form for creating a new resource.
+     * @param array           $data
+     * @param ProductCategory $productCategory
      *
-     * @return Response
+     * @return mixed
      */
-    public function create()
+    static function validate(array $data, ProductCategory $productCategory = null)
     {
-        return view('village::admin.productcategories.create');
-    }
+        $productCategoryId = $productCategory ? $productCategory->id : '';
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        $validator = $this->validate($request->all());
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        $this->productCategory->create($request->all());
-
-        flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::productcategories.title.productcategories')]));
-
-        return redirect()->route('admin.village.productcategory.index');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  ProductCategory $productCategory
-     * @return Response
-     */
-    public function edit(ProductCategory $productCategory)
-    {
-        return view('village::admin.productcategories.edit', compact('productCategory'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  ProductCategory $productCategory
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(ProductCategory $productCategory, Request $request)
-    {
-        $validator = $this->validate($request->all());
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-        
-        $this->productCategory->update($productCategory, $request->all());
-
-        flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::productcategories.title.productcategories')]));
-
-        return redirect()->route('admin.village.productcategory.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  ProductCategory $productCategory
-     * @return Response
-     */
-    public function destroy(ProductCategory $productCategory)
-    {
-        $this->productCategory->destroy($productCategory);
-
-        flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::productcategories.title.productcategories')]));
-
-        return redirect()->route('admin.village.productcategory.index');
-    }
-
-    static function validate($data) 
-    {
         return Validator::make($data, [
-            'title' => 'required|string'
+            'title' => "required|max:255|unique:village__product_categories,title,{$productCategoryId}",
         ]);
     }
 }

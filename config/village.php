@@ -1,12 +1,10 @@
 <?php
 
-/*
-    Get status value for order records
- */
 return [
     'order' => [
-        'statuses' => ['in progress', 'done', 'rejected']
+        'statuses' => ['in_progress', 'done', 'rejected']
     ],
-
-    'dateFormat' => 'Y-m-d H:m'
+    'date' => [
+        'format' => 'Y-m-d H:i'
+    ]
 ];

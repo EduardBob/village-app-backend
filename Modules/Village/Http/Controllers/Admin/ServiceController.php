@@ -1,131 +1,65 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Laracasts\Flash\Flash;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Modules\Village\Entities\Service;
 use Modules\Village\Repositories\ServiceRepository;
-use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
 use Modules\Village\Entities\ServiceCategory;
 use Validator;
 
-class ServiceController extends AdminBaseController
+class ServiceController extends AdminController
 {
     /**
-     * @var ServiceRepository
+     * @param ServiceRepository $service
      */
-    private $service;
-
     public function __construct(ServiceRepository $service)
     {
-        parent::__construct();
-
-        $this->service = $service;
+        parent::__construct($service);
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return string
      */
-    public function index()
+    public function getViewName()
     {
-        $services = $this->service->all();
-
-        return view('village::admin.services.index', compact('services'));
+        return 'services';
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @param Model   $model
+     * @param Request $request
      */
-    public function create()
+    public function preStore(Model $model, Request $request)
     {
-        return view('village::admin.services.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
+        /** @var Service $model */
         $category = ServiceCategory::find($request['category']);
-        $validator = $this->validate($request->all());
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        $item = $this->service->create($request->all());
-        $item->category()->associate($category);
-        $item->save();
-
-        flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::services.title.services')]));
-
-        return redirect()->route('admin.village.service.index');
+        $model->category()->associate($category);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Service $service
-     * @return Response
+     * @param Model   $model
+     * @param Request $request
      */
-    public function edit(Service $service)
+    public function preUpdate(Model $model, Request $request)
     {
-        return view('village::admin.services.edit', compact('service'));
+        $this->preStore($model, $request);
     }
 
     /**
-     * Update the specified resource in storage.
+     * @param array   $data
+     * @param Service $service
      *
-     * @param  Service $service
-     * @param  Request $request
-     * @return Response
+     * @return Validator
      */
-    public function update(Service $service, Request $request)
+    static function validate(array $data, Service $service = null)
     {
-        $category = ServiceCategory::find($request['category']);
-        $validator = $this->validate($request->all());
+        $serviceId = $service ? $service->id : '';
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        $item = $this->service->update($service, $request->all());
-        $item->category()->associate($category);
-        $item->save();
-
-        flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::services.title.services')]));
-
-        return redirect()->route('admin.village.service.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Service $service
-     * @return Response
-     */
-    public function destroy(Service $service)
-    {
-        $this->service->destroy($service);
-
-        flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::services.title.services')]));
-
-        return redirect()->route('admin.village.service.index');
-    }
-
-    static function validate($data) 
-    {
         return Validator::make($data, [
-            'title' => 'required|string',
-            'category' => 'required|numeric',
-            'price' => 'required|numeric'
+            'title' => "required|max:255|unique:village__services,title,{$serviceId}",
+            'category' => 'required|exists:village__service_categories,id',
+            'price' => 'required|numeric|min:1'
         ]);
     }
 }

@@ -1,122 +1,40 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Laracasts\Flash\Flash;
-use Illuminate\Http\Request;
 use Modules\Village\Entities\ServiceCategory;
 use Modules\Village\Repositories\ServiceCategoryRepository;
-use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
 use Validator;
 
-class ServiceCategoryController extends AdminBaseController
+class ServiceCategoryController extends AdminController
 {
     /**
-     * @var ServiceCategoryRepository
+     * @param ServiceCategoryRepository $serviceCategory
      */
-    private $serviceCategory;
-
     public function __construct(ServiceCategoryRepository $serviceCategory)
     {
-        parent::__construct();
-
-        $this->serviceCategory = $serviceCategory;
+        parent::__construct($serviceCategory);
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return string
      */
-    public function index()
+    public function getViewName()
     {
-        $serviceCategories = $this->serviceCategory->all()->sortBy('title');
-
-        return view('village::admin.servicecategories.index', compact('serviceCategories'));
+        return 'servicecategories';
     }
 
     /**
-     * Show the form for creating a new resource.
+     * @param array           $data
+     * @param ServiceCategory $serviceCategory
      *
-     * @return Response
+     * @return Validator
      */
-    public function create()
+    static function validate(array $data, ServiceCategory $serviceCategory = null)
     {
-        return view('village::admin.servicecategories.create');
-    }
+        $serviceCategoryId = $serviceCategory ? $serviceCategory->id : '';
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        $validator = $this->validate($request->all());
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        $this->serviceCategory->create($request->all());
-
-        flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::servicecategories.title.servicecategories')]));
-
-        return redirect()->route('admin.village.servicecategory.index');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  ServiceCategory $serviceCategory
-     * @return Response
-     */
-    public function edit(ServiceCategory $serviceCategory)
-    {
-        return view('village::admin.servicecategories.edit', compact('serviceCategory'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  ServiceCategory $serviceCategory
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(ServiceCategory $serviceCategory, Request $request)
-    {
-        $validator = $this->validate($request->all());
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-        
-        $this->serviceCategory->update($serviceCategory, $request->all());
-
-        flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::servicecategories.title.servicecategories')]));
-
-        return redirect()->route('admin.village.servicecategory.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  ServiceCategory $serviceCategory
-     * @return Response
-     */
-    public function destroy(ServiceCategory $serviceCategory)
-    {
-        $this->serviceCategory->destroy($serviceCategory);
-
-        flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::servicecategories.title.servicecategories')]));
-
-        return redirect()->route('admin.village.servicecategory.index');
-    }
-
-    static function validate($data) 
-    {
         return Validator::make($data, [
-            'title' => 'required|string'
+            'title' => "required|max:255|unique:village__service_categories,title,{$serviceCategoryId}",
         ]);
     }
 }

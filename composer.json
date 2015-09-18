@@ -23,7 +23,8 @@
     "asgardcms/flatly-theme": "~1.0",
     "asgardcms/adminlte-theme": "~1.0",
     "fzaninotto/faker": "^1.6@dev",
-    "nesbot/carbon": "@dev"
+    "nesbot/carbon": "@dev",
+    "barryvdh/laravel-ide-helper": "^2.1@dev"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.0",
@@ -62,6 +63,9 @@
       "php artisan stylist:publish",
       "php artisan module:publish",
       "php artisan module:migrate",
+      "php artisan optimize",
+      "php artisan clear-compiled",
+      "php artisan ide-helper:generate",
       "php artisan optimize"
     ],
     "post-create-project-cmd": [

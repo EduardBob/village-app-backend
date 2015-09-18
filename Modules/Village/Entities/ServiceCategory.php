@@ -1,12 +1,10 @@
 <?php namespace Modules\Village\Entities;
 
-// use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+
 class ServiceCategory extends Model
 {
-    // use Translatable;
-
     protected $table = 'village__service_categories';
     public $translatedAttributes = [];
     protected $fillable = ['title', 'order'];
@@ -24,11 +22,5 @@ class ServiceCategory extends Model
     public function services()
     {
         return $this->hasMany('Modules\Village\Entities\Service', 'category_id');
-    }
-
-    public function getAll() {
-        $items = DB::table($this->table)->lists('title', 'id');
-
-        return $items;
     }
 }

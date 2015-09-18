@@ -1,148 +1,72 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Laracasts\Flash\Flash;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Modules\Village\Entities\ProductOrder;
 use Modules\Village\Repositories\ProductOrderRepository;
-use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
 use Modules\Village\Entities\Product;
 use Modules\User\Entities\Sentinel\User;
-use Carbon\Carbon;
 use Validator;
 
-class ProductOrderController extends AdminBaseController
+class ProductOrderController extends AdminController
 {
     /**
-     * @var ProductOrderRepository
+     * @param ProductOrderRepository $productOrder
      */
-    private $productOrder;
-
     public function __construct(ProductOrderRepository $productOrder)
     {
-        parent::__construct();
+        parent::__construct($productOrder);
 
         $this->productOrder = $productOrder;
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return string
      */
-    public function index()
+    public function getViewName()
     {
-        $productOrders = $this->productOrder->all();
-
-        return view('village::admin.productorders.index', compact('productOrders'));
+        return 'productorders';
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @param Model   $model
+     * @param Request $request
      */
-    public function create()
-    {
-        return view('village::admin.productorders.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
+    public function preStore(Model $model, Request $request)
     {
         $product = Product::find($request['product']);
         $user = User::find($request['profile']);
-        $request['perform_at'] = Carbon::parse($request['perform_at']);
 
-        $validator = $this->validate($request->all());
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        $item = $this->productOrder->create($request->all());
-
-        $item->product()->associate($product);
-        $item->profile()->associate($user->profile());
-        $item->save();
-
-        flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::productorders.title.productorders')]));
-
-        return redirect()->route('admin.village.productorder.index');
+        /** @var ProductOrder $model */
+        $model->product()->associate($product);
+        $model->profile()->associate($user->profile());
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  ProductOrder $productOrder
-     * @return Response
+     * @param Model   $model
+     * @param Request $request
      */
-    public function edit(ProductOrder $productOrder)
+    public function preUpdate(Model $model, Request $request)
     {
-        return view('village::admin.productorders.edit', compact('productOrder'));
+        $this->preStore($model, $request);
     }
 
     /**
-     * Update the specified resource in storage.
+     * @param array $data
      *
-     * @param  ProductOrder $productOrder
-     * @param  Request $request
-     * @return Response
+     * @return Validator
      */
-    public function update(ProductOrder $productOrder, Request $request)
-    {
-        $product = Product::find($request['product']);
-        $user = User::find($request['profile']);
-        $request['perform_at'] = Carbon::parse($request['perform_at']);
-        $request['status'] = config('village.order.statuses')[$request['status']];
-
-        $validator = $this->validate($request->all());
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        $item = $this->productOrder->update($productOrder, $request->all());
-        
-        $item->product()->associate($product);
-        $item->profile()->associate($user->profile());
-        $item->save();
-
-        flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::productorders.title.productorders')]));
-
-        return redirect()->route('admin.village.productorder.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  ProductOrder $productOrder
-     * @return Response
-     */
-    public function destroy(ProductOrder $productOrder)
-    {
-        $this->productOrder->destroy($productOrder);
-
-        flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::productorders.title.productorders')]));
-
-        return redirect()->route('admin.village.productorder.index');
-    }
-
-    static function validate($data) 
+    static function validate(array $data)
     {
         return Validator::make($data, [
-            'perform_at' => 'required|date|after:yesterday',
-            'status' => 'sometimes|required',
+            'perform_at' => 'required|date|date_format:'.config('village.date.format'),
+            'status' => 'required|in:'.implode(',', config('village.order.statuses')),
             'comment' => 'sometimes|required|string',
             'decline_reason' => 'sometimes|required_if:status,rejected|string',
-            'profile' => 'required',
-            'product' => 'required',
-            'quantity' => 'required|numeric'
+            'profile' => 'required|exists:village__profiles,id',
+            'product' => 'required|exists:village__products,id',
+            'quantity' => 'required|numeric|min:1'
         ]);
     }
 }

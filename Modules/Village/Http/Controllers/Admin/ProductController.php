@@ -1,130 +1,64 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Laracasts\Flash\Flash;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Modules\Village\Entities\Product;
 use Modules\Village\Repositories\ProductRepository;
-use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
 use Modules\Village\Entities\ProductCategory;
 use Validator;
 
-class ProductController extends AdminBaseController
+class ProductController extends AdminController
 {
     /**
-     * @var ProductRepository
+     * @param ProductRepository $product
      */
-    private $product;
-
     public function __construct(ProductRepository $product)
     {
-        parent::__construct();
-
-        $this->product = $product;
+        parent::__construct($product);
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return string
      */
-    public function index()
+    public function getViewName()
     {
-        $products = $this->product->all();
-
-        return view('village::admin.products.index', compact('products'));
+        return 'products';
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @param Model   $model
+     * @param Request $request
      */
-    public function create()
-    {
-        return view('village::admin.products.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
+    public function preStore(Model $model, Request $request)
     {
         $category = ProductCategory::find($request['category']);
-        $validator = $this->validate($request->all());
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-        
-        $item = $this->product->create($request->all());
-        $item->category()->associate($category);
-        $item->save();
-
-        flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::products.title.products')]));
-
-        return redirect()->route('admin.village.product.index');
+        $model->category()->associate($category);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Product $product
-     * @return Response
+     * @param Model   $model
+     * @param Request $request
      */
-    public function edit(Product $product)
+    public function preUpdate(Model $model, Request $request)
     {
-        return view('village::admin.products.edit', compact('product'));
+        $this->preStore($model, $request);
     }
 
     /**
-     * Update the specified resource in storage.
+     * @param array   $data
+     * @param Product $product
      *
-     * @param  Product $product
-     * @param  Request $request
-     * @return Response
+     * @return Validator
      */
-    public function update(Product $product, Request $request)
+    static function validate(array $data, Product $product = null)
     {
-        $category = ProductCategory::find($request['category']);
-        $validator = $this->validate($request->all());
+        $productId = $product ? $product->id : '';
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        $item = $this->product->update($product, $request->all());
-        $item->category()->associate($category);
-        $item->save();
-
-        flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::products.title.products')]));
-
-        return redirect()->route('admin.village.product.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Product $product
-     * @return Response
-     */
-    public function destroy(Product $product)
-    {
-        $this->product->destroy($product);
-
-        flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::products.title.products')]));
-
-        return redirect()->route('admin.village.product.index');
-    }
-
-    static function validate($data) 
-    {
         return Validator::make($data, [
-            'title' => 'required|string',
-            'price' => 'required|numeric'
+            'title' => "required|max:255|unique:village__products,title,{$productId}",
+            'category' => 'required|exists:village__product_categories,id',
+            'price' => 'required|numeric|min:1'
         ]);
     }
 }

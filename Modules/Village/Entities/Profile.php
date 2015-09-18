@@ -1,19 +1,13 @@
 <?php namespace Modules\Village\Entities;
 
-// use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
-
 use Modules\User\Entities\Sentinel\User;
-use Modules\Village\Entities\Building;
 
-use Validator;
 use Request;
 use DB;
 
 class Profile extends Model
 {
-    // use Translatable;
-
     protected $table = 'village__profiles';
     public $translatedAttributes = [];
     protected $fillable = ['phone', 'user_id', 'activated', 'building_id'];
@@ -25,7 +19,7 @@ class Profile extends Model
         return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User");
     }
 
-    public function building() 
+    public function building()
     {
         return $this->belongsTo('Modules\Village\Entities\Building');
     }
@@ -40,16 +34,26 @@ class Profile extends Model
         return $this->hasMany('Modules\Village\Entities\SurveyVote', 'user_id');
     }
 
-    public function updateItem($user, $data)
+    /**
+     * @param User  $user
+     * @param array $data
+     */
+    public function updateItem(User $user, array $data)
     {
         $profile = $user->profile();
 
-        $profile->update(['phone' => $data['phone']]);
-        $profile->building()->associate(Building::find($data['building_id']));
-        $profile->save();
+        if ($profile) {
+            $profile->update(['phone' => $data['phone']]);
+            $profile->building()->associate(Building::find($data['building_id']));
+            $profile->save();
+        }
     }
 
-    public function createItem($data, $id)
+    /**
+     * @param array $data
+     * @param       $id
+     */
+    public function createItem(array $data, $id)
     {
         $profile = new Profile(['phone' => $data['phone']]);
 
@@ -61,14 +65,15 @@ class Profile extends Model
         $profile->save();
     }
 
-    public function getAll() {
-        $first = DB::table('users')->lists('first_name', 'id');
-        $last = DB::table('users')->lists('last_name', 'id');
-        
-        foreach ($first as $key => $value) {
-            $first[$key] = $first[$key] . ' ' . $last[$key];
+    public function getList()
+    {
+        $users = User::all(['last_name', 'first_name', 'id']);
+
+        $list = [];
+        foreach ($users as $key => $user) {
+            $list[$user->id] = $user->last_name . ' ' . $user->first_name;
         }
-        
-        return $first;
+
+        return $list;
     }
 }

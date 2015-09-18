@@ -1,44 +1,37 @@
 <?php namespace Modules\Village\Entities;
 
-// use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Village\Entities\Profile;
 
 class Building extends Model
 {
-    // use Translatable;
-
     protected $table = 'village__buildings';
     public $translatedAttributes = [];
     protected $fillable = ['address', 'code'];
 
 
-    public function profile()
+	public function __toString()
+	{
+		return (string)$this->address;
+	}
+
+    protected static function boot()
     {
-    	return $this->hasOne('Modules\Village\Entities\Profile');
+        parent::boot();
+
+        static::creating(function(Building $building) {
+            if (!$building->code) {
+                $building->code = $building->generateCode();
+            }
+        });
     }
 
     /**
-     * Get available buildings
-     * $id = profile id, if profile has building add to response
+     * @param int $length
+     *
+     * @return string
      */
-    public function getAvailable($id = false)
+    static function generateCode($length = 7)
     {
-    	$items = $this->all();
-
-    	$response = [];
-
-    	foreach ($items as $item) {
-    	    if ($item->profile()->first() === null) {
-    	        $response = array_add($response, $item->id, $item->address);
-    	    }
-    	}
-
-    	if ($id) {
-    		$item = Profile::find($id)->building()->first();
-    		$response = array_add($response, $item->id, $item->address);
-    	}
-
-    	return $response;
+        return substr(md5(rand()), 0, $length);
     }
 }

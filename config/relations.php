@@ -2,7 +2,7 @@
 
 return [
     'User' => [
-        'profile' => function ($self) {
+        'profile' => function (Illuminate\Database\Eloquent\Model $self) {
             return $self->belongsTo('Modules\Village\Entities\Profile', 'id', 'user_id')->first();
         }
     ]

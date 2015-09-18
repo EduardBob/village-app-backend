@@ -71,14 +71,14 @@ class VillageSeeder extends Seeder
 		Service::create([
 			'category_id' => $faker->randomElement($this->getItems('village__service_categories')),
 			'title' => $faker->unique()->sentence(3),
-			'price' => $faker->randomFloat(4, 0)
+			'price' => $faker->randomFloat(4, 0, 1000)
 		]);
 
 
 		ServiceOrder::create([
 			'service_id' => $faker->randomElement($this->getItems('village__services')),
-			'status' => 'IN PROGRESS',
-			'perform_at' => $faker->dateTime('now'),
+			'status' => 'in_progress',
+			'perform_at' => $faker->dateTime,
 			'user_id' => $faker->randomElement($this->getItems('village__profiles'))
 		]);
 
@@ -100,17 +100,17 @@ class VillageSeeder extends Seeder
 		ProductOrder::create([
 			'product_id' => $faker->randomElement($this->getItems('village__products')),
 			'user_id' => $faker->randomElement($this->getItems('village__profiles')),
-			'price' => $faker->randomFloat(4, 0),
+			'price' => $faker->randomFloat(4, 0, 1000),
 			'quantity' => $faker->randomDigit,
 			'comment' => $faker->text,
-			'status' => 'IN PROGRESS',
-			'perform_at' => $faker->dateTime('now')
+			'status' => 'in_progress',
+			'perform_at' => $faker->dateTime
 		]);
 
 		Survey::create([
 			'title' => $faker->sentence(3),
 			'options' => json_encode(array('Yes', 'No', 'Maybe')),
-			'ends_at' => $faker->dateTime('now')
+			'ends_at' => $faker->dateTime
 		]);
 
 

@@ -12,7 +12,7 @@ class ServiceCategoryController extends AdminController
      */
     public function __construct(ServiceCategoryRepository $serviceCategory)
     {
-        parent::__construct($serviceCategory);
+        parent::__construct($serviceCategory, ServiceCategory::class);
     }
 
     /**

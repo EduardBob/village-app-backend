@@ -2,6 +2,10 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string address
+ * @property string code
+ */
 class Building extends Model
 {
     protected $table = 'village__buildings';

@@ -16,9 +16,7 @@ class ProductOrderController extends AdminController
      */
     public function __construct(ProductOrderRepository $productOrder)
     {
-        parent::__construct($productOrder);
-
-        $this->productOrder = $productOrder;
+        parent::__construct($productOrder, ProductOrder::class);
     }
 
     /**
@@ -27,6 +25,16 @@ class ProductOrderController extends AdminController
     public function getViewName()
     {
         return 'productorders';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function store(Request $request)
+    {
+        $request['status'] = 'in_progress';
+
+        return parent::store($request);
     }
 
     /**

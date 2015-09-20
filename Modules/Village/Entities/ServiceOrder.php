@@ -17,16 +17,4 @@ class ServiceOrder extends Model
     {
     	return $this->belongsTo('Modules\Village\Entities\Profile', 'user_id');
     }
-
-    public function getStatusIndex($status)
-    {
-        $items = config('village.order.statuses');
-
-        foreach ($items as $key => $item) {
-            if ($status === $item)
-            {
-                return $key;
-            }
-        }
-    }
 }

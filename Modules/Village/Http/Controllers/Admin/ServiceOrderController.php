@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Modules\Village\Entities\ServiceOrder;
 use Modules\Village\Repositories\ServiceOrderRepository;
 
 use Modules\Village\Entities\Service;
@@ -15,7 +16,7 @@ class ServiceOrderController extends AdminController
      */
     public function __construct(ServiceOrderRepository $serviceOrder)
     {
-        parent::__construct($serviceOrder);
+        parent::__construct($serviceOrder, ServiceOrder::class);
     }
 
     /**
@@ -27,6 +28,16 @@ class ServiceOrderController extends AdminController
     }
 
     /**
+     * @inheritdoc
+     */
+    public function store(Request $request)
+    {
+        $request['status'] = 'in_progress';
+
+        return parent::store($request);
+    }
+
+    /**
      * @param Model   $model
      * @param Request $request
      */
@@ -35,6 +46,7 @@ class ServiceOrderController extends AdminController
         $service = Service::find($request['service']);
         $user = User::find($request['profile']);
 
+        /** @var ServiceOrder $model */
         $model->service()->associate($service);
         $model->profile()->associate($user->profile());
     }
@@ -51,7 +63,7 @@ class ServiceOrderController extends AdminController
     /**
      * @param array $data
      *
-     * @return mixed
+     * @return Validator
      */
     static function validate(array $data)
     {
@@ -59,7 +71,7 @@ class ServiceOrderController extends AdminController
             'perform_at' => 'required|date|date_format:'.config('village.date.format'),
             'status' => 'required|in:'.implode(',', config('village.order.statuses')),
             'comment' => 'sometimes|required|string',
-            'decline_reason' => 'sometimes|required_if:status,rejected',
+            'decline_reason' => 'sometimes|required_if:status,rejected|string',
             'profile' => 'required|exists:village__profiles,id',
             'service' => 'required|exists:village__services,id'
         ]);

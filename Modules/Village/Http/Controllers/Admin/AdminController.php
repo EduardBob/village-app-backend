@@ -15,13 +15,20 @@ abstract class AdminController extends AdminBaseController
     protected $repository;
 
     /**
-     * @param BaseRepository $repository
+     * @var string
      */
-    public function __construct(BaseRepository $repository)
+    protected $modelClass;
+
+    /**
+     * @param BaseRepository $repository
+     * @param string         $modelClass
+     */
+    public function __construct(BaseRepository $repository, $modelClass = null)
     {
         parent::__construct();
 
         $this->repository = $repository;
+        $this->modelClass = $modelClass;
     }
 
     /**
@@ -82,8 +89,6 @@ abstract class AdminController extends AdminBaseController
     {
         $view = $view ? $view : $this->getViewName();
         $modelView = $this->getModule().'::admin.'.$view.'.'.$action;
-//var_dump($action, $view, view()->exists($modelView) ? $modelView : $this->getModule().'::admin.admin.'.$action);
-//        return view()->exists($this->getModule().'::admin.admin.'.$action) ? $this->getModule().'::admin.admin.'.$action : $modelView;
 
         return view()->exists($modelView) ? $modelView : $this->getModule().'::admin.admin.'.$action;
     }
@@ -166,7 +171,8 @@ abstract class AdminController extends AdminBaseController
             return back()->withErrors($validator)->withInput();
         }
 
-        $model = $this->getRepository()->create($request->all());
+        $model = new $this->modelClass();
+        $model->fill($request->all());
         $this->preStore($model, $request);
         $model->save();
 
@@ -244,7 +250,7 @@ abstract class AdminController extends AdminBaseController
     /**
      * @param array $data
      *
-     * @return Validator
+     * @return \Illuminate\Validation\Validator
      */
     public static function validate(array $data)
     {

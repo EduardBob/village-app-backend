@@ -15,7 +15,7 @@ class ProductController extends AdminController
      */
     public function __construct(ProductRepository $product)
     {
-        parent::__construct($product);
+        parent::__construct($product, Product::class);
     }
 
     /**

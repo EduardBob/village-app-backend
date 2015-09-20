@@ -2,6 +2,10 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property bool is_removable
+ * @property mixed id
+ */
 class Margin extends Model
 {
 	const TYPE_PERCENT = 'percent';

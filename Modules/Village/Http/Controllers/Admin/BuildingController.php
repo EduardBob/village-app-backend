@@ -12,7 +12,7 @@ class BuildingController extends AdminController
      */
     public function __construct(BuildingRepository $building)
     {
-        parent::__construct($building);
+        parent::__construct($building, Building::class);
     }
 
     /**

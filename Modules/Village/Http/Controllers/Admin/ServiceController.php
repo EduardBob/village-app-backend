@@ -15,7 +15,7 @@ class ServiceController extends AdminController
      */
     public function __construct(ServiceRepository $service)
     {
-        parent::__construct($service);
+        parent::__construct($service, Service::class);
     }
 
     /**

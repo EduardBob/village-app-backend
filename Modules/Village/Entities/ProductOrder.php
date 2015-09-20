@@ -17,20 +17,4 @@ class ProductOrder extends Model
     {
     	return $this->belongsTo('Modules\Village\Entities\Profile', 'user_id');
     }
-
-    /**
-     * @param string $status
-     *
-     * @return string
-     */
-    public function getStatusIndex($status)
-    {
-        $statuses = config('village.order.statuses');
-
-        foreach ($statuses as $key => $value) {
-            if ($status === $key) {
-                return $value;
-            }
-        }
-    }
 }

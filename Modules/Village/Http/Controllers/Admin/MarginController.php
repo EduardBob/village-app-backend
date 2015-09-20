@@ -13,7 +13,7 @@ class MarginController extends AdminController
      */
     public function __construct(MarginRepository $margin)
     {
-        parent::__construct($margin);
+        parent::__construct($margin, Margin::class);
     }
 
     /**

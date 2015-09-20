@@ -12,7 +12,7 @@ class ProductCategoryController extends AdminController
      */
     public function __construct(ProductCategoryRepository $productCategory)
     {
-        parent::__construct($productCategory);
+        parent::__construct($productCategory, ProductCategory::class);
     }
 
     /**

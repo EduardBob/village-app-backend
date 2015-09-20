@@ -17,7 +17,7 @@ class CreateVillageMigrations extends Migration
      */
     public function up()
     {
-        Schema::create('village__buildings', function(Blueprint $table) 
+        Schema::create('village__buildings', function(Blueprint $table)
         {
             $table->increments('id');
 
@@ -37,17 +37,17 @@ class CreateVillageMigrations extends Migration
             $table->integer('building_id')->nullable()->unsigned();
             $table->foreign('building_id')->references('id')->on('village__buildings')->onDelete('SET NULL');
 
-            $table->integer('user_id')->nullable()->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
         });
 
 
-        Schema::create('village__tokens', function(Blueprint $table) 
+        Schema::create('village__tokens', function(Blueprint $table)
         {
             $table->increments('id');
-            
+
             $table->string('code')->unique();
             $table->string('phone');
             $table->enum('type', (new Token)->getTypes());
@@ -56,10 +56,10 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::create('village__articles', function(Blueprint $table) 
+        Schema::create('village__articles', function(Blueprint $table)
         {
             $table->increments('id');
-            
+
             $table->string('title');
             $table->text('text');
             $table->text('short');
@@ -68,10 +68,10 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::create('village__service_categories', function(Blueprint $table) 
+        Schema::create('village__service_categories', function(Blueprint $table)
         {
             $table->increments('id');
-            
+
             $table->string('title')->unique();
             $table->integer('parent_id')->default(0);
             $table->integer('order')->default(0);
@@ -81,12 +81,12 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::create('village__services', function(Blueprint $table) 
+        Schema::create('village__services', function(Blueprint $table)
         {
             $table->increments('id');
 
-            $table->integer('category_id')->nullable()->unsigned();
-            $table->foreign('category_id')->references('id')->on('village__service_categories')->onDelete('SET NULL');
+            $table->integer('category_id')->unsigned();
+            $table->foreign('category_id')->references('id')->on('village__service_categories');
 
             $table->string('title')->unique();
             $table->decimal('price', 10, 2);
@@ -96,13 +96,13 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::create('village__service_orders', function(Blueprint $table) 
+        Schema::create('village__service_orders', function(Blueprint $table)
         {
             $table->increments('id');
 
-            $table->integer('service_id')->nullable()->unsigned();
+            $table->integer('service_id')->unsigned();
             $table->foreign('service_id')->references('id')->on('village__services');
-            $table->integer('user_id')->nullable()->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('village__profiles');
 
             $table->dateTime('perform_at');
@@ -114,7 +114,7 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::create('village__product_categories', function(Blueprint $table) 
+        Schema::create('village__product_categories', function(Blueprint $table)
         {
             $table->increments('id');
 
@@ -126,12 +126,12 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::create('village__products', function(Blueprint $table) 
+        Schema::create('village__products', function(Blueprint $table)
         {
             $table->increments('id');
 
-            $table->integer('category_id')->nullable()->unsigned();
-            $table->foreign('category_id')->references('id')->on('village__product_categories')->onDelete('SET NULL');
+            $table->integer('category_id')->unsigned();
+            $table->foreign('category_id')->references('id')->on('village__product_categories');
 
             $table->string('title')->unique();
             $table->decimal('price', 10, 2);
@@ -143,13 +143,13 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::create('village__product_orders', function(Blueprint $table) 
+        Schema::create('village__product_orders', function(Blueprint $table)
         {
             $table->increments('id');
 
-            $table->integer('product_id')->nullable()->unsigned();
+            $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('village__products');
-            $table->integer('user_id')->nullable()->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('village__profiles');
 
             $table->dateTime('perform_at');
@@ -163,8 +163,7 @@ class CreateVillageMigrations extends Migration
             $table->timestamps();
         });
 
-
-        Schema::create('village__surveys', function(Blueprint $table) 
+        Schema::create('village__surveys', function(Blueprint $table)
         {
             $table->increments('id');
 
@@ -176,7 +175,7 @@ class CreateVillageMigrations extends Migration
         });
 
 
-        Schema::create('village__survey_votes', function(Blueprint $table) 
+        Schema::create('village__survey_votes', function(Blueprint $table)
         {
             $table->increments('id');
 
@@ -210,7 +209,7 @@ class CreateVillageMigrations extends Migration
             $table->boolean('is_removable')->default(true);
             $table->boolean('is_primary')->default(false);
             $table->enum('type', (new Margin)->getTypes());
-            $table->decimal('value', 3, 2);
+            $table->decimal('value', 5, 2);
             $table->integer('order')->default(1);
 
             $table->timestamps();
@@ -226,14 +225,14 @@ class CreateVillageMigrations extends Migration
     {
         Schema::drop('village__margins');
         Schema::drop('village__options');
-        
+
         Schema::drop('village__survey_votes');
         Schema::drop('village__surveys');
-        
+
         Schema::drop('village__product_orders');
         Schema::drop('village__products');
         Schema::drop('village__product_categories');
-        
+
         Schema::drop('village__service_orders');
         Schema::drop('village__services');
         Schema::drop('village__service_categories');

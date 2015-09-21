@@ -9,7 +9,7 @@ class Token extends Model
 	const TYPE_CREATE = 'create';
 
     protected $table = 'village__tokens';
-    public $translatedAttributes = [];
+
     protected $fillable = ['code', 'phone', 'type'];
 
     /**

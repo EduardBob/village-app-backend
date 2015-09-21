@@ -36,6 +36,8 @@ return [
         'permissions',
         'first_name',
         'last_name',
-        'profile',
+        'phone',
+        'building_id',
+//        'activated',
     ],
 ];

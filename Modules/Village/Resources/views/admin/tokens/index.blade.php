@@ -28,8 +28,8 @@
                     <table class="data-table table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
-                            <th>{{ trans('core::core.table.actions') }}</th>
+                            <th>{{ $admin->trans('table.created_at') }}</th>
+                            <th>{{ $admin->trans('table.actions') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -53,8 +53,8 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
-                            <th>{{ trans('core::core.table.actions') }}</th>
+                            <th>{{ $admin->trans('table.created_at') }}</th>
+                            <th>{{ $admin->trans('table.actions') }}</th>
                         </tr>
                         </tfoot>
                     </table>

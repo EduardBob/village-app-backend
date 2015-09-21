@@ -35,6 +35,7 @@ class ProductCategoryController extends AdminController
 
         return Validator::make($data, [
             'title' => "required|max:255|unique:village__product_categories,title,{$productCategoryId}",
+            'active' => "required|boolean",
         ]);
     }
 }

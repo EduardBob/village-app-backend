@@ -38,6 +38,11 @@ class Handler extends ExceptionHandler
         if (config('app.debug') && class_exists('\Whoops\Run')) {
             return $this->renderExceptionWithWhoops($e);
         }
+        if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
+            return response()->json(['token_expired'], $e->getStatusCode());
+        } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
+            return response()->json(['token_invalid'], $e->getStatusCode());
+        }
 
         return parent::render($request, $e);
     }

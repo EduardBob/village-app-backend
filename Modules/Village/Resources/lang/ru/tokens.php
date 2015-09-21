@@ -10,6 +10,8 @@ return [
         'create token' => 'Create a token',
     ],
     'table' => [
+        'created_at' => 'Создан',
+        'actions' => 'Действия',
     ],
     'form' => [
     ],

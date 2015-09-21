@@ -19,14 +19,16 @@ return [
         'phone' => 'Телефон',
         'price' => 'Цена',
         'status' => 'Статус',
-        'profile' => 'Пользователь',
-        'decline_reason' => 'Причина отказа (от администратора)'
+        'user' => 'Пользователь',
+        'decline_reason' => 'Причина отказа (от администратора)',
+        'created_at' => 'Создан',
+        'actions' => 'Действия',
     ],
     'form' => [
         'service' => [
             'placeholder' => 'Не выбран'
         ],
-        'profile' => [
+        'user' => [
             'placeholder' => 'Не выбран'
         ],
         'status' => [

@@ -13,7 +13,9 @@ return [
     ],
     'table' => [
         'address' => 'Адрес',
-        'code' => 'Код'
+        'code' => 'Код',
+        'created_at' => 'Создана',
+        'actions' => 'Действия',
     ],
     'form' => [
         'address' => 'Адрес',

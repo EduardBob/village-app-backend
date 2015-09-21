@@ -1,20 +1,20 @@
 <div class="box-body">
     <div class="row">
         <div class="col-sm-4">
-            <div class="form-group{{ $errors->has('service') ? ' has-error' : '' }}">
-                {!! Form::label('service', $admin->trans('table.service')) !!}
-                {!! Form::select('service', (new Modules\Village\Entities\Service)->lists('title', 'id'),
-                Input::old('service', @$model->service->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.service.placeholder')]) !!}
-                {!! $errors->first('service', '<span class="help-block">:message</span>') !!}
+            <div class="form-group{{ $errors->has('service_id') ? ' has-error' : '' }}">
+                {!! Form::label('service_id', $admin->trans('table.service')) !!}
+                {!! Form::select('service_id', (new Modules\Village\Entities\Service)->lists('title', 'id'),
+                Input::old('service_id', @$model->service->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.service.placeholder')]) !!}
+                {!! $errors->first('service_id', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
 
         <div class="col-sm-4">
-            <div class="form-group{{ $errors->has('profile') ? ' has-error' : '' }}">
-                {!! Form::label('profile', $admin->trans('table.profile')) !!}
-                {!! Form::select('profile', (new Modules\Village\Entities\Profile)->getList(),
-                Input::old('profile', @$model->profile->user->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.profile.placeholder')]) !!}
-                {!! $errors->first('profile', '<span class="help-block">:message</span>') !!}
+            <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
+                {!! Form::label('user_id', $admin->trans('table.user')) !!}
+                {!! Form::select('user_id', (new Modules\Village\Entities\User)->getList(),
+                Input::old('user_id', @$model->user->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.user.placeholder')]) !!}
+                {!! $errors->first('user_id', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
 

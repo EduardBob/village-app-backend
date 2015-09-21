@@ -30,9 +30,9 @@ class SurveyVoteController extends AdminController
     static function validate(array $data)
     {
         return Validator::make($data, [
-            'profile' => 'required|exists:village__profiles,id',
+            'user' => 'required|exists:users,id',
             'survey' => 'required|exists:village__surveys,id',
-            'choice' => 'required|integer|min:1',
+            'choice' => 'required|integer|min:0',
         ]);
     }
 }

@@ -1,12 +1,10 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Modules\Village\Entities\ServiceOrder;
 use Modules\Village\Repositories\ServiceOrderRepository;
 
 use Modules\Village\Entities\Service;
-use Modules\User\Entities\Sentinel\User;
 use Validator;
 
 class ServiceOrderController extends AdminController
@@ -38,29 +36,6 @@ class ServiceOrderController extends AdminController
     }
 
     /**
-     * @param Model   $model
-     * @param Request $request
-     */
-    public function preStore(Model $model, Request $request)
-    {
-        $service = Service::find($request['service']);
-        $user = User::find($request['profile']);
-
-        /** @var ServiceOrder $model */
-        $model->service()->associate($service);
-        $model->profile()->associate($user->profile());
-    }
-
-    /**
-     * @param Model   $model
-     * @param Request $request
-     */
-    public function preUpdate(Model $model, Request $request)
-    {
-        $this->preStore($model, $request);
-    }
-
-    /**
      * @param array $data
      *
      * @return Validator
@@ -68,12 +43,12 @@ class ServiceOrderController extends AdminController
     static function validate(array $data)
     {
         return Validator::make($data, [
+            'user_id' => 'required|exists:users,id',
+            'service_id' => 'required|exists:village__services,id',
             'perform_at' => 'required|date|date_format:'.config('village.date.format'),
             'status' => 'required|in:'.implode(',', config('village.order.statuses')),
             'comment' => 'sometimes|required|string',
             'decline_reason' => 'sometimes|required_if:status,rejected|string',
-            'profile' => 'required|exists:village__profiles,id',
-            'service' => 'required|exists:village__services,id'
         ]);
     }
 }

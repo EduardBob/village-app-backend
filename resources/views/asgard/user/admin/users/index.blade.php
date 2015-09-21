@@ -30,13 +30,14 @@
                         <tr>
                             <th>{{ trans('user::users.table.first-name') }}</th>
                             <th>{{ trans('user::users.table.last-name') }}</th>
-                            <th>{{ trans('village::profiles.table.phone') }}</th>
+                            <th>{{ trans('village::users.table.phone') }}</th>
                             <th>{{ trans('village::buildings.table.address') }}</th>
                             <th>{{ trans('user::users.table.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php if (isset($users)): ?>
+                        <?php $users = $users->load(['building']); ?>
                         <?php foreach ($users as $user): ?>
                             <tr>
                                 <td>
@@ -50,15 +51,15 @@
                                     </a>
                                 </td>
                                 <td>
-                                    @if ($user->profile())
+                                    @if ($user->phone)
                                         <a href="{{ URL::route('admin.user.user.edit', [$user->id]) }}">
-                                            {{ $user->profile()->phone }}
+                                            {{ $user->phone }}
                                         </a>
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($user->profile() && $user->profile()->building()->first())
-                                        {{ $user->profile()->building()->first()->address }}
+                                    @if ($user->building)
+                                        {{ $user->building->address }}
                                     @endif
                                 </td>
                                 <td>
@@ -77,7 +78,7 @@
                         <tr>
                             <th>{{ trans('user::users.table.first-name') }}</th>
                             <th>{{ trans('user::users.table.last-name') }}</th>
-                            <th>{{ trans('village::profiles.table.phone') }}</th>
+                            <th>{{ trans('village::users.table.phone') }}</th>
                             <th>{{ trans('village::buildings.table.address') }}</th>
                             <th>{{ trans('user::users.table.actions') }}</th>
                         </tr>

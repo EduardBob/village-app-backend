@@ -10,12 +10,12 @@
         <th>{{ $admin->trans('table.name') }}</th>
         <th>{{ $admin->trans('table.phone') }}</th>
         <th>{{ $admin->trans('table.status') }}</th>
-        <th>{{ trans('core::core.table.actions') }}</th>
+        <th>{{ $admin->trans('table.actions') }}</th>
     </tr>
     </thead>
     <tbody>
     <?php if (isset($collection)): ?>
-    <?php foreach ($collection as $model): ?>
+    <?php foreach ($collection->load(['product', 'user', 'user.building']) as $model): ?>
     <tr>
         <td>
             <a href="{{ $admin->route('edit', [$model->id]) }}">
@@ -31,7 +31,11 @@
             {{ $model->quantity }}
         </td>
         <td>
-            {{ $model->profile->building->address }}
+            @if ($model->user->building)
+                <a href="{{ route('admin.village.building.edit', [$model->user->building->id]) }}">
+                    {{ $model->user->building->address }}
+                </a>
+            @endif
         </td>
         <td>
             {!! Carbon\Carbon::parse($model->perform_at)->format(config('village.date.format')) !!}
@@ -40,19 +44,19 @@
             {{ $model->price }}
         </td>
         <td>
-            @if ($model->profile)
-                <a href="{{ route('admin.user.user.edit', [$model->profile->user->id]) }}">
-                    {{ $model->profile->user->first_name }} {{ $model->profile->user->last_name }}
+            @if ($model->user)
+                <a href="{{ route('admin.user.user.edit', [$model->user->id]) }}">
+                    {{ $model->user->first_name }} {{ $model->user->last_name }}
                 </a>
             @endif
         </td>
         <td>
-            @if ($model->profile)
-                {{ $model->profile->phone }}
+            @if ($model->user)
+                {{ $model->user->phone }}
             @endif
         </td>
         <td>
-            {{ $admin->trans('form.status.values.'.$model->status) }}
+            <span class="label label-{{ config('village.order.label.'.$model->status) }}">{{ $admin->trans('form.status.values.'.$model->status) }}</span>
         </td>
         <td>
             <div class="btn-group">
@@ -74,7 +78,7 @@
         <th>{{ $admin->trans('table.name') }}</th>
         <th>{{ $admin->trans('table.phone') }}</th>
         <th>{{ $admin->trans('table.status') }}</th>
-        <th>{{ trans('core::core.table.actions') }}</th>
+        <th>{{ $admin->trans('table.actions') }}</th>
     </tr>
     </tfoot>
 </table>

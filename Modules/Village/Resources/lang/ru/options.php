@@ -10,6 +10,8 @@ return [
         'create option' => 'Добавить опцию',
     ],
     'table' => [
+        'created_at' => 'Создана',
+        'actions' => 'Действия',
     ],
     'form' => [
     ],

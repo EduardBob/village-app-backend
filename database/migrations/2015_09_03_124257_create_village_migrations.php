@@ -6,8 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 use Modules\Village\Entities\Margin;
 use Modules\Village\Entities\Token;
 
-use Modules\Village\Entities\Profile;
-
 class CreateVillageMigrations extends Migration
 {
     /**
@@ -17,32 +15,30 @@ class CreateVillageMigrations extends Migration
      */
     public function up()
     {
-        Schema::create('village__buildings', function(Blueprint $table)
-        {
-            $table->increments('id');
+        if (!Schema::hasTable('village__buildings')) {
+            Schema::create('village__buildings', function(Blueprint $table)
+            {
+                $table->increments('id');
 
-            $table->string('address')->unique();
-            $table->string('code')->unique();
+                $table->string('address')->unique();
+                $table->string('code')->unique();
 
-            $table->timestamps();
-        });
+                $table->timestamps();
+            });
+        }
 
+        if (Schema::hasTable('users')) {
+            Schema::table('users', function(Blueprint $table) {
+                if (!Schema::hasColumn('users', 'phone')) {
+                    $table->string('phone')->unique();
+                }
 
-        Schema::create('village__profiles', function(Blueprint $table) {
-            $table->increments('id');
-
-            $table->boolean('activated')->default(false);
-            $table->string('phone')->unique();
-
-            $table->integer('building_id')->nullable()->unsigned();
-            $table->foreign('building_id')->references('id')->on('village__buildings')->onDelete('SET NULL');
-
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-            $table->timestamps();
-        });
-
+                if (!Schema::hasColumn('users', 'building_id')) {
+                    $table->integer('building_id')->nullable()->unsigned();
+                    $table->foreign('building_id')->references('id')->on('village__buildings')->onDelete('SET NULL');
+                }
+            });
+        }
 
         Schema::create('village__tokens', function(Blueprint $table)
         {
@@ -63,6 +59,7 @@ class CreateVillageMigrations extends Migration
             $table->string('title');
             $table->text('text');
             $table->text('short');
+            $table->boolean('active')->default(true);
 
             $table->timestamps();
         });
@@ -103,9 +100,10 @@ class CreateVillageMigrations extends Migration
             $table->integer('service_id')->unsigned();
             $table->foreign('service_id')->references('id')->on('village__services');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('village__profiles');
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->dateTime('perform_at');
+            $table->decimal('price', 10, 2);
             $table->text('comment')->nullable();
             $table->enum('status', config('village.order.statuses'))->default(config('village.order.statuses')[0]);
             $table->text('decline_reason')->nullable();
@@ -150,7 +148,7 @@ class CreateVillageMigrations extends Migration
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('village__products');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('village__profiles');
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->dateTime('perform_at');
             $table->decimal('price', 10, 2);
@@ -170,6 +168,7 @@ class CreateVillageMigrations extends Migration
             $table->string('title');
             $table->json('options');
             $table->dateTime('ends_at');
+            $table->boolean('active')->default(true);
 
             $table->timestamps();
         });
@@ -180,7 +179,7 @@ class CreateVillageMigrations extends Migration
             $table->increments('id');
 
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('village__profiles');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->integer('survey_id')->unsigned();
             $table->foreign('survey_id')->references('id')->on('village__surveys');
 
@@ -240,7 +239,12 @@ class CreateVillageMigrations extends Migration
         Schema::drop('village__articles');
         Schema::drop('village__tokens');
 
-        Schema::drop('village__profiles');
+        Schema::table('users', function(Blueprint $table) {
+            if (Schema::hasColumn('users', 'building_id')) {
+                $table->dropForeign('users_building_id_foreign');
+                $table->dropColumn('building_id');
+            }
+        });
 
         Schema::drop('village__buildings');
     }

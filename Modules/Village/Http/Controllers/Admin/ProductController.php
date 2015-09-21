@@ -27,25 +27,6 @@ class ProductController extends AdminController
     }
 
     /**
-     * @param Model   $model
-     * @param Request $request
-     */
-    public function preStore(Model $model, Request $request)
-    {
-        $category = ProductCategory::find($request['category']);
-        $model->category()->associate($category);
-    }
-
-    /**
-     * @param Model   $model
-     * @param Request $request
-     */
-    public function preUpdate(Model $model, Request $request)
-    {
-        $this->preStore($model, $request);
-    }
-
-    /**
      * @param array   $data
      * @param Product $product
      *
@@ -56,9 +37,10 @@ class ProductController extends AdminController
         $productId = $product ? $product->id : '';
 
         return Validator::make($data, [
+            'category_id' => 'required|exists:village__product_categories,id',
             'title' => "required|max:255|unique:village__products,title,{$productId}",
-            'category' => 'required|exists:village__product_categories,id',
-            'price' => 'required|numeric|min:1'
+            'price' => 'required|numeric|min:1',
+            'active' => "required|boolean",
         ]);
     }
 }

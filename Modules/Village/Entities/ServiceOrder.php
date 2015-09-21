@@ -5,16 +5,24 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceOrder extends Model
 {
     protected $table = 'village__service_orders';
-    public $translatedAttributes = [];
-    protected $fillable = ['status', 'perform_at', 'price', 'comment', 'decline_reason'];
+    protected $fillable = ['user_id', 'service_id', 'status', 'perform_at', 'comment', 'decline_reason'];
 
     public function service()
     {
     	return $this->belongsTo('Modules\Village\Entities\Service', 'service_id');
     }
 
-    public function profile()
+    public function user()
     {
-    	return $this->belongsTo('Modules\Village\Entities\Profile', 'user_id');
+        return $this->belongsTo('Modules\User\Entities\Sentinel\User', 'user_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function(ServiceOrder $serviceOrder) {
+            $serviceOrder->price = $serviceOrder->service->price;
+        });
     }
 }

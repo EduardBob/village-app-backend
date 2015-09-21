@@ -5,8 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 class Survey extends Model
 {
     protected $table = 'village__surveys';
-    public $translatedAttributes = [];
-    protected $fillable = ['title', 'options', 'ends_at'];
+
+    protected $fillable = ['title', 'options', 'ends_at', 'active'];
 
     public function votes()
     {

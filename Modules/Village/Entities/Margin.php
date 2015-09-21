@@ -12,7 +12,7 @@ class Margin extends Model
 	const TYPE_CASH = 'cash';
 
     protected $table = 'village__margins';
-    public $translatedAttributes = [];
+
     protected $fillable = ['type', 'value', 'title', 'order', 'is_removable'];
 
     /**

@@ -7,8 +7,8 @@ use DB;
 class Product extends Model
 {
     protected $table = 'village__products';
-    public $translatedAttributes = [];
-    protected $fillable = ['title', 'price', 'image', 'decline_reason', 'comment'];
+
+    protected $fillable = ['category_id', 'title', 'price', 'image', 'decline_reason', 'comment', 'active'];
 
     public function category()
     {

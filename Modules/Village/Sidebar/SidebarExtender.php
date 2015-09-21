@@ -124,6 +124,16 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                 );
             });
 
+            $group->item(trans('village::articles.title.module'), function (Item $item) {
+                $item->icon('fa fa-money');
+                $item->weight(3);
+                $item->append('admin.village.article.create');
+                $item->route('admin.village.article.index');
+                $item->authorize(
+                    $this->auth->hasAccess('village.articles.index')
+                );
+            });
+
             $group->item(trans('village::surveys.title.module'), function (Item $item) {
                 $item->icon('fa fa-list-alt');
                 $item->weight(4);

@@ -77,10 +77,15 @@ return [
         'daterangepicker.js' => ['theme' => 'vendor/admin-lte/plugins/daterangepicker/daterangepicker.js'],
         'selectize.js' => ['module' => 'core:vendor/selectize/dist/js/standalone/selectize.min.js'],
         'sisyphus.js' => ['theme' => 'vendor/sisyphus/sisyphus.min.js'],
+        'jquery.inputmask.js' => ['theme' => 'vendor/admin-lte/plugins/input-mask/jquery.inputmask.js'],
+        'jquery.inputmask.extensions.js' => ['theme' => 'vendor/admin-lte/plugins/input-mask/jquery.inputmask.extensions.js'],
+        'jquery.inputmask.date.extensions.js' => ['theme' => 'vendor/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions.js'],
+        'jquery.inputmask.numeric.extensions.js' => ['theme' => 'vendor/admin-lte/plugins/input-mask/jquery.inputmask.numeric.extensions.js'],
+        'jquery.inputmask.phone.extensions.js' => ['theme' => 'vendor/admin-lte/plugins/input-mask/jquery.inputmask.phone.extensions.js'],
+        'jquery.inputmask.regex.extensions.js' => ['theme' => 'vendor/admin-lte/plugins/input-mask/jquery.inputmask.regex.extensions.js'],
         'main.js' => ['theme' => 'js/main.js'],
         'chart.js' => ['theme' => 'vendor/admin-lte/plugins/chartjs/Chart.js'],
     ],
-
    /*
    |--------------------------------------------------------------------------
    | Define which default assets will always be included in your pages
@@ -108,6 +113,12 @@ return [
            'dataTables.bootstrap.js',
            'jquery.slug.js',
            'keypressAction.js',
+           'jquery.inputmask.js',
+           'jquery.inputmask.extensions.js',
+           'jquery.inputmask.date.extensions.js',
+           'jquery.inputmask.numeric.extensions.js',
+           'jquery.inputmask.phone.extensions.js',
+           'jquery.inputmask.regex.extensions.js',
            'app.js',
            'main.js',
            'sisyphus.js',

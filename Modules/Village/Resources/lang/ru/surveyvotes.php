@@ -2,16 +2,27 @@
 
 return [
     'title' => [
-        'surveyvotes' => 'SurveyVote',
-        'create surveyvote' => 'Create a surveyvote',
-        'edit surveyvote' => 'Edit a surveyvote',
+        'model' => 'Голос опроса',
+        'module' => 'Голоса опросов',
+        'create' => 'Добваить голос',
+        'edit' => 'Изменить голос',
     ],
     'button' => [
-        'create surveyvote' => 'Create a surveyvote',
+        'create' => 'Добваить голос',
     ],
     'table' => [
+        'id' => 'ID',
+        'survey' => 'Текст опроса',
+        'profile' => 'ФИО',
+        'choice' => 'Номер ответа',
     ],
     'form' => [
+        'survey' => [
+            'placeholder' => 'Не выбран'
+        ],
+        'profile' => [
+            'placeholder' => 'Не выбран'
+        ],
     ],
     'messages' => [
     ],

@@ -105,7 +105,7 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
 
                 $item->item(trans('village::productcategories.title.module'), function (Item $item) {
                     $item->icon('fa fa-list');
-                    $item->weight(0);
+                    $item->weight(5);
                     $item->append('admin.village.productcategory.create');
                     $item->route('admin.village.productcategory.index');
                     $item->authorize(
@@ -122,6 +122,33 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                 $item->authorize(
                     $this->auth->hasAccess('village.margins.index')
                 );
+            });
+
+            $group->item(trans('village::surveys.title.module'), function (Item $item) {
+                $item->icon('fa fa-list-alt');
+                $item->weight(4);
+                $item->authorize(
+                );
+
+                $item->item(trans('village::surveyvotes.title.module'), function (Item $item) {
+                    $item->icon('fa fa-list');
+                    $item->weight(5);
+                    $item->append('admin.village.surveyvote.create');
+                    $item->route('admin.village.surveyvote.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('village.surveyvotes.index')
+                    );
+                });
+
+                $item->item(trans('village::surveys.title.module'), function (Item $item) {
+                    $item->icon('fa fa-cube');
+                    $item->weight(5);
+                    $item->append('admin.village.survey.create');
+                    $item->route('admin.village.survey.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('village.surveys.index')
+                    );
+                });
             });
         });
 

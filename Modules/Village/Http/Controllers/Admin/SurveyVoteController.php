@@ -1,101 +1,38 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Laracasts\Flash\Flash;
-use Illuminate\Http\Request;
 use Modules\Village\Entities\SurveyVote;
 use Modules\Village\Repositories\SurveyVoteRepository;
-use Modules\Core\Http\Controllers\Admin\AdminBaseController;
+use Validator;
 
-class SurveyVoteController extends AdminBaseController
+class SurveyVoteController extends AdminController
 {
     /**
-     * @var SurveyVoteRepository
+     * @param SurveyVoteRepository $surveyVote
      */
-    private $surveyVote;
-
     public function __construct(SurveyVoteRepository $surveyVote)
     {
-        parent::__construct();
-
-        $this->surveyVote = $surveyVote;
+        parent::__construct($surveyVote, SurveyVote::class);
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return string
      */
-    public function index()
+    public function getViewName()
     {
-        //$surveyVotes = $this->surveyVote->all();
-
-        return view('village::admin.surveyvotes.index', compact(''));
+        return 'surveyvotes';
     }
 
     /**
-     * Show the form for creating a new resource.
+     * @param array $data
      *
-     * @return Response
+     * @return Validator
      */
-    public function create()
+    static function validate(array $data)
     {
-        return view('village::admin.surveyvotes.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        $this->surveyVote->create($request->all());
-
-        flash()->success(trans('core::core.messages.resource created', ['name' => trans('village::surveyvotes.title.surveyvotes')]));
-
-        return redirect()->route('admin.village.surveyvote.index');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  SurveyVote $surveyVote
-     * @return Response
-     */
-    public function edit(SurveyVote $surveyVote)
-    {
-        return view('village::admin.surveyvotes.edit', compact('surveyvote'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  SurveyVote $surveyVote
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(SurveyVote $surveyVote, Request $request)
-    {
-        $this->surveyVote->update($surveyVote, $request->all());
-
-        flash()->success(trans('core::core.messages.resource updated', ['name' => trans('village::surveyvotes.title.surveyvotes')]));
-
-        return redirect()->route('admin.village.surveyvote.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  SurveyVote $surveyVote
-     * @return Response
-     */
-    public function destroy(SurveyVote $surveyVote)
-    {
-        $this->surveyVote->destroy($surveyVote);
-
-        flash()->success(trans('core::core.messages.resource deleted', ['name' => trans('village::surveyvotes.title.surveyvotes')]));
-
-        return redirect()->route('admin.village.surveyvote.index');
+        return Validator::make($data, [
+            'profile' => 'required|exists:village__profiles,id',
+            'survey' => 'required|exists:village__surveys,id',
+            'choice' => 'required|integer|min:1',
+        ]);
     }
 }

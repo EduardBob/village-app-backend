@@ -6,7 +6,7 @@ class SurveyVote extends Model
 {
     protected $table = 'village__survey_votes';
     public $translatedAttributes = [];
-    protected $fillable = ['user_id', 'survey_id', 'choice'];
+    protected $fillable = ['choice'];
 
     public function survey()
     {
@@ -15,6 +15,6 @@ class SurveyVote extends Model
 
     public function profile()
     {
-    	return $this->belongsTo('Modules\Village\Entities\Profile');
+        return $this->belongsTo('Modules\Village\Entities\Profile', 'user_id');
     }
 }

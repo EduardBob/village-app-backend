@@ -2,14 +2,17 @@
 
 return [
     'title' => [
-        'surveys' => 'Survey',
-        'create survey' => 'Create a survey',
-        'edit survey' => 'Edit a survey',
+        'model' => 'Опрос',
+        'module' => 'Опросы',
+        'create' => 'Создать опрос',
+        'edit' => 'Редактировать опрос',
     ],
     'button' => [
-        'create survey' => 'Create a survey',
+        'create' => 'Создать опрос',
     ],
     'table' => [
+        'title' => 'Текст опроса',
+        'ends_at' => 'Дата окончания'
     ],
     'form' => [
     ],

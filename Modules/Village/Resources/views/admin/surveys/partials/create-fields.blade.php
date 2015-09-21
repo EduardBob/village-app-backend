@@ -1,5 +1,1 @@
-<div class="box-body">
-    <p>
-        Your fields //
-    </p>
-</div>
+@include($admin->getView('partials.edit-fields'))

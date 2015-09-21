@@ -5,11 +5,23 @@ use Illuminate\Database\Eloquent\Model;
 class Survey extends Model
 {
     protected $table = 'village__surveys';
-    public $translatedAttributes = [];
-    protected $fillable = ['title', 'options', 'ends_at'];
+
+    protected $fillable = ['title', 'options', 'ends_at', 'active'];
 
     public function votes()
     {
     	return $this->hasMany('Modules\Village\Entities\SurveyVote');
+    }
+
+    /**
+     * @return $this
+     */
+    static public function getCurrent()
+    {
+        return static
+            ::where(['active' => 1])
+            ->where('ends_at', '<', date('Y-m-d H:i:s'))
+            ->orderBy('id', 'desc')
+            ->first();
     }
 }

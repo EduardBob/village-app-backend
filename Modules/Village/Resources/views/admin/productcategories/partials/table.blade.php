@@ -2,7 +2,8 @@
     <thead>
     <tr>
         <th>{{ $admin->trans('table.title') }}</th>
-        <th>{{ trans('core::core.table.actions') }}</th>
+        <th>{{ $admin->trans('table.active') }}</th>
+        <th>{{ $admin->trans('table.actions') }}</th>
     </tr>
     </thead>
     <tbody>
@@ -13,6 +14,13 @@
             <a href="{{ $admin->route('edit', [$model->id]) }}">
                 {{ $model->title }}
             </a>
+        </td>
+        <td>
+            @if($model->active)
+                <span class="label label-success">{{ trans('village::admin.table.active.yes') }}</span>
+            @else
+                <span class="label label-danger">{{ trans('village::admin.table.active.no') }}</span>
+            @endif
         </td>
         <td>
             <div class="btn-group">
@@ -27,7 +35,8 @@
     <tfoot>
     <tr>
         <th>{{ $admin->trans('table.title') }}</th>
-        <th>{{ trans('core::core.table.actions') }}</th>
+        <th>{{ $admin->trans('table.active') }}</th>
+        <th>{{ $admin->trans('table.actions') }}</th>
     </tr>
     </tfoot>
 </table>

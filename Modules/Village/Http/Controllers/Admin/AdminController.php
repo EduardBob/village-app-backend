@@ -252,7 +252,8 @@ abstract class AdminController extends AdminBaseController
      *
      * @return \Illuminate\Validation\Validator
      */
-    public static function validate(array $data)
+    static public function validate(array $data)
     {
+        throw new \RuntimeException('method must be implemented');
     }
 }

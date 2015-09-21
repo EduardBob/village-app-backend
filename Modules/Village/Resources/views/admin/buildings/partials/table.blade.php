@@ -3,7 +3,7 @@
     <tr>
         <th>{{ $admin->trans('table.address') }}</th>
         <th>{{ $admin->trans('table.code') }}</th>
-        <th>{{ trans('core::core.table.actions') }}</th>
+        <th>{{ $admin->trans('table.actions') }}</th>
     </tr>
     </thead>
     <tbody>
@@ -32,7 +32,7 @@
     <tr>
         <th>{{ $admin->trans('table.address') }}</th>
         <th>{{ $admin->trans('table.code') }}</th>
-        <th>{{ trans('core::core.table.actions') }}</th>
+        <th>{{ $admin->trans('table.actions') }}</th>
     </tr>
     </tfoot>
 </table>

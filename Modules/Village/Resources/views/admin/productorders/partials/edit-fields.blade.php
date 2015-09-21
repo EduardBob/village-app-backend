@@ -1,20 +1,20 @@
 <div class="box-body">
     <div class="row">
         <div class="col-sm-4">
-            <div class="form-group{{ $errors->has('product') ? ' has-error' : '' }}">
-                {!! Form::label('product', $admin->trans('table.product')) !!}
-                {!! Form::select('product', (new Modules\Village\Entities\Product)->lists('title', 'id'),
-                Input::old('product', @$model->product->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.product.placeholder')]) !!}
-                {!! $errors->first('product', '<span class="help-block">:message</span>') !!}
+            <div class="form-group{{ $errors->has('product_id') ? ' has-error' : '' }}">
+                {!! Form::label('product_id', $admin->trans('table.product')) !!}
+                {!! Form::select('product_id', (new Modules\Village\Entities\Product)->lists('title', 'id'),
+                Input::old('product_id', @$model->product->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.product.placeholder')]) !!}
+                {!! $errors->first('product_id', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
 
         <div class="col-sm-4">
-            <div class="form-group{{ $errors->has('profile') ? ' has-error' : '' }}">
-                {!! Form::label('profile', $admin->trans('table.profile')) !!}
-                {!! Form::select('profile', (new Modules\Village\Entities\Profile)->getList(),
-                Input::old('profile', @$model->profile->user->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.profile.placeholder')]) !!}
-                {!! $errors->first('profile', '<span class="help-block">:message</span>') !!}
+            <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
+                {!! Form::label('user_id', $admin->trans('table.user')) !!}
+                {!! Form::select('user_id', (new Modules\Village\Entities\User)->getList(),
+                Input::old('user_id', @$model->user->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.user.placeholder')]) !!}
+                {!! $errors->first('user_id', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
 
@@ -32,6 +32,14 @@
         	    {!! Form::text('quantity', Input::old('quantity', @$model->quantity), ['class' => 'form-control']) !!}
         	    {!! $errors->first('quantity', '<span class="help-block">:message</span>') !!}
         	</div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group{{ $errors->has('comment') ? ' has-error' : '' }}">
+                {!! Form::label('comment', $admin->trans('table.comment')) !!}
+                {!! Form::textarea('comment', Input::old('comment', @$model->comment), ['class' => 'form-control']) !!}
+                {!! $errors->first('comment', '<span class="help-block">:message</span>') !!}
+            </div>
         </div>
 
         <?php if (isset($model)): ?>

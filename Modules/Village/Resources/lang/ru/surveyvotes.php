@@ -13,14 +13,16 @@ return [
     'table' => [
         'id' => 'ID',
         'survey' => 'Текст опроса',
-        'profile' => 'ФИО',
+        'user' => 'ФИО',
         'choice' => 'Номер ответа',
+        'created_at' => 'Добевлен',
+        'actions' => 'Действия',
     ],
     'form' => [
         'survey' => [
             'placeholder' => 'Не выбран'
         ],
-        'profile' => [
+        'user' => [
             'placeholder' => 'Не выбран'
         ],
     ],

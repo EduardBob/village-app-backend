@@ -34,6 +34,7 @@ class SurveyController extends AdminController
         return Validator::make($data, [
             'title' => "required|max:255",
             'ends_at' => 'required|date|date_format:'.config('village.date.format'),
+            'active' => "required|boolean",
         ]);
     }
 }

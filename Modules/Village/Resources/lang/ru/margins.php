@@ -16,6 +16,8 @@ return [
         'type' => 'Тип',
         'is_removable' => 'Удаляемая ?',
         'order' => 'Порядок выполнения',
+        'created_at' => 'Создана',
+        'actions' => 'Действия',
     ],
     'form' => [
         'type' => [

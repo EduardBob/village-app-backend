@@ -105,14 +105,6 @@ return [
         'update',
         'destroy',
     ],
-    'village.profiles' => [
-        'index',
-        'create',
-        'store',
-        'edit',
-        'update',
-        'destroy',
-    ],
 // append
 
 

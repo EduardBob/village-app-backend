@@ -15,19 +15,22 @@ return [
         'product' => 'Продукт',
         'quantity' => 'Кол-во',
         'address' => 'Адрес',
-        'perform_at' => 'Perform at',
+        'perform_at' => 'Исполнить в',
         'price' => 'Цена',
-        'profile' => 'Пользователь',
+        'user' => 'Пользователь',
         'status' => 'Статус',
-        'decline_reason' => 'Причина отказа',
         'name' => 'ФИО',
-        'phone' => 'Телефон'
+        'phone' => 'Телефон',
+        'comment' => 'Заметка покупателя',
+        'decline_reason' => 'Причина отказа',
+        'created_at' => 'Создан',
+        'actions' => 'Действия',
     ],
     'form' => [
         'product' => [
             'placeholder' => 'Не выбран'
         ],
-        'profile' => [
+        'user' => [
             'placeholder' => 'Не выбран'
         ],
         'status' => [

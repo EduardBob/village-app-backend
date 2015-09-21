@@ -8,11 +8,11 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="form-group{{ $errors->has('category') ? ' has-error' : '' }}">
-                {!! Form::label('category', $admin->trans('table.category')) !!}
-                {!! Form::select('category', (new Modules\Village\Entities\ServiceCategory)->lists('title', 'id'),
-                Input::old('category', @$model->category->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.category.placeholder')]) !!}
-                {!! $errors->first('category', '<span class="help-block">:message</span>') !!}
+            <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
+                {!! Form::label('category_id', $admin->trans('table.category')) !!}
+                {!! Form::select('category_id', (new Modules\Village\Entities\ServiceCategory)->lists('title', 'id'),
+                Input::old('category_id', @$model->category->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.category.placeholder')]) !!}
+                {!! $errors->first('category_id', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
         <div class="col-sm-4">
@@ -20,6 +20,13 @@
                 {!! Form::label('price', $admin->trans('table.price')) !!}
                 {!! Form::text('price', Input::old('price', @$model->price), ['class' => 'form-control', 'placeholder' => $admin->trans('table.price')]) !!}
                 {!! $errors->first('price', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
+                {!! Form::label('active', $admin->trans('table.active')) !!}
+                {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}
+                {!! $errors->first('active', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
     </div>

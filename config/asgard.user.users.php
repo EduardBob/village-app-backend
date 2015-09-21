@@ -14,7 +14,7 @@ return [
     | Define which route to redirect to after a successful login
     |--------------------------------------------------------------------------
     */
-    'redirect_route_after_login' => 'homepage',
+    'redirect_route_after_login' => 'dashboard.index',
     /*
     |--------------------------------------------------------------------------
     | Login column(s)
@@ -22,7 +22,7 @@ return [
     | Define which column(s) you'd like to use to login with, currently
     | only supported by the Sentinel user driver
     */
-    'login-columns' => ['email'],
+    'login-columns' => ['email', 'phone'],
 
     /*
     |--------------------------------------------------------------------------
@@ -36,6 +36,8 @@ return [
         'permissions',
         'first_name',
         'last_name',
-        'profile',
+        'phone',
+        'building_id',
+//        'activated',
     ],
 ];

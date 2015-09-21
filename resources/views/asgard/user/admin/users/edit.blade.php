@@ -13,6 +13,7 @@
 
 @section('styles')
     {!! Theme::style('css/vendor/iCheck/flat/blue.css') !!}
+    {!! Theme::script('vendor/jquery/dist/jquery.min.js') !!}
 @stop
 
 @section('content')
@@ -55,43 +56,51 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group{{ $errors->has('phone') ? ' has-error has-feedback' : '' }}">
-                                    {!! Form::label('phone', trans('village::profiles.form.phone')) !!}
-                                    {!! Form::text('phone', Input::old('phone', @$user->profile()->phone), ['class' => 'form-control', 'placeholder' => trans('village::profiles.form.phone')]) !!}
+                                    {!! Form::label('phone', trans('village::users.form.phone')) !!}
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                                        {!! Form::text('phone', Input::old('phone', @$user->phone), [
+                                            'class' => 'form-control',
+                                            'placeholder' => trans('village::users.form.phone'),
+                                            'data-inputmask' => '"mask": "'.config('village.user.phone.mask').'"',
+                                            'data-mask' => ''
+                                        ]) !!}
+                                    </div>
                                     {!! $errors->first('phone', '<span class="help-block">:message</span>') !!}
                                 </div>
                             </div>
                             <div class="col-sm-8">
                                 <div class="form-group{{ $errors->has('building_id') ? ' has-error has-feedback' : '' }}">
-                                    {!! Form::label('building_id', trans('village::profiles.form.building_id')) !!}
+                                    {!! Form::label('building_id', trans('village::users.form.building_id')) !!}
                                     {!! Form::select(
                                             'building_id', Input::old('id', (new Modules\Village\Entities\Building)->lists('address', 'id')),
-                                            Input::old('building_id', @$user->profile() && @$user->profile()->building()->first()?$user->profile()->building()->first()->id:null),
-                                            ['class' => 'form-control', 'placeholder' => trans('village::profiles.building.placeholder')]
+                                            Input::old('building_id', @$user->building_id),
+                                            ['class' => 'form-control', 'placeholder' => trans('village::users.form.building.placeholder')]
                                         )
                                     !!}
                                     {!! $errors->first('building_id', '<span class="help-block">:message</span>') !!}
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="checkbox{{ $errors->has('activated') ? ' has-error' : '' }}">
-                                    <input type="hidden" value="{{ $user->id === $currentUser->id ? '1' : '0' }}" name="activated"/>
-                                    <?php $oldValue = (bool) $user->isActivated() ? 'checked' : ''; ?>
-                                    <label for="activated">
-                                        <input id="activated"
-                                               name="activated"
-                                               type="checkbox"
-                                               class="flat-blue"
-                                               {{ $user->id === $currentUser->id ? 'disabled' : '' }}
-                                               {{ Input::old('activated', $oldValue) }}
-                                               value="1" />
-                                        {{ trans('user::users.form.status') }}
-                                        {!! $errors->first('activated', '<span class="help-block">:message</span>') !!}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+                        {{--<div class="row">--}}
+                            {{--<div class="col-md-3">--}}
+                                {{--<div class="checkbox{{ $errors->has('activated') ? ' has-error' : '' }}">--}}
+                                    {{--<input type="hidden" value="{{ $user->id === $currentUser->id ? '1' : '0' }}" name="activated"/>--}}
+                                    {{--{{ $oldValue = (bool) $user->isActivated() ? 'checked' : '' }}--}}
+                                    {{--<label for="activated">--}}
+                                        {{--<input id="activated"--}}
+                                               {{--name="activated"--}}
+                                               {{--type="checkbox"--}}
+                                               {{--class="flat-blue"--}}
+                                               {{--{{ $user->id === $currentUser->id ? 'disabled' : '' }}--}}
+                                               {{--{{ Input::old('activated', $oldValue) }}--}}
+                                               {{--value="1" />--}}
+                                        {{--{{ trans('user::users.form.status') }}--}}
+                                        {{--{!! $errors->first('activated', '<span class="help-block">:message</span>') !!}--}}
+                                    {{--</label>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
                     </div>
                 </div>
                 <div class="tab-pane" id="tab_2-2">
@@ -159,8 +168,12 @@
     </dl>
 @stop
 @section('scripts')
+    @parent
+
 <script>
 $( document ).ready(function() {
+    $("[data-mask]").inputmask();
+
     $('[data-toggle="tooltip"]').tooltip();
     $(document).keypressAction({
         actions: [

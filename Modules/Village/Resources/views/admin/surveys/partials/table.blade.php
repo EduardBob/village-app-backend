@@ -4,7 +4,8 @@
         <tr>
             <th>{{ $admin->trans('table.title') }}</th>
             <th>{{ $admin->trans('table.ends_at') }}</th>
-            <th>{{ trans('core::core.table.actions') }}</th>
+            <th>{{ $admin->trans('table.active') }}</th>
+            <th>{{ $admin->trans('table.actions') }}</th>
         </tr>
         @show
     </thead>
@@ -19,6 +20,13 @@
         </td>
         <td>
             {!! Carbon\Carbon::parse($model->ends_at)->format(config('village.date.format')) !!}
+        </td>
+        <td>
+            @if($model->active)
+                <span class="label label-success">{{ trans('village::admin.table.active.yes') }}</span>
+            @else
+                <span class="label label-danger">{{ trans('village::admin.table.active.no') }}</span>
+            @endif
         </td>
         <td>
             <div class="btn-group">

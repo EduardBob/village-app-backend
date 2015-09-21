@@ -41,6 +41,21 @@ $app->singleton(
 	'App\Exceptions\Handler'
 );
 
+$app->bind(
+	\Modules\User\Http\Controllers\Admin\UserController::class,
+	\Modules\Village\Http\Controllers\Admin\UserController::class
+);
+
+$app->bind(
+	\Modules\User\Http\Requests\CreateUserRequest::class,
+	\Modules\Village\Http\Requests\CreateUserRequest::class
+);
+
+$app->bind(
+	\Modules\User\Http\Requests\UpdateUserRequest::class,
+	\Modules\Village\Http\Requests\UpdateUserRequest::class
+);
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

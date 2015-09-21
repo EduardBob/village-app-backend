@@ -83,13 +83,13 @@
     <script type="text/javascript">
         $(function () {
             $('.data-table').dataTable({
-//                "paginate": true,
-//                "lengthChange": true,
-//                "filter": true,
-//                "sort": true,
-//                "info": true,
-//                "autoWidth": true,
-//                "order": [[ 0, "desc" ]],
+                "paginate": true,
+                "lengthChange": true,
+                "filter": true,
+                "sort": true,
+                "info": true,
+                "autoWidth": true,
+                "order": [[ 0, "desc" ]],
                 "language": {
                     "url": '<?php echo Module::asset("core:js/vendor/datatables/{$currentLocale}.json") ?>'
                 }

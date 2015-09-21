@@ -4,7 +4,7 @@
             <th>{{ $admin->trans('table.title') }}</th>
             <th>{{ $admin->trans('table.type') }}</th>
             <th>{{ $admin->trans('table.value') }}</th>
-            <th>{{ trans('core::core.table.actions') }}</th>
+            <th>{{ $admin->trans('table.actions') }}</th>
         </tr>
     </thead>
     <tbody>
@@ -40,7 +40,7 @@
         <th>{{ $admin->trans('table.title') }}</th>
         <th>{{ $admin->trans('table.value') }}</th>
         <th>{{ $admin->trans('table.type') }}</th>
-        <th>{{ trans('core::core.table.actions') }}</th>
+        <th>{{ $admin->trans('table.actions') }}</th>
     </tr>
     </tfoot>
 </table>

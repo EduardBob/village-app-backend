@@ -2,14 +2,14 @@
     <thead>
     <tr>
         <th>{{ $admin->trans('table.survey') }}</th>
-        <th>{{ $admin->trans('table.profile') }}</th>
+        <th>{{ $admin->trans('table.user') }}</th>
         <th>{{ $admin->trans('table.choice') }}</th>
-        <th>{{ trans('core::core.table.actions') }}</th>
+        <th>{{ $admin->trans('table.actions') }}</th>
     </tr>
     </thead>
     <tbody>
     <?php if (isset($collection)): ?>
-    <?php foreach ($collection as $model): ?>
+    <?php foreach ($collection->load(['survey', 'user']) as $model): ?>
     <tr>
         <td>
             @if ($model->survey)
@@ -19,9 +19,9 @@
             @endif
         </td>
         <td>
-            @if ($model->profile)
-                <a href="{{ route('admin.user.user.edit', [$model->profile->user->id]) }}">
-                    {{ $model->profile->user->first_name }} {{ $model->profile->user->last_name }}
+            @if ($model->user)
+                <a href="{{ route('admin.user.user.edit', [$model->user->id]) }}">
+                    {{ $model->user->first_name }} {{ $model->user->last_name }}
                 </a>
             @endif
         </td>
@@ -41,9 +41,9 @@
     <tfoot>
     <tr>
         <th>{{ $admin->trans('table.survey') }}</th>
-        <th>{{ $admin->trans('table.profile') }}</th>
+        <th>{{ $admin->trans('table.user') }}</th>
         <th>{{ $admin->trans('table.choice') }}</th>
-        <th>{{ trans('core::core.table.actions') }}</th>
+        <th>{{ $admin->trans('table.actions') }}</th>
     </tr>
     </tfoot>
 </table>

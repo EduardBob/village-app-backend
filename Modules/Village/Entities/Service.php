@@ -7,12 +7,12 @@ use DB;
 class Service extends Model
 {
     protected $table = 'village__services';
-    public $translatedAttributes = [];
-    protected $fillable = ['title', 'price'];
+
+    protected $fillable = ['category_id', 'title', 'price', 'active'];
 
     public function category()
     {
-    	return $this->belongsTo('Modules\Village\Entities\ServiceCategory');
+    	return $this->belongsTo('Modules\Village\Entities\ServiceCategory', 'category_id');
     }
 
     public function orders()

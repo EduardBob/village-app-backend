@@ -14,6 +14,9 @@ return [
         'title' => 'Название',
         'category' => 'Категория',
         'price' => 'Цена',
+        'active' => 'Доступен',
+        'created_at' => 'Создан',
+        'actions' => 'Действия',
     ],
     'form' => [
         'category' => [

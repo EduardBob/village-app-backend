@@ -189,32 +189,5 @@ class VillageServiceProvider extends ServiceProvider
                 return new \Modules\Village\Repositories\Cache\CacheTokenDecorator($repository);
             }
         );
-        $this->app->bind(
-            'Modules\Village\Repositories\ProfileRepository',
-            function () {
-                $repository = new \Modules\Village\Repositories\Eloquent\EloquentProfileRepository(new \Modules\Village\Entities\Profile());
-
-                if (! config('app.cache')) {
-                    return $repository;
-                }
-
-                return new \Modules\Village\Repositories\Cache\CacheProfileDecorator($repository);
-            }
-        );
-// add bindings
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

@@ -147,17 +147,17 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
             'update' => 'admin.village.token.update',
             'destroy' => 'admin.village.token.destroy',
         ]]);
-        $router->bind('profiles', function ($id) {
-            return app('Modules\Village\Repositories\ProfileRepository')->find($id);
-        });
-        $router->resource('profiles', 'ProfileController', ['except' => ['show'], 'names' => [
-            'index' => 'admin.village.profile.index',
-            'create' => 'admin.village.profile.create',
-            'store' => 'admin.village.profile.store',
-            'edit' => 'admin.village.profile.edit',
-            'update' => 'admin.village.profile.update',
-            'destroy' => 'admin.village.profile.destroy',
-        ]]);
+//        $router->bind('users', function ($id) {
+//            return app('Modules\Village\Repositories\UserRepository')->find($id);
+//        });
+//        $router->resource('users', 'UserController', ['except' => ['show'], 'names' => [
+//            'index' => 'admin.village.user.index',
+//            'create' => 'admin.village.user.create',
+//            'store' => 'admin.village.user.store',
+//            'edit' => 'admin.village.user.edit',
+//            'update' => 'admin.village.user.update',
+//            'destroy' => 'admin.village.user.destroy',
+//        ]]);
 // append
 
 

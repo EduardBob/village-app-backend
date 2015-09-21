@@ -53,7 +53,7 @@ return [
 
     'users' => [
 
-        'model' => 'Modules\User\Entities\Sentinel\User',
+        'model' => 'Modules\Village\Entities\User',
 
     ],
 

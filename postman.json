@@ -1,0 +1,1498 @@
+{
+	"version": 1,
+	"collections": [
+		{
+			"id": "218cc510-161a-d163-109e-917f4324d97f",
+			"name": "Village",
+			"description": "REST API in Postman",
+			"order": [],
+			"folders": [
+				{
+					"id": "a4b825e2-406d-8742-3c15-b43cea4f7987",
+					"name": "articles",
+					"description": "",
+					"write": true,
+					"order": [
+						"06fa90e8-b59b-9277-ab18-3c9b9bacfc94",
+						"6e8ba999-d427-016a-d1ea-2eefbe720de5"
+					],
+					"collection": "5997e15b-cfbf-bc11-ae75-280333490a60",
+					"owner": 0,
+					"collection_name": "Village",
+					"collection_owner": "161799",
+					"collection_id": "218cc510-161a-d163-109e-917f4324d97f",
+					"collectionId": "5997e15b-cfbf-bc11-ae75-280333490a60"
+				},
+				{
+					"id": "627840ff-c2a9-ec7f-8e1f-cc62c5357300",
+					"name": "auth",
+					"description": "",
+					"write": true,
+					"order": [
+						"8c045d93-8daf-d4f0-461a-75c172373e07"
+					],
+					"collection": "5997e15b-cfbf-bc11-ae75-280333490a60",
+					"owner": 0,
+					"collection_name": "Village",
+					"collection_owner": "161799",
+					"collection_id": "218cc510-161a-d163-109e-917f4324d97f"
+				},
+				{
+					"id": "a041c191-fe64-dc38-360c-bdbe8a82440f",
+					"name": "buildings",
+					"description": "",
+					"write": true,
+					"order": [
+						"196313e2-5e18-03c8-69d3-2bb41c75444c"
+					],
+					"collection": "5997e15b-cfbf-bc11-ae75-280333490a60",
+					"owner": 0,
+					"collection_name": "Village",
+					"collection_owner": "161799",
+					"collection_id": "218cc510-161a-d163-109e-917f4324d97f"
+				},
+				{
+					"id": "7e8d014f-4cc3-4e26-0d72-087c90fbf02f",
+					"name": "me",
+					"description": "",
+					"write": true,
+					"order": [
+						"5f9d235f-4720-597b-286b-b898ec6ede0c",
+						"287c6012-3edf-1840-fccc-6e535f36cb8e",
+						"551c5937-770c-87b3-61aa-98611a8cda14",
+						"b06ef454-24a1-0666-ade8-2b7206d4f30c"
+					],
+					"collection": "5997e15b-cfbf-bc11-ae75-280333490a60",
+					"owner": 0,
+					"collection_name": "Village",
+					"collection_owner": "161799",
+					"collection_id": "218cc510-161a-d163-109e-917f4324d97f"
+				},
+				{
+					"id": "3614f6ac-14c8-e1cd-19cd-6235b7df16d6",
+					"name": "products",
+					"description": "",
+					"order": [
+						"ec958f3b-ee70-3b87-bf9b-c6fa1022715a",
+						"2a6bc177-b6cd-cf4f-e03c-fad0e31035e0",
+						"b908f44d-39fd-5bec-175c-4ad298a9e333",
+						"9a2db1e3-abf4-cbc8-6f3e-f8b433f2c268"
+					],
+					"createdAt": "2015-09-23T16:02:32.000Z",
+					"updatedAt": "2015-09-23T19:34:03.000Z",
+					"owner": 0,
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60007281,
+					"collection": "5997e15b-cfbf-bc11-ae75-280333490a60",
+					"write": true,
+					"collection_name": "Village",
+					"collection_owner": "161799",
+					"collection_id": "218cc510-161a-d163-109e-917f4324d97f"
+				},
+				{
+					"id": "868a9194-2a9b-d8a7-cd7a-e206fb1b85c8",
+					"name": "services",
+					"description": "",
+					"write": true,
+					"order": [
+						"dca10ee0-e0f3-1e81-9f51-a332f7505145",
+						"410aea22-f880-0769-297c-bd52d0a5f8fb",
+						"bbe9b29f-6e04-8edc-a8cc-76f549b690ee",
+						"653532c6-10ec-db60-87e7-cb9c4a6b73fe"
+					],
+					"collection": "5997e15b-cfbf-bc11-ae75-280333490a60",
+					"owner": 0,
+					"collection_name": "Village",
+					"collection_owner": "161799",
+					"collection_id": "218cc510-161a-d163-109e-917f4324d97f",
+					"collectionId": "5997e15b-cfbf-bc11-ae75-280333490a60"
+				},
+				{
+					"id": "710512f4-fbf0-e656-c243-0a2882a27067",
+					"name": "settings",
+					"description": "",
+					"write": true,
+					"order": [
+						"cacba90c-22f2-5e7e-17c1-14edd25f6493"
+					],
+					"collection": "5997e15b-cfbf-bc11-ae75-280333490a60",
+					"owner": 0,
+					"collection_name": "Village",
+					"collection_owner": "161799",
+					"collection_id": "218cc510-161a-d163-109e-917f4324d97f"
+				},
+				{
+					"id": "9a320c68-ef1c-6971-7656-79f6cc42f1e9",
+					"name": "surveys",
+					"description": "",
+					"write": true,
+					"order": [
+						"794bae3e-f402-94cb-b45b-8a09f77c6541",
+						"33e52665-2bad-1ce6-5ad8-20c37ec832f3"
+					],
+					"collection": "5997e15b-cfbf-bc11-ae75-280333490a60",
+					"owner": 0,
+					"collection_name": "Village",
+					"collection_owner": "161799",
+					"collection_id": "218cc510-161a-d163-109e-917f4324d97f"
+				},
+				{
+					"id": "e04f3e7f-d248-1c21-5608-2f2dab01cd68",
+					"name": "tokens",
+					"description": "",
+					"write": true,
+					"order": [
+						"b19387e5-3340-aae3-8da3-9d0d308d95cb",
+						"d74041ff-50ca-04f4-ef12-a7189e15d8fe"
+					],
+					"collection": "5997e15b-cfbf-bc11-ae75-280333490a60",
+					"owner": 0,
+					"collection_name": "Village",
+					"collection_owner": "161799",
+					"collection_id": "218cc510-161a-d163-109e-917f4324d97f"
+				},
+				{
+					"id": "e1bb58dc-94a2-420e-5ee8-49dcfea456c9",
+					"name": "users",
+					"description": "",
+					"order": [
+						"0db017fc-3a0c-3fc1-3ae6-445e24985c1f",
+						"f2334100-30a2-437e-8185-17b75e441fbe",
+						"a30ae5f7-86fc-278c-6b4b-a71b4d1e84dd"
+					],
+					"createdAt": "2015-09-23T16:02:35.000Z",
+					"updatedAt": "2015-09-24T10:58:16.000Z",
+					"owner": 0,
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60007317,
+					"collection": "5997e15b-cfbf-bc11-ae75-280333490a60",
+					"collection_name": "Village",
+					"collection_owner": "161799",
+					"collection_id": "218cc510-161a-d163-109e-917f4324d97f",
+					"collectionId": "5997e15b-cfbf-bc11-ae75-280333490a60",
+					"write": true
+				}
+			],
+			"timestamp": 1442849025764,
+			"synced": true,
+			"remote_id": 0,
+			"owner": 0,
+			"subscribed": false,
+			"public": false,
+			"createdAt": null,
+			"updatedAt": 1443112304384,
+			"write": true,
+			"sharedWithTeam": false,
+			"hasRequests": true,
+			"requests": [
+				{
+					"id": "06fa90e8-b59b-9277-ab18-3c9b9bacfc94",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/articles?page={{page}}",
+					"preRequestScript": "postman.setEnvironmentVariable(\"page\", 1);",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "phone",
+							"value": "{{phone}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains short\"] = responseBody.has(\"short\");\n    tests[\"Body contains text\"] = responseBody.has(\"text\");    \n    postman.setEnvironmentVariable(\"article.id\", data.data[0].id);\n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1443133264484,
+					"name": "/api/v1/articles",
+					"description": "<p>Get articles list</p>",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": []
+				},
+				{
+					"id": "0db017fc-3a0c-3fc1-3ae6-445e24985c1f",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/users",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "phone",
+							"value": "+7(111)1111118",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "building_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443093506763,
+					"name": "/api/v1/users",
+					"description": "New user regisration",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": [],
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:35.000Z",
+					"updatedAt": "2015-09-24T11:18:26.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60287206,
+					"history": null,
+					"folder": "e1bb58dc-94a2-420e-5ee8-49dcfea456c9",
+					"isFromCollection": true
+				},
+				{
+					"id": "196313e2-5e18-03c8-69d3-2bb41c75444c",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/buildings/{{building.code}}",
+					"preRequestScript": "postman.setEnvironmentVariable(\"building.code\", 'test');",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "phone",
+							"value": "{{phone}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\ntests[\"Body contains id\"] = responseBody.has(\"id\");\ntests[\"Body contains address\"] = responseBody.has(\"address\");\n\npostman.setEnvironmentVariable(\"building.id\", data.data.id);",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1443133305440,
+					"name": "/api/v1/buildings/{code}",
+					"description": "Get a building by code",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f"
+				},
+				{
+					"id": "287c6012-3edf-1840-fccc-6e535f36cb8e",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/me/name",
+					"preRequestScript": "first_name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);\nlast_name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);\npostman.setEnvironmentVariable(\"me.first_name\", first_name);\npostman.setEnvironmentVariable(\"me.last_name\", last_name);",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "first_name",
+							"value": "{{me.first_name}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "{{me.last_name}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains first_name\"] = responseBody.has(\"first_name\");\n    tests[\"Body contains last_name\"] = responseBody.has(\"last_name\");\n    tests[\"Body contains phone\"] = responseBody.has(\"phone\");\n    tests[\"Body contains activated\"] = responseBody.has(\"activated\");    \n    tests[\"first_name changed\"] = first_name === data.data.first_name;\n    tests[\"last_name changed\"] = last_name === data.data.last_name;\n}",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443121185761,
+					"name": "/api/v1/me/name",
+					"description": "Change first name and last name",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": [],
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": "html",
+					"createdAt": "2015-09-23T21:58:49.000Z",
+					"updatedAt": "2015-09-24T18:59:45.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60460896,
+					"history": null,
+					"folder": "7e8d014f-4cc3-4e26-0d72-087c90fbf02f"
+				},
+				{
+					"id": "2a6bc177-b6cd-cf4f-e03c-fad0e31035e0",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/products?category_id={{product.category.id}}",
+					"preRequestScript": "// category_id: {{product.category.id}}\npostman.setEnvironmentVariable(\"product.category.id\", 1);",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "product_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_at",
+							"value": "2015-10-11 12:30",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "quantity",
+							"value": "2",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "comment",
+							"value": "test",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains unit_title\"] = responseBody.has(\"unit_title\");\n    tests[\"Body contains image\"] = responseBody.has(\"image\");\n    tests[\"Body contains category\"] = responseBody.has(\"category\");\n\n    postman.setEnvironmentVariable(\"product.id\", data.data[0].id);\n}",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443129134101,
+					"name": "/api/v1/products",
+					"description": "Get all my product's orders",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": [],
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:33.000Z",
+					"updatedAt": "2015-09-24T21:12:14.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60496200,
+					"history": null,
+					"folder": "3614f6ac-14c8-e1cd-19cd-6235b7df16d6"
+				},
+				{
+					"id": "33e52665-2bad-1ce6-5ad8-20c37ec832f3",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/surveys/{{survey.id}}",
+					"preRequestScript": "randomSurveyChoice = Math.floor(Math.random() * 3);\npostman.setEnvironmentVariable(\"survey.choice\", randomSurveyChoice);",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "choice",
+							"value": "{{survey.choice}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\ntests[\"Body contains choice\"] = responseBody.has(\"choice\");\ntests[\"Returned choice is right\"] = randomSurveyChoice * 1 === data.data.choice * 1;\n\nif (data.data.choice) {\n    postman.setEnvironmentVariable(\"survey.my_vote.choice\", data.data.choice);\n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1443134184177,
+					"name": "/api/v1/surveys/{id}",
+					"description": "Survey vote",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f"
+				},
+				{
+					"id": "410aea22-f880-0769-297c-bd52d0a5f8fb",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/services??category_id={{service.category.id}}",
+					"preRequestScript": "// category_id: {{service.category.id}}\npostman.setEnvironmentVariable(\"service.category.id\", 1);",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "product_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_at",
+							"value": "2015-10-11 12:30",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "quantity",
+							"value": "2",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "comment",
+							"value": "test",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains category\"] = responseBody.has(\"category\");\n\n    postman.setEnvironmentVariable(\"service.id\", data.data[0].id);\n}",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443129154631,
+					"name": "/api/v1/services",
+					"description": "Get all services",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:34.000Z",
+					"updatedAt": "2015-09-24T21:12:34.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60496272,
+					"history": null,
+					"folder": "868a9194-2a9b-d8a7-cd7a-e206fb1b85c8"
+				},
+				{
+					"id": "551c5937-770c-87b3-61aa-98611a8cda14",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/me/password",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "password",
+							"value": "qwerty",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "new_password",
+							"value": "qwerty",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "new_password_confirmation",
+							"value": "qwerty",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\n\ntests[\"Body contains id\"] = responseBody.has(\"id\");\ntests[\"Body contains first_name\"] = responseBody.has(\"first_name\");\ntests[\"Body contains last_name\"] = responseBody.has(\"last_name\");\ntests[\"Body contains phone\"] = responseBody.has(\"phone\");\ntests[\"Body contains activated\"] = responseBody.has(\"activated\");\ntests[\"Body contains building\"] = responseBody.has(\"building\");\n\npostman.setEnvironmentVariable(\"me.password\", data.data.id);\n",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443129800410,
+					"name": "/api/v1/me/password",
+					"description": "Change password",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": [],
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": "html",
+					"createdAt": "2015-09-23T22:01:05.000Z",
+					"updatedAt": "2015-09-24T21:23:20.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60499054,
+					"history": null,
+					"folder": "7e8d014f-4cc3-4e26-0d72-087c90fbf02f"
+				},
+				{
+					"id": "5f9d235f-4720-597b-286b-b898ec6ede0c",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/me",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "password",
+							"value": "qwerty",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "new_password",
+							"value": "qwerty",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "new_password_confirmation",
+							"value": "qwerty",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains first_name\"] = responseBody.has(\"first_name\");\n    tests[\"Body contains last_name\"] = responseBody.has(\"last_name\");\n    tests[\"Body contains phone\"] = responseBody.has(\"phone\");\n    tests[\"Body contains activated\"] = responseBody.has(\"activated\");\n    tests[\"Body contains building\"] = responseBody.has(\"building\");\n\n    postman.setEnvironmentVariable(\"me.id\", data.data.id);\n    postman.setEnvironmentVariable(\"me.phone\", data.data.id);\n}\n",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443129770693,
+					"name": "/api/v1/me",
+					"description": "Get me info",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": [],
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:32.000Z",
+					"updatedAt": "2015-09-24T21:22:50.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60460678,
+					"history": null,
+					"folder": "7e8d014f-4cc3-4e26-0d72-087c90fbf02f"
+				},
+				{
+					"id": "653532c6-10ec-db60-87e7-cb9c4a6b73fe",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/services/orders",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "service_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_at",
+							"value": "2015-10-11 12:30",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "comment",
+							"value": "test",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    if (data.data.status === 'rejected') {\n        tests[\"decline_reason not null\"] = data.data.decline_reason !== null;\n    }\n    else {\n        tests[\"decline_reason is null\"] = data.data.decline_reason === null;\n    }\n    tests[\"Body contains service\"] = responseBody.has(\"service\") && data.data.service && data.data.service.data;\n}",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443128430195,
+					"name": "/api/v1/services/orders",
+					"description": "Add service order",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": [],
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:34.000Z",
+					"updatedAt": "2015-09-24T21:00:30.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60493108,
+					"history": null,
+					"folder": "868a9194-2a9b-d8a7-cd7a-e206fb1b85c8"
+				},
+				{
+					"id": "6e8ba999-d427-016a-d1ea-2eefbe720de5",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/articles/{{article.id}}",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "product_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_at",
+							"value": "2015-10-11 12:30",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "quantity",
+							"value": "2",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "comment",
+							"value": "test",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains short\"] = responseBody.has(\"short\");\n    tests[\"Body contains text\"] = responseBody.has(\"text\");    \n}",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443121107594,
+					"name": "/api/v1/articles/{id}",
+					"description": "<p>Get article by id</p>",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:31.000Z",
+					"updatedAt": "2015-09-24T18:58:27.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60460532,
+					"history": null,
+					"folder": "a4b825e2-406d-8742-3c15-b43cea4f7987"
+				},
+				{
+					"id": "794bae3e-f402-94cb-b45b-8a09f77c6541",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/surveys/current",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "session",
+							"value": "{{tokens,session}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "code",
+							"value": "{{tokens,code}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\ntests[\"Body contains id\"] = responseBody.has(\"id\");\ntests[\"Body contains title\"] = responseBody.has(\"title\");\ntests[\"Body contains options\"] = responseBody.has(\"options\");\ntests[\"Body contains options count > 0\"] = data.data.options.length > 0;\n\nif (data.data.my_vote) {\n    postman.setEnvironmentVariable(\"survey.id\", data.data.id);\n    postman.setEnvironmentVariable(\"survey.my_vote.choice\", data.data.my_vote.data.choice);\n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1443133743967,
+					"name": "/api/v1/surveys/current",
+					"description": "Get current survey",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f"
+				},
+				{
+					"id": "8c045d93-8daf-d4f0-461a-75c172373e07",
+					"owner": 0,
+					"headers": "",
+					"url": "{{domain}}/api/v1/auth",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "phone",
+							"value": "{{phone}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"token\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\ntests[\"Body contains token\"] = responseBody.has(\"token\");\n\nvar data = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"token\", data.data.token);",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443122321935,
+					"name": "/api/v1/auth",
+					"description": "Get token by user credentials (phone and password)",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": [],
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:31.000Z",
+					"updatedAt": "2015-09-24T19:18:42.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60466633,
+					"history": null,
+					"folder": "627840ff-c2a9-ec7f-8e1f-cc62c5357300"
+				},
+				{
+					"id": "9a2db1e3-abf4-cbc8-6f3e-f8b433f2c268",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/products/orders",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "product_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_at",
+							"value": "2015-10-11 12:30",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "quantity",
+							"value": "2",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "comment",
+							"value": "test",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains quantity\"] = responseBody.has(\"quantity\");\n    tests[\"Body contains unit_title\"] = responseBody.has(\"unit_title\");\n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    if (data.data.status === 'rejected') {\n        tests[\"decline_reason not null\"] = data.data.decline_reason !== null;\n    }\n    else {\n        tests[\"decline_reason is null\"] = data.data.decline_reason === null;\n    }\n    tests[\"Body contains product\"] = responseBody.has(\"product\") && data.data.product && data.data.product.data;\n}",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443128426325,
+					"name": "/api/v1/products/orders",
+					"description": "Add product order",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": [],
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:33.000Z",
+					"updatedAt": "2015-09-24T21:00:26.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60493587,
+					"history": null,
+					"folder": "3614f6ac-14c8-e1cd-19cd-6235b7df16d6"
+				},
+				{
+					"id": "a30ae5f7-86fc-278c-6b4b-a71b4d1e84dd",
+					"owner": 0,
+					"headers": "",
+					"url": "{{domain}}/api/v1/users/reset",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "session",
+							"value": "2DX63DDKxu",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "code",
+							"value": "2995870",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password_confirmation",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443095243022,
+					"name": "/api/v1/users/reset",
+					"description": "Reset user password",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:35.000Z",
+					"updatedAt": "2015-09-24T12:15:00.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60286786,
+					"history": null,
+					"folder": "e1bb58dc-94a2-420e-5ee8-49dcfea456c9"
+				},
+				{
+					"id": "b06ef454-24a1-0666-ade8-2b7206d4f30c",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/me/phone",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "session",
+							"value": "{{tokens,session}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "code",
+							"value": "{{tokens,code}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "// tests[\"Body matches string\"] = responseBody.has(\"data\");\n// tests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\n// tests[\"Body contains id\"] = responseBody.has(\"id\");\n// tests[\"Body contains session\"] = responseBody.has(\"session\");\n\n// var data = JSON.parse(responseBody);\n// if (data.data) {\n//     if ('true' === postman.getEnvironmentVariable('debug')) {\n//         var hasCode = data.code !== 'undefined';\n//         tests[\"Body contains code\"] = hasCode;\n//         if (hasCode) {\n//             postman.setEnvironmentVariable(\"token.code\", data.data.code);\n//         }\n//     }\n\n//     if (data.data.session) {\n//         postman.setEnvironmentVariable(\"token.session\", data.data.session);    \n//     }    \n// }",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1443134265474,
+					"name": "/api/v1/me/phone",
+					"description": "Change phone number",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": []
+				},
+				{
+					"id": "b19387e5-3340-aae3-8da3-9d0d308d95cb",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/tokens",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "type",
+							"value": "change_phone",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "phone",
+							"value": "+7(111)1111111",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "new_phone",
+							"value": "+7(111)1111119",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\ntests[\"Body contains session\"] = responseBody.has(\"session\");\npostman.setEnvironmentVariable(\"token.session\", data.data.session);\n\nif ('true' === postman.getEnvironmentVariable('debug')) {\n    tests[\"Body contains code\"] = responseBody.has(\"code\");\n    postman.setEnvironmentVariable(\"token.code\", data.data.code);\n}\n",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443121909399,
+					"name": "/api/v1/tokens",
+					"description": "Add new token",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": [],
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:35.000Z",
+					"updatedAt": "2015-09-24T19:11:49.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60464057,
+					"history": null,
+					"folder": "e04f3e7f-d248-1c21-5608-2f2dab01cd68"
+				},
+				{
+					"id": "b908f44d-39fd-5bec-175c-4ad298a9e333",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/products/orders?page={{page}}",
+					"preRequestScript": "postman.setEnvironmentVariable(\"page\", 1);",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "first_name",
+							"value": "{{me.first_name}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "{{me.last_name}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Count == 15 \"] = data.data.length;\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains quantity\"] = responseBody.has(\"quantity\");\n    tests[\"Body contains unit_title\"] = responseBody.has(\"unit_title\");    \n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    $.each(data.data, function(index, item) {\n        if (item.status === 'rejected') {\n            tests[\"decline_reason not null, index = \" + index] = item.decline_reason !== null;\n        }\n        else {\n            tests[\"decline_reason is null, index = \" + index] = item.decline_reason === null;\n        }\n        tests[\"Body contains product, index = \" + index] = item.product && item.product.data;        \n    });\n}",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443129001067,
+					"name": "/api/v1/products/orders",
+					"description": "Get all my product's orders",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": [],
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:33.000Z",
+					"updatedAt": "2015-09-24T21:10:01.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60495757,
+					"history": null,
+					"folder": "3614f6ac-14c8-e1cd-19cd-6235b7df16d6"
+				},
+				{
+					"id": "bbe9b29f-6e04-8edc-a8cc-76f549b690ee",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/services/orders?page={{page}}",
+					"preRequestScript": "postman.setEnvironmentVariable(\"page\", 1);",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "first_name",
+							"value": "{{me.first_name}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "{{me.last_name}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Count == 15 \"] = data.data.length;\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    $.each(data.data, function(index, order) {\n        if (order.status === 'rejected') {\n            tests[\"decline_reason not null, index = \" + index] = order.decline_reason !== null;\n        }\n        else {\n            tests[\"decline_reason is null, index = \" + index] = order.decline_reason === null;\n        }\n        tests[\"Body contains service, index = \" + index] = order.service && order.service.data;        \n    });\n}",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443129029390,
+					"name": "/api/v1/services/orders",
+					"description": "Get all my service orders",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": [],
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:34.000Z",
+					"updatedAt": "2015-09-24T21:10:29.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60495830,
+					"history": null,
+					"folder": "868a9194-2a9b-d8a7-cd7a-e206fb1b85c8"
+				},
+				{
+					"id": "cacba90c-22f2-5e7e-17c1-14edd25f6493",
+					"headers": "",
+					"url": "{{domain}}/api/v1/settings",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Body contains name\"] = responseBody.has(\"name\");\ntests[\"Body contains value\"] = responseBody.has(\"value\");",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1443111791009,
+					"name": "/api/v1/settings",
+					"description": "Get all settings",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"owner": 0,
+					"folder": "710512f4-fbf0-e656-c243-0a2882a27067"
+				},
+				{
+					"id": "d74041ff-50ca-04f4-ef12-a7189e15d8fe",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/tokens/check",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "type",
+							"value": "change_phone",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "session",
+							"value": "TbDB6TwJmf",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "code",
+							"value": "9002075",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443095951775,
+					"name": "/api/v1/tokens/check",
+					"description": "Check token code",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": [],
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:35.000Z",
+					"updatedAt": "2015-09-24T11:59:11.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60311805,
+					"history": null,
+					"folder": "e04f3e7f-d248-1c21-5608-2f2dab01cd68",
+					"isFromCollection": true
+				},
+				{
+					"id": "dca10ee0-e0f3-1e81-9f51-a332f7505145",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/services/categories",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "session",
+							"value": "2DX63DDKxu",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "code",
+							"value": "2995870",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password_confirmation",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    \n    postman.setEnvironmentVariable(\"service.category.id\", data.data[0].id);\n}\nelse {\n    postman.setEnvironmentVariable(\"service.category.id\", 1);\n}",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443128839836,
+					"name": "/api/v1/services/categories",
+					"description": "Get all categories of services",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:33.000Z",
+					"updatedAt": "2015-09-24T21:07:19.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60493307,
+					"history": null,
+					"folder": "868a9194-2a9b-d8a7-cd7a-e206fb1b85c8"
+				},
+				{
+					"id": "ec958f3b-ee70-3b87-bf9b-c6fa1022715a",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/products/categories",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "session",
+							"value": "2DX63DDKxu",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "code",
+							"value": "2995870",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password_confirmation",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    \n    postman.setEnvironmentVariable(\"product.category.id\", data.data[0].id);\n}\nelse {\n    postman.setEnvironmentVariable(\"product.category.id\", 1);\n}",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443128820612,
+					"name": "/api/v1/products/categories",
+					"description": "Get all my product's orders",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": [],
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:32.000Z",
+					"updatedAt": "2015-09-24T21:07:00.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60494943,
+					"history": null,
+					"folder": "3614f6ac-14c8-e1cd-19cd-6235b7df16d6"
+				},
+				{
+					"id": "f2334100-30a2-437e-8185-17b75e441fbe",
+					"owner": 0,
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/users/confirm",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "session",
+							"value": "EWYclfeSHS",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "code",
+							"value": "6443943",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password_confirmation",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "first_name",
+							"value": "test",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "test",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": "{}",
+					"time": 1443102249514,
+					"name": "/api/v1/users/confirm",
+					"description": "User regisration confirm",
+					"collectionId": "218cc510-161a-d163-109e-917f4324d97f",
+					"responses": [],
+					"synced": true,
+					"rawModeData": null,
+					"descriptionFormat": null,
+					"createdAt": "2015-09-23T16:02:35.000Z",
+					"updatedAt": "2015-09-24T13:44:09.000Z",
+					"lastUpdatedBy": {
+						"id": "161799",
+						"username": "NEOKILLER King"
+					},
+					"lastRevision": 60348621,
+					"history": null,
+					"folder": "e1bb58dc-94a2-420e-5ee8-49dcfea456c9",
+					"isFromCollection": true
+				}
+			]
+		}
+	],
+	"environments": [
+		{
+			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
+			"name": "staging",
+			"values": [
+				{
+					"key": "debug",
+					"value": "true",
+					"type": "text",
+					"name": "debug",
+					"enabled": true
+				},
+				{
+					"key": "domain",
+					"value": "http://village.fruitware.ru",
+					"type": "text",
+					"name": "domain",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoIiwiaWF0IjoiMTQ0MzAyMTE2MyIsImV4cCI6IjE0NzQ1NTcxNjMiLCJuYmYiOiIxNDQzMDIxMTYzIiwianRpIjoiMjVmZDVlOWY2YzI4ZTFiNjIxNDQ2NzRkOWM1ZDAyYzAifQ.nZ9IPX6ZEYpsiKOX6tbEfC-zUr6hh1W8ySnNHx0kZnM",
+					"type": "text",
+					"name": "token",
+					"enabled": true
+				},
+				{
+					"key": "phone",
+					"value": "+7(111)1111111",
+					"type": "text",
+					"name": "phone",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "qwerty",
+					"type": "text",
+					"name": "password",
+					"enabled": true
+				}
+			],
+			"timestamp": 1443131972021
+		},
+		{
+			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
+			"name": "dev",
+			"values": [
+				{
+					"key": "debug",
+					"value": "true",
+					"type": "text",
+					"name": "debug",
+					"enabled": true
+				},
+				{
+					"key": "domain",
+					"value": "http://village.dev",
+					"type": "text",
+					"name": "domain",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoIiwiaWF0IjoiMTQ0MzEzNDE5NiIsImV4cCI6IjE0NzQ2NzAxOTYiLCJuYmYiOiIxNDQzMTM0MTk2IiwianRpIjoiYWM4YzdkM2U3NTYyNWZmNzNhYTliYzAwOTU0MWIxYWQifQ.fP_V_7-2IFFE2pT73RcNRjx5EJy-HwlfOKNPT3oj1v0",
+					"type": "text",
+					"name": "token",
+					"enabled": true
+				},
+				{
+					"key": "phone",
+					"value": "+7(111)1111111",
+					"type": "text",
+					"name": "phone",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "qwerty",
+					"type": "text",
+					"name": "password",
+					"enabled": true
+				},
+				{
+					"key": "token.code",
+					"type": "text",
+					"value": "7613083"
+				},
+				{
+					"key": "token.session",
+					"type": "text",
+					"value": "VORsMyrPG1"
+				},
+				{
+					"key": "article.id",
+					"type": "text",
+					"value": "300"
+				},
+				{
+					"key": "me.first_name",
+					"type": "text",
+					"value": "ppqjtjyxvf"
+				},
+				{
+					"key": "me.last_name",
+					"type": "text",
+					"value": "fofehpvi"
+				},
+				{
+					"key": "product.id",
+					"type": "text",
+					"value": "3"
+				},
+				{
+					"key": "service.id",
+					"type": "text",
+					"value": "86"
+				},
+				{
+					"key": "page",
+					"type": "text",
+					"value": "1"
+				},
+				{
+					"key": "product.category.id",
+					"type": "text",
+					"value": "1"
+				},
+				{
+					"key": "service.category.id",
+					"type": "text",
+					"value": "1"
+				},
+				{
+					"key": "building.code",
+					"type": "text",
+					"value": "test"
+				},
+				{
+					"key": "building.id",
+					"type": "text",
+					"value": "1"
+				},
+				{
+					"key": "me.password",
+					"type": "text",
+					"value": "2"
+				},
+				{
+					"key": "survey.id",
+					"type": "text",
+					"value": "106"
+				},
+				{
+					"key": "survey.my_vote.choice",
+					"type": "text",
+					"value": "0"
+				},
+				{
+					"key": "survey.choice",
+					"type": "text",
+					"value": "0"
+				}
+			],
+			"timestamp": 1443134207202
+		}
+	],
+	"headerPresets": [
+		{
+			"id": "d2506735-10a2-8e01-4f01-5f7fd84e5fc9",
+			"name": "Authorization",
+			"headers": [
+				{
+					"key": "Authorization",
+					"value": "Bearer  {{token}}",
+					"type": "text",
+					"name": "Authorization",
+					"enabled": true
+				}
+			],
+			"timestamp": 1443027474004
+		}
+	],
+	"globals": []
+}

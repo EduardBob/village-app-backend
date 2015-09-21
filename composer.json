@@ -24,7 +24,9 @@
     "asgardcms/adminlte-theme": "~1.0",
     "fzaninotto/faker": "^1.6@dev",
     "nesbot/carbon": "@dev",
-    "barryvdh/laravel-ide-helper": "^2.1@dev"
+    "barryvdh/laravel-ide-helper": "^2.1@dev",
+    "tymon/jwt-auth": "0.5.*",
+    "ellipsesynergie/api-response": "^0.10.0"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.0",
@@ -76,6 +78,6 @@
   "config": {
     "preferred-install": "dist"
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "prefer-stable": true
 }

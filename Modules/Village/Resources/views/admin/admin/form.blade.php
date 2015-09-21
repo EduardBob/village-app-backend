@@ -1,7 +1,6 @@
 @extends($admin->getView('layout'))
 
 @section('styles')
-    {!! Theme::script('js/vendor/ckeditor/ckeditor.js') !!}
     {!! Theme::style('css/vendor/iCheck/flat/blue.css') !!}
 @stop
 
@@ -27,19 +26,22 @@
     </script>
     <script>
         $( document ).ready(function() {
-            $('input[type="checkbox"].flat-blue, input[type="radio"].flat-blue').iCheck({
-                checkboxClass: 'icheckbox_flat-blue',
-                radioClass: 'iradio_flat-blue'
+            $('input[type="checkbox"].flat-blue, input[type="radio"].flat-blue').each(function(){
+                $(this).iCheck({
+                    checkboxClass: 'icheckbox_flat-blue',
+                    radioClass: 'iradio_flat-blue',
+                    insert: '<input type="hidden" id="hidden_' + $(this).attr('name') + '" name="' + $(this).attr('name') + '" value="'+ ($(this).attr('checked') ? 1 : 0) +'" />'
+                });
             });
 
             $('input[type="checkbox"]').on('ifChecked', function(){
-                $(this).parent().find('input[type=hidden]').remove();
+                var $hidden = $(this).parent().find('#hidden_' + $(this).attr('name'));
+                $hidden.val('1').trigger('change');
             });
 
             $('input[type="checkbox"]').on('ifUnchecked', function(){
-                var name = $(this).attr('name'),
-                    input = '<input type="hidden" name="' + name + '" value="0" />';
-                $(this).parent().append(input);
+                var $hidden = $(this).parent().find('#hidden_' + $(this).attr('name'));
+                $hidden.val('0').trigger('change');
             });
         });
     </script>

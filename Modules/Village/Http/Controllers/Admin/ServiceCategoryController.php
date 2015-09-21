@@ -35,6 +35,7 @@ class ServiceCategoryController extends AdminController
 
         return Validator::make($data, [
             'title' => "required|max:255|unique:village__service_categories,title,{$serviceCategoryId}",
+            'active' => "required|boolean",
         ]);
     }
 }

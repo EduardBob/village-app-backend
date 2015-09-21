@@ -7,5 +7,12 @@
                 {!! $errors->first('title', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
+        <div class="col-sm-7">
+            <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
+                {!! Form::label('active', $admin->trans('table.active')) !!}
+                {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}
+                {!! $errors->first('active', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
     </div>
 </div>

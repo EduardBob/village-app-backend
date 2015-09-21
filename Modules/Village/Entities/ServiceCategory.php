@@ -6,8 +6,8 @@ use DB;
 class ServiceCategory extends Model
 {
     protected $table = 'village__service_categories';
-    public $translatedAttributes = [];
-    protected $fillable = ['title', 'order'];
+
+    protected $fillable = ['title', 'order', 'active'];
 
     public function parent()
     {

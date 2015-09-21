@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Building extends Model
 {
     protected $table = 'village__buildings';
-    public $translatedAttributes = [];
+
     protected $fillable = ['address', 'code'];
 
 

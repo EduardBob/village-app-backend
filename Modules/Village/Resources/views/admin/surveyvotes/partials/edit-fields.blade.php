@@ -10,11 +10,11 @@
         </div>
 
         <div class="col-sm-5">
-            <div class="form-group{{ $errors->has('profile') ? ' has-error' : '' }}">
-                {!! Form::label('profile', $admin->trans('table.profile')) !!}
-                {!! Form::select('profile', (new Modules\Village\Entities\Profile)->getList(),
-                Input::old('profile', @$model->profile->user->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.profile.placeholder')]) !!}
-                {!! $errors->first('profile', '<span class="help-block">:message</span>') !!}
+            <div class="form-group{{ $errors->has('user') ? ' has-error' : '' }}">
+                {!! Form::label('user', $admin->trans('table.user')) !!}
+                {!! Form::select('user', (new Modules\Village\Entities\User)->getList(),
+                Input::old('user', @$model->user->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.user.placeholder')]) !!}
+                {!! $errors->first('user', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
 

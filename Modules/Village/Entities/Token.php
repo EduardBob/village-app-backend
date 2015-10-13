@@ -17,10 +17,8 @@ class Token extends Model
         parent::boot();
 
         static::creating(function(Token $token) {
-            $code = config('app.debug') ? '123' : rand(config('village.token.code.min'), config('village.token.code.max'));
-
             $token->session = str_random(config('village.token.session.length'));
-            $token->code = $code;
+            $token->code = rand(config('village.token.code.min'), config('village.token.code.max'));
         });
 
         static::saving(function(Token $token) {

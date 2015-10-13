@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
+use Modules\Setting\Entities\Setting;
 use Modules\Village\Entities\User;
 
 use Modules\Village\Entities\Building;
@@ -31,6 +32,25 @@ class VillageSeeder extends Seeder
     public function run()
     {
 		$faker = Faker\Factory::create();
+
+	    $settings = [
+		    'village::shop-name' => 'Универсам Пятачок',
+		    'village::shop-address' => 'ул. Дыхания 71',
+		    'village::payment-info' => 'Произвести оплату вы сможете позже в своём профиле',
+	    ];
+
+	    foreach ($settings as $key => $value) {
+		    try {
+			    Setting::create([
+				    'name' => $key,
+				    'plainValue' => $value,
+				    'isTranslatable' => 0,
+				    'created_at' => new \DateTime(),
+			        'updated_at' => new \DateTime(),
+			    ]);
+		    }
+		    catch (\Exception $e) {}
+	    }
 
 
 	    for($i=0; $i < 100; $i++) {
@@ -89,6 +109,9 @@ class VillageSeeder extends Seeder
 			    'title' => $faker->unique()->sentence(3),
 			    'price' => $faker->randomFloat(4, 0, 1000),
 			    'active' => $faker->randomElement([0, 1]),
+			    'text'   => $faker->text(),
+			    'comment_label' => 'Ваши пожелания и заметки',
+			    'order_button_label' => 'Заказать',
 		    ]);
 	    }
 	    $services = $this->getItems(Modules\Village\Entities\Service::class);
@@ -123,6 +146,8 @@ class VillageSeeder extends Seeder
 			    'price' => $faker->randomFloat(4, 0),
 			    'image' => $faker->imageUrl(640, 480),
 			    'active' => $faker->randomElement([0, 1]),
+			    'text'   => $faker->text(),
+			    'comment_label' => 'Ваши пожелания и заметки',
 		    ]);
 	    }
 	    $products = $this->getItems(Modules\Village\Entities\Product::class);

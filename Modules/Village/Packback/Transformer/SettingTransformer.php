@@ -18,7 +18,7 @@ class SettingTransformer extends TransformerAbstract
     {
         return [
             'name' => $setting->name,
-            'value' => $setting->value
+            'plainValue' => $setting->plainValue
         ];
     }
 }

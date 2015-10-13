@@ -8,17 +8,15 @@ class UpdateUserRequest extends \Modules\User\Http\Requests\UpdateUserRequest
     {
         $userId = $this->route()->getParameter('users');
 
-        return array_merge(
-            parent::rules(),
-            [
-                // rewrite
-                'password' => 'min:6|confirmed',
+        return [
+            // rewrite
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'password' => 'min:6|confirmed',
 
-                // new
-                'phone' => "required|unique:users,phone,{$userId}|regex:".config('village.user.phone.regex'),
-                'building_id' => 'exists:village__buildings,id',
-//                'activated' => "required|boolean",
-            ]
-        );
+            // new
+            'phone' => "required|unique:users,phone,{$userId}|regex:".config('village.user.phone.regex'),
+            'building_id' => 'exists:village__buildings,id',
+        ];
     }
 }

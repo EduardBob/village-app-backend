@@ -29,6 +29,10 @@ class CreateVillageMigrations extends Migration
 
         if (Schema::hasTable('users')) {
             Schema::table('users', function(Blueprint $table) {
+                if (Schema::hasColumn('users', 'email')) {
+                    $table->dropUnique('users_email_unique');
+                    $table->dropColumn('email');
+                }
                 if (!Schema::hasColumn('users', 'phone')) {
                     $table->string('phone', 25)->unique();
                 }

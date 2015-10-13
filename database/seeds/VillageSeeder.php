@@ -68,7 +68,6 @@ class VillageSeeder extends Seeder
 	    for($i=0; $i < 100; $i++) {
 		    try {
 			    $user = (new User)->fill([
-				    'email' => $i > 0 ? $faker->unique()->email : 'test@test.test',
 				    'password' => $faker->password,
 				    'permissions' => [],
 				    'first_name' => $faker->firstName,

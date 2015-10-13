@@ -45,13 +45,6 @@
                                     {!! $errors->first('last_name', '<span class="help-block">:message</span>') !!}
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                    {!! Form::label('email', trans('user::users.form.email')) !!}
-                                    {!! Form::email('email', Input::old('email', $user->email), ['class' => 'form-control', 'placeholder' => trans('user::users.form.email')]) !!}
-                                    {!! $errors->first('email', '<span class="help-block">:message</span>') !!}
-                                </div>
-                            </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-4">

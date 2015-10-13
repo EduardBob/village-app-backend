@@ -35,6 +35,16 @@ class VillageServiceProvider extends ServiceProvider
     private function registerBindings()
     {
         $this->app->bind(
+            'Modules\User\Http\Controllers\AuthController',
+            'Modules\Village\Http\Controllers\AuthController'
+        );
+
+        $this->app->bind(
+            'Modules\User\Http\Requests\LoginRequest',
+            'Modules\Village\Http\Requests\LoginRequest'
+        );
+
+        $this->app->bind(
             'Modules\Village\Repositories\ArticleRepository',
             function () {
                 $repository = new \Modules\Village\Repositories\Eloquent\EloquentArticleRepository(new \Modules\Village\Entities\Article());

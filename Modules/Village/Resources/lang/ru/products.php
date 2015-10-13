@@ -14,6 +14,8 @@ return [
         'title' => 'Название',
         'category' => 'Категория',
         'price' => 'Цена',
+        'comment_label' => 'Метка заметки',
+        'text' => 'Описание',
         'active' => 'Доступен',
         'created_at' => 'Создан',
         'actions' => 'Действия',

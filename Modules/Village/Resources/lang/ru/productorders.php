@@ -36,7 +36,8 @@ return [
         'status' => [
             'placeholder' => 'Не выбран',
             'values' => [
-                'in_progress' => 'Обрабатывается',
+                'processing' => 'Обрабатывается',
+                'running' => 'Выполняется',
                 'done' => 'Выполнен',
 //                'canceled' => 'Отменён',
                 'rejected' => 'Отклонён',

@@ -90,6 +90,9 @@ class CreateVillageMigrations extends Migration
             $table->string('title')->unique();
             $table->decimal('price', 10, 2);
             $table->boolean('active')->default(true);
+            $table->string('text');
+            $table->string('comment_label', 50);
+            $table->string('order_button_label', 50);
 
             $table->timestamps();
         });
@@ -138,6 +141,8 @@ class CreateVillageMigrations extends Migration
             $table->string('unit_title')->default('kg');
             $table->string('image');
             $table->boolean('active')->default(true);
+            $table->string('comment_label', 50);
+            $table->string('text');
 
             $table->timestamps();
         });

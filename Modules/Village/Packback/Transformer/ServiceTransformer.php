@@ -33,6 +33,9 @@ class ServiceTransformer extends BaseTransformer
             'id' =>  $service->id,
             'title' => $service->title,
             'price' => $service->price,
+            'comment_label' => $service->comment_label,
+            'order_button_label' => $service->comment_label,
+            'text' => $service->text,
             'image' => $this->getImage($service->files()->first()),
         ];
     }

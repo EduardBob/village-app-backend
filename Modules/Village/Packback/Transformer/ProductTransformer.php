@@ -34,6 +34,8 @@ class ProductTransformer extends BaseTransformer
             'title' => $product->title,
             'price' => $product->price,
             'unit_title' => $product->unit_title,
+            'text' => $product->text,
+            'comment_label' => $product->comment_label,
             'image' => $this->getImage($product->files()->first()),
         ];
     }

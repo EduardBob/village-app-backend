@@ -29,12 +29,26 @@ return [
             'regex' => env('VILLAGE_USER_PHONE_REGEX', '/^\+7\(\d{3}\)\d{7}$/'),
         ]
     ],
+    'product' => [
+        'comment' => [
+            'label' => 'Ваши пожелания и заметки'
+        ]
+    ],
+    'service' => [
+        'comment' => [
+            'label' => 'Ваши пожелания и заметки'
+        ],
+        'order_button' => [
+            'label' => 'Заказать'
+        ]
+    ],
     'order' => [
-        'statuses' => ['in_progress', 'done', 'rejected'], // cancelled
+        'statuses' => ['processing', 'running', 'done', 'rejected'], // cancelled
         'label' => [
-            'in_progress' => 'primary',
-            'done' => 'success',
-            'rejected' => 'danger',
+            'processing' => 'primary', //Обрабатывается
+            'running' => 'waring', // Выполняется
+            'done' => 'success', //Выполнен
+            'rejected' => 'danger', // Отклонён
 //            'paid' =>  'primary',
 //            'cancelled' =>  'danger'
         ]

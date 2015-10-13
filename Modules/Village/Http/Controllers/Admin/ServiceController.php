@@ -41,6 +41,9 @@ class ServiceController extends AdminController
             'title' => "required|max:255|unique:village__services,title,{$serviceId}",
             'price' => 'required|numeric|min:1',
             'active' => "required|boolean",
+            'text' => 'required|max:255',
+            'comment_label' => 'required|max:50',
+            'order_button_label' => 'required|max:50',
         ]);
     }
 }

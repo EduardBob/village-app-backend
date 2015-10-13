@@ -10,7 +10,7 @@ class Service extends Model
 
     protected $table = 'village__services';
 
-    protected $fillable = ['category_id', 'title', 'price', 'active'];
+    protected $fillable = ['category_id', 'title', 'price', 'active', 'text', 'comment_label', 'order_button_label'];
 
     public function category()
     {

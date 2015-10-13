@@ -11,7 +11,7 @@ class Product extends Model
 
     protected $table = 'village__products';
 
-    protected $fillable = ['category_id', 'title', 'price', 'image', 'decline_reason', 'comment', 'active'];
+    protected $fillable = ['category_id', 'title', 'price', 'image', 'active', 'comment_label', 'text'];
 
     public function category()
     {

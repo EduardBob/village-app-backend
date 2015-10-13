@@ -22,7 +22,21 @@
                 {!! $errors->first('price', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-6">
+            <div class="form-group{{ $errors->has('comment_label') ? ' has-error' : '' }}">
+                {!! Form::label('comment_label', $admin->trans('table.comment_label')) !!}
+                {!! Form::text('comment_label', Input::old('comment_label', @$model->comment_label ? $model->comment_label : config('village.product.comment.label')), ['class' => 'form-control', 'placeholder' => $admin->trans('table.comment_label')]) !!}
+                {!! $errors->first('comment_label', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group{{ $errors->has('text') ? ' has-error' : '' }}">
+                {!! Form::label('text', $admin->trans('table.text')) !!}
+                {!! Form::textarea('text', Input::old('text', @$model->text), ['class' => 'form-control', 'placeholder' => $admin->trans('table.text')]) !!}
+                {!! $errors->first('text', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-7">
             <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
                 {!! Form::label('active', $admin->trans('table.active')) !!}
                 {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}

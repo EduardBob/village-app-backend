@@ -41,6 +41,8 @@ class ProductController extends AdminController
             'title' => "required|max:255|unique:village__products,title,{$productId}",
             'price' => 'required|numeric|min:1',
             'active' => "required|boolean",
+            'comment_label' => 'required|max:50',
+            'text' => 'required|max:255',
         ]);
     }
 }

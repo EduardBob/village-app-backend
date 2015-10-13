@@ -22,15 +22,29 @@
                 {!! $errors->first('price', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
-                {!! Form::label('active', $admin->trans('table.active')) !!}
-                {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}
-                {!! $errors->first('active', '<span class="help-block">:message</span>') !!}
+        <div class="col-sm-6">
+            <div class="form-group{{ $errors->has('comment_label') ? ' has-error' : '' }}">
+                {!! Form::label('comment_label', $admin->trans('table.comment_label')) !!}
+                {!! Form::text('comment_label', Input::old('comment_label', @$model->comment_label ? $model->comment_label : config('village.service.comment.label')), ['class' => 'form-control', 'placeholder' => $admin->trans('table.comment_label')]) !!}
+                {!! $errors->first('comment_label', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group{{ $errors->has('order_button_label') ? ' has-error' : '' }}">
+                {!! Form::label('order_button_label', $admin->trans('table.order_button_label')) !!}
+                {!! Form::text('order_button_label', Input::old('order_button_label', @$model->order_button_label ? $model->order_button_label : config('village.service.order_button.label')), ['class' => 'form-control', 'placeholder' => $admin->trans('table.order_button_label')]) !!}
+                {!! $errors->first('order_button_label', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group{{ $errors->has('text') ? ' has-error' : '' }}">
+                {!! Form::label('text', $admin->trans('table.text')) !!}
+                {!! Form::textarea('text', Input::old('text', @$model->text), ['class' => 'form-control', 'placeholder' => $admin->trans('table.text')]) !!}
+                {!! $errors->first('text', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
         @if(isset($model))
-        <div class="col-sm-7">
+        <div class="col-sm-6">
             @include('media::admin.fields.file-link', [
                 'entityClass' => 'Modules\\\\Village\\\\Entities\\\\Service',
                 'entityId' => @$model->id,
@@ -39,5 +53,12 @@
             ])
         </div>
         @endif
+        <div class="col-sm-7">
+            <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
+                {!! Form::label('active', $admin->trans('table.active')) !!}
+                {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}
+                {!! $errors->first('active', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
     </div>
 </div>

@@ -30,7 +30,7 @@ class ServiceOrderController extends AdminController
      */
     public function store(Request $request)
     {
-        $request['status'] = 'in_progress';
+        $request['status'] = 'processing';
 
         return parent::store($request);
     }

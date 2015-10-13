@@ -40,14 +40,14 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         $router->bind('options', function ($id) {
             return app('Modules\Village\Repositories\OptionRepository')->find($id);
         });
-        $router->resource('options', 'OptionController', ['except' => ['show'], 'names' => [
-            'index' => 'admin.village.option.index',
-            'create' => 'admin.village.option.create',
-            'store' => 'admin.village.option.store',
-            'edit' => 'admin.village.option.edit',
-            'update' => 'admin.village.option.update',
-            'destroy' => 'admin.village.option.destroy',
-        ]]);
+//        $router->resource('options', 'OptionController', ['except' => ['show'], 'names' => [
+//            'index' => 'admin.village.option.index',
+//            'create' => 'admin.village.option.create',
+//            'store' => 'admin.village.option.store',
+//            'edit' => 'admin.village.option.edit',
+//            'update' => 'admin.village.option.update',
+//            'destroy' => 'admin.village.option.destroy',
+//        ]]);
         $router->bind('products', function ($id) {
             return app('Modules\Village\Repositories\ProductRepository')->find($id);
         });
@@ -139,14 +139,14 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         $router->bind('tokens', function ($id) {
             return app('Modules\Village\Repositories\TokenRepository')->find($id);
         });
-        $router->resource('tokens', 'TokenController', ['except' => ['show'], 'names' => [
-            'index' => 'admin.village.token.index',
-            'create' => 'admin.village.token.create',
-            'store' => 'admin.village.token.store',
-            'edit' => 'admin.village.token.edit',
-            'update' => 'admin.village.token.update',
-            'destroy' => 'admin.village.token.destroy',
-        ]]);
+//        $router->resource('tokens', 'TokenController', ['except' => ['show'], 'names' => [
+//            'index' => 'admin.village.token.index',
+//            'create' => 'admin.village.token.create',
+//            'store' => 'admin.village.token.store',
+//            'edit' => 'admin.village.token.edit',
+//            'update' => 'admin.village.token.update',
+//            'destroy' => 'admin.village.token.destroy',
+//        ]]);
 //        $router->bind('users', function ($id) {
 //            return app('Modules\Village\Repositories\UserRepository')->find($id);
 //        });

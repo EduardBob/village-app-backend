@@ -18,6 +18,7 @@ return [
         'actions' => 'Действия',
     ],
     'form' => [
+        'media' => 'Изображение',
     ],
     'messages' => [
     ],

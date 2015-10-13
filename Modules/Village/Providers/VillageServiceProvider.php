@@ -1,6 +1,7 @@
 <?php namespace Modules\Village\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\Media\Image\ThumbnailsManager;
 
 class VillageServiceProvider extends ServiceProvider
 {

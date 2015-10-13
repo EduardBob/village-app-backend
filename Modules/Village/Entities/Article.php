@@ -1,9 +1,12 @@
 <?php namespace Modules\Village\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Media\Support\Traits\MediaRelation;
 
 class Article extends Model
 {
+    use MediaRelation;
+
     protected $table = 'village__articles';
 
     protected $fillable = ['title', 'text', 'active'];

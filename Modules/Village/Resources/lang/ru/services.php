@@ -19,6 +19,7 @@ return [
         'actions' => 'Действия',
     ],
     'form' => [
+        'media' => 'Изображение',
         'category' => [
             'placeholder' => 'Не выбран'
         ]

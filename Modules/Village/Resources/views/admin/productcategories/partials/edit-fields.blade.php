@@ -14,5 +14,15 @@
                 {!! $errors->first('active', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
+        @if(isset($model))
+        <div class="col-sm-7">
+            @include('media::admin.fields.file-link', [
+                'entityClass' => 'Modules\\\\Village\\\\Entities\\\\ProductCategory',
+                'entityId' => @$model->id,
+                'zone' => 'media',
+                'media' => $model->files()->first()
+            ])
+        </div>
+        @endif
     </div>
 </div>

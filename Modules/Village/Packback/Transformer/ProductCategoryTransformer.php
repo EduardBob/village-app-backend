@@ -2,10 +2,9 @@
 
 namespace Modules\Village\Packback\Transformer;
 
-use League\Fractal\TransformerAbstract;
 use Modules\Village\Entities\ProductCategory;
 
-class ProductCategoryTransformer extends TransformerAbstract
+class ProductCategoryTransformer extends BaseTransformer
 {
     /**
      * Turn user object into generic array
@@ -18,6 +17,7 @@ class ProductCategoryTransformer extends TransformerAbstract
         return [
             'id' =>  $productCategory->id,
             'title' => $productCategory->title,
+            'image' => $this->getImage($productCategory->files()->first()),
         ];
     }
 }

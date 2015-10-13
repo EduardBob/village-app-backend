@@ -1,6 +1,7 @@
 <table class="data-table table table-bordered table-hover">
     <thead>
     <tr>
+        <th>{{ $admin->trans('form.media') }}</th>
         <th>{{ $admin->trans('table.title') }}</th>
         <th>{{ $admin->trans('table.category') }}</th>
         <th>{{ $admin->trans('table.price') }}</th>
@@ -12,6 +13,12 @@
     <?php if (isset($collection)): ?>
     <?php foreach ($collection->load(['category']) as $model): ?>
     <tr>
+        <td>
+            <?php $media = $model->files()->first(); ?>
+            @if($media)
+                <img src="{{ Imagy::getThumbnail($media->path, 'smallThumb') }}" alt="" />
+            @endif
+        </td>
         <td>
             <a href="{{ $admin->route('edit', [$model->id]) }}">
                 {{ $model->title }}
@@ -46,6 +53,7 @@
     </tbody>
     <tfoot>
     <tr>
+        <th>{{ $admin->trans('form.media') }}</th>
         <th>{{ $admin->trans('table.category') }}</th>
         <th>{{ $admin->trans('table.title') }}</th>
         <th>{{ $admin->trans('table.price') }}</th>

@@ -2,10 +2,12 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-use DB;
+use Modules\Media\Support\Traits\MediaRelation;
 
 class ProductCategory extends Model
 {
+    use MediaRelation;
+
     protected $table = 'village__product_categories';
 
     protected $fillable = ['title', 'order', 'active'];

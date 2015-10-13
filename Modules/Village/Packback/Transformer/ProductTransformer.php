@@ -3,10 +3,9 @@
 namespace Modules\Village\Packback\Transformer;
 
 use League\Fractal\Resource\Item;
-use League\Fractal\TransformerAbstract;
 use Modules\Village\Entities\Product;
 
-class ProductTransformer extends TransformerAbstract
+class ProductTransformer extends BaseTransformer
 {
     /**
      * List of resources possible to include
@@ -35,7 +34,7 @@ class ProductTransformer extends TransformerAbstract
             'title' => $product->title,
             'price' => $product->price,
             'unit_title' => $product->unit_title,
-            'image' => $product->image,
+            'image' => $this->getImage($product->files()->first()),
         ];
     }
 

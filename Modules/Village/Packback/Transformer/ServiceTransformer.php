@@ -3,10 +3,9 @@
 namespace Modules\Village\Packback\Transformer;
 
 use League\Fractal\Resource\Item;
-use League\Fractal\TransformerAbstract;
 use Modules\Village\Entities\Service;
 
-class ServiceTransformer extends TransformerAbstract
+class ServiceTransformer extends BaseTransformer
 {
     /**
      * List of resources possible to include
@@ -33,7 +32,8 @@ class ServiceTransformer extends TransformerAbstract
         return [
             'id' =>  $service->id,
             'title' => $service->title,
-            'price' => $service->price
+            'price' => $service->price,
+            'image' => $this->getImage($service->files()->first()),
         ];
     }
 

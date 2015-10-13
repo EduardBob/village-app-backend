@@ -2,10 +2,12 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-use DB;
+use Modules\Media\Support\Traits\MediaRelation;
 
 class Service extends Model
 {
+    use MediaRelation;
+
     protected $table = 'village__services';
 
     protected $fillable = ['category_id', 'title', 'price', 'active'];

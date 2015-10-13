@@ -3,9 +3,12 @@
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
+use Modules\Media\Support\Traits\MediaRelation;
 
 class Product extends Model
 {
+    use MediaRelation;
+
     protected $table = 'village__products';
 
     protected $fillable = ['category_id', 'title', 'price', 'image', 'decline_reason', 'comment', 'active'];

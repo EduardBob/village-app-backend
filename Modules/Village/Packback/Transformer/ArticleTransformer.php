@@ -2,10 +2,9 @@
 
 namespace Modules\Village\Packback\Transformer;
 
-use League\Fractal\TransformerAbstract;
 use Modules\Village\Entities\Article;
 
-class ArticleTransformer extends TransformerAbstract
+class ArticleTransformer extends BaseTransformer
 {
     /**
      * Turn article object into generic array
@@ -20,6 +19,7 @@ class ArticleTransformer extends TransformerAbstract
             'title' => $article->title,
             'short' => $article->short,
             'text' => $article->text,
+            'image' => $this->getImage($article->files()->first()),
         ];
     }
 }

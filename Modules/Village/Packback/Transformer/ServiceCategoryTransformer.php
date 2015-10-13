@@ -2,10 +2,9 @@
 
 namespace Modules\Village\Packback\Transformer;
 
-use League\Fractal\TransformerAbstract;
 use Modules\Village\Entities\ServiceCategory;
 
-class ServiceCategoryTransformer extends TransformerAbstract
+class ServiceCategoryTransformer extends BaseTransformer
 {
     /**
      * Turn user object into generic array
@@ -18,6 +17,7 @@ class ServiceCategoryTransformer extends TransformerAbstract
         return [
             'id' =>  $serviceCategory->id,
             'title' => $serviceCategory->title,
+            'image' => $this->getImage($serviceCategory->files()->first()),
         ];
     }
 }

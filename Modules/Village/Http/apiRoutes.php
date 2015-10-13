@@ -7,6 +7,10 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
 
     // without token
     $router->group([], function (Router $router) {
+        $router->group(['prefix' => 'buildings'], function (Router $router) {
+            $router->get('{code}',        ['uses' => 'V1\BuildingController@show', 'as' => 'village.api.building.building.one']);
+        });
+
         $router->group(['prefix' => 'auth'], function (Router $router) {
             $router->post('',        ['uses' => 'V1\AuthController@auth', 'as' => 'village.api.user.auth.auth']);
         });
@@ -38,10 +42,6 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
             $router->post('name', 		['uses' => 'V1\MeController@changeName', 'as' => 'village.api.user.me.name']);
             $router->post('password', 	['uses' => 'V1\MeController@changePassword', 'as' => 'village.api.user.me.password']);
             $router->post('phone', 	    ['uses' => 'V1\MeController@changePhone', 'as' => 'village.api.user.me.phone']);
-        });
-
-        $router->group(['prefix' => 'buildings'], function (Router $router) {
-            $router->get('{code}',        ['uses' => 'V1\BuildingController@show', 'as' => 'village.api.building.building.one']);
         });
 
 //        $router->group(['prefix' => 'users'], function (Router $router) {

@@ -12,12 +12,12 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
         });
 
         $router->group(['prefix' => 'auth'], function (Router $router) {
-            $router->post('',        ['uses' => 'V1\AuthController@auth', 'as' => 'village.api.user.auth.auth']);
+            $router->post('token',        ['uses' => 'V1\AuthController@auth', 'as' => 'village.api.user.auth.auth']);
         });
 
-//        $router->group(['prefix' => 'auth', 'middleware' => ['jwt.auth', 'jwt.refresh']], function (Router $router) {
-//            $router->post('',        ['uses' => 'V1\AuthController@refresh', 'as' => 'village.api.user.auth.refresh']);
-//        });
+        $router->group(['prefix' => 'auth', 'middleware' => ['jwt.refresh']], function (Router $router) {
+            $router->post('refresh',        ['uses' => 'V1\AuthController@refresh', 'as' => 'village.api.user.auth.refresh']);
+        });
 
         $router->group(['prefix' => 'settings'], function (Router $router) {
             $router->get('',        ['uses' => 'V1\SettingController@index', 'as' => 'village.api.setting.setting.list']);
@@ -36,7 +36,7 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
     });
 
     // with token
-    $router->group(['middleware' => ['jwt.auth', 'jwt.refresh']], function (Router $router) {
+    $router->group(['middleware' => ['jwt.auth']], function (Router $router) {
         $router->group(['prefix' => 'me'], function (Router $router) {
             $router->get('',            ['uses' => 'V1\MeController@me', 'as' => 'village.api.user.me.me']);
             $router->post('name', 		['uses' => 'V1\MeController@changeName', 'as' => 'village.api.user.me.name']);

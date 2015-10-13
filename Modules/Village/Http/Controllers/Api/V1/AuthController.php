@@ -49,6 +49,6 @@ class AuthController extends ApiController
         $refresh = JWTAuth::refresh($token);
 
         // all good so return the token
-        return $this->response->withArray(compact('refresh'));
+        return $this->response->withArray(['data' => ['token' => $refresh]]);
     }
 }

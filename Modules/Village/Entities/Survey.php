@@ -24,4 +24,15 @@ class Survey extends Model
             ->orderBy('id', 'desc')
             ->first();
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function(Survey $survey) {
+            if (is_array($survey->options)) {
+                $survey->options = json_encode($survey->options);
+            }
+        });
+    }
 }

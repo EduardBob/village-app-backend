@@ -18,9 +18,14 @@ return [
         'actions' => 'Действия',
     ],
     'form' => [
+        'answer' => 'Ответ'
     ],
     'messages' => [
     ],
     'validation' => [
     ],
+    'tabs' => [
+        'data' => 'Опрос',
+        'answers' => 'Ответы'
+    ]
 ];

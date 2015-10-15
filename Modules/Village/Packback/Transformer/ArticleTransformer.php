@@ -19,6 +19,7 @@ class ArticleTransformer extends BaseTransformer
             'title' => $article->title,
             'short' => $article->short,
             'text' => $article->text,
+            'created_at' => $article->created_at->format('Y-m-d H:i:s'),
             'image' => $this->getImage($article->files()->first()),
         ];
     }

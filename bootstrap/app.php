@@ -56,6 +56,16 @@ $app->bind(
 	\Modules\Village\Http\Requests\UpdateUserRequest::class
 );
 
+$app->bind(
+	\Modules\User\Events\Handlers\SendRegistrationConfirmationEmail::class,
+	\Modules\Village\Events\Handlers\SendRegistrationConfirmationEmail::class
+);
+
+$app->bind(
+	\Modules\User\Events\Handlers\SendResetCodeEmail::class,
+	\Modules\Village\Events\Handlers\SendResetCodeEmail::class
+);
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

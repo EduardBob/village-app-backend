@@ -33,7 +33,7 @@ class UserController extends ApiController
         }
 
         $data['password'] = Hash::make(str_random());
-        $data['email'] = preg_replace('/[^0-9]*/','', $data['phone']).'@village.dev';
+//        $data['email'] = preg_replace('/[^0-9]*/','', $data['phone']).'@village.dev';
 
         /** @var UserRegistration $userRegistration */
         $userRegistration = app('Modules\User\Services\UserRegistration');
@@ -81,7 +81,7 @@ class UserController extends ApiController
 
         $password = $data['password'];
         $data['password'] = Hash::make($data['password']);
-        $data['email'] = $token['phone'].'@village.dev';
+//        $data['email'] = $token['phone'].'@village.dev';
 
         $user = User::where(['phone' => $token['phone']])->first();
         if (!$user) {

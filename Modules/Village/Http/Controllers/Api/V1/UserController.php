@@ -134,16 +134,26 @@ class UserController extends ApiController
         unset($data['session'], $data['code']);
 
         $user = User::where(['phone' => $token['phone']])->first();
+        /** @var $user User */
         if (!$user) {
             return $this->response->errorNotFound('user_not_found');
         }
 
-        DB::transaction(function() use ($user, $token) {
-            $user->update(['phone' => $token['phone']]);
+        if (!$user->isActivated()) {
+            return $this->response->errorNotFound('user_not_activated');
+        }
+
+        $password = $data['password'];
+        $data['password'] = Hash::make($data['password']);
+
+        DB::transaction(function() use ($user, $token, $data) {
+            $user->update(['phone' => $token['phone'], 'password' => $data['password']]);
             $token->delete();
         });
 
-        return $this->response->withArray(['success' => true]);
+        $request::replace(['phone' => $token['phone'], 'password' => $password]);
+
+        return (new AuthController($this->response))->auth($request);
     }
 
 //    /**

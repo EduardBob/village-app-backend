@@ -3,6 +3,7 @@
 namespace Modules\Village\Http\Controllers\Api\V1;
 
 use Modules\Village\Entities\Token;
+use Modules\Village\Entities\User;
 use Modules\Village\Packback\Transformer\TokenTransformer;
 use Request;
 use Validator;
@@ -26,6 +27,19 @@ class TokenController extends ApiController
 
         if ($validator->fails()) {
             return $this->response->errorWrongArgs($validator->errors());
+        }
+
+        if (in_array($data['type'], [Token::TYPE_CHANGE_PHONE, Token::TYPE_RESET_PASSWORD])) {
+            $user = User::where(['phone' => $data['phone']])->first();
+
+            /** @var $user User */
+            if (!$user) {
+                return $this->response->errorForbidden('user_not_found');
+            }
+
+            if (!$user->isActivated()) {
+                return $this->response->errorForbidden('user_not_activated');
+            }
         }
 
         $token = Token::create($data);

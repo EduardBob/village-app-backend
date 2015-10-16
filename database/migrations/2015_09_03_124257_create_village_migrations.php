@@ -178,7 +178,7 @@ class CreateVillageMigrations extends Migration
 
             $table->string('title');
             $table->json('options');
-            $table->dateTime('ends_at');
+            $table->date('ends_at');
             $table->boolean('active')->default(true);
 
             $table->timestamps();

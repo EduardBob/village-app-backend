@@ -45,6 +45,7 @@ class SurveyTransformer extends TransformerAbstract
         return [
             'id' =>  $survey->id,
             'title' => $survey->title,
+            'ends_at' => $survey->created_at->format('Y-m-d'),
             'options' => json_decode($survey->options, true)
         ];
     }

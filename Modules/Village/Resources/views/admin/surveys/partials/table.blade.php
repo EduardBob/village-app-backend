@@ -19,7 +19,7 @@
             </a>
         </td>
         <td>
-            {!! Carbon\Carbon::parse($model->ends_at)->format(config('village.date.format')) !!}
+            {!! Carbon\Carbon::parse($model->ends_at)->format('Y-m-d') !!}
         </td>
         <td>
             @if($model->active)

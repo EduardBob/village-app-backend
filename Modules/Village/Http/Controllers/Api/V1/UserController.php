@@ -24,12 +24,29 @@ class UserController extends ApiController
         $data = $request::only(['phone', 'building_id']);
 
         $validator = Validator::make($data, [
-            'phone' => 'required|unique:users|regex:'.config('village.user.phone.regex'),
+            'phone' => 'required|regex:'.config('village.user.phone.regex'),
             'building_id' => 'required|exists:village__buildings,id',
         ]);
 
         if ($validator->fails()) {
             return $this->response->errorWrongArgs($validator->errors());
+        }
+
+        /** @var User $user */
+        $user = User::where(['phone' => $data['phone']])->first();
+        if ($user) {
+            if (!$user->isActivated()) {
+                $token = Token::findOneByTypeAndPhone(Token::TYPE_REGISTRATION, $data['phone']);
+                Token::destroy($token->id);
+                $token = Token::create([
+                    'type'  => Token::TYPE_REGISTRATION,
+                    'phone' => $data['phone'],
+                ]);
+                return $this->response->withItem($token, new TokenTransformer);
+            }
+            else {
+                return $this->response->errorForbidden('user_exist');
+            }
         }
 
         $data['password'] = Hash::make(str_random());
@@ -140,7 +157,7 @@ class UserController extends ApiController
         }
 
         if (!$user->isActivated()) {
-            return $this->response->errorNotFound('user_not_activated');
+            return $this->response->errorForbidden('user_not_activated');
         }
 
         $password = $data['password'];

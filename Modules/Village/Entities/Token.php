@@ -48,17 +48,14 @@ class Token extends Model
         return static::where(compact('type', 'session', 'code'))->first();
     }
 
-
     /**
      * @param string $type
-     * @param string $session
-     * @param int    $code
      * @param string $phone
      *
      * @return mixed
      */
-    static public function _findOneByTypeAndSessionAndCodeAndPhone($type, $session, $code, $phone)
+    static public function findOneByTypeAndPhone($type, $phone)
     {
-        return static::where(compact('type', 'session', 'code', 'phone'))->first();
+        return static::where(compact('type', 'phone'))->first();
     }
 }

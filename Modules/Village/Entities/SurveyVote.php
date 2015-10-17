@@ -18,8 +18,8 @@ class SurveyVote extends Model
         return $this->belongsTo('Modules\Village\Entities\User');
     }
 
-    static public function findMyVote($surveyId)
+    static public function findVote(Survey $survey, User $user)
     {
-        return static::whereSurveyId($surveyId)->first();
+        return static::where(['survey_id' => $survey->id, 'user_id' => $user->id])->first();
     }
 }

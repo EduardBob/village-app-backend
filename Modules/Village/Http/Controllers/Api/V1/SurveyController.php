@@ -24,7 +24,7 @@ class SurveyController extends ApiController
             return $this->response->withArray([]);
         }
 
-        return $this->response->withItem($survey, new SurveyTransformer);
+        return $this->response->withItem($survey, new SurveyTransformer($this->user()));
     }
 
     /**

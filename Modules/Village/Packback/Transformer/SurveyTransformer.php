@@ -58,9 +58,11 @@ class SurveyTransformer extends TransformerAbstract
      */
     public function includeMyVote(Survey $survey)
     {
-        $surveyVote = SurveyVote::findMyVote($survey->id);
-        if ($surveyVote) {
-            return $this->item($surveyVote, new SurveyVoteTransformer);
+        if ($this->user) {
+            $surveyVote = SurveyVote::findVote($survey, $this->user);
+            if ($surveyVote) {
+                return $this->item($surveyVote, new SurveyVoteTransformer);
+            }
         }
     }
 }

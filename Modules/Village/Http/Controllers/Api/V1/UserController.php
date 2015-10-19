@@ -37,7 +37,9 @@ class UserController extends ApiController
         if ($user) {
             if (!$user->isActivated()) {
                 $token = Token::findOneByTypeAndPhone(Token::TYPE_REGISTRATION, $data['phone']);
-                Token::destroy($token->id);
+                if ($token) {
+                    Token::destroy($token->id);
+                }
                 $token = Token::create([
                     'type'  => Token::TYPE_REGISTRATION,
                     'phone' => $data['phone'],

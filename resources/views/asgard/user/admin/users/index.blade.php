@@ -66,7 +66,7 @@
                                     <div class="btn-group">
                                         <a href="{{ URL::route('admin.user.user.edit', [$user->id]) }}" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>
                                         <?php if ($user->id != $currentUser->id): ?>
-                                            <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $user->id }}"><i class="glyphicon glyphicon-trash"></i></button>
+                                            {{--<button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $user->id }}"><i class="glyphicon glyphicon-trash"></i></button>--}}
                                         <?php endif; ?>
                                     </div>
                                 </td>

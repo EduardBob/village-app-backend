@@ -33,26 +33,6 @@ class VillageSeeder extends Seeder
     {
 		$faker = Faker\Factory::create();
 
-	    $settings = [
-		    'village::shop-name' => 'Универсам Пятачок',
-		    'village::shop-address' => 'ул. Дыхания 71',
-		    'village::payment-info' => 'Произвести оплату вы сможете позже в своём профиле',
-	    ];
-
-	    foreach ($settings as $key => $value) {
-		    try {
-			    Setting::create([
-				    'name' => $key,
-				    'plainValue' => $value,
-				    'isTranslatable' => 0,
-				    'created_at' => new \DateTime(),
-			        'updated_at' => new \DateTime(),
-			    ]);
-		    }
-		    catch (\Exception $e) {}
-	    }
-
-
 	    for($i=0; $i < 100; $i++) {
 		    try {
 			    Building::create([
@@ -143,6 +123,7 @@ class VillageSeeder extends Seeder
 			    'category_id' => $faker->randomElement($productCategories),
 			    'title' => $faker->unique()->sentence(3),
 			    'price' => $faker->randomFloat(4, 0),
+			    'unit_title' => $faker->randomElement(config('village.product.unit.values')),
 			    'image' => $faker->imageUrl(640, 480),
 			    'active' => $faker->randomElement([0, 1]),
 			    'text'   => $faker->text(),
@@ -155,7 +136,7 @@ class VillageSeeder extends Seeder
 		    ProductOrder::create([
 			    'product_id' => $faker->randomElement($products),
 			    'user_id' => $faker->randomElement($users),
-			    'quantity' => $faker->randomDigit,
+			    'quantity' => $faker->randomDigitNotNull,
 			    'perform_at' => $faker->dateTime,
 			    'comment' => $faker->text,
 			    'status' => $status = $faker->randomElement(config('village.order.statuses')),

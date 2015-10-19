@@ -32,7 +32,10 @@ return [
     'product' => [
         'comment' => [
             'label' => 'Ваши пожелания и заметки'
-        ]
+        ],
+        'unit' => [
+            'values' => ['kg', 'bottle', 'piece']
+        ],
     ],
     'service' => [
         'comment' => [

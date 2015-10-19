@@ -22,7 +22,15 @@
                 {!! $errors->first('price', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
+            <div class="form-group{{ $errors->has('unit_title') ? ' has-error' : '' }}">
+                {!! Form::label('unit_title', $admin->trans('table.unit_title')) !!}
+                {!! Form::select('unit_title', array_combine(config('village.product.unit.values'), $admin->trans('form.unit_title.values')),
+                Input::old('unit_title', @$model->unit_title), ['class' => 'form-control', 'placeholder' => $admin->trans('form.unit_title.placeholder')]) !!}
+                {!! $errors->first('unit_title', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-8">
             <div class="form-group{{ $errors->has('comment_label') ? ' has-error' : '' }}">
                 {!! Form::label('comment_label', $admin->trans('table.comment_label')) !!}
                 {!! Form::text('comment_label', Input::old('comment_label', @$model->comment_label ? $model->comment_label : config('village.product.comment.label')), ['class' => 'form-control', 'placeholder' => $admin->trans('table.comment_label')]) !!}

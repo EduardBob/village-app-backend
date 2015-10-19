@@ -14,6 +14,7 @@ return [
         'id' => 'ID заказа',
         'product' => 'Продукт',
         'quantity' => 'Кол-во',
+        'unit_title' => 'Ед. измерения',
         'address' => 'Адрес',
         'perform_at' => 'Исполнить в',
         'price' => 'Цена',
@@ -32,6 +33,14 @@ return [
         ],
         'user' => [
             'placeholder' => 'Не выбран'
+        ],
+        'unit_title' => [
+            'placeholder' => 'Не выбрано',
+            'values' => [
+                'kg' => 'кг',
+                'bottle' => 'бут.',
+                'piece' => 'шт.',
+            ]
         ],
         'status' => [
             'placeholder' => 'Не выбран',

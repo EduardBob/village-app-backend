@@ -15,6 +15,50 @@ class CreateVillageMigrations extends Migration
      */
     public function up()
     {
+        $settings = \Modules\Setting\Entities\Setting::all(['id']);
+        $ids = [];
+        foreach ($settings as $setting) {
+            $ids[] = $setting['id'];
+        }
+        \Modules\Setting\Entities\Setting::destroy($ids);
+
+        if (Schema::hasTable('setting__settings')) {
+            Schema::table('setting__settings', function (Blueprint $table) {
+                try {
+                    $table->unique('name', 'setting__settings_name_unique');
+                }
+                catch (\Exception $ex) {}
+            });
+        }
+
+        $settings = [
+            'core::template' => 'Flatly',
+            'core::locales' => '["ru"]',
+            'core::site-name' => 'Название сайта',
+            'village::shop-name' => 'Универсам Пятачок',
+            'village::shop-address' => 'ул. Дыхания 71',
+            'village::service-payment-info' => 'Произвести оплату вы сможете позже в своём профиле',
+            'village::service-bottom-text' => 'Ваша заявка будет принята и в кратчайшее время с Вами свяжется наш специалист. Просмотреть статус заявки, а также произвести оплату Вы сможете в своем профилее',
+            'village::product-payment-info' => 'оплата при самовывозе',
+            'village::product-bottom-text' => 'Вы будете переадресованы на страницу оплаты. После успешной оплаты ваш заказ будет отправлен. Вы сможете увидеть его статус в своём профиле.',
+            'village::product-unit-step-kg' => '0.5',
+            'village::product-unit-step-bottle' => '1',
+            'village::product-unit-step-piece' => '1',
+        ];
+
+        foreach ($settings as $key => $value) {
+            try {
+                \Modules\Setting\Entities\Setting::create([
+                    'name' => $key,
+                    'plainValue' => $value,
+                    'isTranslatable' => 0,
+                    'created_at' => new \DateTime(),
+                    'updated_at' => new \DateTime(),
+                ]);
+            }
+            catch (\Exception $e) {}
+        }
+
         if (!Schema::hasTable('village__buildings')) {
             Schema::create('village__buildings', function(Blueprint $table)
             {
@@ -142,7 +186,7 @@ class CreateVillageMigrations extends Migration
 
             $table->string('title')->unique();
             $table->decimal('price', 10, 2);
-            $table->string('unit_title')->default('kg');
+            $table->enum('unit_title', config('village.product.unit.values'));
             $table->string('image');
             $table->boolean('active')->default(true);
             $table->string('comment_label', 50);
@@ -163,7 +207,7 @@ class CreateVillageMigrations extends Migration
 
             $table->dateTime('perform_at');
             $table->decimal('price', 10, 2);
-            $table->string('unit_title')->default('kg');
+            $table->enum('unit_title', config('village.product.unit.values'));
             $table->decimal('quantity', 5, 2);
             $table->text('comment');
             $table->text('decline_reason')->nullable();
@@ -222,6 +266,15 @@ class CreateVillageMigrations extends Migration
      */
     public function down()
     {
+        if (Schema::hasTable('setting__settings')) {
+            Schema::table('setting__settings', function (Blueprint $table) {
+                try {
+                    $table->dropUnique('setting__settings_name_unique');
+                }
+                catch (\Exception $ex) {}
+            });
+        }
+
         Schema::drop('village__margins');
 
         Schema::drop('village__survey_votes');

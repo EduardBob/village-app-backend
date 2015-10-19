@@ -5,6 +5,7 @@
         <th>{{ $admin->trans('table.title') }}</th>
         <th>{{ $admin->trans('table.category') }}</th>
         <th>{{ $admin->trans('table.price') }}</th>
+        <th>{{ $admin->trans('table.unit_title') }}</th>
         <th>{{ $admin->trans('table.active') }}</th>
         <th>{{ $admin->trans('table.actions') }}</th>
     </tr>
@@ -35,6 +36,9 @@
             {{ $model->price }}
         </td>
         <td>
+            {{ $admin->trans('form.unit_title.values.'.$model->unit_title) }}
+        </td>
+        <td>
             @if($model->active)
                 <span class="label label-success">{{ trans('village::admin.table.active.yes') }}</span>
             @else
@@ -57,6 +61,7 @@
         <th>{{ $admin->trans('table.category') }}</th>
         <th>{{ $admin->trans('table.title') }}</th>
         <th>{{ $admin->trans('table.price') }}</th>
+        <th>{{ $admin->trans('table.unit_title') }}</th>
         <th>{{ $admin->trans('table.active') }}</th>
         <th>{{ $admin->trans('table.actions') }}</th>
     </tr>

@@ -40,6 +40,7 @@ class ProductController extends AdminController
             'category_id' => 'required|exists:village__product_categories,id',
             'title' => "required|max:255|unique:village__products,title,{$productId}",
             'price' => 'required|numeric|min:1',
+            'unit_title' => 'required|in:'.implode(',', config('village.product.unit.values')),
             'active' => "required|boolean",
             'comment_label' => 'required|max:50',
             'text' => 'required|max:255',

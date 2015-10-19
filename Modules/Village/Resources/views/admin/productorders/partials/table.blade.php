@@ -4,6 +4,7 @@
         <th>{{ $admin->trans('table.id') }}</th>
         <th>{{ $admin->trans('table.product') }}</th>
         <th>{{ $admin->trans('table.quantity') }}</th>
+        <th>{{ $admin->trans('table.unit_title') }}</th>
         <th>{{ $admin->trans('table.address') }}</th>
         <th>{{ $admin->trans('table.perform_at') }}</th>
         <th>{{ $admin->trans('table.price') }}</th>
@@ -29,6 +30,9 @@
         </td>
         <td>
             {{ $model->quantity }}
+        </td>
+        <td>
+            {{ $admin->trans('form.unit_title.values.'.$model->unit_title) }}
         </td>
         <td>
             @if ($model->user->building)
@@ -72,6 +76,7 @@
     <tr>
         <th>{{ $admin->trans('table.product') }}</th>
         <th>{{ $admin->trans('table.quantity') }}</th>
+        <th>{{ $admin->trans('table.unit_title') }}</th>
         <th>{{ $admin->trans('table.address') }}</th>
         <th>{{ $admin->trans('table.perform_at') }}</th>
         <th>{{ $admin->trans('table.price') }}</th>

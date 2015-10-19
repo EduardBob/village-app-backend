@@ -14,6 +14,7 @@ return [
         'title' => 'Название',
         'category' => 'Категория',
         'price' => 'Цена',
+        'unit_title' => 'Ед. измерения',
         'comment_label' => 'Метка заметки',
         'text' => 'Описание',
         'active' => 'Доступен',
@@ -24,6 +25,14 @@ return [
         'media' => 'Изображение',
         'category' => [
             'placeholder' => 'Не выбрана'
+        ],
+        'unit_title' => [
+            'placeholder' => 'Не выбрано',
+            'values' => [
+                'kg' => 'кг',
+                'bottle' => 'бут.',
+                'piece' => 'шт.',
+            ]
         ]
     ],
     'messages' => [

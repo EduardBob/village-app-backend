@@ -137,7 +137,7 @@ class UserController extends ApiController
             'session' => 'required',
             'code'    => 'required',
             // user
-            'password', 'password_confirmation',
+            'password' => 'required|min:6|confirmed',
         ]);
 
         if ($validator->fails()) {

@@ -23,12 +23,11 @@ class Article extends Model
     /**
      * @param string $text
      * @param int    $limit
-     * @param string $chr
      *
      * @return string
      */
-    static public function generateShort($text, $limit = 200, $chr = '&#8230;')
+    static public function generateShort($text, $limit = 200)
     {
-        return (mb_strlen($text) <= $limit) ? $text : substr($text, 0, $limit - 3).$chr;
+        return (mb_strlen($text) <= $limit) ? $text : substr($text, 0, $limit - 3).'...';
     }
 }

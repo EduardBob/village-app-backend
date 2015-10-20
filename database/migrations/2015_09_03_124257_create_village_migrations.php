@@ -209,7 +209,7 @@ class CreateVillageMigrations extends Migration
             $table->decimal('price', 10, 2);
             $table->enum('unit_title', config('village.product.unit.values'));
             $table->decimal('quantity', 5, 2);
-            $table->text('comment');
+            $table->text('comment')->nullable();
             $table->text('decline_reason')->nullable();
             $table->enum('status', config('village.order.statuses'));
 

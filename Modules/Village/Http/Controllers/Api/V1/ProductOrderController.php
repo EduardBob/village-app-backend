@@ -60,7 +60,7 @@ class ProductOrderController extends ApiController
         return Validator::make($data, [
             'perform_at' => 'required|date|date_format:'.config('village.date.format'),
             'status' => 'required|in:'.implode(',', config('village.order.statuses')),
-            'comment' => 'sometimes|required|string',
+//            'comment' => 'sometimes|required|string',
             'decline_reason' => 'sometimes|required_if:status,rejected|string',
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:village__products,id',

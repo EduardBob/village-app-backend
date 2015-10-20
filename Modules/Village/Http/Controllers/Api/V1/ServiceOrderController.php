@@ -61,7 +61,7 @@ class ServiceOrderController extends ApiController
             'service_id'     => 'required|exists:village__services,id',
             'perform_at'     => 'required|date|date_format:'.config('village.date.format'),
             'status'         => 'required|in:'.implode(',', config('village.order.statuses')),
-            'comment'        => 'sometimes|required|string',
+//            'comment'        => 'sometimes|required|string',
             'decline_reason' => 'sometimes|required_if:status,rejected|string',
         ]);
     }

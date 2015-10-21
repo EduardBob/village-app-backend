@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 
-use Modules\Setting\Entities\Setting;
 use Modules\Village\Entities\User;
 
 use Modules\Village\Entities\Building;
@@ -62,11 +61,12 @@ class VillageSeeder extends Seeder
 	    $users = $this->getItems(User::class);
 
 
+	    $createdAt = (new \DateTime())->modify('-1 years');
 	    for($i=0; $i < 100; $i++) {
 		    Article::create([
 			    'title' => $faker->sentence(3),
 			    'text' => $faker->text(1000),
-			    'created_at' => $createdAt = $faker->dateTimeBetween('-10 year'),
+			    'created_at' => $createdAt->modify('+3 days'),
 			    'updated_at' => $faker->dateTimeBetween($createdAt),
 			    'active' => $faker->randomElement([0, 1]),
 		    ]);

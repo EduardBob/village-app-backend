@@ -58,8 +58,6 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
         });
 
         $router->group(['prefix' => 'services'], function (Router $router) {
-            $router->get('',        ['uses' => 'V1\ServiceController@index', 'as' => 'village.api.service.service.list']);
-
             $router->group(['prefix' => 'categories'], function (Router $router) {
                 $router->get('',        ['uses' => 'V1\ServiceCategoryController@index', 'as' => 'village.api.service.category.list']);
             });
@@ -68,11 +66,12 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
                 $router->get('',        ['uses' => 'V1\ServiceOrderController@index', 'as' => 'village.api.service.order.list']);
                 $router->post('',       ['uses' => 'V1\ServiceOrderController@store', 'as' => 'village.api.service.order.store']);
             });
+
+            $router->get('',        ['uses' => 'V1\ServiceController@index', 'as' => 'village.api.service.service.list']);
+            $router->get('{id}',        ['uses' => 'V1\ServiceController@show', 'as' => 'village.api.service.service.one']);
         });
 
         $router->group(['prefix' => 'products'], function (Router $router) {
-            $router->get('',        ['uses' => 'V1\ProductController@index', 'as' => 'village.api.product.product.list']);
-
             $router->group(['prefix' => 'categories'], function (Router $router) {
                 $router->get('',        ['uses' => 'V1\ProductCategoryController@index', 'as' => 'village.api.product.category.list']);
             });
@@ -81,6 +80,9 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
                 $router->get('',        ['uses' => 'V1\ProductOrderController@index', 'as' => 'village.api.product.order.list']);
                 $router->post('',       ['uses' => 'V1\ProductOrderController@store', 'as' => 'village.api.product.order.store']);
             });
+
+            $router->get('',        ['uses' => 'V1\ProductController@index', 'as' => 'village.api.product.product.list']);
+            $router->get('{id}',        ['uses' => 'V1\ProductController@show', 'as' => 'village.api.product.product.one']);
         });
 
         $router->group(['prefix' => 'surveys'], function (Router $router) {

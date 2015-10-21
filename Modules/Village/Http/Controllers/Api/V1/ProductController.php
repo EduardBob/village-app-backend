@@ -35,7 +35,7 @@ class ProductController extends ApiController
     public function show($productId)
     {
         $product = Product::find($productId);
-        if(!$product){
+        if(!$product || $product->active != 1){
             return $this->response->errorNotFound('Not Found');
         }
 

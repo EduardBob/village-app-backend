@@ -33,7 +33,7 @@ class ServiceController extends ApiController
     public function show($serviceId)
     {
         $service = Service::find($serviceId);
-        if(!$service){
+        if(!$service || $service->active != 1){
             return $this->response->errorNotFound('Not Found');
         }
 

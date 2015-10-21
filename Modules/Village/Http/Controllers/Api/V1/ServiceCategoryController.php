@@ -15,7 +15,7 @@ class ServiceCategoryController extends ApiController
      */
     public function index()
     {
-        $serviceCategories = ServiceCategory::where(['active' => 1])->orderBy('order', 'desc')->get();
+        $serviceCategories = ServiceCategory::where(['active' => 1])->has('services')->orderBy('order', 'desc')->get();
 
         return $this->response->withCollection($serviceCategories, new ServiceCategoryTransformer);
     }

@@ -15,7 +15,11 @@ class ProductCategoryController extends ApiController
      */
     public function index()
     {
-        $productCategories = ProductCategory::where(['active' => 1])->has('products')->orderBy('order', 'desc')->get();
+        $productCategories = ProductCategory::where(['active' => 1])
+            ->whereHas('products', function($query) {
+                $query->where(['active' => 1]);
+            })
+            ->orderBy('order', 'desc')->get();
 
         return $this->response->withCollection($productCategories, new ProductCategoryTransformer);
     }

@@ -64,7 +64,7 @@ class ProductOrderController extends ApiController
             'decline_reason' => 'sometimes|required_if:status,rejected|string',
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:village__products,id',
-            'quantity' => 'required|numeric|min:1'
+            'quantity' => 'required|numeric|min:0'
         ]);
     }
 }

@@ -369,60 +369,21 @@
 				},
 				{
 					"id": "4507d136-bc31-7c9c-66ce-a2ccd7f095e9",
-					"owner": "161799",
 					"headers": "Authorization: Bearer  {{token}}\n",
-					"url": "{{domain}}/api/v1/services??category_id={{service.category.id}}",
+					"url": "{{domain}}/api/v1/services?category_id={{service.category.id}}&page={{page}}",
 					"preRequestScript": "// category_id: {{service.category.id}}\npostman.setEnvironmentVariable(\"service.category.id\", 1);",
 					"pathVariables": {},
 					"method": "GET",
-					"data": [
-						{
-							"key": "product_id",
-							"value": "1",
-							"type": "text",
-							"enabled": true
-						},
-						{
-							"key": "perform_at",
-							"value": "2015-10-11 12:30",
-							"type": "text",
-							"enabled": true
-						},
-						{
-							"key": "quantity",
-							"value": "2",
-							"type": "text",
-							"enabled": true
-						},
-						{
-							"key": "comment",
-							"value": "test",
-							"type": "text",
-							"enabled": true
-						}
-					],
+					"data": [],
 					"dataMode": "params",
 					"version": 2,
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains category\"] = responseBody.has(\"category\");\n\n    postman.setEnvironmentVariable(\"service.id\", data.data[0].id);\n}",
 					"currentHelper": "normal",
-					"helperAttributes": "{}",
-					"time": 1443129154631,
+					"helperAttributes": {},
+					"time": 1445423872522,
 					"name": "/api/v1/services",
 					"description": "Get all services",
-					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
-					"synced": true,
-					"rawModeData": null,
-					"descriptionFormat": null,
-					"createdAt": "2015-09-23T16:02:34.000Z",
-					"updatedAt": "2015-09-24T21:12:34.000Z",
-					"lastUpdatedBy": {
-						"id": "161799",
-						"username": "NEOKILLER King"
-					},
-					"lastRevision": 60496272,
-					"history": null,
-					"folder": "41fdced9-4965-604e-c9b5-444424b69cfc",
-					"write": true
+					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e"
 				},
 				{
 					"id": "4853e463-486f-b887-47ef-7576d07e2a74",
@@ -1279,61 +1240,22 @@
 				},
 				{
 					"id": "f3fcc9cd-0735-ce4b-2835-fd87e511590d",
-					"owner": "161799",
 					"headers": "Authorization: Bearer  {{token}}\n",
-					"url": "{{domain}}/api/v1/products?category_id={{product.category.id}}",
+					"url": "{{domain}}/api/v1/products?category_id={{product.category.id}}&page={{page}}",
 					"preRequestScript": "// category_id: {{product.category.id}}\npostman.setEnvironmentVariable(\"product.category.id\", 1);",
 					"pathVariables": {},
 					"method": "GET",
-					"data": [
-						{
-							"key": "product_id",
-							"value": "1",
-							"type": "text",
-							"enabled": true
-						},
-						{
-							"key": "perform_at",
-							"value": "2015-10-11 12:30",
-							"type": "text",
-							"enabled": true
-						},
-						{
-							"key": "quantity",
-							"value": "2",
-							"type": "text",
-							"enabled": true
-						},
-						{
-							"key": "comment",
-							"value": "test",
-							"type": "text",
-							"enabled": true
-						}
-					],
+					"data": [],
 					"dataMode": "params",
 					"version": 2,
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains unit_title\"] = responseBody.has(\"unit_title\");\n    tests[\"Body contains image\"] = responseBody.has(\"image\");\n    tests[\"Body contains category\"] = responseBody.has(\"category\");\n\n    postman.setEnvironmentVariable(\"product.id\", data.data[0].id);\n}",
 					"currentHelper": "normal",
-					"helperAttributes": "{}",
-					"time": 1443129134101,
+					"helperAttributes": {},
+					"time": 1445423877657,
 					"name": "/api/v1/products",
 					"description": "Get all my product's orders",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
-					"responses": [],
-					"synced": true,
-					"rawModeData": null,
-					"descriptionFormat": null,
-					"createdAt": "2015-09-23T16:02:33.000Z",
-					"updatedAt": "2015-09-24T21:12:14.000Z",
-					"lastUpdatedBy": {
-						"id": "161799",
-						"username": "NEOKILLER King"
-					},
-					"lastRevision": 60496200,
-					"history": null,
-					"folder": "87f3f239-cfe4-ee9b-21cb-48df531efef0",
-					"write": true
+					"responses": []
 				},
 				{
 					"id": "fb45edbb-8d7a-67d3-7596-a704fc112340",
@@ -1396,160 +1318,6 @@
 		}
 	],
 	"environments": [
-		{
-			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
-			"name": "dev",
-			"values": [
-				{
-					"key": "debug",
-					"value": "true",
-					"type": "text",
-					"name": "debug",
-					"enabled": true
-				},
-				{
-					"key": "domain",
-					"value": "http://village.dev",
-					"type": "text",
-					"name": "domain",
-					"enabled": true
-				},
-				{
-					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjgzOSwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5kZXZcL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoiMTQ0NTI2OTI2NyIsImV4cCI6IjE0NDUzNTU2NjciLCJuYmYiOiIxNDQ1MjY5MjY3IiwianRpIjoiN2E0NTY5MjgyNzI2MmQ1MjNhZTI5YzhjNDc5MWRiN2QifQ.T9qSpwv8G6jah3Ta5uWDGEWSd50JebPwrUqzEQXROYY",
-					"type": "text",
-					"name": "token",
-					"enabled": true
-				},
-				{
-					"key": "phone",
-					"value": "+7(111)1111111",
-					"type": "text",
-					"name": "phone",
-					"enabled": true
-				},
-				{
-					"key": "password",
-					"value": "yj3wev32R6eQJWV",
-					"type": "text",
-					"name": "password",
-					"enabled": true
-				},
-				{
-					"key": "token.code",
-					"value": "9434410",
-					"type": "text",
-					"name": "token.code",
-					"enabled": true
-				},
-				{
-					"key": "token.session",
-					"value": "ndS8HbuOhD",
-					"type": "text",
-					"name": "token.session",
-					"enabled": true
-				},
-				{
-					"key": "article.id",
-					"value": "100",
-					"type": "text",
-					"name": "article.id",
-					"enabled": true
-				},
-				{
-					"key": "me.first_name",
-					"value": "ppqjtjyxvf",
-					"type": "text",
-					"name": "me.first_name",
-					"enabled": true
-				},
-				{
-					"key": "me.last_name",
-					"value": "fofehpvi",
-					"type": "text",
-					"name": "me.last_name",
-					"enabled": true
-				},
-				{
-					"key": "product.id",
-					"value": "30",
-					"type": "text",
-					"name": "product.id",
-					"enabled": true
-				},
-				{
-					"key": "service.id",
-					"value": "2",
-					"type": "text",
-					"name": "service.id",
-					"enabled": true
-				},
-				{
-					"key": "page",
-					"value": "1",
-					"type": "text",
-					"name": "page",
-					"enabled": true
-				},
-				{
-					"key": "product.category.id",
-					"value": "1",
-					"type": "text",
-					"name": "product.category.id",
-					"enabled": true
-				},
-				{
-					"key": "service.category.id",
-					"value": "1",
-					"type": "text",
-					"name": "service.category.id",
-					"enabled": true
-				},
-				{
-					"key": "building.code",
-					"value": "test",
-					"type": "text",
-					"name": "building.code",
-					"enabled": true
-				},
-				{
-					"key": "building.id",
-					"value": "1",
-					"type": "text",
-					"name": "building.id",
-					"enabled": true
-				},
-				{
-					"key": "me.password",
-					"value": "2",
-					"type": "text",
-					"name": "me.password",
-					"enabled": true
-				},
-				{
-					"key": "survey.id",
-					"value": "98",
-					"type": "text",
-					"name": "survey.id",
-					"enabled": true
-				},
-				{
-					"key": "survey.my_vote.choice",
-					"value": "1",
-					"type": "text",
-					"name": "survey.my_vote.choice",
-					"enabled": true
-				},
-				{
-					"key": "survey.choice",
-					"value": "0",
-					"type": "text",
-					"name": "survey.choice",
-					"enabled": true
-				}
-			],
-			"timestamp": 1445273554424
-		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
 			"name": "staging",
@@ -1650,7 +1418,161 @@
 					"value": "0"
 				}
 			],
-			"timestamp": 1445273554430
+			"timestamp": 1445423589973
+		},
+		{
+			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
+			"name": "dev",
+			"values": [
+				{
+					"key": "debug",
+					"value": "true",
+					"type": "text",
+					"name": "debug",
+					"enabled": true
+				},
+				{
+					"key": "domain",
+					"value": "http://village.dev",
+					"type": "text",
+					"name": "domain",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjgzOSwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5kZXZcL2FwaVwvdjFcL2F1dGhcL3JlZnJlc2giLCJpYXQiOiIxNDQ1MjY5MjY3IiwiZXhwIjoiMTQ0NTUwOTk5OSIsIm5iZiI6IjE0NDU0MjM1OTkiLCJqdGkiOiI4OGExZGFmYTNlYzhlZmZmM2ZhNjU4YWIxZjM3OTQ4MCJ9.CAlhDAele24mk0qv1EPmQJh6W_TsWHsN2fTTF9I8qMI",
+					"type": "text",
+					"name": "token",
+					"enabled": true
+				},
+				{
+					"key": "phone",
+					"value": "+7(111)1111111",
+					"type": "text",
+					"name": "phone",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "yj3wev32R6eQJWV",
+					"type": "text",
+					"name": "password",
+					"enabled": true
+				},
+				{
+					"key": "token.code",
+					"value": "9434410",
+					"type": "text",
+					"name": "token.code",
+					"enabled": true
+				},
+				{
+					"key": "token.session",
+					"value": "ndS8HbuOhD",
+					"type": "text",
+					"name": "token.session",
+					"enabled": true
+				},
+				{
+					"key": "article.id",
+					"value": "100",
+					"type": "text",
+					"name": "article.id",
+					"enabled": true
+				},
+				{
+					"key": "me.first_name",
+					"value": "ppqjtjyxvf",
+					"type": "text",
+					"name": "me.first_name",
+					"enabled": true
+				},
+				{
+					"key": "me.last_name",
+					"value": "fofehpvi",
+					"type": "text",
+					"name": "me.last_name",
+					"enabled": true
+				},
+				{
+					"key": "product.id",
+					"value": "8",
+					"type": "text",
+					"name": "product.id",
+					"enabled": true
+				},
+				{
+					"key": "service.id",
+					"value": "40",
+					"type": "text",
+					"name": "service.id",
+					"enabled": true
+				},
+				{
+					"key": "page",
+					"value": "1",
+					"type": "text",
+					"name": "page",
+					"enabled": true
+				},
+				{
+					"key": "product.category.id",
+					"value": "1",
+					"type": "text",
+					"name": "product.category.id",
+					"enabled": true
+				},
+				{
+					"key": "service.category.id",
+					"value": "1",
+					"type": "text",
+					"name": "service.category.id",
+					"enabled": true
+				},
+				{
+					"key": "building.code",
+					"value": "test",
+					"type": "text",
+					"name": "building.code",
+					"enabled": true
+				},
+				{
+					"key": "building.id",
+					"value": "1",
+					"type": "text",
+					"name": "building.id",
+					"enabled": true
+				},
+				{
+					"key": "me.password",
+					"value": "2",
+					"type": "text",
+					"name": "me.password",
+					"enabled": true
+				},
+				{
+					"key": "survey.id",
+					"value": "98",
+					"type": "text",
+					"name": "survey.id",
+					"enabled": true
+				},
+				{
+					"key": "survey.my_vote.choice",
+					"value": "1",
+					"type": "text",
+					"name": "survey.my_vote.choice",
+					"enabled": true
+				},
+				{
+					"key": "survey.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.choice",
+					"enabled": true
+				}
+			],
+			"timestamp": 1445423985945
 		}
 	],
 	"headerPresets": [

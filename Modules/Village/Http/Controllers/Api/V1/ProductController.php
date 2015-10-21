@@ -18,12 +18,12 @@ class ProductController extends ApiController
      */
     public function index(Request $request)
     {
-        $products = Product::where(['active' => $this->user()])->orderBy('title', 'asc');
+        $products = Product::where(['active' => 1])->orderBy('title', 'asc');
         if ($categoryId = $request::query('category_id')) {
             $products->where(['category_id' => $categoryId]);
         }
 
-        return $this->response->withCollection($products->get(), new ProductTransformer);
+        return $this->response->withCollection($products->paginate(10), new ProductTransformer);
     }
 
     /**

@@ -21,7 +21,7 @@ class ServiceController extends ApiController
             $services->where(['category_id' => $categoryId]);
         }
 
-        return $this->response->withCollection($services->get(), new ServiceTransformer);
+        return $this->response->withCollection($services->paginate(10), new ServiceTransformer);
     }
 
     /**

@@ -20,7 +20,7 @@ class Survey extends Model
     {
         return static
             ::where(['active' => 1])
-            ->where('ends_at', '<', date('Y-m-d H:i:s'))
+            ->where('ends_at', '>', date('Y-m-d H:i:s'))
             ->orderBy('id', 'desc')
             ->first();
     }

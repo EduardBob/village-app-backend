@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3d04c2c232f4c0a1d14ec4fc5b3a80f0",
+    "hash": "0130941577cb274dfde6bde8865febc1",
     "packages": [
         {
             "name": "asgardcms/adminlte-theme",
@@ -865,16 +865,16 @@
         },
         {
             "name": "dimsav/laravel-translatable",
-            "version": "v5.1.2",
+            "version": "v5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dimsav/laravel-translatable.git",
-                "reference": "cc93332e6989b0f9ea324b4bcf220d8353d5849c"
+                "reference": "aad1f1cca11439bee6cce57b3a703678d15bb8df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dimsav/laravel-translatable/zipball/cc93332e6989b0f9ea324b4bcf220d8353d5849c",
-                "reference": "cc93332e6989b0f9ea324b4bcf220d8353d5849c",
+                "url": "https://api.github.com/repos/dimsav/laravel-translatable/zipball/aad1f1cca11439bee6cce57b3a703678d15bb8df",
+                "reference": "aad1f1cca11439bee6cce57b3a703678d15bb8df",
                 "shasum": ""
             },
             "require": {
@@ -912,7 +912,7 @@
                 "laravel",
                 "translation"
             ],
-            "time": "2015-10-17 08:14:00"
+            "time": "2015-10-18 12:22:57"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1610,12 +1610,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "9198c2f7668b9ee494959f8ff7f5f6e6f65379ca"
+                "reference": "f6b2ebd8c462494083bfea6c087f79da36503930"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/9198c2f7668b9ee494959f8ff7f5f6e6f65379ca",
-                "reference": "9198c2f7668b9ee494959f8ff7f5f6e6f65379ca",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/f6b2ebd8c462494083bfea6c087f79da36503930",
+                "reference": "f6b2ebd8c462494083bfea6c087f79da36503930",
                 "shasum": ""
             },
             "require": {
@@ -1652,7 +1652,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2015-10-12 15:48:46"
+            "time": "2015-10-19 10:11:20"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -2858,16 +2858,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "1.0.7",
+            "version": "1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "df1207683dfbd1399f0fa931a368082a28fed50b"
+                "reference": "7647ac58c35ece044b939e01c85dbaa73ed26351"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/df1207683dfbd1399f0fa931a368082a28fed50b",
-                "reference": "df1207683dfbd1399f0fa931a368082a28fed50b",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/7647ac58c35ece044b939e01c85dbaa73ed26351",
+                "reference": "7647ac58c35ece044b939e01c85dbaa73ed26351",
                 "shasum": ""
             },
             "require": {
@@ -2899,7 +2899,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2015-10-16 14:10:15"
+            "time": "2015-10-20 15:22:41"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -4515,16 +4515,16 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.10.4",
+            "version": "v1.10.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "7b2006e6e095126b5a061ec33fca3d90ea8a8219"
+                "reference": "30e53e8a28284b69dd223c9f5ee8957befd72636"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/7b2006e6e095126b5a061ec33fca3d90ea8a8219",
-                "reference": "7b2006e6e095126b5a061ec33fca3d90ea8a8219",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/30e53e8a28284b69dd223c9f5ee8957befd72636",
+                "reference": "30e53e8a28284b69dd223c9f5ee8957befd72636",
                 "shasum": ""
             },
             "require": {
@@ -4567,7 +4567,7 @@
             "keywords": [
                 "debug"
             ],
-            "time": "2015-02-05 07:51:20"
+            "time": "2015-10-19 20:35:12"
         },
         {
             "name": "phpspec/php-diff",
@@ -4982,16 +4982,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.14",
+            "version": "4.8.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "b4900675926860bef091644849305399b986efa2"
+                "reference": "be8f7b9eacf8243940f8412f8b4a9a434c73dd7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b4900675926860bef091644849305399b986efa2",
-                "reference": "b4900675926860bef091644849305399b986efa2",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/be8f7b9eacf8243940f8412f8b4a9a434c73dd7b",
+                "reference": "be8f7b9eacf8243940f8412f8b4a9a434c73dd7b",
                 "shasum": ""
             },
             "require": {
@@ -5050,7 +5050,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-10-17 15:03:30"
+            "time": "2015-10-22 09:05:37"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -5533,6 +5533,16 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "pingpong/modules": 20,
+        "asgardcms/core-module": 20,
+        "asgardcms/dashboard-module": 20,
+        "asgardcms/user-module": 20,
+        "asgardcms/setting-module": 20,
+        "asgardcms/media-module": 20,
+        "asgardcms/page-module": 20,
+        "asgardcms/menu-module": 20,
+        "asgardcms/workshop-module": 20,
+        "asgardcms/flatly-theme": 20,
+        "asgardcms/adminlte-theme": 20,
         "fzaninotto/faker": 20,
         "nesbot/carbon": 20,
         "barryvdh/laravel-ide-helper": 20

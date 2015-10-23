@@ -18,9 +18,25 @@ class User extends BaseUser implements AuthenticatableContract
         'building_id',
     ];
 
+    public function village()
+    {
+        return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
+    }
+
+    public function building()
+    {
+        return $this->belongsTo('Modules\Village\Entities\Building', 'building_id', 'id');
+    }
+
     protected static function boot()
     {
         parent::boot();
+
+        static::creating(function(User $user) {
+            if ($user->building) {
+                $user->village()->associate($user->building->village);
+            }
+        });
 
         static::saving(function(User $user) {
             if (!$user->building_id) {

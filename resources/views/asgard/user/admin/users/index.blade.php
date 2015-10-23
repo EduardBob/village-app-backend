@@ -13,6 +13,7 @@
 @section('content')
 <div class="row">
     <div class="col-xs-12">
+        @if($currentUser->hasAccess('user.users.create'))
         <div class="row">
             <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
                 <a href="{{ URL::route('admin.user.user.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
@@ -20,6 +21,7 @@
                 </a>
             </div>
         </div>
+        @endif
         <div class="box box-primary">
             <div class="box-header">
             </div>
@@ -27,19 +29,31 @@
             <div class="box-body">
                 <table class="data-table table table-bordered table-hover">
                     <thead>
+                        @section('table-head')
                         <tr>
+                            @if($currentUser->hasAccess(['village.villages.edit']))
+                                <th>{{ trans('village::villages.title.model') }}</th>
+                            @endif
                             <th>{{ trans('user::users.table.first-name') }}</th>
                             <th>{{ trans('user::users.table.last-name') }}</th>
                             <th>{{ trans('village::users.table.phone') }}</th>
                             <th>{{ trans('village::buildings.table.address') }}</th>
                             <th>{{ trans('user::users.table.actions') }}</th>
                         </tr>
+                        @show
                     </thead>
                     <tbody>
                     <?php if (isset($users)): ?>
-                        <?php $users = $users->load(['building']); ?>
+                        <?php $users = $users->load(['village', 'building']); ?>
                         <?php foreach ($users as $user): ?>
                             <tr>
+                                @if($currentUser->hasAccess(['village.villages.edit']))
+                                <td>
+                                    <a href="{{ URL::route('admin.village.village.edit', [$user->village->id]) }}">
+                                        {{ $user->village->name }}
+                                    </a>
+                                </td>
+                                @endif
                                 <td>
                                     <a href="{{ URL::route('admin.user.user.edit', [$user->id]) }}">
                                         {{ $user->first_name }}
@@ -64,10 +78,12 @@
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ URL::route('admin.user.user.edit', [$user->id]) }}" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>
-                                        <?php if ($user->id != $currentUser->id): ?>
-                                            {{--<button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $user->id }}"><i class="glyphicon glyphicon-trash"></i></button>--}}
-                                        <?php endif; ?>
+                                        @if($currentUser->hasAccess('user.users.edit'))
+                                            <a href="{{ URL::route('admin.user.user.edit', [$user->id]) }}" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>
+                                        @endif
+                                        @if($user->id != $currentUser->id && $currentUser->hasAccess('user.users.destroy'))
+                                            <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirmation-{{ $user->id }}"><i class="glyphicon glyphicon-trash"></i></button>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -75,13 +91,7 @@
                     <?php endif; ?>
                     </tbody>
                     <tfoot>
-                        <tr>
-                            <th>{{ trans('user::users.table.first-name') }}</th>
-                            <th>{{ trans('user::users.table.last-name') }}</th>
-                            <th>{{ trans('village::users.table.phone') }}</th>
-                            <th>{{ trans('village::buildings.table.address') }}</th>
-                            <th>{{ trans('user::users.table.actions') }}</th>
-                        </tr>
+                        @yield('table-head')
                     </tfoot>
                 </table>
             <!-- /.box-body -->
@@ -139,14 +149,14 @@
             "order": [[ 0, "desc" ]],
             "language": {
                 "url": '<?php echo Module::asset("core:js/vendor/datatables/{$locale}.json") ?>'
-            },
-            "columns": [
-                null,
-                null,
-                null,
-                null,
-                { "sortable": false }
-            ]
+            }
+//            ,"columns": [
+//                null,
+//                null,
+//                null,
+//                null,
+//                { "sortable": false }
+//            ]
         });
     });
 </script>

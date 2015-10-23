@@ -3,7 +3,7 @@
         <div class="col-sm-4">
             <div class="form-group{{ $errors->has('product_id') ? ' has-error' : '' }}">
                 {!! Form::label('product_id', $admin->trans('table.product')) !!}
-                {!! Form::select('product_id', (new Modules\Village\Entities\Product)->lists('title', 'id'),
+                {!! Form::select('product_id', $admin->getProducts(),
                 Input::old('product_id', @$model->product->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.product.placeholder')]) !!}
                 {!! $errors->first('product_id', '<span class="help-block">:message</span>') !!}
             </div>

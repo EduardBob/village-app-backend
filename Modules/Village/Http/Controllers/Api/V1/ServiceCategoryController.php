@@ -15,7 +15,7 @@ class ServiceCategoryController extends ApiController
      */
     public function index()
     {
-        $serviceCategories = ServiceCategory::where(['active' => 1])
+        $serviceCategories = ServiceCategory::api()
             ->whereHas('services', function($query) {
                 $query->where(['active' => 1]);
             })
@@ -32,7 +32,7 @@ class ServiceCategoryController extends ApiController
      */
     public function show($serviceCategoryId)
     {
-        $serviceCategory = ServiceCategory::find($serviceCategoryId);
+        $serviceCategory = ServiceCategory::api()->where('id', $serviceCategoryId)->first();
         if(!$serviceCategory){
             return $this->response->errorNotFound('Not Found');
         }

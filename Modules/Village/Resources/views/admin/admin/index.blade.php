@@ -14,6 +14,7 @@
 @section('content')
 <div class="row">
     <div class="col-xs-12">
+        @if($currentUser->hasAccess($admin->getAccess('create')))
         <div class="row">
             <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
                 <a href="{{ $admin->route('create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
@@ -21,42 +22,40 @@
                 </a>
             </div>
         </div>
+        @endif
         <div class="box box-primary">
             <div class="box-header">
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                @include($admin->getView('partials.table'), ['lang' => $currentLocale])
+                {!! $html->table() !!}
                 <!-- /.box-body -->
             </div>
             <!-- /.box -->
         </div>
     </div>
 </div>
-<?php if (isset($collection)): ?>
-<?php foreach ($collection as $model): ?>
+
 <!-- Modal -->
-<div class="modal fade modal-danger" id="confirmation-{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-danger" id="confirm-destroy" tabindex="-1" role="dialog" aria-labelledby="confirmDestroyLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">{{ trans('core::core.modal.title') }}</h4>
+                <h4 class="modal-title" id="confirmDestroyLabel">{{ trans('core::core.modal.title') }}</h4>
             </div>
             <div class="modal-body">
                 {{ trans('core::core.modal.confirmation-message') }}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline btn-flat" data-dismiss="modal">{{ trans('core::core.button.cancel') }}</button>
-                {!! Form::open(['route' => [$admin->getRoute('destroy'), $model->id], 'method' => 'delete', 'class' => 'pull-left']) !!}
-                <button type="submit" class="btn btn-outline btn-flat"><i class="glyphicon glyphicon-trash"></i> {{ trans('core::core.button.delete') }}</button>
-                {!! Form::close() !!}
+                @if($currentUser->hasAccess($admin->getAccess('destroy')))
+                    <button type="button" class="btn btn-outline btn-flat confirm"><i class="glyphicon glyphicon-trash"></i> {{ trans('core::core.button.delete') }}</button>
+                @endif
             </div>
         </div>
     </div>
 </div>
-<?php endforeach; ?>
-<?php endif; ?>
 @stop
 
 @section('footer')
@@ -80,26 +79,22 @@
             });
         });
     </script>
+
+    <!-- Destroy dialog show event handler -->
     <script type="text/javascript">
-        $(function () {
-            $('.data-table').dataTable({
-                "paginate": true,
-                "lengthChange": true,
-                "filter": true,
-                "sort": true,
-                "info": true,
-                "autoWidth": true,
-                "order": [[ 0, "desc" ]],
-                "language": {
-                    "url": '<?php echo Module::asset("core:js/vendor/datatables/{$currentLocale}.json") ?>'
-                }
-//                "columns": [
-//                    null,
-//                    null,
-//                    null,
-//                    { "sortable": false }
-//                ]
-            });
+        var $modal = $('#confirm-destroy')
+        $modal.on('show.bs.modal', function (e) {
+            // Pass form reference to modal for submission on yes/ok
+            var form = $(e.relatedTarget).closest('form');
+            $(this).find('.modal-footer .confirm').data('form', form);
+        });
+
+        <!-- Form confirm (yes/ok) handler, submits form -->
+        $modal.on('click', '.confirm', function(e){
+            e.preventDefault();
+            $(this).data('form').submit();
         });
     </script>
+
+    {!! $html->scripts() !!}
 @stop

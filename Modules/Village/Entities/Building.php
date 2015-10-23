@@ -1,17 +1,20 @@
 <?php namespace Modules\Village\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Village\Entities\Scope\VillageAdminScope;
 
-/**
- * @property string address
- * @property string code
- */
 class Building extends Model
 {
+    use VillageAdminScope;
+
     protected $table = 'village__buildings';
 
-    protected $fillable = ['address', 'code'];
+    protected $fillable = ['village_id', 'address', 'code'];
 
+    public function village()
+    {
+        return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
+    }
 
 	public function __toString()
 	{

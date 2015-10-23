@@ -18,7 +18,7 @@ class ProductController extends ApiController
      */
     public function index(Request $request)
     {
-        $products = Product::where(['active' => 1])->orderBy('price', 'desc');
+        $products = Product::api()->orderBy('price', 'desc');
         if ($categoryId = $request::query('category_id')) {
             $products->where(['category_id' => $categoryId]);
         }
@@ -34,7 +34,7 @@ class ProductController extends ApiController
      */
     public function show($productId)
     {
-        $product = Product::find($productId);
+        $product = Product::api()->where('id', $productId)->first();
         if(!$product || $product->active != 1){
             return $this->response->errorNotFound('Not Found');
         }

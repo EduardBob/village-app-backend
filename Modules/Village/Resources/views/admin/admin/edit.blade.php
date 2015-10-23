@@ -27,7 +27,9 @@
                     @endforeach
 
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary btn-flat">{{ trans('core::core.button.update') }}</button>
+                        @if($currentUser->hasAccess($admin->getAccess('update')))
+                            <button type="submit" class="btn btn-primary btn-flat">{{ trans('core::core.button.update') }}</button>
+                        @endif
                         <a class="btn btn-danger pull-right btn-flat" href="{{ $admin->route('index')}}"><i class="fa fa-times"></i> {{ trans('core::core.button.cancel') }}</a>
                     </div>
                 </div>

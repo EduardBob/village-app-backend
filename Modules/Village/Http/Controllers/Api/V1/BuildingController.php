@@ -17,7 +17,7 @@ class BuildingController extends ApiController
     public function show($buildingCode)
     {
         $building = Building::where('code', $buildingCode)->first();
-        if(!$building){
+        if(!$building || !$building->village->active){
             return $this->response->errorNotFound('Not Found');
         }
 

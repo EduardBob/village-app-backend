@@ -3,7 +3,7 @@
         <div class="col-sm-5">
             <div class="form-group{{ $errors->has('survey') ? ' has-error' : '' }}">
                 {!! Form::label('survey', $admin->trans('table.survey')) !!}
-                {!! Form::select('survey', (new Modules\Village\Entities\Survey)->lists('title', 'id'),
+                {!! Form::select('survey', $admin->getSurveys(),
                 Input::old('survey', @$model->survey->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.survey.placeholder')]) !!}
                 {!! $errors->first('survey', '<span class="help-block">:message</span>') !!}
             </div>

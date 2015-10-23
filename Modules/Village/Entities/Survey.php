@@ -1,12 +1,22 @@
 <?php namespace Modules\Village\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Village\Entities\Scope\ApiScope;
+use Modules\Village\Entities\Scope\VillageAdminScope;
 
 class Survey extends Model
 {
+    use ApiScope;
+    use VillageAdminScope;
+
     protected $table = 'village__surveys';
 
-    protected $fillable = ['title', 'options', 'ends_at', 'active'];
+    protected $fillable = ['village_id', 'title', 'options', 'ends_at', 'active'];
+
+    public function village()
+    {
+        return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
+    }
 
     public function votes()
     {
@@ -18,8 +28,7 @@ class Survey extends Model
      */
     static public function getCurrent()
     {
-        return static
-            ::where(['active' => 1])
+        return static::api()
             ->where('ends_at', '>', date('Y-m-d H:i:s'))
             ->orderBy('id', 'desc')
             ->first();

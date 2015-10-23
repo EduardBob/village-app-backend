@@ -49,7 +49,7 @@ class SurveyController extends ApiController
             return $this->response->errorWrongArgs($validator->errors());
         }
 
-        $survey = Survey::find($data['survey_id']);
+        $survey = Survey::api()->where('id', $data['survey_id'])->first();
         if(!$survey){
             return $this->response->errorNotFound('survey_not_found');
         }

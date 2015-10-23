@@ -31,8 +31,10 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab_1-1" data-toggle="tab">{{ trans('user::users.tabs.data') }}</a></li>
+                @if($currentUser->hasAccess('user.users.store'))
                 <li class=""><a href="#tab_2-2" data-toggle="tab">{{ trans('user::users.tabs.roles') }}</a></li>
                 <li class=""><a href="#tab_3-3" data-toggle="tab">{{ trans('user::users.tabs.permissions') }}</a></li>
+                @endif
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1-1">
@@ -100,6 +102,7 @@
                         </div>
                     </div>
                 </div>
+                @if($currentUser->hasAccess('user.users.store'))
                 <div class="tab-pane" id="tab_2-2">
                     <div class="box-body">
                         <div class="row">
@@ -121,10 +124,15 @@
                         @include('user::admin.partials.permissions-create')
                     </div>
                 </div>
+                @endif
                 <div class="box-footer">
-                    <button type="submit" class="btn btn-primary btn-flat">{{ trans('user::button.create') }}</button>
-                    <button class="btn btn-default btn-flat" name="button" type="reset">{{ trans('core::core.button.reset') }}</button>
-                    <a class="btn btn-danger pull-right btn-flat" href="{{ URL::route('admin.user.user.index')}}"><i class="fa fa-times"></i> {{ trans('user::button.cancel') }}</a>
+                    @if($currentUser->hasAccess('user.users.store'))
+                        <button type="submit" class="btn btn-primary btn-flat">{{ trans('user::button.create') }}</button>
+                        <button class="btn btn-default btn-flat" name="button" type="reset">{{ trans('core::core.button.reset') }}</button>
+                    @endif
+                    @if($currentUser->hasAccess('user.users.index'))
+                        <a class="btn btn-danger pull-right btn-flat" href="{{ URL::route('admin.user.user.index')}}"><i class="fa fa-times"></i> {{ trans('user::button.cancel') }}</a>
+                    @endif
                 </div>
             </div>
         </div>

@@ -36,6 +36,10 @@ class MeController extends ApiController
             return $this->response->errorInternalError('token_absent');
         }
 
+        if (!$user->building) {
+            return $this->response->errorForbidden('user_without_building');
+        }
+
         // the token is valid and we have found the user via the sub claim
         return $this->response->withItem($user->load('building'), new UserTransformer);
     }

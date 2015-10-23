@@ -15,7 +15,7 @@ class ProductCategoryController extends ApiController
      */
     public function index()
     {
-        $productCategories = ProductCategory::where(['active' => 1])
+        $productCategories = ProductCategory::api()
             ->whereHas('products', function($query) {
                 $query->where(['active' => 1]);
             })
@@ -32,7 +32,7 @@ class ProductCategoryController extends ApiController
      */
     public function show($productCategoryId)
     {
-        $productCategory = ProductCategory::find($productCategoryId);
+        $productCategory = ProductCategory::api()->where('id', $productCategoryId)->first();
         if(!$productCategory){
             return $this->response->errorNotFound('Not Found');
         }

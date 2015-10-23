@@ -34,6 +34,7 @@ class UserController extends ApiController
 
         /** @var User $user */
         $user = User::where(['phone' => $data['phone']])->first();
+
         if ($user) {
             if (!$user->isActivated()) {
                 $token = Token::findOneByTypeAndPhone(Token::TYPE_REGISTRATION, $data['phone']);

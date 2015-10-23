@@ -159,6 +159,7 @@ return [
 
 		Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 		EllipseSynergie\ApiResponse\Laravel\ResponseServiceProvider::class,
+		yajra\Datatables\DatatablesServiceProvider::class,
 	],
 
 	/*
@@ -212,6 +213,7 @@ return [
 //		custom
         'JWTAuth' => \Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => \Tymon\JWTAuth\Facades\JWTFactory::class,
+        'Datatables' => yajra\Datatables\Datatables::class,
 	],
 
 ];

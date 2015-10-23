@@ -2,10 +2,16 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Modules\Core\Contracts\Authentication;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 use Modules\Core\Repositories\BaseRepository;
 
-use Validator;
+use Modules\Village\Entities\User;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use yajra\Datatables\Datatables;
+use yajra\Datatables\Engines\EloquentEngine;
+use yajra\Datatables\Html\Builder as TableBuilder;
+
 
 abstract class AdminController extends AdminBaseController
 {
@@ -20,6 +26,16 @@ abstract class AdminController extends AdminBaseController
     protected $modelClass;
 
     /**
+     * @var Authentication
+     */
+    protected $auth;
+
+    /**
+     * @var TableBuilder
+     */
+    protected $builder;
+
+    /**
      * @param BaseRepository $repository
      * @param string         $modelClass
      */
@@ -29,12 +45,26 @@ abstract class AdminController extends AdminBaseController
 
         $this->repository = $repository;
         $this->modelClass = $modelClass;
+
+        $this->builder = app('yajra\Datatables\Html\Builder');
+        $this->auth = app('Modules\Core\Contracts\Authentication');
+
+        view()->share('currentUser', $this->getCurrentUser());
+        view()->share('repository', $repository);
     }
 
     /**
      * @return string
      */
     abstract public function getViewName();
+
+    /**
+     * @return User
+     */
+    public function getCurrentUser()
+    {
+        return $this->auth->check();
+    }
 
     /**
      * @return BaseRepository
@@ -94,6 +124,16 @@ abstract class AdminController extends AdminBaseController
     }
 
     /**
+     * @param string $action
+     *
+     * @return string
+     */
+    public function getAccess($action)
+    {
+        return $this->getModule().'.'.$this->getViewName().'.'.$action;
+    }
+
+    /**
      * @param array $data
      *
      * @return array
@@ -136,15 +176,124 @@ abstract class AdminController extends AdminBaseController
     }
 
     /**
+     * @return array of table column
+     */
+    abstract protected function configureDatagridColumns();
+
+    /**
+     * @return QueryBuilder
+     */
+    protected function createQuery()
+    {
+        $model = new $this->modelClass;
+        $columns = $this->configureDatagridColumns();
+
+        $query = $model->select($columns);
+        $this->configureQuery($query);
+
+        return $query;
+    }
+
+    /**
+     * @param QueryBuilder $query
+     */
+    protected function configureQuery(QueryBuilder $query)
+    {
+    }
+
+    /**
+     * @return array
+     */
+    protected function configureDatagridParameters()
+    {
+        return [];
+    }
+
+    /**
+     * @param TableBuilder $builder
+     *
+     * @return TableBuilder
+     */
+    protected function configureDatagridFields(TableBuilder $builder)
+    {
+        return $builder->columns($this->configureDatagridColumns());
+    }
+
+    /**
+     * @param EloquentEngine $dataTable
+     */
+    protected function configureDatagridValues(EloquentEngine $dataTable)
+    {
+    }
+
+    /**
+     * @param EloquentEngine $dataTable
+     * @param Request        $request
+     */
+    protected function configureDatagridFilters(EloquentEngine $dataTable, Request $request)
+    {
+    }
+
+    /**
      * Display a listing of the resource.
+     *
+     * @param Request    $request
+     * @param Datatables $dataTable
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request, Datatables $dataTable)
     {
-        $collection = $this->getRepository()->all();
+        if ($request->ajax()) {
+            $query = $this->createQuery();
 
-        return view($this->getView('index'), $this->mergeViewData(compact('collection')));
+            $dataTable = $dataTable->usingEloquent($query);
+            $this->configureDatagridValues($dataTable);
+            $this->configureDatagridFilters($dataTable, $request);
+
+            if ($this->getCurrentUser()->hasAccess($this->getAccess('edit')) || $this->getCurrentUser()->hasAccess($this->getAccess('destroy'))) {
+                $dataTable->addColumn('action', function (Model $model) {
+                    $actions = '';
+                    if ($this->getCurrentUser()->hasAccess($this->getAccess('edit'))) {
+                        $actions .= '<a href="'.$this->route('edit', ['id' => $model->id]).'" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>';
+                    }
+                    if ($this->getCurrentUser()->hasAccess($this->getAccess('destroy'))) {
+                        $actions .= \Form::open([
+                            'route' => [$this->getRoute('destroy'), $model->id],
+                            'method' => 'delete',
+                            'style' => 'display:inline',
+                        ]);
+                        $actions .= '<button type="button" class="btn btn-danger btn-flat model-destroy" data-toggle="modal" data-target="#confirm-destroy"><i class="glyphicon glyphicon-trash"></i></button>';
+                        $actions .= \Form::close();
+                    }
+
+                    return $actions;
+                });
+            }
+
+            return $dataTable->make(true);
+        }
+        else {
+            $datagridParameters = array_merge([
+                'stateSave' => true,
+                'language' => [
+                    'url' => \Module::asset('Core:js/vendor/datatables/ru.json')
+                ]
+            ], $this->configureDatagridParameters());
+
+            $this->builder->parameters($datagridParameters);
+            $this->configureDatagridFields($this->builder);
+
+            if ($this->getCurrentUser()->hasAccess($this->getAccess('edit')) || $this->getCurrentUser()->hasAccess($this->getAccess('destroy'))) {
+                $this->builder
+                    ->addAction(['data' => 'action', 'title' => $this->trans('table.actions'), 'orderable' => false, 'searchable' => false])
+                ;
+            }
+
+            $html = $this->builder;
+
+            return view($this->getView('index'), $this->mergeViewData(compact('html')));
+        }
     }
 
     /**
@@ -187,6 +336,11 @@ abstract class AdminController extends AdminBaseController
      */
     public function preStore(Model $model, Request $request)
     {
+        $currentUser = $this->getCurrentUser();
+
+        if (method_exists($model, 'village') && !$this->getCurrentUser()->inRole('admin')) {
+            $model->village()->associate($currentUser->village);
+        }
     }
 
     /**
@@ -197,6 +351,11 @@ abstract class AdminController extends AdminBaseController
      */
     public function edit(Model $model)
     {
+        $redirect = $this->checkPermission($model);
+        if ($redirect !== true) {
+            return $redirect;
+        }
+
         return view($this->getView('edit'), $this->mergeViewData(compact('model')));
     }
 
@@ -209,6 +368,11 @@ abstract class AdminController extends AdminBaseController
      */
     public function update(Model $model, Request $request)
     {
+        $redirect = $this->checkPermission($model);
+        if ($redirect !== true) {
+            return $redirect;
+        }
+
         $validator = $this->validate($request->all(), $model);
 
         if ($validator->fails()) {
@@ -240,6 +404,11 @@ abstract class AdminController extends AdminBaseController
      */
     public function destroy(Model $model)
     {
+        $redirect = $this->checkPermission($model);
+        if ($redirect !== true) {
+            return $redirect;
+        }
+
         $this->getRepository()->destroy($model);
 
         flash()->success(trans('core::core.messages.resource deleted', ['name' => $this->trans('title.model')]));
@@ -252,8 +421,19 @@ abstract class AdminController extends AdminBaseController
      *
      * @return \Illuminate\Validation\Validator
      */
-    static public function validate(array $data)
+    public function validate(array $data)
     {
         throw new \RuntimeException('method must be implemented');
+    }
+
+    protected function checkPermission(Model $model)
+    {
+        if (method_exists($model, 'village') && !$this->getCurrentUser()->inRole('admin')) {
+            if ((int)$model->village->id !== (int)$this->getCurrentUser()->village->id) {
+                return redirect()->route($this->getRoute('index'));
+            }
+        }
+
+        return true;
     }
 }

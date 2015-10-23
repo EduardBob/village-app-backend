@@ -16,7 +16,7 @@ class ServiceController extends ApiController
      */
     public function index(Request $request)
     {
-        $services = Service::where(['active' => 1])->orderBy('title', 'asc');
+        $services = Service::where(['active' => 1])->orderBy('price', 'desc');
         if ($categoryId = $request::query('category_id')) {
             $services->where(['category_id' => $categoryId]);
         }

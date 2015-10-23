@@ -9,6 +9,20 @@
                 <div class="tab-pane active" id="tab_1-1">
                     <div class="box-body">
                         <div class="row">
+                            @if($currentUser->inRole('admin'))
+                            <div class="col-sm-4">
+                                <div class="form-group{{ $errors->has('village_id') ? ' has-error has-feedback' : '' }}">
+                                    {!! Form::label('village_id', trans('village::villages.form.village_id')) !!}
+                                    {!! Form::select(
+                                            'village_id', Input::old('id', (new Modules\Village\Entities\Village)->lists('name', 'id')),
+                                            Input::old('village_id', @$model->village_id),
+                                            ['class' => 'form-control', 'placeholder' => trans('village::villages.form.village.placeholder')]
+                                        )
+                                    !!}
+                                    {!! $errors->first('village_id', '<span class="help-block">:message</span>') !!}
+                                </div>
+                            </div>
+                            @endif
                             <div class="col-sm-4">
                                 <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                                     {!! Form::label('title', $admin->trans('table.title')) !!}
@@ -23,7 +37,7 @@
                                     {!! $errors->first('ends_at', '<span class="help-block">:message</span>') !!}
                                 </div>
                             </div>
-                            <div class="col-sm-7">
+                            <div class="col-sm-12">
                                 <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
                                     {!! Form::label('active', $admin->trans('table.active')) !!}
                                     {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}

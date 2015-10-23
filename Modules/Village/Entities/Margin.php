@@ -1,19 +1,25 @@
 <?php namespace Modules\Village\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Village\Entities\Scope\ApiScope;
+use Modules\Village\Entities\Scope\VillageAdminScope;
 
-/**
- * @property bool is_removable
- * @property mixed id
- */
 class Margin extends Model
 {
+    use ApiScope;
+    use VillageAdminScope;
+
 	const TYPE_PERCENT = 'percent';
 	const TYPE_CASH = 'cash';
 
     protected $table = 'village__margins';
 
-    protected $fillable = ['type', 'value', 'title', 'order', 'is_removable'];
+    protected $fillable = ['village_id', 'type', 'value', 'title', 'order', 'is_removable'];
+
+    public function village()
+    {
+        return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
+    }
 
     /**
      * @return array

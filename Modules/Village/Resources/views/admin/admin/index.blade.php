@@ -16,9 +16,11 @@
     <div class="col-xs-12">
         <div class="row">
             <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
+                @if($currentUser->hasAccess($admin->getAccess('create')))
                 <a href="{{ $admin->route('create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
                     <i class="fa fa-pencil"></i> {{ $admin->trans('button.create') }}
                 </a>
+                @endif
             </div>
         </div>
         <div class="box box-primary">
@@ -26,7 +28,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                @include($admin->getView('partials.table'), ['lang' => $currentLocale])
+                {!! $html->table() !!}
                 <!-- /.box-body -->
             </div>
             <!-- /.box -->
@@ -48,9 +50,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline btn-flat" data-dismiss="modal">{{ trans('core::core.button.cancel') }}</button>
-                {!! Form::open(['route' => [$admin->getRoute('destroy'), $model->id], 'method' => 'delete', 'class' => 'pull-left']) !!}
-                <button type="submit" class="btn btn-outline btn-flat"><i class="glyphicon glyphicon-trash"></i> {{ trans('core::core.button.delete') }}</button>
-                {!! Form::close() !!}
+                @if($currentUser->hasAccess($admin->getAccess('destroy')))
+                    {!! Form::open(['route' => [$admin->getRoute('destroy'), $model->id], 'method' => 'delete', 'class' => 'pull-left']) !!}
+                    <button type="submit" class="btn btn-outline btn-flat"><i class="glyphicon glyphicon-trash"></i> {{ trans('core::core.button.delete') }}</button>
+                    {!! Form::close() !!}
+                @endif
             </div>
         </div>
     </div>
@@ -80,26 +84,6 @@
             });
         });
     </script>
-    <script type="text/javascript">
-        $(function () {
-            $('.data-table').dataTable({
-                "paginate": true,
-                "lengthChange": true,
-                "filter": true,
-                "sort": true,
-                "info": true,
-                "autoWidth": true,
-                "order": [[ 0, "desc" ]],
-                "language": {
-                    "url": '<?php echo Module::asset("core:js/vendor/datatables/{$currentLocale}.json") ?>'
-                }
-//                "columns": [
-//                    null,
-//                    null,
-//                    null,
-//                    { "sortable": false }
-//                ]
-            });
-        });
-    </script>
+
+    {!! $html->scripts() !!}
 @stop

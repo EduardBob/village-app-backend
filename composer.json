@@ -26,7 +26,8 @@
     "nesbot/carbon": "@dev",
     "barryvdh/laravel-ide-helper": "^2.1@dev",
     "tymon/jwt-auth": "0.5.*",
-    "ellipsesynergie/api-response": "^0.10.0"
+    "ellipsesynergie/api-response": "^0.10.0",
+    "yajra/laravel-datatables-oracle": "~5.0"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.0",

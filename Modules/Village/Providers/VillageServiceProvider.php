@@ -57,6 +57,18 @@ class VillageServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
+            'Modules\Village\Repositories\VillageRepository',
+            function () {
+                $repository = new \Modules\Village\Repositories\Eloquent\EloquentVillageRepository(new \Modules\Village\Entities\Village());
+
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+
+                return new \Modules\Village\Repositories\Cache\CacheVillageDecorator($repository);
+            }
+        );
+        $this->app->bind(
             'Modules\Village\Repositories\BuildingRepository',
             function () {
                 $repository = new \Modules\Village\Repositories\Eloquent\EloquentBuildingRepository(new \Modules\Village\Entities\Building());

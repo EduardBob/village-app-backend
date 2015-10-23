@@ -7,5 +7,10 @@ class UserNotActivatedException extends JWTException
     /**
      * @var integer
      */
-    protected $statusCode = 400;
+    protected $statusCode = 403;
+
+    public function __construct()
+    {
+        parent::__construct('user_not_activated', $this->statusCode);
+    }
 }

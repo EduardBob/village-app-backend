@@ -16,7 +16,7 @@ class ServiceController extends ApiController
      */
     public function index(Request $request)
     {
-        $services = Service::where(['active' => 1])->orderBy('price', 'desc');
+        $services = Service::api()->orderBy('price', 'desc');
         if ($categoryId = $request::query('category_id')) {
             $services->where(['category_id' => $categoryId]);
         }
@@ -32,7 +32,7 @@ class ServiceController extends ApiController
      */
     public function show($serviceId)
     {
-        $service = Service::find($serviceId);
+        $service = Service::api()->where('id', $serviceId)->first();
         if(!$service || $service->active != 1){
             return $this->response->errorNotFound('Not Found');
         }

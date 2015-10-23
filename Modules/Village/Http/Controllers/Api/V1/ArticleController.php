@@ -15,7 +15,7 @@ class ArticleController extends ApiController
      */
     public function index()
     {
-        $articles = Article::where(['active' => 1])->orderBy('id', 'desc')->paginate(10);
+        $articles = Article::api()->orderBy('id', 'desc')->paginate(10);
 
         return $this->response->withCollection($articles, new ArticleTransformer);
     }
@@ -28,7 +28,7 @@ class ArticleController extends ApiController
      */
     public function show($articleId)
     {
-        $article = Article::find($articleId);
+        $article = Article::api()->where('id', $articleId)->first();
         if(!$article){
             return $this->response->errorNotFound('Not Found');
         }

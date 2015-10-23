@@ -2,14 +2,23 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Modules\Media\Support\Traits\MediaRelation;
+use Modules\Village\Entities\Scope\ApiScope;
+use Modules\Village\Entities\Scope\VillageAdminScope;
 
 class Article extends Model
 {
     use MediaRelation;
+    use ApiScope;
+    use VillageAdminScope;
 
     protected $table = 'village__articles';
 
-    protected $fillable = ['title', 'text', 'active'];
+    protected $fillable = ['village_id', 'title', 'text', 'active'];
+
+    public function village()
+    {
+        return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
+    }
 
     protected static function boot()
     {

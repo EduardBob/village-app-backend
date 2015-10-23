@@ -3,6 +3,6 @@
 use Modules\Village\Repositories\ArticleRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 
-class EloquentArticleRepository extends EloquentBaseRepository implements ArticleRepository
+class EloquentArticleRepository extends VillageBaseRepository implements ArticleRepository
 {
 }

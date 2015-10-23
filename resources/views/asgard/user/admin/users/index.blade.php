@@ -27,19 +27,31 @@
             <div class="box-body">
                 <table class="data-table table table-bordered table-hover">
                     <thead>
+                        @section('table-head')
                         <tr>
+                            @if($currentUser->hasAccess(['village.villages.edit']))
+                                <th>{{ trans('village::villages.title.model') }}</th>
+                            @endif
                             <th>{{ trans('user::users.table.first-name') }}</th>
                             <th>{{ trans('user::users.table.last-name') }}</th>
                             <th>{{ trans('village::users.table.phone') }}</th>
                             <th>{{ trans('village::buildings.table.address') }}</th>
                             <th>{{ trans('user::users.table.actions') }}</th>
                         </tr>
+                        @show
                     </thead>
                     <tbody>
                     <?php if (isset($users)): ?>
                         <?php $users = $users->load(['building']); ?>
                         <?php foreach ($users as $user): ?>
                             <tr>
+                                @if($currentUser->hasAccess(['village.villages.edit']))
+                                <td>
+                                    <a href="{{ URL::route('admin.village.village.edit', [$user->village->id]) }}">
+                                        {{ $user->village->name }}
+                                    </a>
+                                </td>
+                                @endif
                                 <td>
                                     <a href="{{ URL::route('admin.user.user.edit', [$user->id]) }}">
                                         {{ $user->first_name }}
@@ -75,13 +87,7 @@
                     <?php endif; ?>
                     </tbody>
                     <tfoot>
-                        <tr>
-                            <th>{{ trans('user::users.table.first-name') }}</th>
-                            <th>{{ trans('user::users.table.last-name') }}</th>
-                            <th>{{ trans('village::users.table.phone') }}</th>
-                            <th>{{ trans('village::buildings.table.address') }}</th>
-                            <th>{{ trans('user::users.table.actions') }}</th>
-                        </tr>
+                        @yield('table-head')
                     </tfoot>
                 </table>
             <!-- /.box-body -->

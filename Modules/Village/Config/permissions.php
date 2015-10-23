@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'village.articles' => [
+    'village.villages' => [
         'index',
         'create',
         'store',
@@ -17,7 +17,7 @@ return [
         'update',
         'destroy',
     ],
-    'village.margins' => [
+    'village.articles' => [
         'index',
         'create',
         'store',
@@ -25,7 +25,7 @@ return [
         'update',
         'destroy',
     ],
-    'village.options' => [
+    'village.margins' => [
         'index',
         'create',
         'store',
@@ -97,14 +97,14 @@ return [
         'update',
         'destroy',
     ],
-    'village.tokens' => [
-        'index',
-        'create',
-        'store',
-        'edit',
-        'update',
-        'destroy',
-    ],
+//    'village.tokens' => [
+//        'index',
+//        'create',
+//        'store',
+//        'edit',
+//        'update',
+//        'destroy',
+//    ],
 // append
 
 

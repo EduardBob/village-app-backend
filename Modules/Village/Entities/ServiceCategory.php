@@ -2,23 +2,22 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Modules\Media\Support\Traits\MediaRelation;
+use Modules\Village\Entities\Scope\ApiScope;
+use Modules\Village\Entities\Scope\VillageAdminScope;
 
 class ServiceCategory extends Model
 {
     use MediaRelation;
+    use ApiScope;
+    use VillageAdminScope;
 
     protected $table = 'village__service_categories';
 
-    protected $fillable = ['title', 'order', 'active'];
+    protected $fillable = ['village_id', 'title', 'order', 'active'];
 
-    public function parent()
+    public function village()
     {
-        return $this->belongsTo('Modules\Village\Entities\ServiceCategory', 'parent_id');
-    }
-
-    public function children()
-    {
-        return $this->hasMany('Modules\Village\Entities\ServiceCategory', 'parent_id');
+        return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
     }
 
     public function services()

@@ -2,10 +2,12 @@
 
 namespace Modules\Village\Http\Controllers\Api\V1;
 
+use Illuminate\Http\JsonResponse;
 use Modules\Village\Exceptions\UserNotActivatedException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTAuth;
 use Request;
+use Tymon\JWTAuth\Providers\Auth\AuthInterface;
 
 class AuthController extends ApiController
 {
@@ -14,7 +16,7 @@ class AuthController extends ApiController
      *
      * @return string
      */
-    public function auth(Request $request)
+    public function auth(Request $request, AuthInterface $auth)
     {
         // grab credentials from the request
         $credentials = $request::only('phone', 'password');
@@ -25,12 +27,18 @@ class AuthController extends ApiController
                 return $this->response->errorUnauthorized('invalid_credentials');
             }
         }
-        catch (UserNotActivatedException $e) {
-            return $this->response->errorForbidden('user_not_activated');
-        }
         catch (JWTException $e) {
-            // something went wrong whilst attempting to encode the token
-            return $this->response->errorInternalError('could_not_create_token');
+            switch ($e->getStatusCode()) {
+                case 400:
+                    return $this->response->errorWrongArgs($e->getMessage());
+                case 401:
+                    return $this->response->errorUnauthorized($e->getMessage());
+                case 403:
+                    return $this->response->errorForbidden($e->getMessage());
+                default:
+                    $this->response->setStatusCode($e->getStatusCode());
+                    return $this->response->withError($e->getMessage(), $e->getCode());
+            }
         }
 
         // all good so return the token
@@ -42,7 +50,7 @@ class AuthController extends ApiController
      *
      * @return string
      */
-    public function refresh(Request $request)
+    public function refresh(Request $request, AuthInterface $auth)
     {
         $token = JWTAuth::getToken();
 

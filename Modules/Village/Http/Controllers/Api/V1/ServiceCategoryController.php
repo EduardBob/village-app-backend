@@ -17,7 +17,7 @@ class ServiceCategoryController extends ApiController
     {
         $serviceCategories = ServiceCategory::where(['active' => 1])
             ->whereHas('services', function($query) {
-//                $query->where(['active' => 1]);
+                $query->where(['active' => 1]);
             })
             ->orderBy('order', 'desc')->get();
 

@@ -1,11 +1,14 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
+use Modules\User\Repositories\RoleRepository;
 use Modules\Village\Entities\Service;
+use Modules\Village\Entities\User;
 use Modules\Village\Repositories\ServiceCategoryRepository;
 use Modules\Village\Repositories\ServiceRepository;
 use Modules\Village\Entities\ServiceCategory;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Modules\Village\Repositories\UserRoleRepository;
 use Validator;
 use yajra\Datatables\Engines\EloquentEngine;
 use yajra\Datatables\Html\Builder as TableBuilder;
@@ -16,16 +19,22 @@ class ServiceController extends AdminController
      * @var ServiceCategoryRepository
      */
     private $categoryRepository;
+    /**
+     * @var RoleRepository
+     */
+    protected $roleRepository;
 
     /**
      * @param ServiceRepository         $serviceRepository
      * @param ServiceCategoryRepository $categoryRepository
+     * @param UserRoleRepository        $roleRepository
      */
-    public function __construct(ServiceRepository $serviceRepository, ServiceCategoryRepository $categoryRepository)
+    public function __construct(ServiceRepository $serviceRepository, ServiceCategoryRepository $categoryRepository, UserRoleRepository $roleRepository)
     {
         parent::__construct($serviceRepository, Service::class);
 
         $this->categoryRepository = $categoryRepository;
+        $this->roleRepository = $roleRepository;
     }
 
     /**
@@ -45,6 +54,7 @@ class ServiceController extends AdminController
             'village__services.id',
             'village__services.village_id',
             'village__services.category_id',
+            'village__services.executor_id',
             'village__services.title',
             'village__services.price',
             'village__services.active'
@@ -57,9 +67,10 @@ class ServiceController extends AdminController
     protected function configureQuery(QueryBuilder $query)
     {
         $query
-            ->join('village__villages', 'village__services.village_id', '=', 'village__villages.id')
-            ->join('village__service_categories', 'village__services.category_id', '=', 'village__service_categories.id')
-            ->with(['village', 'category'])
+            ->leftJoin('village__villages', 'village__services.village_id', '=', 'village__villages.id')
+            ->leftJoin('village__service_categories', 'village__services.category_id', '=', 'village__service_categories.id')
+            ->leftJoin('users', 'village__services.executor_id', '=', 'users.id')
+            ->with(['village', 'category', 'executor'])
         ;
 
         if (!$this->getCurrentUser()->inRole('admin')) {
@@ -79,6 +90,7 @@ class ServiceController extends AdminController
         }
         $builder
             ->addColumn(['data' => 'category_title', 'name' => 'village__service_categories.title', 'title' => $this->trans('table.category')])
+            ->addColumn(['data' => 'executor_name', 'name' => 'users.last_name', 'title' => $this->trans('table.executor')])
             ->addColumn(['data' => 'title', 'name' => 'village__services.title', 'title' => $this->trans('table.title')])
             ->addColumn(['data' => 'price', 'name' => 'village__services.price', 'title' => $this->trans('table.price')])
             ->addColumn(['data' => 'active', 'name' => 'village__services.active', 'title' => $this->trans('table.active')])
@@ -112,6 +124,20 @@ class ServiceController extends AdminController
                     return $service->category->title;
                 }
             })
+            ->editColumn('executor_name', function (Service $service) {
+                if (!$service->executor) {
+                    return '';
+                }
+
+                $name = $service->executor->last_name. ' '.$service->executor->first_name;
+
+                if ($this->getCurrentUser()->hasAccess('user.users.edit')) {
+                    return '<a href="'.route('admin.user.user.edit', ['id' => $service->executor->id]).'">'.$name.'</a>';
+                }
+                else {
+                    return $name;
+                }
+            })
             ->addColumn('active', function (Service $service) {
                 if($service->active) {
                     return '<span class="label label-success">'.trans('village::admin.table.active.yes').'</span>';
@@ -143,9 +169,9 @@ class ServiceController extends AdminController
             'order_button_label' => 'required|max:50',
         ];
 
-        if ($this->getCurrentUser()->inRole('admin')) {
-            $rules['village_id'] = 'required|exists:village__villages,id';
-        }
+//        if ($this->getCurrentUser()->inRole('admin')) {
+//            $rules['village_id'] = 'required|exists:village__villages,id';
+//        }
 
         return Validator::make($data, $rules);
     }
@@ -160,5 +186,32 @@ class ServiceController extends AdminController
         }
 
         return $this->categoryRepository->lists(['village_id' => $this->getCurrentUser()->village->id], 'title', 'id', ['order' => 'desc']);
+    }
+
+    /**
+     * @param Service $service
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getExecutors(Service $service)
+    {
+        $role = $this->roleRepository->findBySlug('executor');
+        $userIds = [];
+        foreach($role->users as $user) {
+            $userIds[] = $user->id;
+        }
+
+        $users = User
+            ::select(['users.id', 'last_name', 'first_name'])
+            ->whereIn('id', $userIds)
+            ->get()
+        ;
+
+        $list = [];
+        foreach ($users as $user) {
+            $list[$user->id] = $user->present()->fullname();
+        }
+
+        return $list;
     }
 }

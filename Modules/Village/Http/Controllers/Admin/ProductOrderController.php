@@ -49,6 +49,45 @@ class ProductOrderController extends AdminController
     }
 
     /**
+     * @param int $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function setStatusRunning($id)
+    {
+        $productOrder = $this->repository->find((int)$id);
+        if (!$productOrder || $productOrder->status !== 'processing') {
+            return redirect()->back(302);
+        }
+        $productOrder->status = 'running';
+        $productOrder->save();
+
+        flash()->success($this->trans('messages.resource status-running'));
+
+        return redirect()->route($this->getRoute('index'));
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function setStatusDone($id)
+    {
+        $productOrder = $this->repository->find((int)$id);
+        if (!$productOrder || $productOrder->status !== 'running') {
+            return redirect()->back(302);
+        }
+
+        $productOrder->status = 'done';
+        $productOrder->save();
+
+        flash()->success($this->trans('messages.resource status-done'));
+
+        return redirect()->route($this->getRoute('index'));
+    }
+
+    /**
      * @inheritdoc
      */
     protected function configureDatagridColumns()
@@ -72,15 +111,19 @@ class ProductOrderController extends AdminController
     protected function configureQuery(QueryBuilder $query)
     {
         $query
-            ->join('village__villages', 'village__product_orders.village_id', '=', 'village__villages.id')
-            ->join('village__products', 'village__product_orders.product_id', '=', 'village__products.id')
-            ->join('users', 'village__product_orders.user_id', '=', 'users.id')
-            ->join('village__buildings', 'users.building_id', '=', 'village__buildings.id')
+            ->leftJoin('village__villages', 'village__product_orders.village_id', '=', 'village__villages.id')
+            ->leftJoin('village__products', 'village__product_orders.product_id', '=', 'village__products.id')
+            ->leftJoin('users', 'village__product_orders.user_id', '=', 'users.id')
+            ->leftJoin('village__buildings', 'users.building_id', '=', 'village__buildings.id')
             ->with(['village', 'product', 'user', 'user.building'])
         ;
 
         if (!$this->getCurrentUser()->inRole('admin')) {
             $query->where('village__product_orders.village_id', $this->getCurrentUser()->village->id);
+        }
+        if ($this->getCurrentUser()->inRole('executor')) {
+            $query->where('village__products.executor_id', $this->getCurrentUser()->id);
+            $query->whereIn('village__product_orders.status', ['processing', 'running']);
         }
     }
 

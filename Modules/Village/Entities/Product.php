@@ -15,7 +15,7 @@ class Product extends Model
 
     protected $table = 'village__products';
 
-    protected $fillable = ['category_id', 'title', 'price', 'unit_title', 'active', 'comment_label', 'text'];
+    protected $fillable = ['category_id', 'executor_id', 'title', 'price', 'unit_title', 'active', 'comment_label', 'text'];
 
     public function village()
     {
@@ -32,12 +32,23 @@ class Product extends Model
     	return $this->hasMany('Modules\Village\Entities\ProductOrder', 'product_id');
     }
 
+    public function executor()
+    {
+        return $this->belongsTo('Modules\Village\Entities\User', 'executor_id');
+    }
+
     protected static function boot()
     {
         parent::boot();
 
         static::creating(function(Product $product) {
             $product->village()->associate($product->category->village);
+        });
+
+        static::saving(function(Product $product) {
+            if (!$product->executor_id) {
+                $product->executor_id = null;
+            }
         });
     }
 

@@ -49,9 +49,11 @@
                             <tr>
                                 @if($currentUser->hasAccess(['village.villages.edit']))
                                 <td>
+                                    @if($user->village)
                                     <a href="{{ URL::route('admin.village.village.edit', [$user->village->id]) }}">
                                         {{ $user->village->name }}
                                     </a>
+                                    @endif
                                 </td>
                                 @endif
                                 <td>

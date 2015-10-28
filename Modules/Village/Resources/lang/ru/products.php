@@ -13,6 +13,7 @@ return [
     'table' => [
         'title' => 'Название',
         'category' => 'Категория',
+        'executor' => 'Исполнитель',
         'price' => 'Цена',
         'unit_title' => 'Ед. измерения',
         'comment_label' => 'Метка заметки',
@@ -25,6 +26,9 @@ return [
         'media' => 'Изображение',
         'category' => [
             'placeholder' => 'Не выбрана'
+        ],
+        'executor' => [
+            'placeholder' => 'Не выбран'
         ],
         'unit_title' => [
             'placeholder' => 'Не выбрано',

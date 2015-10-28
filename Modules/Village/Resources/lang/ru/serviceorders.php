@@ -6,14 +6,19 @@ return [
         'module' => 'Заказы сервисов',
         'create' => 'Создать заказ сервиса',
         'edit' => 'Редактировать заказ сервиса',
+        'show' => 'Просмотр заказа продуктов',
     ],
     'button' => [
+        'index' => 'Вернуться к списку',
+        'edit' => 'Редактировать',
         'create' => 'Создать заказ сервиса',
+        'status_running' => 'Начать выполнять',
+        'status_done' => 'Выполнено'
     ],
     'table' => [
         'id' => 'ID заказа',
         'service' => 'Сервис',
-        'perform_at' => 'Perform at',
+        'perform_at' => 'Исполнить в',
         'address' => 'Адресс',
         'name' => 'ФИО',
         'phone' => 'Телефон',
@@ -44,6 +49,8 @@ return [
         ]
     ],
     'messages' => [
+        'resource status-running' => 'Заказ выполняется',
+        'resource status-done' => 'Заказ выполнен'
     ],
     'validation' => [
     ],

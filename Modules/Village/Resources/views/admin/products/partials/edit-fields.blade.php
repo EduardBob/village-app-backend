@@ -1,5 +1,15 @@
 <div class="box-body">
     <div class="row">
+        @if(isset($model))
+        <div class="col-sm-4">
+            <div class="form-group{{ $errors->has('executor_id') ? ' has-error' : '' }}">
+                {!! Form::label('executor_id', $admin->trans('table.executor')) !!}
+                {!! Form::select('executor_id', $admin->getExecutors($model),
+                @$model->executor->id?:Input::old('executor_id'), ['class' => 'form-control', 'placeholder' => $admin->trans('form.executor.placeholder')]) !!}
+                {!! $errors->first('executor_id', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        @endif
         <div class="col-sm-4">
             <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
                 {!! Form::label('category_id', $admin->trans('table.category')) !!}

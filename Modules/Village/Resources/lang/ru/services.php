@@ -12,6 +12,7 @@ return [
     ],
     'table' => [
         'category' => 'Категория',
+        'executor' => 'Исполнитель',
         'title' => 'Название',
         'price' => 'Цена',
         'text' => 'Описание',
@@ -25,7 +26,10 @@ return [
         'media' => 'Изображение',
         'category' => [
             'placeholder' => 'Не выбран'
-        ]
+        ],
+        'executor' => [
+            'placeholder' => 'Не выбран'
+        ],
     ],
     'messages' => [
     ],

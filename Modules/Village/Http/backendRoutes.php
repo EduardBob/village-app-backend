@@ -84,14 +84,21 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
     $router->bind('productorders', function ($id) {
         return app('Modules\Village\Repositories\ProductOrderRepository')->find($id);
     });
-    $router->resource('productorders', 'ProductOrderController', ['except' => ['show'], 'names' => [
+    $router->resource('productorders', 'ProductOrderController', ['names' => [
         'index' => 'admin.village.productorder.index',
+        'show' => 'admin.village.productorder.show',
         'create' => 'admin.village.productorder.create',
         'store' => 'admin.village.productorder.store',
         'edit' => 'admin.village.productorder.edit',
         'update' => 'admin.village.productorder.update',
         'destroy' => 'admin.village.productorder.destroy',
     ]]);
+    $router->group(['prefix' => 'productorders'], function (Router $router) {
+        $router->put('{id}/running', ['uses' => 'ProductOrderController@setStatusRunning', 'as' => 'admin.village.productorder.set_status_running']);
+        $router->put('{id}/done', 	 ['uses' => 'ProductOrderController@setStatusDone', 'as' => 'admin.village.productorder.set_status_done']);
+    });
+
+
     $router->bind('services', function ($id) {
         return app('Modules\Village\Repositories\ServiceRepository')->find($id);
     });
@@ -117,14 +124,20 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
     $router->bind('serviceorders', function ($id) {
         return app('Modules\Village\Repositories\ServiceOrderRepository')->find($id);
     });
-    $router->resource('serviceorders', 'ServiceOrderController', ['except' => ['show'], 'names' => [
+    $router->resource('serviceorders', 'ServiceOrderController', ['names' => [
         'index' => 'admin.village.serviceorder.index',
+        'show' => 'admin.village.serviceorder.show',
         'create' => 'admin.village.serviceorder.create',
         'store' => 'admin.village.serviceorder.store',
         'edit' => 'admin.village.serviceorder.edit',
         'update' => 'admin.village.serviceorder.update',
         'destroy' => 'admin.village.serviceorder.destroy',
     ]]);
+    $router->group(['prefix' => 'serviceorders'], function (Router $router) {
+        $router->put('{id}/running', ['uses' => 'ServiceOrderController@setStatusRunning', 'as' => 'admin.village.serviceorder.set_status_running']);
+        $router->put('{id}/done', 	 ['uses' => 'ServiceOrderController@setStatusDone', 'as' => 'admin.village.serviceorder.set_status_done']);
+    });
+
     $router->bind('surveys', function ($id) {
         return app('Modules\Village\Repositories\SurveyRepository')->find($id);
     });

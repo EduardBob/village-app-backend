@@ -45,6 +45,18 @@ class VillageServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
+            'Modules\Village\Repositories\UserRoleRepository',
+            function () {
+                $repository = new \Modules\Village\Repositories\Eloquent\EloquentUserRoleRepository();
+
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+
+                return new \Modules\Village\Repositories\Cache\CacheUserRoleDecorator($repository);
+            }
+        );
+        $this->app->bind(
             'Modules\Village\Repositories\ArticleRepository',
             function () {
                 $repository = new \Modules\Village\Repositories\Eloquent\EloquentArticleRepository(new \Modules\Village\Entities\Article());

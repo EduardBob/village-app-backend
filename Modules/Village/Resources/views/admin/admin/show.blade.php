@@ -2,17 +2,16 @@
 
 @section('content-header')
     <h1>
-        {{ $admin->trans('title.edit') }}
+        {{ $admin->trans('title.show') }}
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
         <li><a href="{{ $admin->route('index') }}">{{ $admin->trans('title.module') }}</a></li>
-        <li class="active">{{ $admin->trans('title.edit') }}</li>
+        <li class="active">{{ $admin->trans('title.show') }}</li>
     </ol>
 @stop
 
 @section('content')
-    {!! Form::open(['route' => [$admin->getRoute('update'), $model->id], 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="nav-tabs-custom">
@@ -22,20 +21,16 @@
                     @foreach (LaravelLocalization::getSupportedLocales() as $locale => $language)
                         <?php $i++; ?>
                         <div class="tab-pane {{ locale() == $locale ? 'active' : '' }}" id="tab_{{ $i }}">
-                            @include($admin->getView('partials.edit-fields'), ['lang' => $locale])
+                            @include($admin->getView('partials.show-fields'), ['lang' => $locale])
                         </div>
                     @endforeach
 
                     <div class="box-footer clearfix">
-                        @if($currentUser->hasAccess($admin->getAccess('update')))
-                            <button type="submit" class="btn btn-primary btn-flat">{{ trans('core::core.button.update') }}</button>
-                        @endif
                         @yield('buttons')
-                        <a class="btn btn-danger pull-right btn-flat" href="{{ $admin->route('index')}}"><i class="fa fa-times"></i> {{ trans('core::core.button.cancel') }}</a>
+                        <a class="btn btn-danger pull-right btn-flat" href="{{ $admin->route('index')}}"><i class="fa fa-times"></i> {{ $admin->trans('button.index') }}</a>
                     </div>
                 </div>
             </div> {{-- end nav-tabs-custom --}}
         </div>
     </div>
-    {!! Form::close() !!}
 @stop

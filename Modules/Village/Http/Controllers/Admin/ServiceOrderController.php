@@ -38,6 +38,46 @@ class ServiceOrderController extends AdminController
         return 'serviceorders';
     }
 
+
+    /**
+     * @param int $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function setStatusRunning($id)
+    {
+        $serviceOrder = $this->repository->find((int)$id);
+        if (!$serviceOrder || $serviceOrder->status !== 'processing') {
+            return redirect()->back(302);
+        }
+        $serviceOrder->status = 'running';
+        $serviceOrder->save();
+
+        flash()->success($this->trans('messages.resource status-running'));
+
+        return redirect()->route($this->getRoute('index'));
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function setStatusDone($id)
+    {
+        $serviceOrder = $this->repository->find((int)$id);
+        if (!$serviceOrder || $serviceOrder->status !== 'running') {
+            return redirect()->back(302);
+        }
+
+        $serviceOrder->status = 'done';
+        $serviceOrder->save();
+
+        flash()->success($this->trans('messages.resource status-done'));
+
+        return redirect()->route($this->getRoute('index'));
+    }
+
     /**
      * @inheritdoc
      */
@@ -60,15 +100,19 @@ class ServiceOrderController extends AdminController
     protected function configureQuery(QueryBuilder $query)
     {
         $query
-            ->join('village__villages', 'village__service_orders.village_id', '=', 'village__villages.id')
-            ->join('village__services', 'village__service_orders.service_id', '=', 'village__services.id')
-            ->join('users', 'village__service_orders.user_id', '=', 'users.id')
-            ->join('village__buildings', 'users.building_id', '=', 'village__buildings.id')
+            ->leftJoin('village__villages', 'village__service_orders.village_id', '=', 'village__villages.id')
+            ->leftJoin('village__services', 'village__service_orders.service_id', '=', 'village__services.id')
+            ->leftJoin('users', 'village__service_orders.user_id', '=', 'users.id')
+            ->leftJoin('village__buildings', 'users.building_id', '=', 'village__buildings.id')
             ->with(['village', 'service', 'user', 'user.building'])
         ;
 
         if (!$this->getCurrentUser()->inRole('admin')) {
             $query->where('village__service_orders.village_id', $this->getCurrentUser()->village->id);
+        }
+        if ($this->getCurrentUser()->inRole('executor')) {
+            $query->where('village__services.executor_id', $this->getCurrentUser()->id);
+            $query->whereIn('village__service_orders.status', ['processing', 'running']);
         }
     }
 

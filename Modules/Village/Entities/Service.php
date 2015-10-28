@@ -14,7 +14,7 @@ class Service extends Model
 
     protected $table = 'village__services';
 
-    protected $fillable = ['category_id', 'title', 'price', 'active', 'text', 'comment_label', 'order_button_label'];
+    protected $fillable = ['category_id', 'executor_id', 'title', 'price', 'active', 'text', 'comment_label', 'order_button_label'];
 
     public function village()
     {
@@ -29,6 +29,11 @@ class Service extends Model
     public function orders()
     {
     	return $this->hasMany('Modules\Village\Entities\ServiceOrder', 'service_id');
+    }
+
+    public function executor()
+    {
+        return $this->belongsTo('Modules\Village\Entities\User', 'executor_id');
     }
 
     protected static function boot()

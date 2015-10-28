@@ -1,11 +1,14 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
+use Modules\User\Repositories\RoleRepository;
 use Modules\Village\Entities\Product;
+use Modules\Village\Entities\User;
 use Modules\Village\Repositories\ProductCategoryRepository;
 use Modules\Village\Repositories\ProductRepository;
 use Modules\Village\Entities\ProductCategory;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Modules\Village\Repositories\UserRoleRepository;
 use Validator;
 use yajra\Datatables\Engines\EloquentEngine;
 use yajra\Datatables\Html\Builder as TableBuilder;
@@ -16,16 +19,22 @@ class ProductController extends AdminController
      * @var ProductCategoryRepository
      */
     protected $categoryRepository;
+    /**
+     * @var RoleRepository
+     */
+    protected $roleRepository;
 
     /**
      * @param ProductRepository         $productRepository
      * @param ProductCategoryRepository $categoryRepository
+     * @param UserRoleRepository        $roleRepository
      */
-    public function __construct(ProductRepository $productRepository, ProductCategoryRepository $categoryRepository)
+    public function __construct(ProductRepository $productRepository, ProductCategoryRepository $categoryRepository, UserRoleRepository $roleRepository)
     {
         parent::__construct($productRepository, Product::class);
 
         $this->categoryRepository = $categoryRepository;
+        $this->roleRepository = $roleRepository;
     }
 
     /**
@@ -45,6 +54,7 @@ class ProductController extends AdminController
             'village__products.id',
             'village__products.village_id',
             'village__products.category_id',
+            'village__products.executor_id',
             'village__products.title',
             'village__products.price',
             'village__products.unit_title',
@@ -58,9 +68,10 @@ class ProductController extends AdminController
     protected function configureQuery(QueryBuilder $query)
     {
         $query
-            ->join('village__villages', 'village__products.village_id', '=', 'village__villages.id')
-            ->join('village__product_categories', 'village__products.category_id', '=', 'village__product_categories.id')
-            ->with(['village', 'category'])
+            ->leftJoin('village__villages', 'village__products.village_id', '=', 'village__villages.id')
+            ->leftJoin('village__product_categories', 'village__products.category_id', '=', 'village__product_categories.id')
+            ->leftJoin('users', 'village__products.executor_id', '=', 'users.id')
+            ->with(['village', 'category', 'executor'])
         ;
 
         if (!$this->getCurrentUser()->inRole('admin')) {
@@ -80,6 +91,7 @@ class ProductController extends AdminController
         }
         $builder
             ->addColumn(['data' => 'category_title', 'name' => 'village__product_categories.title', 'title' => $this->trans('table.category')])
+            ->addColumn(['data' => 'executor_name', 'name' => 'users.last_name', 'title' => $this->trans('table.executor')])
             ->addColumn(['data' => 'title', 'name' => 'village__products.title', 'title' => $this->trans('table.title')])
             ->addColumn(['data' => 'price', 'name' => 'village__products.price', 'title' => $this->trans('table.price')])
             ->addColumn(['data' => 'unit_title', 'name' => 'village__products.unit_title', 'title' => $this->trans('table.unit_title')])
@@ -114,6 +126,20 @@ class ProductController extends AdminController
                     return $product->category->title;
                 }
             })
+            ->editColumn('executor_name', function (Product $product) {
+                if (!$product->executor) {
+                    return '';
+                }
+
+                $name = $product->executor->last_name. ' '.$product->executor->first_name;
+
+                if ($this->getCurrentUser()->hasAccess('user.users.edit')) {
+                    return '<a href="'.route('admin.user.user.edit', ['id' => $product->executor->id]).'">'.$name.'</a>';
+                }
+                else {
+                    return $name;
+                }
+            })
             ->addColumn('unit_title', function (Product $product) {
                 return $this->trans('form.unit_title.values.'.$product->unit_title);
             })
@@ -140,6 +166,7 @@ class ProductController extends AdminController
 
         $rules = [
             'category_id' => 'required|exists:village__product_categories,id',
+            'executor_id' => 'sometimes|exists:users,id',
             'title' => "required|max:255|unique:village__products,title,{$productId}",
             'price' => 'required|numeric|min:1',
             'unit_title' => 'required|in:'.implode(',', config('village.product.unit.values')),
@@ -148,9 +175,9 @@ class ProductController extends AdminController
             'comment_label' => 'required|max:50',
         ];
 
-        if ($this->getCurrentUser()->inRole('admin')) {
-            $rules['village_id'] = 'required|exists:village__villages,id';
-        }
+//        if ($this->getCurrentUser()->inRole('admin')) {
+//            $rules['village_id'] = 'required|exists:village__villages,id';
+//        }
 
         return Validator::make($data, $rules);
     }
@@ -160,10 +187,37 @@ class ProductController extends AdminController
      */
     public function getCategories()
     {
-        if (!method_exists($this->modelClass, 'village') || $this->getCurrentUser()->inRole('admin')){
+        if (!$this->getCurrentUser()->inRole('admin')){
             return $this->categoryRepository->lists([], 'title', 'id', ['order' => 'desc']);
         }
 
         return $this->categoryRepository->lists(['village_id' => $this->getCurrentUser()->village->id], 'title', 'id', ['order' => 'desc']);
+    }
+
+    /**
+     * @param Product $product
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getExecutors(Product $product)
+    {
+        $role = $this->roleRepository->findBySlug('executor');
+        $userIds = [];
+        foreach($role->users as $user) {
+            $userIds[] = $user->id;
+        }
+
+        $users = User
+            ::select(['users.id', 'last_name', 'first_name'])
+            ->whereIn('id', $userIds)
+            ->get()
+        ;
+
+        $list = [];
+        foreach ($users as $user) {
+            $list[$user->id] = $user->present()->fullname();
+        }
+
+        return $list;
     }
 }

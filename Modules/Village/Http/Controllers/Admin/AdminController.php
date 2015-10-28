@@ -251,9 +251,12 @@ abstract class AdminController extends AdminBaseController
             $this->configureDatagridValues($dataTable);
             $this->configureDatagridFilters($dataTable, $request);
 
-            if ($this->getCurrentUser()->hasAccess($this->getAccess('edit')) || $this->getCurrentUser()->hasAccess($this->getAccess('destroy'))) {
+            if ($this->getCurrentUser()->hasAccess($this->getAccess('show')) || $this->getCurrentUser()->hasAccess($this->getAccess('edit')) || $this->getCurrentUser()->hasAccess($this->getAccess('destroy'))) {
                 $dataTable->addColumn('action', function (Model $model) {
                     $actions = '';
+                    if ($this->getCurrentUser()->hasAccess($this->getAccess('show'))) {
+                        $actions .= '<a href="'.$this->route('show', ['id' => $model->id]).'" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-eye-open"></i></a>';
+                    }
                     if ($this->getCurrentUser()->hasAccess($this->getAccess('edit'))) {
                         $actions .= '<a href="'.$this->route('edit', ['id' => $model->id]).'" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i></a>';
                     }
@@ -284,7 +287,7 @@ abstract class AdminController extends AdminBaseController
             $this->builder->parameters($datagridParameters);
             $this->configureDatagridFields($this->builder);
 
-            if ($this->getCurrentUser()->hasAccess($this->getAccess('edit')) || $this->getCurrentUser()->hasAccess($this->getAccess('destroy'))) {
+            if ($this->getCurrentUser()->hasAccess($this->getAccess('show')) || $this->getCurrentUser()->hasAccess($this->getAccess('edit')) || $this->getCurrentUser()->hasAccess($this->getAccess('destroy'))) {
                 $this->builder
                     ->addAction(['data' => 'action', 'title' => $this->trans('table.actions'), 'orderable' => false, 'searchable' => false])
                 ;
@@ -304,6 +307,18 @@ abstract class AdminController extends AdminBaseController
     public function create()
     {
         return view($this->getView('create'), $this->mergeViewData([]));
+    }
+
+    /**
+     * Display the one of the resource.
+     *
+     * @param Model $model
+     *
+     * @return \Illuminate\View\View
+     */
+    public function show(Model $model)
+    {
+        return view($this->getView('show'), $this->mergeViewData(compact('model')));
     }
 
     /**

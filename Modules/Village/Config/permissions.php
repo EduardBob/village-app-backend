@@ -51,11 +51,14 @@ return [
     ],
     'village.productorders' => [
         'index',
+        'show',
         'create',
         'store',
         'edit',
         'update',
         'destroy',
+        'setStatusRunning',
+        'setStatusDone',
     ],
     'village.services' => [
         'index',
@@ -75,11 +78,14 @@ return [
     ],
     'village.serviceorders' => [
         'index',
+        'show',
         'create',
         'store',
         'edit',
         'update',
         'destroy',
+        'setStatusRunning',
+        'setStatusDone',
     ],
     'village.surveys' => [
         'index',

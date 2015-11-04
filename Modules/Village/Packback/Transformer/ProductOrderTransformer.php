@@ -37,6 +37,7 @@ class ProductOrderTransformer extends TransformerAbstract
             'quantity' => $productOrder->quantity,
             'unit_title' => $productOrder->unit_title,
             'status' => $productOrder->status,
+            'comment' => $productOrder->comment,
             'decline_reason' => $productOrder->decline_reason,
         ];
     }

@@ -37,5 +37,6 @@ return [
         'first_name',
         'last_name',
         'phone',
+        'building_id',
     ],
 ];

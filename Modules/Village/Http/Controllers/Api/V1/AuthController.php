@@ -16,7 +16,7 @@ class AuthController extends ApiController
      *
      * @return string
      */
-    public function auth(Request $request, AuthInterface $auth)
+    public function auth(Request $request)
     {
         // grab credentials from the request
         $credentials = $request::only('phone', 'password');
@@ -50,7 +50,7 @@ class AuthController extends ApiController
      *
      * @return string
      */
-    public function refresh(Request $request, AuthInterface $auth)
+    public function refresh(Request $request)
     {
         $token = JWTAuth::getToken();
 

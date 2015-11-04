@@ -47,8 +47,6 @@
                                     {!! $errors->first('last_name', '<span class="help-block">:message</span>') !!}
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group{{ $errors->has('phone') ? ' has-error has-feedback' : '' }}">
                                     {!! Form::label('phone', trans('village::users.form.phone')) !!}
@@ -64,11 +62,30 @@
                                     {!! $errors->first('phone', '<span class="help-block">:message</span>') !!}
                                 </div>
                             </div>
-                            <div class="col-sm-8">
+                        </div>
+                        <div class="row">
+                            @if($currentUser->inRole('admin'))
+                            <div class="col-sm-6">
+                                <div class="form-group{{ $errors->has('village_id') ? ' has-error has-feedback' : '' }}">
+                                    {!! Form::label('village_id', trans('village::villages.form.village_id')) !!}
+                                    {!! Form::select(
+                                            'village_id', Input::old('id', (new Modules\Village\Entities\Village)->lists('name', 'id')),
+                                            Input::old('village_id', @$user->village_id),
+                                            ['class' => 'form-control', 'placeholder' => trans('village::villages.form.village.placeholder')]
+                                        )
+                                    !!}
+                                    {!! $errors->first('village_id', '<span class="help-block">:message</span>') !!}
+                                </div>
+                            </div>
+                            @else
+                                {!! Form::hidden('village_id', $user->village_id, ['id' => 'village_id']) !!}
+                            @endif
+                            @if($currentUser->hasAccess('village.buildings.getChoicesByVillage'))
+                            <div class="col-sm-6">
                                 <div class="form-group{{ $errors->has('building_id') ? ' has-error has-feedback' : '' }}">
                                     {!! Form::label('building_id', trans('village::users.form.building_id')) !!}
                                     {!! Form::select(
-                                            'building_id', Input::old('id', (new Modules\Village\Entities\Building)->lists('address', 'id')),
+                                            'building_id', [],//Input::old('id', (new Modules\Village\Entities\Building)->lists('address', 'id'))
                                             Input::old('building_id', @$user->building_id),
                                             ['class' => 'form-control', 'placeholder' => trans('village::users.form.building.placeholder')]
                                         )
@@ -76,6 +93,9 @@
                                     {!! $errors->first('building_id', '<span class="help-block">:message</span>') !!}
                                 </div>
                             </div>
+                            @else
+                                {!! Form::hidden('building_id', $user->building_id, ['id' => 'building_id']) !!}
+                            @endif
                         </div>
                         {{--<div class="row">--}}
                             {{--<div class="col-md-3">--}}
@@ -185,6 +205,22 @@ $( document ).ready(function() {
         checkboxClass: 'icheckbox_flat-blue',
         radioClass: 'iradio_flat-blue'
     });
+
+    @if($currentUser->hasAccess('village.buildings.getChoicesByVillage'))
+    var $village = $('#village_id');
+    $village.change(function(){
+        var $building = $("#building_id");
+        $building.html('');
+        var selectedVillageId = $village.val();
+        if (selectedVillageId > 0) {
+            $.get('{{ URL::route('admin.village.building.get_choices_by_village', [null, null]) }}/'+selectedVillageId+'/'+'{{ $user->building_id }}', function(data){
+                $building.html(data);
+            });
+        }
+    });
+
+    $village.trigger('change');
+    @endif
 });
 </script>
 @stop

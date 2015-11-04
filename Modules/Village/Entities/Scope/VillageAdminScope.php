@@ -17,6 +17,10 @@ trait VillageAdminScope
         /** @var User $user */
         $user = $auth->check();
 
-        return $query->where('village_id', $user->village->id);
+        if (!$user->inRole('admin')) {
+            $query = $query->where('village_id', $user->village->id);
+        }
+
+        return $query;
     }
 }

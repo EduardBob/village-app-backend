@@ -3,6 +3,7 @@
 use Modules\Core\Contracts\Authentication;
 use Modules\Core\Permissions\PermissionManager;
 use Modules\User\Http\Controllers\Admin\BaseUserModuleController;
+use Modules\Village\Entities\User;
 use Modules\Village\Http\Requests\CreateUserRequest;
 use Modules\Village\Http\Requests\UpdateUserRequest;
 use Modules\User\Repositories\RoleRepository;
@@ -51,7 +52,7 @@ class UserController extends BaseUserModuleController
      */
     public function index()
     {
-        $users = $this->user->all();
+        $users = User::villageAdmin()->get();
 
         $currentUser = $this->auth->check();
 
@@ -66,8 +67,9 @@ class UserController extends BaseUserModuleController
     public function create()
     {
         $roles = $this->role->all();
+        $currentUser = $this->auth->check();
 
-        return view('user::admin.users.create', compact('roles'));
+        return view('user::admin.users.create', compact('roles', 'currentUser'));
     }
 
     /**

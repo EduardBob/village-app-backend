@@ -26,6 +26,11 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'update' => 'admin.village.building.update',
         'destroy' => 'admin.village.building.destroy',
     ]]);
+    $router->group(['prefix' => 'buildings'], function (Router $router) {
+        $router->get('get-choices-by-village/{byVillageId}', ['uses' => 'BuildingController@getChoicesByVillage', 'as' => 'admin.village.building.get_choices_by_village']);
+        $router->get('get-choices-by-village/{byVillageId}/{selectedBuildingId}', ['uses' => 'BuildingController@getChoicesByVillage', 'as' => 'admin.village.building.get_choices_by_village']);
+    });
+
     $router->bind('articles', function ($id) {
         return app('Modules\Village\Repositories\ArticleRepository')->find($id);
     });

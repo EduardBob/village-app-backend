@@ -3,10 +3,12 @@
 use Modules\User\Entities\Sentinel\User as BaseUser;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Modules\Village\Entities\Scope\VillageAdminScope;
 
 class User extends BaseUser implements AuthenticatableContract
 {
     use Authenticatable;
+    use VillageAdminScope;
 
     protected $fillable = [
         'email',
@@ -39,6 +41,9 @@ class User extends BaseUser implements AuthenticatableContract
         });
 
         static::saving(function(User $user) {
+            if (!$user->village_id) {
+                $user->village_id = null;
+            }
             if (!$user->building_id) {
                 $user->building_id = null;
             }

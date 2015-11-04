@@ -1,6 +1,7 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
 use Modules\Village\Entities\Building;
+use Modules\Village\Entities\Village;
 use Modules\Village\Repositories\BuildingRepository;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -118,5 +119,30 @@ class BuildingController extends AdminController
     public function checkRecord($code)
     {
         return $this->getRepository()->all()->where('code', $code)->first();
+    }
+
+    public function getChoicesByVillage($villageId, $selectedBuildingId = null)
+    {
+        $attributes = [];
+        if ($this->getCurrentUser()->inRole('admin')) {
+            $attributes['village_id'] = $villageId;
+        }
+        else {
+            $attributes['village_id'] = $this->getCurrentUser()->village_id;
+        }
+
+        $buildings = $this->getRepository()->lists($attributes, 'address', 'id', ['address' => 'ASC']);
+
+        if (\Request::ajax()) {
+            $html = '<option value="">'.trans('village::users.form.building.placeholder').'</option>';
+            foreach($buildings as $id => $address) {
+                $selected = $selectedBuildingId == $id ? 'selected="selected"' : '';
+                $html .= '<option value="'.$id.'" '.$selected.'>'.$address.'</option>';
+            }
+
+            return $html;
+        }
+
+        return $buildings;
     }
 }

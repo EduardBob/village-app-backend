@@ -10,6 +10,7 @@ class CreateUserRequest extends \Modules\User\Http\Requests\CreateUserRequest
             // rewrite
             'first_name' => 'required',
             'last_name' => 'required',
+            'email' => 'sometimes|unique:users|email',
             'password' => 'required|min:6|confirmed',
 
             // new

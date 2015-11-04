@@ -12,6 +12,7 @@ class UpdateUserRequest extends \Modules\User\Http\Requests\UpdateUserRequest
             // rewrite
             'first_name' => 'required',
             'last_name' => 'required',
+            'email' => "sometimes|email|unique:users,email,{$userId}",
             'password' => 'min:6|confirmed',
 
             // new

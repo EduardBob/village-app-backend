@@ -43,5 +43,11 @@ class Service extends Model
         static::creating(function(Service $service) {
             $service->village()->associate($service->category->village);
         });
+
+        static::saving(function(Service $service) {
+            if (!$service->executor_id) {
+                $service->executor_id = null;
+            }
+        });
     }
 }

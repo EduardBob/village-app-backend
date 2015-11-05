@@ -6,8 +6,8 @@ return array(
     // These are sorted by the native name, which is the order you might show them in a language selector.
     // Regional languages are sorted by their base languge, so "British English" sorts as "English, British"
     'supportedLocales' => [
-        'en' => ['name' => 'English', 'script' => 'Latn', 'native' => 'English'],
-        'ru' => ['name' => 'Russian', 'script' => 'Cyrl', 'native' => 'Русский'],
+//        'en' => ['name' => 'English', 'script' => 'Latn', 'native' => 'English'],
+//        'ru' => ['name' => 'Russian', 'script' => 'Cyrl', 'native' => 'Русский'],
     ],
     // Negotiate for the user locale using the Accept-Language header if it's not defined in the URL?
     // If false, system will take app.php locale attribute
@@ -31,6 +31,6 @@ return array(
     // IMPORTANT - When hideDefaultLocaleInURL is set to true, the unlocalized root is treated as the applications default locale "app.locale".
     // Because of this language negotiation using the Accept-Language header will NEVER occur when hideDefaultLocaleInURL is true.
     //
-    'hideDefaultLocaleInURL' => false,
+    'hideDefaultLocaleInURL' => true,
 
 );

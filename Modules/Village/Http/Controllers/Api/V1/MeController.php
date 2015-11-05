@@ -73,6 +73,28 @@ class MeController extends ApiController
      *
      * @return mixed
      */
+    public function changeEmail(Request $request)
+    {
+        $data = $request::only(['email']);
+
+        $validator = Validator::make($data, [
+            'email' => "sometimes|email|unique:users,email,{$this->user()->id}",
+        ]);
+
+        if ($validator->fails()) {
+            return $this->response->errorWrongArgs($validator->errors());
+        }
+
+        $this->user()->update($data);
+
+        return $this->response->withItem($this->user()->load('building'), new UserTransformer);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
     public function changePassword(Request $request)
     {
         $data = $request::only(['password', 'new_password', 'new_password_confirmation']);

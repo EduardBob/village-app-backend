@@ -40,6 +40,7 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
         $router->group(['prefix' => 'me'], function (Router $router) {
             $router->get('',            ['uses' => 'V1\MeController@me', 'as' => 'village.api.user.me.me']);
             $router->post('name', 		['uses' => 'V1\MeController@changeName', 'as' => 'village.api.user.me.name']);
+            $router->post('email', 		['uses' => 'V1\MeController@changeEmail', 'as' => 'village.api.user.me.email']);
             $router->post('password', 	['uses' => 'V1\MeController@changePassword', 'as' => 'village.api.user.me.password']);
             $router->post('phone', 	    ['uses' => 'V1\MeController@changePhone', 'as' => 'village.api.user.me.phone']);
         });

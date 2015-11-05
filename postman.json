@@ -74,6 +74,7 @@
 					"order": [
 						"c6fb3896-8b32-8b0d-73e1-76ef949329e2",
 						"a106e70b-7506-2c24-efaa-8330c08ffb89",
+						"2e606fe6-0596-893d-a7bf-73d3a4d0d13d",
 						"bfd77d95-e8cd-38a2-e1a8-f5c4704c4c45",
 						"c049afe1-4d94-fdfb-d931-feed9396b496"
 					],
@@ -215,7 +216,7 @@
 			"remoteLink": null,
 			"public": false,
 			"createdAt": "2015-10-14T09:09:02.000Z",
-			"updatedAt": 1445430683457,
+			"updatedAt": 1446760269799,
 			"write": true,
 			"requests": [
 				{
@@ -318,6 +319,32 @@
 					"history": null,
 					"folder": "41fdced9-4965-604e-c9b5-444424b69cfc",
 					"write": true
+				},
+				{
+					"id": "2e606fe6-0596-893d-a7bf-73d3a4d0d13d",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/me/email",
+					"preRequestScript": "email = 'test@test.test';\npostman.setEnvironmentVariable(\"me.email\", email);",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "email",
+							"value": "{{me.email}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\nif (response.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains email\"] = responseBody.has(\"email\");\n    tests[\"Body contains first_name\"] = responseBody.has(\"first_name\");\n    tests[\"Body contains last_name\"] = responseBody.has(\"last_name\");\n    tests[\"Body contains phone\"] = responseBody.has(\"phone\");\n    tests[\"Body contains activated\"] = responseBody.has(\"activated\");    \n    tests[\"first_name changed\"] = first_name === response.data.first_name;\n    tests[\"last_name changed\"] = last_name === response.data.last_name;\n    tests[\"last_name changed\"] = email === response.data.email;\n}\nelse {\n    tests[\"has data\"] = false;\n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1446761264045,
+					"name": "/api/v1/me/email",
+					"description": "Change email",
+					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
+					"responses": []
 				},
 				{
 					"id": "2f348c06-db90-de65-69cd-c14506c1e21a",
@@ -563,31 +590,21 @@
 					"method": "GET",
 					"data": [
 						{
-							"key": "session",
-							"value": "{{tokens,session}}",
-							"type": "text",
-							"enabled": true
-						},
-						{
-							"key": "code",
-							"value": "{{tokens,code}}",
+							"key": "choice",
+							"value": "{{survey.choice}}",
 							"type": "text",
 							"enabled": true
 						}
 					],
 					"dataMode": "params",
 					"version": 2,
-					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\ntests[\"Body contains id\"] = responseBody.has(\"id\");\ntests[\"Body contains title\"] = responseBody.has(\"title\");\ntests[\"Body contains options\"] = responseBody.has(\"options\");\ntests[\"Body contains options count > 0\"] = data.data.options.length > 0;\n\nif (data.data.my_vote) {\n    postman.setEnvironmentVariable(\"survey.id\", data.data.id);\n    postman.setEnvironmentVariable(\"survey.my_vote.choice\", data.data.my_vote.data.choice);\n}",
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\ntests[\"Body contains id\"] = responseBody.has(\"id\");\ntests[\"Body contains title\"] = responseBody.has(\"title\");\ntests[\"Body contains options\"] = responseBody.has(\"options\");\ntests[\"Body contains options count > 0\"] = response.data.options.length > 0;\n\nif (response.data) {\n    postman.setEnvironmentVariable(\"survey.id\", response.data.id);    \n}\n\nif (response.data.my_vote) {\n    postman.setEnvironmentVariable(\"survey.my_vote.choice\", response.data.my_vote.data.choice);\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1443133743967,
+					"time": 1445616134455,
 					"name": "/api/v1/surveys/current",
 					"description": "Get current survey",
-					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
-					"owner": "161799",
-					"folder": "a8e0fc7f-6707-7479-3e56-6cffa0b87d0c",
-					"write": true,
-					"synced": true
+					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e"
 				},
 				{
 					"id": "5f4a7153-7de1-bbdb-bcbb-6e08ab5ce7cd",
@@ -612,18 +629,14 @@
 					],
 					"dataMode": "params",
 					"version": 2,
-					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains short\"] = responseBody.has(\"short\");\n    tests[\"Body contains text\"] = responseBody.has(\"text\");    \n    postman.setEnvironmentVariable(\"article.id\", data.data[0].id);\n}",
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\nif (response.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains short\"] = responseBody.has(\"short\");\n    tests[\"Body contains text\"] = responseBody.has(\"text\");    \n    postman.setEnvironmentVariable(\"article.id\", response.data[0].id);\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1443133264484,
+					"time": 1446760904566,
 					"name": "/api/v1/articles",
 					"description": "<p>Get articles list</p>",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
-					"responses": [],
-					"owner": "161799",
-					"folder": "bc3583cb-5701-ccb0-2b8f-09c24958967f",
-					"write": true,
-					"synced": true
+					"responses": []
 				},
 				{
 					"id": "680f0fcb-67db-8672-0d8e-cc01f228354f",
@@ -723,22 +736,17 @@
 					],
 					"dataMode": "params",
 					"version": 2,
-					"tests": "tests[\"Body matches string\"] = responseBody.has(\"token\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\ntests[\"Body contains token\"] = responseBody.has(\"token\");\n\nvar data = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"token\", data.data.token);",
+					"tests": "tests[\"Body contains data\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\ntests[\"Body contains token\"] = responseBody.has(\"token\");\n\nvar response = JSON.parse(responseBody);\nif (response.data && response.data.token) {\n    postman.setEnvironmentVariable(\"token\", response.data.token);   \n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1444767241243,
+					"time": 1445611586619,
 					"name": "/api/v1/auth/token",
 					"description": "Get token by user credentials (phone and password)",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
-					"responses": [],
-					"owner": "161799",
-					"folder": "78bf4579-1136-3c51-158a-0de455e58a38",
-					"write": true,
-					"synced": true
+					"responses": []
 				},
 				{
 					"id": "a106e70b-7506-2c24-efaa-8330c08ffb89",
-					"owner": "161799",
 					"headers": "Authorization: Bearer  {{token}}\n",
 					"url": "{{domain}}/api/v1/me/name",
 					"preRequestScript": "first_name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);\nlast_name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);\npostman.setEnvironmentVariable(\"me.first_name\", first_name);\npostman.setEnvironmentVariable(\"me.last_name\", last_name);",
@@ -760,27 +768,14 @@
 					],
 					"dataMode": "params",
 					"version": 2,
-					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains first_name\"] = responseBody.has(\"first_name\");\n    tests[\"Body contains last_name\"] = responseBody.has(\"last_name\");\n    tests[\"Body contains phone\"] = responseBody.has(\"phone\");\n    tests[\"Body contains activated\"] = responseBody.has(\"activated\");    \n    tests[\"first_name changed\"] = first_name === data.data.first_name;\n    tests[\"last_name changed\"] = last_name === data.data.last_name;\n}",
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\nif (response.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains first_name\"] = responseBody.has(\"first_name\");\n    tests[\"Body contains last_name\"] = responseBody.has(\"last_name\");\n    tests[\"Body contains phone\"] = responseBody.has(\"phone\");\n    tests[\"Body contains activated\"] = responseBody.has(\"activated\");    \n    tests[\"first_name changed\"] = first_name === response.data.first_name;\n    tests[\"last_name changed\"] = last_name === response.data.last_name;\n}\nelse {\n    tests[\"has data\"] = false;\n}",
 					"currentHelper": "normal",
-					"helperAttributes": "{}",
-					"time": 1443121185761,
+					"helperAttributes": {},
+					"time": 1446761169795,
 					"name": "/api/v1/me/name",
 					"description": "Change first name and last name",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
-					"responses": [],
-					"synced": true,
-					"rawModeData": null,
-					"descriptionFormat": "html",
-					"createdAt": "2015-09-23T21:58:49.000Z",
-					"updatedAt": "2015-09-24T18:59:45.000Z",
-					"lastUpdatedBy": {
-						"id": "161799",
-						"username": "NEOKILLER King"
-					},
-					"lastRevision": 60460896,
-					"history": null,
-					"folder": "1bc91e40-8725-3838-9d3e-941b30dc4f47",
-					"write": true
+					"responses": []
 				},
 				{
 					"id": "aa78329f-6938-93fd-e1a8-0ee688e98e37",
@@ -1077,35 +1072,30 @@
 					"method": "GET",
 					"data": [
 						{
-							"key": "phone",
-							"value": "{{phone}}",
+							"key": "first_name",
+							"value": "{{me.first_name}}",
 							"type": "text",
 							"enabled": true
 						},
 						{
-							"key": "password",
-							"value": "{{password}}",
+							"key": "last_name",
+							"value": "{{me.last_name}}",
 							"type": "text",
 							"enabled": true
 						}
 					],
 					"dataMode": "params",
 					"version": 2,
-					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\ntests[\"Body contains id\"] = responseBody.has(\"id\");\ntests[\"Body contains address\"] = responseBody.has(\"address\");\n\npostman.setEnvironmentVariable(\"building.id\", data.data.id);",
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\ntests[\"Body contains id\"] = responseBody.has(\"id\");\ntests[\"Body contains address\"] = responseBody.has(\"address\");\n\npostman.setEnvironmentVariable(\"building.id\", response.data.id);",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1443133305440,
+					"time": 1446760735949,
 					"name": "/api/v1/buildings/{code}",
 					"description": "Get a building by code",
-					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
-					"owner": "161799",
-					"folder": "cbb11214-74a2-6e95-621c-ee7448d5cb20",
-					"write": true,
-					"synced": true
+					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e"
 				},
 				{
 					"id": "c6fb3896-8b32-8b0d-73e1-76ef949329e2",
-					"owner": "161799",
 					"headers": "Authorization: Bearer  {{token}}\n",
 					"url": "{{domain}}/api/v1/me",
 					"preRequestScript": "",
@@ -1113,47 +1103,28 @@
 					"method": "GET",
 					"data": [
 						{
-							"key": "password",
-							"value": "qwerty",
+							"key": "first_name",
+							"value": "{{me.first_name}}",
 							"type": "text",
 							"enabled": true
 						},
 						{
-							"key": "new_password",
-							"value": "qwerty",
-							"type": "text",
-							"enabled": true
-						},
-						{
-							"key": "new_password_confirmation",
-							"value": "qwerty",
+							"key": "last_name",
+							"value": "{{me.last_name}}",
 							"type": "text",
 							"enabled": true
 						}
 					],
 					"dataMode": "params",
 					"version": 2,
-					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains first_name\"] = responseBody.has(\"first_name\");\n    tests[\"Body contains last_name\"] = responseBody.has(\"last_name\");\n    tests[\"Body contains phone\"] = responseBody.has(\"phone\");\n    tests[\"Body contains activated\"] = responseBody.has(\"activated\");\n    tests[\"Body contains building\"] = responseBody.has(\"building\");\n\n    postman.setEnvironmentVariable(\"me.id\", data.data.id);\n    postman.setEnvironmentVariable(\"me.phone\", data.data.id);\n}\n",
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\nresponse.data = 1;\nif (response.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains first_name\"] = responseBody.has(\"first_name\");\n    tests[\"Body contains last_name\"] = responseBody.has(\"last_name\");\n    tests[\"Body contains phone\"] = responseBody.has(\"phone\");\n    tests[\"Body contains activated\"] = responseBody.has(\"activated\");\n    tests[\"Body contains building\"] = responseBody.has(\"building\");\n\n    postman.setEnvironmentVariable(\"me.id\", response.data.id);\n    postman.setEnvironmentVariable(\"me.phone\", response.data.id);\n}\nelse {\n    tests[\"no data\"] = false;\n}",
 					"currentHelper": "normal",
-					"helperAttributes": "{}",
-					"time": 1443129770693,
+					"helperAttributes": {},
+					"time": 1446761288346,
 					"name": "/api/v1/me",
 					"description": "Get me info",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
-					"responses": [],
-					"synced": true,
-					"rawModeData": null,
-					"descriptionFormat": null,
-					"createdAt": "2015-09-23T16:02:32.000Z",
-					"updatedAt": "2015-09-24T21:22:50.000Z",
-					"lastUpdatedBy": {
-						"id": "161799",
-						"username": "NEOKILLER King"
-					},
-					"lastRevision": 60460678,
-					"history": null,
-					"folder": "1bc91e40-8725-3838-9d3e-941b30dc4f47",
-					"write": true
+					"responses": []
 				},
 				{
 					"id": "cb4d81ce-5272-bcb2-d72a-23f5ac78f574",
@@ -1272,18 +1243,14 @@
 					"data": [],
 					"dataMode": "params",
 					"version": 2,
-					"tests": "tests[\"Body matches string\"] = responseBody.has(\"token\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\ntests[\"Body contains token\"] = responseBody.has(\"token\");\n\nvar data = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"token\", data.data.token);",
+					"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\ntests[\"Body contains token\"] = responseBody.has(\"token\");\n\nvar response = JSON.parse(responseBody);\nif (response.data && response.data.token) {\n    postman.setEnvironmentVariable(\"token\", response.data.token);   \n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1444767225308,
+					"time": 1445611254858,
 					"name": "/api/v1/auth/refresh",
 					"description": "Refresh token by old token",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
-					"responses": [],
-					"owner": "161799",
-					"folder": "78bf4579-1136-3c51-158a-0de455e58a38",
-					"write": true,
-					"synced": true
+					"responses": []
 				},
 				{
 					"id": "ead948f0-37bc-6ed9-0693-23a98a6d52a5",
@@ -1414,7 +1381,7 @@
 				},
 				{
 					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDQ4IiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL3VzZXJzXC9jb25maXJtIiwiaWF0IjoiMTQ0NTI3MjQ3MCIsImV4cCI6IjE0NDUzNTg4NzAiLCJuYmYiOiIxNDQ1MjcyNDcwIiwianRpIjoiZDc5OGViODc1NzIyYjAyZDhkMTVhN2FhZmEwMWUzY2UifQ.KkK1Ib6ldskbqx2QYNmD-xtlSVWzzLwkPJoiB2RoWuU",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNzcxIiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL3VzZXJzXC9jb25maXJtIiwiaWF0IjoiMTQ0NjY0NTE5NyIsImV4cCI6IjE0NDY3MzE1OTciLCJuYmYiOiIxNDQ2NjQ1MTk3IiwianRpIjoiMmM5ZmM1ZTZlZjZmZWZmODQ5ZWNkZmU0OTA1MTNiNTcifQ.6L33qrWW4ycptLTwevk2sC-5pfgEqNCUEGQhas6_KR0",
 					"type": "text",
 					"name": "token",
 					"enabled": true
@@ -1436,12 +1403,12 @@
 				{
 					"key": "token.session",
 					"type": "text",
-					"value": "8uyK8D0DFh"
+					"value": "y3s6qzc112"
 				},
 				{
 					"key": "token.code",
 					"type": "text",
-					"value": "1960401"
+					"value": "2937477"
 				},
 				{
 					"key": "service.category.id",
@@ -1492,9 +1459,14 @@
 					"key": "survey.choice",
 					"type": "text",
 					"value": "0"
+				},
+				{
+					"key": "product.id",
+					"type": "text",
+					"value": "7"
 				}
 			],
-			"timestamp": 1445430490905
+			"timestamp": 1446645227296
 		},
 		{
 			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
@@ -1516,14 +1488,14 @@
 				},
 				{
 					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6IjE0NDU0MzEyOTYiLCJleHAiOiIxNDQ1NTE3Njk2IiwibmJmIjoiMTQ0NTQzMTI5NiIsImp0aSI6Ijk1NmI1YmU4YjYzMGIzMTBiY2NjYjgwYWMyOGI3MmQ0In0.6cnfD3fDeVlHJCjrbrslB9jooKvxcnM-ZQ8WQAmoYlM",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMzNDIsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6IjE0NDY3NjA4NDYiLCJleHAiOiIxNDQ2ODQ3MjQ2IiwibmJmIjoiMTQ0Njc2MDg0NiIsImp0aSI6ImMzY2E0ZTZlZGRkMjE4YjE2YmNkOGNlM2E0YTFmMzI3In0.M1y0qrdJ_pGkOCIeG2e8mAqGO_NrvfXUgyTm3kQEp0s",
 					"type": "text",
 					"name": "token",
 					"enabled": true
 				},
 				{
 					"key": "phone",
-					"value": "+7(111)1111111",
+					"value": "+7(111)1111112",
 					"type": "text",
 					"name": "phone",
 					"enabled": true
@@ -1537,35 +1509,35 @@
 				},
 				{
 					"key": "token.code",
-					"value": "undefined",
+					"value": "7424312",
 					"type": "text",
 					"name": "token.code",
 					"enabled": true
 				},
 				{
 					"key": "token.session",
-					"value": "undefined",
+					"value": "wFmP4ZQWtd",
 					"type": "text",
 					"name": "token.session",
 					"enabled": true
 				},
 				{
 					"key": "article.id",
-					"value": "100",
+					"value": "500",
 					"type": "text",
 					"name": "article.id",
 					"enabled": true
 				},
 				{
 					"key": "me.first_name",
-					"value": "fcwcbpxecd",
+					"value": "adygxdivn",
 					"type": "text",
 					"name": "me.first_name",
 					"enabled": true
 				},
 				{
 					"key": "me.last_name",
-					"value": "ihofbbqpkc",
+					"value": "mncatcvjk",
 					"type": "text",
 					"name": "me.last_name",
 					"enabled": true
@@ -1628,27 +1600,44 @@
 				},
 				{
 					"key": "survey.id",
-					"value": "98",
+					"value": "93",
 					"type": "text",
 					"name": "survey.id",
 					"enabled": true
 				},
 				{
 					"key": "survey.my_vote.choice",
-					"value": "1",
+					"value": "0",
 					"type": "text",
 					"name": "survey.my_vote.choice",
 					"enabled": true
 				},
 				{
 					"key": "survey.choice",
-					"value": "2",
+					"value": "0",
 					"type": "text",
 					"name": "survey.choice",
 					"enabled": true
+				},
+				{
+					"key": "me.email",
+					"value": "test@test.test",
+					"type": "text",
+					"name": "me.email",
+					"enabled": true
+				},
+				{
+					"key": "me.id",
+					"type": "text",
+					"value": "undefined"
+				},
+				{
+					"key": "me.phone",
+					"type": "text",
+					"value": "undefined"
 				}
 			],
-			"timestamp": 1445431323787
+			"timestamp": 1446761296830
 		}
 	],
 	"headerPresets": [

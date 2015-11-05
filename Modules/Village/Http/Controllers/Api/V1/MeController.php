@@ -123,7 +123,6 @@ class MeController extends ApiController
 
         $data = [
             'phone' => $token['new_phone'],
-//            'email' => $token['new_phone'].'@village.dev'
         ];
 
         $user = $this->user();

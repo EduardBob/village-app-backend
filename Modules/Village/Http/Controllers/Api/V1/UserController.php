@@ -76,7 +76,7 @@ class UserController extends ApiController
      */
     public function registrationConfirm(Request $request)
     {
-        $data = $request::only(['session', 'code', 'first_name', 'last_name', 'password', 'password_confirmation']);
+        $data = $request::only(['session', 'code', 'first_name', 'last_name', 'email', 'password', 'password_confirmation']);
 
         $validator = Validator::make($data, [
             // token
@@ -85,7 +85,7 @@ class UserController extends ApiController
             // user
             'first_name' => 'required',
             'last_name' => 'required',
-//            'email' => 'required|unique:users|email',
+            'email' => 'sometimes|unique:users|email',
             'password' => 'required|min:6|confirmed',
         ]);
 
@@ -101,7 +101,6 @@ class UserController extends ApiController
 
         $password = $data['password'];
         $data['password'] = Hash::make($data['password']);
-//        $data['email'] = $token['phone'].'@village.dev';
 
         $user = User::where(['phone' => $token['phone']])->first();
         if (!$user) {

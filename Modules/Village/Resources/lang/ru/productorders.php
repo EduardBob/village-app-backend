@@ -50,6 +50,7 @@ return [
         'status' => [
             'placeholder' => 'Не выбран',
             'values' => [
+                'not_paid' => 'Не оплачен',
                 'processing' => 'Обрабатывается',
                 'running' => 'Выполняется',
                 'done' => 'Выполнен',

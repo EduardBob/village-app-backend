@@ -46,8 +46,10 @@ return [
         ]
     ],
     'order' => [
-        'statuses' => ['processing', 'running', 'done', 'rejected'], // cancelled
+        'first_status' => 'not_paid',
+        'statuses' => ['not_paid', 'processing', 'running', 'done', 'rejected'], // cancelled
         'label' => [
+            'not_paid' => 'info', //Обрабатывается
             'processing' => 'primary', //Обрабатывается
             'running' => 'waring', // Выполняется
             'done' => 'success', //Выполнен

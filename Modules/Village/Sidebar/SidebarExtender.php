@@ -139,7 +139,7 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                         $count = $this->getProductOrderBadgeCount($productOrderRepository);
                         if ($count > 0) {
                             $badge
-                                ->setClass('bg-light-blue')
+                                ->setClass('bg-blue')
                                 ->setValue($count)
                             ;
                         }
@@ -159,7 +159,7 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                         $count = $this->getServiceOrderBadgeCount($serviceOrderRepository);
                         if ($count > 0) {
                             $badge
-                                ->setClass('bg-light-blue')
+                                ->setClass('bg-blue')
                                 ->setValue($count)
                             ;
                         }

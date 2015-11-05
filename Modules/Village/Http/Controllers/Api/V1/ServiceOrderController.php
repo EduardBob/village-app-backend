@@ -34,7 +34,7 @@ class ServiceOrderController extends ApiController
     {
         $data = $request::only('service_id', 'perform_at', 'comment');
         $data = array_merge([
-            'status' => 'processing',
+            'status' => config('village.order.first_status'),
             'user_id' => $this->user()->id,
         ], $data);
 

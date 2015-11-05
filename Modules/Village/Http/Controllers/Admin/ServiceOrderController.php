@@ -206,7 +206,7 @@ class ServiceOrderController extends AdminController
      */
     public function store(Request $request)
     {
-        $request['status'] = 'processing';
+        $request['status'] = config('village.order.first_status');
 
         return parent::store($request);
     }

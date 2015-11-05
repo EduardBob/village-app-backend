@@ -49,7 +49,7 @@ class VillageServiceProvider extends ServiceProvider
                 ProductOrderChange::create([
                     'order_id' => $productOrder->id,
                     'user_id' => $auth->check()->id,
-                    'from_status' => $productOrder->getOriginal()['status'],
+                    'from_status' => @$productOrder->getOriginal()['status'],
                     'to_status' => $productOrder->status,
                 ]);
             }
@@ -60,7 +60,7 @@ class VillageServiceProvider extends ServiceProvider
                 ServiceOrderChange::create([
                     'order_id' => $serviceOrder->id,
                     'user_id' => $auth->check()->id,
-                    'from_status' => $serviceOrder->getOriginal()['status'],
+                    'from_status' => @$serviceOrder->getOriginal()['status'],
                     'to_status' => $serviceOrder->status,
                 ]);
             }

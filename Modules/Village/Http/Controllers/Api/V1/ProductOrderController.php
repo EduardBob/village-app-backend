@@ -36,7 +36,7 @@ class ProductOrderController extends ApiController
     {
         $data = $request::only('product_id', 'quantity', 'perform_at', 'comment');
         $data = array_merge([
-            'status' => 'processing',
+            'status' => config('village.order.first_status'),
             'user_id' => $this->user()->id,
         ], $data);
         $validator = $this->validate($data);

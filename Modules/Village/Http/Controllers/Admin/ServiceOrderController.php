@@ -89,6 +89,7 @@ class ServiceOrderController extends AdminController
             'village__service_orders.service_id',
             'village__service_orders.user_id',
             'village__service_orders.perform_at',
+            'village__service_orders.created_at',
             'village__service_orders.price',
             'village__service_orders.status',
         ];
@@ -139,6 +140,7 @@ class ServiceOrderController extends AdminController
             ->addColumn(['data' => 'user_name', 'name' => 'users.last_name', 'title' => $this->trans('table.name')])
             ->addColumn(['data' => 'user_phone', 'name' => 'users.phone', 'title' => $this->trans('table.phone')])
             ->addColumn(['data' => 'status', 'name' => 'village__service_orders.status', 'title' => $this->trans('table.status')])
+            ->addColumn(['data' => 'created_at', 'name' => 'village__service_orders.created_at', 'title' => $this->trans('table.created_at')])
         ;
     }
 

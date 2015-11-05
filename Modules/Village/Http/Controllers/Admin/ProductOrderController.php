@@ -100,6 +100,7 @@ class ProductOrderController extends AdminController
             'village__product_orders.quantity',
             'village__product_orders.unit_title',
             'village__product_orders.perform_at',
+            'village__product_orders.created_at',
             'village__product_orders.price',
             'village__product_orders.status',
         ];
@@ -152,6 +153,7 @@ class ProductOrderController extends AdminController
             ->addColumn(['data' => 'user_name', 'name' => 'users.last_name', 'title' => $this->trans('table.name')])
             ->addColumn(['data' => 'user_phone', 'name' => 'users.phone', 'title' => $this->trans('table.phone')])
             ->addColumn(['data' => 'status', 'name' => 'village__product_orders.status', 'title' => $this->trans('table.status')])
+            ->addColumn(['data' => 'created_at', 'name' => 'village__product_orders.created_at', 'title' => $this->trans('table.created_at')])
         ;
     }
 

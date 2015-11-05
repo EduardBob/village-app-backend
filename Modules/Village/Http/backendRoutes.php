@@ -102,7 +102,9 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         $router->put('{id}/running', ['uses' => 'ProductOrderController@setStatusRunning', 'as' => 'admin.village.productorder.set_status_running']);
         $router->put('{id}/done', 	 ['uses' => 'ProductOrderController@setStatusDone', 'as' => 'admin.village.productorder.set_status_done']);
     });
-
+    $router->resource('productorderchanges', 'ProductOrderChangeController', ['except' => ['show', 'create', 'store', 'edit', 'update', 'destroy'], 'names' => [
+        'index' => 'admin.village.productorderchange.index',
+    ]]);
 
     $router->bind('services', function ($id) {
         return app('Modules\Village\Repositories\ServiceRepository')->find($id);
@@ -142,6 +144,9 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         $router->put('{id}/running', ['uses' => 'ServiceOrderController@setStatusRunning', 'as' => 'admin.village.serviceorder.set_status_running']);
         $router->put('{id}/done', 	 ['uses' => 'ServiceOrderController@setStatusDone', 'as' => 'admin.village.serviceorder.set_status_done']);
     });
+    $router->resource('serviceorderchanges', 'ServiceOrderChangeController', ['except' => ['show', 'create', 'store', 'edit', 'update', 'destroy'], 'names' => [
+        'index' => 'admin.village.serviceorderchange.index',
+    ]]);
 
     $router->bind('surveys', function ($id) {
         return app('Modules\Village\Repositories\SurveyRepository')->find($id);

@@ -12,6 +12,9 @@
     ],
     "aliases":{},
     "files": [
-        
+    ],
+    "widgets": [
+        "Modules\\Village\\Widgets\\LatestProductOrderChangesWidget",
+        "Modules\\Village\\Widgets\\LatestServiceOrderChangesWidget"
     ]
 }

@@ -84,6 +84,10 @@ class ProductController extends AdminController
      */
     protected function configureDatagridFields(TableBuilder $builder)
     {
+        $builder
+            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+        ;
+
         if ($this->getCurrentUser()->inRole('admin')) {
             $builder
                 ->addColumn(['data' => 'village_name', 'name' => 'village__villages.name', 'title' => trans('village::villages.title.model')])
@@ -187,11 +191,15 @@ class ProductController extends AdminController
      */
     public function getCategories()
     {
+        $attributes = [];
         if (!$this->getCurrentUser()->inRole('admin')){
-            return $this->categoryRepository->lists([], 'title', 'id', ['order' => 'desc']);
+            if ($this->getCurrentUser()->village) {
+                $attributes = ['village_id' => $this->getCurrentUser()->village->id];
+            }
+
         }
 
-        return $this->categoryRepository->lists(['village_id' => $this->getCurrentUser()->village->id], 'title', 'id', ['order' => 'desc']);
+        return $this->categoryRepository->lists($attributes, 'title', 'id', ['order' => 'desc']);
     }
 
     /**

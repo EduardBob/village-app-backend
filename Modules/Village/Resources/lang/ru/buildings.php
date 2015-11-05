@@ -12,6 +12,7 @@ return [
         'create' => 'Добавить дом',
     ],
     'table' => [
+        'id' => 'ID',
         'address' => 'Адрес',
         'code' => 'Код',
         'created_at' => 'Создана',

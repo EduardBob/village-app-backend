@@ -123,7 +123,28 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
 
             $group->item(trans('village::admin.title.orders'), function (Item $item) {
                 $item->icon('fa fa-shopping-cart');
-                $item->weight(3);
+                $item->weight(11);
+
+
+                $item->item(trans('village::productorders.title.module'), function (Item $item) {
+                    $item->icon('fa fa-shopping-cart');
+//                    if ($this->auth->hasAccess('village.productorders.create')) {
+//                        $item->append('admin.village.productorder.create');
+//                    }
+                    $item->route('admin.village.productorder.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('village.productorders.index')
+                    );
+                    $item->badge(function (Badge $badge, ProductOrderRepository $productOrderRepository) {
+                        $count = $this->getProductOrderBadgeCount($productOrderRepository);
+                        if ($count > 0) {
+                            $badge
+                                ->setClass('bg-light-blue')
+                                ->setValue($count)
+                            ;
+                        }
+                    });
+                });
 
                 $item->item(trans('village::serviceorders.title.module'), function (Item $item) {
                     $item->icon('fa fa-shopping-cart');
@@ -145,25 +166,27 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                     });
                 });
 
-                $item->item(trans('village::productorders.title.module'), function (Item $item) {
-                    $item->icon('fa fa-shopping-cart');
-//                    if ($this->auth->hasAccess('village.productorders.create')) {
-//                        $item->append('admin.village.productorder.create');
-//                    }
-                    $item->route('admin.village.productorder.index');
-                    $item->authorize(
-                        $this->auth->hasAccess('village.productorders.index')
-                    );
-                    $item->badge(function (Badge $badge, ProductOrderRepository $productOrderRepository) {
-                        $count = $this->getProductOrderBadgeCount($productOrderRepository);
-                        if ($count > 0) {
-                            $badge
-                                ->setClass('bg-light-blue')
-                                ->setValue($count)
-                            ;
-                        }
+                if ($this->auth->hasAccess('village.productorderchanges.index')) {
+                    $item->item(trans('village::productorderchanges.title.module'), function (Item $item) {
+                        $item->weight(3);
+                        $item->icon('fa fa-shopping-cart');
+                        $item->route('admin.village.productorderchange.index');
+                        $item->authorize(
+                            $this->auth->hasAccess('village.productorderchanges.index')
+                        );
                     });
-                });
+                }
+
+                if ($this->auth->hasAccess('village.serviceorderchanges.index')) {
+                    $item->item(trans('village::serviceorderchanges.title.module'), function (Item $item) {
+                        $item->weight(4);
+                        $item->icon('fa fa-shopping-cart');
+                        $item->route('admin.village.serviceorderchange.index');
+                        $item->authorize(
+                            $this->auth->hasAccess('village.serviceorderchanges.index')
+                        );
+                    });
+                }
             });
 
             $group->item(trans('village::margins.title.module'), function (Item $item) {

@@ -206,7 +206,9 @@ abstract class AdminController extends AdminBaseController
      */
     protected function configureDatagridParameters()
     {
-        return [];
+        return [
+            'order' => [[ 0, 'desc' ]]
+        ];
     }
 
     /**

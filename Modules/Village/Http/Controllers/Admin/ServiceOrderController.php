@@ -170,10 +170,10 @@ class ServiceOrderController extends AdminController
                 }
             })
             ->editColumn('building_address', function (ServiceOrder $serviceOrder) {
-                if ($this->getCurrentUser()->hasAccess('village.buildings.edit')) {
+                if ($this->getCurrentUser()->hasAccess('village.buildings.edit') && $serviceOrder->user->building) {
                     return '<a href="'.route('admin.village.building.edit', ['id' => $serviceOrder->user->building->id]).'">'.$serviceOrder->user->building->address.'</a>';
                 }
-                else {
+                elseif ($serviceOrder->user->building) {
                     return $serviceOrder->user->building->address;
                 }
             })

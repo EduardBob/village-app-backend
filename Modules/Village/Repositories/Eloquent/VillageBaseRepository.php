@@ -72,4 +72,34 @@ abstract class VillageBaseRepository extends EloquentBaseRepository
 
         return $query->get();
     }
+
+    /**
+     * @param int $count
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function latest($count)
+    {
+        return $this
+            ->model
+            ->orderBy('id', 'DESC')
+            ->paginate($count)
+        ;
+    }
+
+    /**
+     * Paginate the given query into a simple paginator.
+     *
+     * @param  int  $perPage
+     * @param  array  $columns
+     * @param  string  $pageName
+     * @param  int|null  $page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        $query = $this->model;
+
+        return $query->paginate($perPage, $columns, $pageName, $page);
+    }
 }

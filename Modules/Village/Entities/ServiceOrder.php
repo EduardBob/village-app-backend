@@ -38,14 +38,5 @@ class ServiceOrder extends Model
         static::saving(function(ServiceOrder $serviceOrder) {
             $serviceOrder->price = $serviceOrder->service->price;
         });
-
-        static::saved(function(ServiceOrder $serviceOrder) {
-            if ($serviceOrder->isDirty('status')) {
-                ServiceOrderChange::create([
-                    'service_id' => $serviceOrder->service->id,
-                    'status' => $serviceOrder->status,
-                ]);
-            }
-        });
     }
 }

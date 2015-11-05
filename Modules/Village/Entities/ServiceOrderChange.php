@@ -5,11 +5,11 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceOrderChange extends Model
 {
     protected $table = 'village__service_order_changes';
-    protected $fillable = ['service_id', 'user_id', 'status'];
+    protected $fillable = ['order_id', 'user_id', 'from_status', 'to_status'];
 
-    public function service()
+    public function order()
     {
-    	return $this->belongsTo('Modules\Village\Entities\Service');
+    	return $this->belongsTo('Modules\Village\Entities\ServiceOrder', 'order_id');
     }
 
     public function user()

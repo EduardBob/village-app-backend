@@ -74,7 +74,9 @@
         $( document ).ready(function() {
             $(document).keypressAction({
                 actions: [
-                    { key: 'c', route: "<?= $admin->route('create') ?>" }
+                    @if($currentUser->hasAccess($admin->getAccess('create')))
+                        { key: 'c', route: "<?= $admin->route('create') ?>" }
+                    @endif
                 ]
             });
         });

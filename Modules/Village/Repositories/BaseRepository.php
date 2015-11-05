@@ -25,4 +25,27 @@ interface BaseRepository extends \Modules\Core\Repositories\BaseRepository
      * @return Model[]
      */
     public function findAllByAttributes(array $attributes, array $order = null);
+
+    /**
+     * @param int $count
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function latest($count);
+
+    /**
+     * @param int $onPage
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    /**
+     * Paginate the given query into a simple paginator.
+     *
+     * @param  int  $perPage
+     * @param  array  $columns
+     * @param  string  $pageName
+     * @param  int|null  $page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null);
 }

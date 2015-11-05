@@ -83,6 +83,10 @@ class ServiceController extends AdminController
      */
     protected function configureDatagridFields(TableBuilder $builder)
     {
+        $builder
+            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+        ;
+
         if ($this->getCurrentUser()->inRole('admin')) {
             $builder
                 ->addColumn(['data' => 'village_name', 'name' => 'village__villages.name', 'title' => trans('village::villages.title.model')])
@@ -181,11 +185,14 @@ class ServiceController extends AdminController
      */
     public function getCategories()
     {
-        if (!method_exists($this->modelClass, 'village') || $this->getCurrentUser()->inRole('admin')){
-            return $this->categoryRepository->lists([], 'title', 'id', ['order' => 'desc']);
+        $attributes = [];
+        if (!$this->getCurrentUser()->inRole('admin')){
+            if ($this->getCurrentUser()->village) {
+                $attributes = ['village_id' => $this->getCurrentUser()->village->id];
+            }
         }
 
-        return $this->categoryRepository->lists(['village_id' => $this->getCurrentUser()->village->id], 'title', 'id', ['order' => 'desc']);
+        return $this->categoryRepository->lists($attributes, 'title', 'id', ['order' => 'desc']);
     }
 
     /**

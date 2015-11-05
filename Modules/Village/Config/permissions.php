@@ -61,6 +61,9 @@ return [
         'setStatusRunning',
         'setStatusDone',
     ],
+    'village.productorderchanges' => [
+        'index',
+    ],
     'village.services' => [
         'index',
         'create',
@@ -87,6 +90,9 @@ return [
         'destroy',
         'setStatusRunning',
         'setStatusDone',
+    ],
+    'village.serviceorderchanges' => [
+        'index',
     ],
     'village.surveys' => [
         'index',

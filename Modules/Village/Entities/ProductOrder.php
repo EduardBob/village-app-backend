@@ -39,14 +39,5 @@ class ProductOrder extends Model
             $productOrder->price = $productOrder->product->price * $productOrder->quantity;
             $productOrder->unit_title = $productOrder->product->unit_title;
         });
-
-        static::saved(function(ProductOrder $productOrder) {
-            if ($productOrder->isDirty('status')) {
-                ProductOrderChange::create([
-                    'product_id' => $productOrder->product->id,
-                    'status' => $productOrder->status,
-                ]);
-            }
-        });
     }
 }

@@ -71,6 +71,10 @@ class SurveyVoteController extends AdminController
      */
     protected function configureDatagridFields(TableBuilder $builder)
     {
+        $builder
+            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+        ;
+
         if ($this->getCurrentUser()->inRole('admin')) {
             $builder
                 ->addColumn(['data' => 'village_name', 'name' => 'village__villages.name', 'title' => trans('village::villages.title.model')])

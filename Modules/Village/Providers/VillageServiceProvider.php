@@ -1,7 +1,12 @@
 <?php namespace Modules\Village\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\Core\Contracts\Authentication;
 use Modules\Media\Image\ThumbnailsManager;
+use Modules\Village\Entities\ProductOrder;
+use Modules\Village\Entities\ProductOrderChange;
+use Modules\Village\Entities\ServiceOrder;
+use Modules\Village\Entities\ServiceOrderChange;
 
 class VillageServiceProvider extends ServiceProvider
 {
@@ -30,6 +35,36 @@ class VillageServiceProvider extends ServiceProvider
     public function provides()
     {
         return array();
+    }
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot(Authentication $auth)
+    {
+        ProductOrder::saved(function(ProductOrder $productOrder) use ($auth) {
+            if ($productOrder->isDirty('status')) {
+                ProductOrderChange::create([
+                    'order_id' => $productOrder->id,
+                    'user_id' => $auth->check()->id,
+                    'from_status' => $productOrder->getOriginal()['status'],
+                    'to_status' => $productOrder->status,
+                ]);
+            }
+        });
+
+        ServiceOrder::saved(function(ServiceOrder $serviceOrder) use ($auth) {
+            if ($serviceOrder->isDirty('status')) {
+                ServiceOrderChange::create([
+                    'order_id' => $serviceOrder->id,
+                    'user_id' => $auth->check()->id,
+                    'from_status' => $serviceOrder->getOriginal()['status'],
+                    'to_status' => $serviceOrder->status,
+                ]);
+            }
+        });
     }
 
     private function registerBindings()
@@ -150,6 +185,30 @@ class VillageServiceProvider extends ServiceProvider
                 }
 
                 return new \Modules\Village\Repositories\Cache\CacheProductOrderDecorator($repository);
+            }
+        );
+        $this->app->bind(
+            'Modules\Village\Repositories\ProductOrderChangeRepository',
+            function () {
+                $repository = new \Modules\Village\Repositories\Eloquent\EloquentProductOrderChangeRepository(new \Modules\Village\Entities\ProductOrderChange());
+
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+
+                return new \Modules\Village\Repositories\Cache\CacheProductOrderChangeDecorator($repository);
+            }
+        );
+        $this->app->bind(
+            'Modules\Village\Repositories\ServiceOrderChangeRepository',
+            function () {
+                $repository = new \Modules\Village\Repositories\Eloquent\EloquentServiceOrderChangeRepository(new \Modules\Village\Entities\ServiceOrderChange());
+
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+
+                return new \Modules\Village\Repositories\Cache\CacheServiceOrderChangeDecorator($repository);
             }
         );
         $this->app->bind(

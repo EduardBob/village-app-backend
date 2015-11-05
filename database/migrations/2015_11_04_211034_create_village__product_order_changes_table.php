@@ -16,11 +16,12 @@ class CreateVillageProductOrderChangesTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->integer('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('village__products')->onDelete('CASCADE');
+            $table->integer('order_id')->unsigned();
+            $table->foreign('order_id')->references('id')->on('village__product_orders')->onDelete('CASCADE');
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
-            $table->enum('status', config('village.order.statuses'));
+            $table->enum('from_status', config('village.order.statuses'));
+            $table->enum('to_status', config('village.order.statuses'));
         });
     }
 

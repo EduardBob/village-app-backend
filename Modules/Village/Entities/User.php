@@ -41,6 +41,10 @@ class User extends BaseUser implements AuthenticatableContract
         });
 
         static::saving(function(User $user) {
+            if (!$user->email) {
+                $user->email = null;
+            }
+
             if (!$user->village_id) {
                 $user->village_id = null;
             }

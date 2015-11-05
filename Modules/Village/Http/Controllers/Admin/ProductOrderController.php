@@ -183,10 +183,10 @@ class ProductOrderController extends AdminController
                 }
             })
             ->editColumn('building_address', function (ProductOrder $productOrder) {
-                if ($this->getCurrentUser()->hasAccess('village.buildings.edit')) {
+                if ($this->getCurrentUser()->hasAccess('village.buildings.edit') && $productOrder->user->building) {
                     return '<a href="'.route('admin.village.building.edit', ['id' => $productOrder->user->building->id]).'">'.$productOrder->user->building->address.'</a>';
                 }
-                else {
+                elseif ($productOrder->user->building) {
                     return $productOrder->user->building->address;
                 }
             })

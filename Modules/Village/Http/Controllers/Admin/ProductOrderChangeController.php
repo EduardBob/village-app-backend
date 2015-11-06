@@ -1,6 +1,7 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use Jenssegers\Date\Date;
 use Modules\Village\Entities\ProductOrderChange;
 use Modules\Village\Repositories\ProductOrderChangeRepository;
 use Modules\Village\Entities\Product;
@@ -126,9 +127,9 @@ class ProductOrderChangeController extends AdminController
                     return $productOrderChange->order->product->title;
                 }
             })
-//            ->addColumn('created_at', function (ProductOrderChange $productOrderChange) {
-//                return Carbon::parse($productOrderChange->created_at)->format(config('village.date.format'));
-//            })
+            ->addColumn('created_at', function (ProductOrderChange $productOrderChange) {
+                return Date::parse($productOrderChange->created_at)->diffForHumans();
+            })
             ->editColumn('user_name', function (ProductOrderChange $productOrderChange) {
                 if (!$productOrderChange->user) {
                     return '';

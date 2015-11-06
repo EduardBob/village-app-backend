@@ -1,6 +1,7 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use Jenssegers\Date\Date;
 use Modules\Village\Entities\ServiceOrderChange;
 use Modules\Village\Repositories\ServiceOrderChangeRepository;
 use Modules\Village\Entities\Service;
@@ -126,9 +127,9 @@ class ServiceOrderChangeController extends AdminController
                     return $serviceOrderChange->order->service->title;
                 }
             })
-//            ->addColumn('created_at', function (ServiceOrderChange $serviceOrderChange) {
-//                return Carbon::parse($serviceOrderChange->created_at)->format(config('village.date.format'));
-//            })
+            ->addColumn('created_at', function (ServiceOrderChange $serviceOrderChange) {
+                return Date::parse($serviceOrderChange->created_at)->diffForHumans();
+            })
             ->editColumn('user_name', function (ServiceOrderChange $serviceOrderChange) {
                 if (!$serviceOrderChange->user) {
                     return '';

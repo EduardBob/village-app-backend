@@ -62,6 +62,12 @@ class VillageController extends AdminController
     protected function configureDatagridValues(EloquentEngine $dataTable)
     {
         $dataTable
+            ->addColumn('created_at', function (Village $village) {
+                return localizeddate($village->created_at);
+            })
+        ;
+
+        $dataTable
             ->addColumn('active', function (Village $village) {
                 if($village->active) {
                     return '<span class="label label-success">'.trans('village::admin.table.active.yes').'</span>';

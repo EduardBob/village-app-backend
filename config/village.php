@@ -59,6 +59,11 @@ return [
         ]
     ],
     'date' => [
-        'format' => 'Y-m-d H:i'
+        'format' => 'Y-m-d H:i',
+        'human' => [
+            'short' => 'd M Y',
+            'medium' => 'd M Y H:i',
+            'standard' => 'd M Y H:i:s',
+        ]
     ]
 ];

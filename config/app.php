@@ -157,9 +157,10 @@ return [
 		\Modules\Core\Providers\AsgardServiceProvider::class,
 		\Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 
-		Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-		EllipseSynergie\ApiResponse\Laravel\ResponseServiceProvider::class,
-		yajra\Datatables\DatatablesServiceProvider::class,
+		\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+		\EllipseSynergie\ApiResponse\Laravel\ResponseServiceProvider::class,
+		\yajra\Datatables\DatatablesServiceProvider::class,
+		\Jenssegers\Date\DateServiceProvider::class,
 	],
 
 	/*
@@ -214,6 +215,7 @@ return [
         'JWTAuth' => \Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => \Tymon\JWTAuth\Facades\JWTFactory::class,
         'Datatables' => yajra\Datatables\Datatables::class,
+        'Date' => \Jenssegers\Date\Date::class,
 	],
 
 ];

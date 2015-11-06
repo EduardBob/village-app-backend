@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Jenssegers\Date\Date;
 use Modules\Village\Entities\ServiceOrder;
 use Modules\Village\Repositories\ServiceOrderRepository;
 use Modules\Village\Entities\Service;
@@ -180,7 +181,10 @@ class ServiceOrderController extends AdminController
                 }
             })
             ->addColumn('perform_at', function (ServiceOrder $serviceOrder) {
-                return Carbon::parse($serviceOrder->perform_at)->format(config('village.date.format'));
+                return Date::parse($serviceOrder->perform_at)->diffForHumans();
+            })
+            ->addColumn('created_at', function (ServiceOrder $serviceOrder) {
+                return localizeddate($serviceOrder->created_at);
             })
             ->editColumn('user_name', function (ServiceOrder $serviceOrder) {
                 $name = $serviceOrder->user->last_name. ' '.$serviceOrder->user->first_name;

@@ -95,6 +95,12 @@ class ArticleController extends AdminController
         }
 
         $dataTable
+            ->addColumn('created_at', function (Article $article) {
+                return localizeddate($article->created_at);
+            })
+        ;
+
+        $dataTable
             ->addColumn('active', function (Article $article) {
                 if($article->active) {
                     return '<span class="label label-success">'.trans('village::admin.table.active.yes').'</span>';

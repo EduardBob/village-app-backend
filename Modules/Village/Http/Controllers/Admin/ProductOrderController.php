@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Jenssegers\Date\Date;
 use Modules\Village\Entities\ProductOrder;
 use Modules\Village\Repositories\ProductOrderRepository;
 use Modules\Village\Entities\Product;
@@ -196,7 +197,10 @@ class ProductOrderController extends AdminController
                 return $this->trans('form.unit_title.values.'.$productOrder->unit_title);
             })
             ->addColumn('perform_at', function (ProductOrder $productOrder) {
-                return Carbon::parse($productOrder->perform_at)->format(config('village.date.format'));
+                return Date::parse($productOrder->perform_at)->diffForHumans();
+            })
+            ->addColumn('created_at', function (ProductOrder $productOrder) {
+                return localizeddate($productOrder->created_at);
             })
             ->editColumn('user_name', function (ProductOrder $productOrder) {
                 $name = $productOrder->user->last_name. ' '.$productOrder->user->first_name;

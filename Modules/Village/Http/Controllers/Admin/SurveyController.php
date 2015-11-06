@@ -1,5 +1,7 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
+use Carbon\Carbon;
+use Jenssegers\Date\Date;
 use Modules\Village\Entities\Survey;
 use Modules\Village\Repositories\SurveyRepository;
 
@@ -93,6 +95,12 @@ class SurveyController extends AdminController
                 })
             ;
         }
+
+        $dataTable
+            ->addColumn('ends_at', function (Survey $survey) {
+                return localizeddate($survey->ends_at, 'short');
+            })
+        ;
 
         $dataTable
             ->addColumn('active', function (Survey $survey) {

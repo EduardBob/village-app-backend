@@ -119,6 +119,14 @@ class ProductOrderChangeController extends AdminController
         }
 
         $dataTable
+            ->editColumn('order_id', function (ProductOrderChange $productOrderChange) {
+                if ($this->getCurrentUser()->hasAccess('village.productorders.edit')) {
+                    return '<a href="'.route('admin.village.productorder.edit', ['id' => $productOrderChange->order->id]).'">'.$productOrderChange->order->id.'</a>';
+                }
+                else {
+                    return $productOrderChange->order->id;
+                }
+            })
             ->editColumn('product_title', function (ProductOrderChange $productOrderChange) {
                 if ($this->getCurrentUser()->hasAccess('village.products.edit')) {
                     return '<a href="'.route('admin.village.product.edit', ['id' => $productOrderChange->order->product->id]).'">'.$productOrderChange->order->product->title.'</a>';

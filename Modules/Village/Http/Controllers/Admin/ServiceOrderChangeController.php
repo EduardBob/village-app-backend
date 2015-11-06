@@ -119,6 +119,14 @@ class ServiceOrderChangeController extends AdminController
         }
 
         $dataTable
+            ->editColumn('order_id', function (ServiceOrderChange $serviceOrderChange) {
+                if ($this->getCurrentUser()->hasAccess('village.serviceorders.edit')) {
+                    return '<a href="'.route('admin.village.serviceorder.edit', ['id' => $serviceOrderChange->order->id]).'">'.$serviceOrderChange->order->id.'</a>';
+                }
+                else {
+                    return $serviceOrderChange->order->id;
+                }
+            })
             ->editColumn('service_title', function (ServiceOrderChange $serviceOrderChange) {
                 if ($this->getCurrentUser()->hasAccess('village.services.edit')) {
                     return '<a href="'.route('admin.village.service.edit', ['id' => $serviceOrderChange->order->service->id]).'">'.$serviceOrderChange->order->service->title.'</a>';

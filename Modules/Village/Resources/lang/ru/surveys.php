@@ -9,6 +9,7 @@ return [
     ],
     'button' => [
         'create' => 'Создать опрос',
+        'answer-create' => 'Добавить вариант ответа',
     ],
     'table' => [
         'id' => 'ID',

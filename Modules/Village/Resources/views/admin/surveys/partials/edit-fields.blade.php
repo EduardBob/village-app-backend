@@ -51,27 +51,36 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group option-collection">
                                     <label>{{ $admin->trans('tabs.answers') }}</label>
                                     @if(isset($model->options))
                                         <?php $options = json_decode($model->options, true); ?>
                                         @if(is_array($options))
                                             @foreach($options as $key => $option)
-                                                <div class="form-group{{ $errors->has('options') ? ' has-error' : '' }}">
-                                                    {!! Form::label('options', $admin->trans('form.answer')) !!} №{{ $key+1 }}
-                                                    {!! Form::text('options[]', Input::old('options', $option), ['class' => 'form-control']) !!}
+                                                <div class="option form-group{{ $errors->has('options') ? ' has-error' : '' }}">
+                                                    {!! Form::label('options', $admin->trans('form.answer')) !!}
+                                                     <span class="option-number">№{{ $key+1 }}</span>
+                                                     <div class="input-group">
+                                                        {!! Form::text('options[]', Input::old('options', $option), ['class' => 'form-control']) !!}
+                                                        <span class="input-group-addon remove-option btn-danger"><i class="fa fa-times"></i></span>
+                                                    </div>
                                                     {!! $errors->first('options', '<span class="help-block">:message</span>') !!}
                                                 </div>
                                             @endforeach
-                                        @else
-                                            <div class="form-group{{ $errors->has('options') ? ' has-error' : '' }}">
-                                                {!! Form::label('options', $admin->trans('table.option')) !!}
-                                                {!! Form::text('options[]', Input::old('options'), ['class' => 'form-control']) !!}
-                                                {!! $errors->first('options', '<span class="help-block">:message</span>') !!}
-                                            </div>
                                         @endif
                                     @endif
                                 </div>
+
+                                <div class="hidden option-template form-group">
+                                    {!! Form::label('options', $admin->trans('form.answer')) !!}
+                                    <span class="option-number"></span>
+                                     <div class="input-group">
+                                        {!! Form::text('options[]', null, ['class' => 'form-control']) !!}
+                                        <span class="input-group-addon remove-option btn-danger"><i class="fa fa-times"></i></span>
+                                    </div>
+                                </div>
+
+                                <button id="add-option" type="button" class="btn btn-success btn-flat pull-right">{{ $admin->trans('button.answer-create') }}</button>
                             </div>
                         </div>
                     </div>
@@ -80,3 +89,30 @@
         </div>
     </div>
 </div>
+
+@section('scripts')
+<script type="text/javascript">
+$(document).ready(function() {
+    $('button#add-option').click(function(){
+        $options = $('.form-group.option');
+        $option = $('.option-template')
+            .first()
+            .clone()
+            .removeClass()
+            .addClass('option form-group')
+        ;
+        $('.option-number', $option).text('№' + ($options.length + 1));
+        $('input', $option).val('');
+        $('.form-group.option-collection').append($option);
+    });
+
+    $('.option-collection').on('click','.remove-option', function(){
+        $(this).parents('.form-group.option').remove();
+        $options = $('.form-group.option');
+        $options.each(function(index){
+            $('.option-number', $(this)).text('№' + (index + 1));
+        });
+    });
+});
+</script>
+@stop

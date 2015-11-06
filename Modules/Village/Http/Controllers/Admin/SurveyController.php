@@ -117,7 +117,7 @@ class SurveyController extends AdminController
         $rules = [
             'title' => "required|max:255",
             'ends_at' => 'required|date|date_format:Y-m-d',
-            'active' => "required|boolean",
+//            'active' => "required|boolean",
         ];
 
         if ($this->getCurrentUser()->inRole('admin')) {

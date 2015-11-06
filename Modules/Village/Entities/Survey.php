@@ -40,6 +40,7 @@ class Survey extends Model
 
         static::saving(function(Survey $survey) {
             if (is_array($survey->options)) {
+                $survey->options = array_filter($survey->options);
                 $survey->options = json_encode($survey->options);
             }
         });

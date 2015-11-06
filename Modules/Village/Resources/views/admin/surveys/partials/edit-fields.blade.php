@@ -91,28 +91,30 @@
 </div>
 
 @section('scripts')
-<script type="text/javascript">
-$(document).ready(function() {
-    $('button#add-option').click(function(){
-        $options = $('.form-group.option');
-        $option = $('.option-template')
-            .first()
-            .clone()
-            .removeClass()
-            .addClass('option form-group')
-        ;
-        $('.option-number', $option).text('№' + ($options.length + 1));
-        $('input', $option).val('');
-        $('.form-group.option-collection').append($option);
-    });
+    @parent
 
-    $('.option-collection').on('click','.remove-option', function(){
-        $(this).parents('.form-group.option').remove();
-        $options = $('.form-group.option');
-        $options.each(function(index){
-            $('.option-number', $(this)).text('№' + (index + 1));
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('button#add-option').click(function(){
+            $options = $('.form-group.option');
+            $option = $('.option-template')
+                .first()
+                .clone()
+                .removeClass()
+                .addClass('option form-group')
+            ;
+            $('.option-number', $option).text('№' + ($options.length + 1));
+            $('input', $option).val('');
+            $('.form-group.option-collection').append($option);
+        });
+
+        $('.option-collection').on('click','.remove-option', function(){
+            $(this).parents('.form-group.option').remove();
+            $options = $('.form-group.option');
+            $options.each(function(index){
+                $('.option-number', $(this)).text('№' + (index + 1));
+            });
         });
     });
-});
-</script>
+    </script>
 @stop

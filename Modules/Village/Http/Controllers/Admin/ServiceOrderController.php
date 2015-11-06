@@ -181,7 +181,7 @@ class ServiceOrderController extends AdminController
                 }
             })
             ->addColumn('perform_at', function (ServiceOrder $serviceOrder) {
-                return Date::parse($serviceOrder->perform_at)->diffForHumans();
+                return localizeddate($serviceOrder->perform_at);
             })
             ->addColumn('created_at', function (ServiceOrder $serviceOrder) {
                 return localizeddate($serviceOrder->created_at);

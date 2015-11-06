@@ -48,7 +48,7 @@ class VillageServiceProvider extends ServiceProvider
             if ($productOrder->isDirty('status')) {
                 ProductOrderChange::create([
                     'order_id' => $productOrder->id,
-                    'user_id' => $auth->check()->id,
+                    'user_id' => $this->user($auth)->id,
                     'from_status' => @$productOrder->getOriginal()['status'],
                     'to_status' => $productOrder->status,
                 ]);
@@ -59,12 +59,22 @@ class VillageServiceProvider extends ServiceProvider
             if ($serviceOrder->isDirty('status')) {
                 ServiceOrderChange::create([
                     'order_id' => $serviceOrder->id,
-                    'user_id' => $auth->check()->id,
+                    'user_id' => $this->user($auth)->id,
                     'from_status' => @$serviceOrder->getOriginal()['status'],
                     'to_status' => $serviceOrder->status,
                 ]);
             }
         });
+    }
+
+    private function user(Authentication $auth)
+    {
+        if ($user = $auth->check()) {
+            return $user;
+        }
+        elseif (\JWTAuth::parseToken()) {
+            return \JWTAuth::parseToken()->authenticate();
+        }
     }
 
     private function registerBindings()

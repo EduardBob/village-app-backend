@@ -197,7 +197,7 @@ class ProductOrderController extends AdminController
                 return $this->trans('form.unit_title.values.'.$productOrder->unit_title);
             })
             ->addColumn('perform_at', function (ProductOrder $productOrder) {
-                return Date::parse($productOrder->perform_at)->diffForHumans();
+                return localizeddate($productOrder->perform_at);
             })
             ->addColumn('created_at', function (ProductOrder $productOrder) {
                 return localizeddate($productOrder->created_at);

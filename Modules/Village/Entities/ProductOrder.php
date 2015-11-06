@@ -33,9 +33,6 @@ class ProductOrder extends Model
 
         static::creating(function(ProductOrder $productOrder) {
             $productOrder->village()->associate($productOrder->product->category->village);
-        });
-
-        static::saving(function(ProductOrder $productOrder) {
             $productOrder->price = $productOrder->product->price * $productOrder->quantity;
             $productOrder->unit_title = $productOrder->product->unit_title;
         });

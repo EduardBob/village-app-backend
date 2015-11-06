@@ -33,9 +33,7 @@ class ServiceOrder extends Model
 
         static::creating(function(ServiceOrder $serviceOrder) {
             $serviceOrder->village()->associate($serviceOrder->service->category->village);
-        });
 
-        static::saving(function(ServiceOrder $serviceOrder) {
             $serviceOrder->price = $serviceOrder->service->price;
             if ($serviceOrder->price == 0) {
                 $serviceOrder->status = 'processing';

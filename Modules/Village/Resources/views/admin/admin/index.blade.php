@@ -28,7 +28,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                {!! $html->table() !!}
+                {!! $html->table(['class' => 'table table-striped table-bordered']) !!}
                 <!-- /.box-body -->
             </div>
             <!-- /.box -->

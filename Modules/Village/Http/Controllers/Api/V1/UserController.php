@@ -4,8 +4,10 @@ namespace Modules\Village\Http\Controllers\Api\V1;
 
 use Activation;
 use DB;
+use Fruitware\ProstorSms\Exception\BadSmsStatusException;
 use Hash;
 use Modules\User\Services\UserRegistration;
+use Modules\Village\Entities\Sms;
 use Modules\Village\Entities\Token;
 use Modules\Village\Entities\User;
 use Modules\Village\Packback\Transformer\TokenTransformer;
@@ -41,11 +43,8 @@ class UserController extends ApiController
                 if ($token) {
                     Token::destroy($token->id);
                 }
-                $token = Token::create([
-                    'type'  => Token::TYPE_REGISTRATION,
-                    'phone' => $data['phone'],
-                ]);
-                return $this->response->withItem($token, new TokenTransformer);
+
+                return $this->generateRegistrationTokenAndSendSms($user);
             }
             else {
                 return $this->response->errorForbidden('user_exist');
@@ -57,16 +56,9 @@ class UserController extends ApiController
 
         /** @var UserRegistration $userRegistration */
         $userRegistration = app('Modules\User\Services\UserRegistration');
+        $user = $userRegistration->register($data);
 
-        $token = DB::transaction(function() use ($userRegistration, $data) {
-            $userRegistration->register($data);
-            return Token::create([
-                'type'  => Token::TYPE_REGISTRATION,
-                'phone' => $data['phone'],
-            ]);
-        });
-
-        return $this->response->withItem($token, new TokenTransformer);
+        return $this->generateRegistrationTokenAndSendSms($user);
     }
 
     /**
@@ -173,6 +165,32 @@ class UserController extends ApiController
         $request::replace(['phone' => $token['phone'], 'password' => $password]);
 
         return (new AuthController($this->response))->auth($request);
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return mixed
+     */
+    private function generateRegistrationTokenAndSendSms(User $user)
+    {
+        $token = Token::create([
+            'type'  => Token::TYPE_REGISTRATION,
+            'phone' => $user->phone,
+        ]);
+
+        $sms = new Sms();
+        $sms->village()->associate($user->village_id);
+        $sms
+            ->setPhone($user->phone)
+            ->setText('Код подтверждения регистрации: '.$token->code)
+        ;
+
+        if (($response = $this->sendSms($sms)) !== true) {
+            return $response;
+        }
+
+        return $this->response->withItem($token, new TokenTransformer);
     }
 
 //    /**

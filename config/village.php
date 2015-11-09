@@ -3,8 +3,8 @@
 return [
     'token' => [
         'code' => [
-            'min' => env('VILLAGE_TOKEN_CODE_MIN', 1000000),
-            'max' => env('VILLAGE_TOKEN_CODE_MAX', 9999999),
+            'min' => env('VILLAGE_TOKEN_CODE_MIN', 10000),
+            'max' => env('VILLAGE_TOKEN_CODE_MAX', 99999),
         ],
         'session' => [
             /**
@@ -12,6 +12,10 @@ return [
              */
             'length' => env('VILLAGE_TOKEN_SESSION_LENGTH', 10),
         ]
+    ],
+    'sms' => [
+        'username' => env('VILLAGE_SMS_USERNAME'),
+        'password' => env('VILLAGE_SMS_PASSWORD'),
     ],
     'user' => [
         'phone' => [
@@ -65,5 +69,5 @@ return [
             'medium' => 'd M Y H:i',
             'standard' => 'd M Y H:i:s',
         ]
-    ]
+    ],
 ];

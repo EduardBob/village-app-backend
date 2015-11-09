@@ -2,6 +2,8 @@
 
 namespace Modules\Village\Http\Controllers\Api\V1;
 
+use Fruitware\ProstorSms\Exception\BadSmsStatusException;
+use Modules\Village\Entities\Sms;
 use Modules\Village\Entities\Token;
 use Modules\Village\Entities\User;
 use Modules\Village\Packback\Transformer\TokenTransformer;
@@ -40,11 +42,34 @@ class TokenController extends ApiController
             if (!$user->isActivated()) {
                 return $this->response->errorForbidden('user_not_activated');
             }
+
+            $token = Token::create($data);
+
+            $text = '';
+            if (Token::TYPE_CHANGE_PHONE == $token->type) {
+                $text = 'Код подтверждения смены номера телефона'.$token->code;
+            }
+            elseif(Token::TYPE_RESET_PASSWORD == $token->type) {
+                $text = 'Код подтверждения сброса пароля'.$token->code;
+            }
+
+            if (!$text) {
+                return $this->response->errorInternalError('internal_error');
+            }
+
+            $sms = new Sms();
+            $sms->village()->associate($user->village_id);
+            $sms
+                ->setPhone($user->phone)
+                ->setText($text)
+            ;
+
+            if (($response = $this->sendSms($sms)) !== true) {
+                return $response;
+            }
+
+            return $this->response->withItem($token, new TokenTransformer);
         }
-
-        $token = Token::create($data);
-
-        return $this->response->withItem($token, new TokenTransformer);
     }
 
     /**

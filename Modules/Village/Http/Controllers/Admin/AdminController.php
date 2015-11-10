@@ -12,7 +12,6 @@ use yajra\Datatables\Datatables;
 use yajra\Datatables\Engines\EloquentEngine;
 use yajra\Datatables\Html\Builder as TableBuilder;
 
-
 abstract class AdminController extends AdminBaseController
 {
     /**

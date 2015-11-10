@@ -110,6 +110,15 @@ return [
         'update',
         'destroy',
     ],
+    'village.sms' => [
+//        'index',
+//        'create',
+//        'store',
+//        'edit',
+//        'update',
+//        'destroy',
+        'send',
+    ],
 //    'village.tokens' => [
 //        'index',
 //        'create',
@@ -118,19 +127,4 @@ return [
 //        'update',
 //        'destroy',
 //    ],
-// append
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ];

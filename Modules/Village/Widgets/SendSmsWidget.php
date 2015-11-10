@@ -4,26 +4,27 @@ namespace Modules\Village\Widgets;
 
 use Modules\Core\Contracts\Authentication;
 use Modules\Dashboard\Foundation\Widgets\BaseWidget;
-use Modules\Village\Repositories\ProductOrderChangeRepository;
+use Modules\Village\Repositories\ServiceOrderChangeRepository;
+use Modules\Village\Repositories\SmsRepository;
 
-class LatestProductOrderChangesWidget extends BaseWidget
+class SendSmsWidget extends BaseWidget
 {
     /**
      * @var Authentication
      */
     private $auth;
     /**
-     * @var ProductOrderChangeRepository
+     * @var ServiceOrderChangeRepository
      */
-    private $changes;
+    private $smsRepository;
 
     /**
-     * @param ProductOrderChangeRepository $changes
+     * @param SmsRepository $smsRepository
      */
-    public function __construct(ProductOrderChangeRepository $changes, Authentication $auth)
+    public function __construct(SmsRepository $smsRepository, Authentication $auth)
     {
         $this->auth = $auth;
-        $this->changes = $changes;
+        $this->smsRepository = $smsRepository;
     }
     /**
      * Get the widget name
@@ -39,7 +40,7 @@ class LatestProductOrderChangesWidget extends BaseWidget
      */
     protected function view()
     {
-        return 'village::admin.productorderchanges.widgets.latest';
+        return 'village::admin.sms.widgets.send';
     }
     /**
      * Get the widget data to send to the view
@@ -48,7 +49,6 @@ class LatestProductOrderChangesWidget extends BaseWidget
     protected function data()
     {
         return [
-            'collection' => $this->changes->latest(10),
             'currentUser' => $this->auth->check(),
         ];
     }
@@ -59,10 +59,10 @@ class LatestProductOrderChangesWidget extends BaseWidget
     protected function options()
     {
         return [
-            'width' => '6',
-            'height' => '15',
+            'width' => '12',
+            'height' => '2',
             'x' => '0',
-            'y' => '2',
+            'y' => '0',
         ];
     }
 }

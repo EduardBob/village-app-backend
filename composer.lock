@@ -1610,16 +1610,16 @@
         },
         {
             "name": "fruitware/prostor-sms-php-sdk",
-            "version": "0.1.2",
+            "version": "0.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Fruitware/prostor-sms-php-sdk.git",
-                "reference": "74ecff78e764b1641871f5a50f5a39484568e914"
+                "reference": "9265724e18db2405064369f7c8ed30c8f8a36f62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Fruitware/prostor-sms-php-sdk/zipball/74ecff78e764b1641871f5a50f5a39484568e914",
-                "reference": "74ecff78e764b1641871f5a50f5a39484568e914",
+                "url": "https://api.github.com/repos/Fruitware/prostor-sms-php-sdk/zipball/9265724e18db2405064369f7c8ed30c8f8a36f62",
+                "reference": "9265724e18db2405064369f7c8ed30c8f8a36f62",
                 "shasum": ""
             },
             "require": {
@@ -1654,7 +1654,7 @@
                 "rest",
                 "sms"
             ],
-            "time": "2015-11-09 22:29:56"
+            "time": "2015-11-10 13:59:19"
         },
         {
             "name": "fzaninotto/faker",

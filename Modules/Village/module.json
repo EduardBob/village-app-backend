@@ -15,7 +15,8 @@
     ],
     "widgets": [
         "Modules\\Village\\Widgets\\LatestProductOrderChangesWidget",
-        "Modules\\Village\\Widgets\\LatestServiceOrderChangesWidget"
+        "Modules\\Village\\Widgets\\LatestServiceOrderChangesWidget",
+        "Modules\\Village\\Widgets\\SendSmsWidget"
     ],
     "files": [
         "helpers.php"

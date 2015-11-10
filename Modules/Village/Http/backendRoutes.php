@@ -173,6 +173,13 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
     $router->bind('tokens', function ($id) {
         return app('Modules\Village\Repositories\TokenRepository')->find($id);
     });
+
+//    $router->resource('buildings', 'BuildingController', ['except' => ['show', 'index', 'create', 'store', 'edit', 'update', 'destroy'], 'names' => [
+//        'send' => 'admin.village.building.send',
+//    ]]);
+    $router->group(['prefix' => 'sms'], function (Router $router) {
+        $router->post('send', ['uses' => 'SmsController@send', 'as' => 'admin.village.sms.send']);
+    });
 //        $router->resource('tokens', 'TokenController', ['except' => ['show'], 'names' => [
 //            'index' => 'admin.village.token.index',
 //            'create' => 'admin.village.token.create',

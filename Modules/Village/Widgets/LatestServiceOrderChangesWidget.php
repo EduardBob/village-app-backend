@@ -31,7 +31,7 @@ class LatestServiceOrderChangesWidget extends BaseWidget
      */
     protected function name()
     {
-        return 'LatestServiceOrderChangesWidget';
+        return get_class();
     }
     /**
      * Get the widget view
@@ -62,6 +62,7 @@ class LatestServiceOrderChangesWidget extends BaseWidget
             'width' => '6',
             'height' => '15',
             'x' => '6',
+            'y' => '2',
         ];
     }
 }

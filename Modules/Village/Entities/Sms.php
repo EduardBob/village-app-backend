@@ -201,4 +201,32 @@ class Sms extends Model implements SmsInterface
 
         return $this;
     }
+
+    /**
+     * @param Sms[] $smsCollection
+     *
+     * @return Sms[] with defined status and code
+     */
+    static public function sendQueue(array &$smsCollection)
+    {
+        \DB::beginTransaction();
+        /** @var Sms $sms */
+        foreach ($smsCollection as $sms) {
+            if (!$sms->getId()) {
+                $sms->save();
+            }
+        }
+        \DB::commit();
+
+        $smsCollection = smsGate()->sendQueue($smsCollection);
+
+        \DB::beginTransaction();
+        /** @var Sms $sms */
+        foreach ($smsCollection as $sms) {
+            $sms->save();
+        }
+        \DB::commit();
+
+        return $smsCollection;
+    }
 }

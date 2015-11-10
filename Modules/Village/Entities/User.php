@@ -20,6 +20,11 @@ class User extends BaseUser implements AuthenticatableContract
         'building_id',
     ];
 
+    public function activation()
+    {
+        return $this->hasOne('Cartalyst\Sentinel\Activations\EloquentActivation');
+    }
+
     public function village()
     {
         return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
@@ -52,6 +57,17 @@ class User extends BaseUser implements AuthenticatableContract
                 $user->building_id = null;
             }
         });
+    }
+
+    /**
+     * Check if the current user is activated
+     * @return bool
+     */
+    public function isActivated()
+    {
+        $activation = $this->activation;
+
+        return $activation ? (bool)$activation->completed : false;
     }
 
     /**

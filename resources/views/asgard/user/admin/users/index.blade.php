@@ -38,6 +38,7 @@
                             <th>{{ trans('user::users.table.last-name') }}</th>
                             <th>{{ trans('village::users.table.phone') }}</th>
                             <th>{{ trans('village::buildings.table.address') }}</th>
+                            <th>{{ trans('village::users.table.activated') }}</th>
                             <th>{{ trans('user::users.table.actions') }}</th>
                         </tr>
                         @show
@@ -76,6 +77,13 @@
                                 <td>
                                     @if ($user->building)
                                         {{ $user->building->address }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($user->isActivated())
+                                        <span class="label label-success">да</span>
+                                    @else
+                                        <span class="label label-danger">нет</span>
                                     @endif
                                 </td>
                                 <td>

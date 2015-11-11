@@ -136,13 +136,11 @@ class SmsController extends AdminController
             return redirect()->route('dashboard.index');
         }
 
-        $query = $village ? User::where('village_id', $village->id) : new User();
+        $query = $village ? User::with(['village'])->where('village_id', $village->id) : new User();
 
         $users = $query
-            ->leftJoin('village__villages', 'users.village_id', '=', 'village__villages.id')
             ->leftJoin('activations', 'activations.user_id', '=', 'users.id')
             ->where('activations.completed', 1)
-            ->with(['village'])
             ->get()
         ;
 
@@ -152,31 +150,37 @@ class SmsController extends AdminController
             return redirect()->route('dashboard.index');
         }
 
-        $smsCollection = [];
-        foreach ($users as $user) {
-            // Только если указан посёлок
-            if (!$user->village_id) {
-                continue;
+        if (config('village.sms.enabled.mass')) {
+            $smsCollection = [];
+            foreach ($users as $user) {
+                // Только если указан посёлок
+                if (!$user->village->id) {
+                    continue;
+                }
+
+                $sms = new Sms();
+                $sms->village()->associate($user->village);
+                $sms
+                    ->setText($text)
+                    ->setPhone($user->phone)
+                    ->setSender($user->village->name)
+                ;
+                $smsCollection[] = $sms;
             }
 
-            $sms = new Sms();
-            $sms->village()->associate($user->village);
-            $sms
-                ->setText($text)
-                ->setPhone($user->phone)
-            ;
-            $smsCollection[] = $sms;
+            $smsCollection = Sms::sendQueue($smsCollection);
+
+            $count = ['success' => 0, 'error' => 0];
+            /** @var Sms $sms */
+            foreach ($smsCollection as $sms) {
+                $sms->getStatus() == $sms::STATUS_ACCEPTED ? $count['success']++ : $count['error']++;
+            }
+
+            flash()->warning(trans('village::sms.messages.sent all', ['total' => count($smsCollection), 'success' => $count['success'], 'error' => $count['error']]));
         }
-
-        // todo можно как-то обработать ошибки
-        $smsCollection = Sms::sendQueue($smsCollection);
-
-        $count = ['success' => 0, 'error' => 0];
-        foreach ($smsCollection as $sms) {
-            $sms->getStatus() == $sms::STATUS_ACCEPTED ? $count['success']++ : $count['error']++;
+        else {
+            flash()->warning(trans('village::sms.messages.send mass disabled'));
         }
-
-        flash()->warning(trans('village::sms.messages.sent all', ['total' => count($smsCollection), 'success' => $count['success'], 'error' => $count['error']]));
 
         return redirect()->route('dashboard.index');
     }

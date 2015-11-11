@@ -2,10 +2,12 @@
     <div class="row">
         <div class="col-md-12">
             <?php foreach ($permissions as $name => $value): ?>
+                @if(!isset($currentUser) || $currentUser->hasAccess("$name.*"))
                 <div class="col-md-12">
                     <h3>{{ ucfirst($name) }}</h3>
                 </div>
                 <?php foreach ($value as $subPermissionTitle => $permissionActions): ?>
+                    @if(!isset($currentUser) || $currentUser->hasAccess("$subPermissionTitle.*"))
                     <div class="permissionGroup">
                         <div class="col-md-8">
                             <h4 class="pull-left">{{ ucfirst($subPermissionTitle) }}</h4>
@@ -19,18 +21,22 @@
                         <?php foreach (array_chunk($permissionActions, ceil(count($permissionActions)/2)) as $permissionActionGroup): ?>
                             <div class="col-md-3">
                             <?php foreach ($permissionActionGroup as $permissionAction): ?>
+                                @if(!isset($currentUser) || $currentUser->hasAccess("$subPermissionTitle.$permissionAction"))
                                 <div class="checkbox">
                                     <label for="<?php echo "$subPermissionTitle.$permissionAction" ?>">
                                         <input name="permissions[<?php echo "$subPermissionTitle.$permissionAction" ?>]" type="hidden" value="false" />
                                         <input id="<?php echo "$subPermissionTitle.$permissionAction" ?>" name="permissions[<?php echo "$subPermissionTitle.$permissionAction" ?>]" type="checkbox" class="flat-blue" value="true" /> {{ ucfirst($permissionAction) }}
                                     </label>
                                 </div>
+                                @endif
                             <?php endforeach; ?>
                             </div>
                         <?php endforeach; ?>
                         <div class="clearfix"></div>
                     </div>
+                    @endif
                 <?php endforeach; ?>
+                @endif
             <?php endforeach; ?>
         </div>
     </div>

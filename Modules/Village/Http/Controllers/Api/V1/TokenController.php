@@ -32,7 +32,7 @@ class TokenController extends ApiController
         }
 
         if (in_array($data['type'], [Token::TYPE_CHANGE_PHONE, Token::TYPE_RESET_PASSWORD])) {
-            $user = User::where(['phone' => $data['phone']])->first();
+            $user = User::with(['village'])->where(['phone' => $data['phone']])->first();
 
             /** @var $user User */
             if (!$user) {
@@ -58,10 +58,11 @@ class TokenController extends ApiController
             }
 
             $sms = new Sms();
-            $sms->village()->associate($user->village_id);
+            $sms->village()->associate($user->village->id);
             $sms
                 ->setPhone($user->phone)
                 ->setText($text)
+                ->setSender($user->village->name)
             ;
 
             if (($response = $this->sendSms($sms)) !== true) {

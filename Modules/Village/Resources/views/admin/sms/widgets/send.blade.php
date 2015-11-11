@@ -4,6 +4,7 @@
             <h3 class="box-title">{{ trans('village::sms.widget.send.title') }}</h3>
 
             <div class="box-tools pull-right">
+                <span data-toggle="tooltip" title="Доступно только группе admin" class="badge bg-red"><i class="fa fa-question"></i></span>
                 {{--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>--}}
             </div>
             <!-- /.box-tools -->

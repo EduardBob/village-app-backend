@@ -16,6 +16,10 @@ return [
     'sms' => [
         'username' => env('VILLAGE_SMS_USERNAME'),
         'password' => env('VILLAGE_SMS_PASSWORD'),
+        'enabled'  => [
+            'mass'                => env('VILLAGE_SMS_MASS_SEND_ENABLED', false),
+            'on_order_processing' => env('VILLAGE_SMS_SEND_ON_ORDER_PROCESSING', false),
+        ],
     ],
     'user' => [
         'phone' => [

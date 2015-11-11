@@ -13,6 +13,7 @@ return [
     ],
     'table' => [
         'id' => 'ID',
+        'main_admin_id' => 'Главный администратор посёлка',
         'name' => 'Название',
         'shop_name' => 'Название магазина',
         'shop_address' => 'Адрес магазина',
@@ -31,6 +32,10 @@ return [
         'village_id' => 'Поселок',
         'village' => [
             'placeholder' => 'Не выбран'
+        ],
+        'main_admin' => [
+            'placeholder' => 'Не выбран',
+            'help' => 'Получает sms при оплате заказа'
         ]
     ],
     'messages' => [

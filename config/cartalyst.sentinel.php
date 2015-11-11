@@ -95,7 +95,7 @@ return [
 
     'permissions' => [
 
-        'class' => 'Cartalyst\Sentinel\Permissions\StandardPermissions',
+        'class' => 'Modules\Village\Permissions\AllowPermissions',
 
     ],
 

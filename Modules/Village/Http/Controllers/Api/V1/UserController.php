@@ -35,7 +35,7 @@ class UserController extends ApiController
         }
 
         /** @var User $user */
-        $user = User::where(['phone' => $data['phone']])->first();
+        $user = User::with(['village'])->where(['phone' => $data['phone']])->first();
 
         if ($user) {
             if (!$user->isActivated()) {
@@ -184,6 +184,7 @@ class UserController extends ApiController
         $sms
             ->setPhone($user->phone)
             ->setText('Код подтверждения регистрации: '.$token->code)
+            ->setSender($user->village->name)
         ;
 
         if (($response = $this->sendSms($sms)) !== true) {

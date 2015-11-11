@@ -42,4 +42,18 @@ return [
     ],
     'validation' => [
     ],
+    'emails' => [
+        'request' => [
+            'subject' => 'Новая заявка на партнёрство с сайта :site-name',
+            'title' => 'Новая заявка на партнёрство',
+            'full_name' => 'ФИО',
+            'phone' => 'Номер телефона',
+            'position' => 'Должность',
+            'positions' => [
+                'admin' => 'Администратор',
+                'chairman' => 'Председатель',
+            ],
+            'address' => 'Адрес',
+        ]
+    ]
 ];

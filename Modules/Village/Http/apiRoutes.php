@@ -33,6 +33,10 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
             $router->post('', 		        ['uses' => 'V1\TokenController@store', 'as' => 'village.api.token.store']);
             $router->post('check', 	        ['uses' => 'V1\TokenController@check', 'as' => 'village.api.token.check']);
         });
+
+        $router->group(['prefix' => 'villages'], function (Router $router) {
+            $router->post('request',        ['uses' => 'V1\VillageController@request', 'as' => 'village.api.village.village.request']);
+        });
     });
 
     // with token

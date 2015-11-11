@@ -74,4 +74,9 @@ return [
             'standard' => 'd M Y H:i:s',
         ]
     ],
+    'village' => [
+        // Для подачи заявки на открытие нового посёлка
+        'positions'       => ['admin', 'chairman'],
+        'send_to_email'   => env('VILLAGE_REQUEST_SEND_TO_EMAIL'),
+    ]
 ];

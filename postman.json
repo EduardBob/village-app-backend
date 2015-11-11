@@ -205,6 +205,20 @@
 					"collection_name": "Village",
 					"collection_owner": "161799",
 					"collection_id": "f63c5220-4d7e-d6bc-c219-77d1d734d14e"
+				},
+				{
+					"id": "4dcc65c7-3ae9-221e-ed19-c0208efa0047",
+					"name": "villages",
+					"description": "",
+					"write": true,
+					"order": [
+						"18ba9198-261d-7684-0f34-e0f31e98f333"
+					],
+					"collection": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
+					"owner": "161799",
+					"collection_name": "Village",
+					"collection_owner": "161799",
+					"collection_id": "f63c5220-4d7e-d6bc-c219-77d1d734d14e"
 				}
 			],
 			"timestamp": 0,
@@ -216,7 +230,7 @@
 			"remoteLink": null,
 			"public": false,
 			"createdAt": "2015-10-14T09:09:02.000Z",
-			"updatedAt": 1446760269799,
+			"updatedAt": 1447259047801,
 			"write": true,
 			"requests": [
 				{
@@ -273,6 +287,50 @@
 					"name": "/api/v1/users/reset",
 					"description": "Reset user password",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e"
+				},
+				{
+					"id": "18ba9198-261d-7684-0f34-e0f31e98f333",
+					"headers": "",
+					"url": "{{domain}}/api/v1/villages/request",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "phone",
+							"value": "{{phone}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "full_name",
+							"value": "test full_name123123",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "position",
+							"value": "chairman",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "address",
+							"value": "test address",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 201;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1447260896825,
+					"name": "/api/v1/villages/request",
+					"description": "Add new village request",
+					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
+					"responses": []
 				},
 				{
 					"id": "2c097638-282d-b1dc-9f95-80f44cbf578c",
@@ -1362,113 +1420,6 @@
 	],
 	"environments": [
 		{
-			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
-			"name": "staging",
-			"values": [
-				{
-					"key": "debug",
-					"value": "true",
-					"type": "text",
-					"name": "debug",
-					"enabled": true
-				},
-				{
-					"key": "domain",
-					"value": "http://village.fruitware.ru",
-					"type": "text",
-					"name": "domain",
-					"enabled": true
-				},
-				{
-					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNzcxIiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL3VzZXJzXC9jb25maXJtIiwiaWF0IjoiMTQ0NjY0NTE5NyIsImV4cCI6IjE0NDY3MzE1OTciLCJuYmYiOiIxNDQ2NjQ1MTk3IiwianRpIjoiMmM5ZmM1ZTZlZjZmZWZmODQ5ZWNkZmU0OTA1MTNiNTcifQ.6L33qrWW4ycptLTwevk2sC-5pfgEqNCUEGQhas6_KR0",
-					"type": "text",
-					"name": "token",
-					"enabled": true
-				},
-				{
-					"key": "phone",
-					"value": "+7(111)1111111",
-					"type": "text",
-					"name": "phone",
-					"enabled": true
-				},
-				{
-					"key": "password",
-					"value": "yj3wev32R6eQJWV",
-					"type": "text",
-					"name": "password",
-					"enabled": true
-				},
-				{
-					"key": "token.session",
-					"type": "text",
-					"value": "y3s6qzc112"
-				},
-				{
-					"key": "token.code",
-					"type": "text",
-					"value": "2937477"
-				},
-				{
-					"key": "service.category.id",
-					"type": "text",
-					"value": "1"
-				},
-				{
-					"key": "building.code",
-					"type": "text",
-					"value": "test"
-				},
-				{
-					"key": "building.id",
-					"type": "text",
-					"value": "1"
-				},
-				{
-					"key": "article.id",
-					"type": "text",
-					"value": "98"
-				},
-				{
-					"key": "product.category.id",
-					"type": "text",
-					"value": "1"
-				},
-				{
-					"key": "page",
-					"type": "text",
-					"value": "1"
-				},
-				{
-					"key": "service.id",
-					"type": "text",
-					"value": "28"
-				},
-				{
-					"key": "survey.id",
-					"type": "text",
-					"value": "98"
-				},
-				{
-					"key": "survey.my_vote.choice",
-					"type": "text",
-					"value": "0"
-				},
-				{
-					"key": "survey.choice",
-					"type": "text",
-					"value": "0"
-				},
-				{
-					"key": "product.id",
-					"type": "text",
-					"value": "7"
-				}
-			],
-			"timestamp": 1446645227296
-		},
-		{
 			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
 			"name": "dev",
 			"values": [
@@ -1488,7 +1439,7 @@
 				},
 				{
 					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMzNDIsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6IjE0NDY3NjA4NDYiLCJleHAiOiIxNDQ2ODQ3MjQ2IiwibmJmIjoiMTQ0Njc2MDg0NiIsImp0aSI6ImMzY2E0ZTZlZGRkMjE4YjE2YmNkOGNlM2E0YTFmMzI3In0.M1y0qrdJ_pGkOCIeG2e8mAqGO_NrvfXUgyTm3kQEp0s",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMzNDIsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6IjE0NDcxNzQ4MjQiLCJleHAiOiIxNDQ3MjYxMjI0IiwibmJmIjoiMTQ0NzE3NDgyNCIsImp0aSI6IjVhOTdkMTdmMDYxYmNiODZlOWU0ZmEwNzhlODhiNjc0In0.zJcoWDu_JnorfHLIp75UMkYKEsM5KoYmgqonrrYUgVw",
 					"type": "text",
 					"name": "token",
 					"enabled": true
@@ -1509,14 +1460,14 @@
 				},
 				{
 					"key": "token.code",
-					"value": "7424312",
+					"value": "49844",
 					"type": "text",
 					"name": "token.code",
 					"enabled": true
 				},
 				{
 					"key": "token.session",
-					"value": "wFmP4ZQWtd",
+					"value": "YBrj6CsSpQ",
 					"type": "text",
 					"name": "token.session",
 					"enabled": true
@@ -1637,7 +1588,124 @@
 					"value": "undefined"
 				}
 			],
-			"timestamp": 1446761296830
+			"timestamp": 1447258790059
+		},
+		{
+			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
+			"name": "staging",
+			"values": [
+				{
+					"key": "debug",
+					"value": "true",
+					"type": "text",
+					"name": "debug",
+					"enabled": true
+				},
+				{
+					"key": "domain",
+					"value": "http://village.fruitware.ru",
+					"type": "text",
+					"name": "domain",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjYyIiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoiMTQ0NzE3NDc3MSIsImV4cCI6IjE0NDcyNjExNzEiLCJuYmYiOiIxNDQ3MTc0NzcxIiwianRpIjoiODgyZDI2OGM4MDFjZGIxNzRjMWE2ZDc0OTRhMTJkYTQifQ.Yad8YpBRyQ-eUsBQMSgU2xwfHoM0La58Twd2QHBwWAk",
+					"type": "text",
+					"name": "token",
+					"enabled": true
+				},
+				{
+					"key": "phone",
+					"value": "+7(111)1111111",
+					"type": "text",
+					"name": "phone",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "yj3wev32R6eQJWV",
+					"type": "text",
+					"name": "password",
+					"enabled": true
+				},
+				{
+					"key": "token.session",
+					"type": "text",
+					"value": "y3s6qzc112"
+				},
+				{
+					"key": "token.code",
+					"type": "text",
+					"value": "2937477"
+				},
+				{
+					"key": "service.category.id",
+					"type": "text",
+					"value": "1"
+				},
+				{
+					"key": "building.code",
+					"type": "text",
+					"value": "test"
+				},
+				{
+					"key": "building.id",
+					"type": "text",
+					"value": "1"
+				},
+				{
+					"key": "article.id",
+					"type": "text",
+					"value": "538"
+				},
+				{
+					"key": "product.category.id",
+					"type": "text",
+					"value": "1"
+				},
+				{
+					"key": "page",
+					"type": "text",
+					"value": "1"
+				},
+				{
+					"key": "service.id",
+					"type": "text",
+					"value": "142"
+				},
+				{
+					"key": "survey.id",
+					"type": "text",
+					"value": "98"
+				},
+				{
+					"key": "survey.my_vote.choice",
+					"type": "text",
+					"value": "0"
+				},
+				{
+					"key": "survey.choice",
+					"type": "text",
+					"value": "0"
+				},
+				{
+					"key": "product.id",
+					"type": "text",
+					"value": "7"
+				},
+				{
+					"key": "me.id",
+					"type": "text",
+					"value": "undefined"
+				},
+				{
+					"key": "me.phone",
+					"type": "text",
+					"value": "undefined"
+				}
+			],
+			"timestamp": 1447258790065
 		}
 	],
 	"headerPresets": [

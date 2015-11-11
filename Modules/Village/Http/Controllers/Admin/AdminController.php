@@ -206,7 +206,19 @@ abstract class AdminController extends AdminBaseController
     protected function configureDatagridParameters()
     {
         return [
-            'order' => [[ 0, 'desc' ]]
+            'order' => [[ 0, 'desc' ]],
+            "lengthMenu" => [[10, 25, 50, -1], [10, 25, 50, "Все"]],
+            // // http://datatables.net/reference/option/dom
+            // defaukt Blfrtip
+            'dom' => 'lBfrtip', //Bfrtip // lfrtBip // Blfrtip
+            'buttons' => [
+                [
+                    'extend' => 'collection',
+                    'text' => 'Экспорт',
+                    'select' => true,
+                    'buttons' => ['copy','csv', 'excel', 'pdf', 'print']
+                ]
+            ],
         ];
     }
 
@@ -217,7 +229,18 @@ abstract class AdminController extends AdminBaseController
      */
     protected function configureDatagridFields(TableBuilder $builder)
     {
-        return $builder->columns($this->configureDatagridColumns());
+        die('123');
+        return $builder
+            ->columns($this->configureDatagridColumns())
+            ->parameters([
+                'dom' => 'Bfrtip',
+                'text' => 'Export',
+                'select' => true,
+                'buttons' => [
+                    'buttons' => ['csv', 'excel', 'pdf', 'print', 'reset', 'reload']
+                ],
+            ])
+        ;
     }
 
     /**

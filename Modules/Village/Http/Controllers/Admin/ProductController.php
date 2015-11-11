@@ -1,5 +1,6 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\User\Repositories\RoleRepository;
 use Modules\Village\Entities\Product;
 use Modules\Village\Entities\User;
@@ -71,6 +72,8 @@ class ProductController extends AdminController
             ->leftJoin('village__villages', 'village__products.village_id', '=', 'village__villages.id')
             ->leftJoin('village__product_categories', 'village__products.category_id', '=', 'village__product_categories.id')
             ->leftJoin('users', 'village__products.executor_id', '=', 'users.id')
+            ->where('village__product_categories.deleted_at', null)
+            ->where('village__villages.deleted_at', null)
             ->with(['village', 'category', 'executor'])
         ;
 

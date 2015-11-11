@@ -70,6 +70,8 @@ class ServiceController extends AdminController
             ->leftJoin('village__villages', 'village__services.village_id', '=', 'village__villages.id')
             ->leftJoin('village__service_categories', 'village__services.category_id', '=', 'village__service_categories.id')
             ->leftJoin('users', 'village__services.executor_id', '=', 'users.id')
+            ->where('village__service_categories.deleted_at', null)
+            ->where('village__villages.deleted_at', null)
             ->with(['village', 'category', 'executor'])
         ;
 

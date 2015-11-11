@@ -14,6 +14,6 @@ class ProductOrderChange extends Model
 
     public function user()
     {
-    	return $this->belongsTo('Modules\Village\Entities\User', 'user_id');
+    	return $this->belongsTo('Modules\Village\Entities\User', 'user_id')->withTrashed();
     }
 }

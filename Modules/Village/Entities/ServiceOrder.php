@@ -14,17 +14,17 @@ class ServiceOrder extends Model
 
     public function village()
     {
-        return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
+        return $this->belongsTo('Modules\Village\Entities\Village', 'village_id')->withTrashed();
     }
 
     public function service()
     {
-    	return $this->belongsTo('Modules\Village\Entities\Service', 'service_id');
+    	return $this->belongsTo('Modules\Village\Entities\Service', 'service_id')->withTrashed();
     }
 
     public function user()
     {
-        return $this->belongsTo('Modules\Village\Entities\User', 'user_id');
+        return $this->belongsTo('Modules\Village\Entities\User', 'user_id')->withTrashed();
     }
 
     protected static function boot()

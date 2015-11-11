@@ -184,7 +184,7 @@ class UserController extends ApiController
         $sms
             ->setPhone($user->phone)
             ->setText('Код подтверждения регистрации: '.$token->code)
-            ->setSender($user->village->name)
+//            ->setSender($user->village->name)
         ;
 
         if (($response = $this->sendSms($sms)) !== true) {

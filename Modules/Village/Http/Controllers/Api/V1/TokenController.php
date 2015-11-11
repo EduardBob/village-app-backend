@@ -62,7 +62,7 @@ class TokenController extends ApiController
             $sms
                 ->setPhone($user->phone)
                 ->setText($text)
-                ->setSender($user->village->name)
+//                ->setSender($user->village->name)
             ;
 
             if (($response = $this->sendSms($sms)) !== true) {

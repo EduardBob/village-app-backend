@@ -163,7 +163,7 @@ class SmsController extends AdminController
                 $sms
                     ->setText($text)
                     ->setPhone($user->phone)
-                    ->setSender($user->village->name)
+//                    ->setSender($user->village->name)
                 ;
                 $smsCollection[] = $sms;
             }

@@ -11,7 +11,7 @@ class SurveyVote extends Model
 
     protected $table = 'village__survey_votes';
 
-    protected $fillable = ['survey_id', 'user_id', 'choice'];
+    protected $fillable = ['village_id', 'survey_id', 'user_id', 'choice'];
 
     public function village()
     {
@@ -33,7 +33,7 @@ class SurveyVote extends Model
         parent::boot();
 
         static::creating(function(SurveyVote $surveyVote) {
-            $surveyVote->village()->associate($surveyVote->survey->village);
+            $surveyVote->village()->associate($surveyVote->survey()->first()->village_id);
         });
     }
 

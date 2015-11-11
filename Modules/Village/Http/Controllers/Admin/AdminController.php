@@ -81,7 +81,7 @@ abstract class AdminController extends AdminBaseController
         return $this->getViewName();
     }
 
-	/**
+    /**
      * @return string
      */
     public function getModule()
@@ -367,8 +367,14 @@ abstract class AdminController extends AdminBaseController
      */
     public function edit(Model $model)
     {
-        $redirect = $this->checkPermission($model);
-        if ($redirect !== true) {
+        if (isset($model->deleted_at) && !is_null($model->deleted_at)) {
+            flash()->error(trans('Запись не найдена'));
+
+            return redirect()->route($this->getRoute('index'));
+        }
+
+        $redirect = $this->checkPermissionDenied($model);
+        if ($redirect !== false) {
             return $redirect;
         }
 
@@ -384,8 +390,14 @@ abstract class AdminController extends AdminBaseController
      */
     public function update(Model $model, Request $request)
     {
-        $redirect = $this->checkPermission($model);
-        if ($redirect !== true) {
+        if (isset($model->deleted_at) && !is_null($model->deleted_at)) {
+            flash()->error(trans('Запись не найдена'));
+
+            return redirect()->route($this->getRoute('index'));
+        }
+
+        $redirect = $this->checkPermissionDenied($model);
+        if ($redirect !== false) {
             return $redirect;
         }
 
@@ -420,8 +432,8 @@ abstract class AdminController extends AdminBaseController
      */
     public function destroy(Model $model)
     {
-        $redirect = $this->checkPermission($model);
-        if ($redirect !== true) {
+        $redirect = $this->checkPermissionDenied($model);
+        if ($redirect !== false) {
             return $redirect;
         }
 
@@ -442,7 +454,12 @@ abstract class AdminController extends AdminBaseController
         throw new \RuntimeException('method must be implemented');
     }
 
-    protected function checkPermission(Model $model)
+    /**
+     * @param Model $model
+     *
+     * @return false|\Illuminate\Http\RedirectResponse
+     */
+    protected function checkPermissionDenied(Model $model)
     {
         if (method_exists($model, 'village') && !$this->getCurrentUser()->inRole('admin')) {
             if ((int)$model->village->id !== (int)$this->getCurrentUser()->village->id) {
@@ -450,6 +467,6 @@ abstract class AdminController extends AdminBaseController
             }
         }
 
-        return true;
+        return false;
     }
 }

@@ -47,6 +47,7 @@ class BuildingController extends AdminController
     {
         $query
             ->join('village__villages', 'village__buildings.village_id', '=', 'village__villages.id')
+            ->where('village__villages.deleted_at', null)
             ->with(['village'])
         ;
 

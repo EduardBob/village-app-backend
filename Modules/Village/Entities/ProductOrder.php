@@ -14,17 +14,17 @@ class ProductOrder extends Model
 
     public function village()
     {
-        return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
+        return $this->belongsTo('Modules\Village\Entities\Village', 'village_id')->withTrashed();
     }
 
     public function product()
     {
-    	return $this->belongsTo('Modules\Village\Entities\Product');
+    	return $this->belongsTo('Modules\Village\Entities\Product')->withTrashed();
     }
 
     public function user()
     {
-    	return $this->belongsTo('Modules\Village\Entities\User', 'user_id');
+    	return $this->belongsTo('Modules\Village\Entities\User', 'user_id')->withTrashed();
     }
 
     protected static function boot()

@@ -51,5 +51,7 @@ class ApiController extends Controller
                 return $this->response->errorForbidden('sms_internal_error');
             }
         }
+
+        return true;
     }
 }

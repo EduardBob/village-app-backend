@@ -66,6 +66,7 @@ class MarginController extends AdminController
     {
         $query
             ->join('village__villages', 'village__margins.village_id', '=', 'village__villages.id')
+            ->where('village__villages.deleted_at', null)
             ->with(['village'])
         ;
 

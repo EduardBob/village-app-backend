@@ -1,10 +1,15 @@
 <?php namespace Modules\Village\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Village extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'village__villages';
+
+    protected $dates = ['deleted_at'];
 
     protected $fillable = [
         'main_admin_id', 'name', 'shop_name', 'shop_address',

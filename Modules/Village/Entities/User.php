@@ -1,5 +1,6 @@
 <?php namespace Modules\Village\Entities;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\User\Entities\Sentinel\User as BaseUser;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -9,6 +10,9 @@ class User extends BaseUser implements AuthenticatableContract
 {
     use Authenticatable;
     use VillageAdminScope;
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
 
     protected $fillable = [
         'email',

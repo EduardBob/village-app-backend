@@ -1,20 +1,20 @@
 <div class="box-body">
     <div class="row">
         <div class="col-sm-5">
-            <div class="form-group{{ $errors->has('survey') ? ' has-error' : '' }}">
-                {!! Form::label('survey', $admin->trans('table.survey')) !!}
-                {!! Form::select('survey', $admin->getSurveys(),
-                Input::old('survey', @$model->survey->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.survey.placeholder')]) !!}
-                {!! $errors->first('survey', '<span class="help-block">:message</span>') !!}
+            <div class="form-group{{ $errors->has('survey_id') ? ' has-error' : '' }}">
+                {!! Form::label('survey_id', $admin->trans('table.survey')) !!}
+                {!! Form::select('survey_id', $admin->getSurveys(),
+                Input::old('survey_id', @$model->survey->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.survey.placeholder')]) !!}
+                {!! $errors->first('survey_id', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
 
         <div class="col-sm-5">
-            <div class="form-group{{ $errors->has('user') ? ' has-error' : '' }}">
-                {!! Form::label('user', $admin->trans('table.user')) !!}
-                {!! Form::select('user', (new Modules\Village\Entities\User)->getList(),
-                Input::old('user', @$model->user->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.user.placeholder')]) !!}
-                {!! $errors->first('user', '<span class="help-block">:message</span>') !!}
+            <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
+                {!! Form::label('user_id', $admin->trans('table.user')) !!}
+                {!! Form::select('user_id', (new Modules\Village\Entities\User)->getList(),
+                Input::old('user_id', @$model->user->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.user.placeholder')]) !!}
+                {!! $errors->first('user_id', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
 

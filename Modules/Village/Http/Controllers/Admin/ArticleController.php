@@ -47,6 +47,7 @@ class ArticleController extends AdminController
     {
         $query
             ->join('village__villages', 'village__articles.village_id', '=', 'village__villages.id')
+            ->where('village__villages.deleted_at', null)
             ->with(['village'])
         ;
 

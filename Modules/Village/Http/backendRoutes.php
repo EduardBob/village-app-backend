@@ -5,7 +5,7 @@ use Illuminate\Routing\Router;
 
 $router->group(['prefix' =>'/village'], function (Router $router) {
     $router->bind('villages', function ($id) {
-        return app('Modules\Village\Repositories\VillageRepository')->find($id);
+        return \Modules\Village\Entities\Village::withTrashed()->find($id);
     });
     $router->resource('villages', 'VillageController', ['except' => ['show'], 'names' => [
         'index' => 'admin.village.village.index',
@@ -53,19 +53,8 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'update' => 'admin.village.margin.update',
         'destroy' => 'admin.village.margin.destroy',
     ]]);
-    $router->bind('options', function ($id) {
-        return app('Modules\Village\Repositories\OptionRepository')->find($id);
-    });
-//        $router->resource('options', 'OptionController', ['except' => ['show'], 'names' => [
-//            'index' => 'admin.village.option.index',
-//            'create' => 'admin.village.option.create',
-//            'store' => 'admin.village.option.store',
-//            'edit' => 'admin.village.option.edit',
-//            'update' => 'admin.village.option.update',
-//            'destroy' => 'admin.village.option.destroy',
-//        ]]);
     $router->bind('products', function ($id) {
-        return app('Modules\Village\Repositories\ProductRepository')->find($id);
+        return \Modules\Village\Entities\Product::withTrashed()->find($id);
     });
     $router->resource('products', 'ProductController', ['except' => ['show'], 'names' => [
         'index' => 'admin.village.product.index',
@@ -76,7 +65,7 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'destroy' => 'admin.village.product.destroy',
     ]]);
     $router->bind('productcategories', function ($id) {
-        return app('Modules\Village\Repositories\ProductCategoryRepository')->find($id);
+        return \Modules\Village\Entities\ProductCategory::withTrashed()->find($id);
     });
     $router->resource('productcategories', 'ProductCategoryController', ['except' => ['show'], 'names' => [
         'index' => 'admin.village.productcategory.index',
@@ -107,7 +96,7 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
     ]]);
 
     $router->bind('services', function ($id) {
-        return app('Modules\Village\Repositories\ServiceRepository')->find($id);
+        return \Modules\Village\Entities\Service::withTrashed()->find($id);
     });
     $router->resource('services', 'ServiceController', ['except' => ['show'], 'names' => [
         'index' => 'admin.village.service.index',
@@ -118,7 +107,7 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'destroy' => 'admin.village.service.destroy',
     ]]);
     $router->bind('servicecategories', function ($id) {
-        return app('Modules\Village\Repositories\ServiceCategoryRepository')->find($id);
+        return \Modules\Village\Entities\ServiceCategory::withTrashed()->find($id);
     });
     $router->resource('servicecategories', 'ServiceCategoryController', ['except' => ['show'], 'names' => [
         'index' => 'admin.village.servicecategory.index',
@@ -149,7 +138,7 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
     ]]);
 
     $router->bind('surveys', function ($id) {
-        return app('Modules\Village\Repositories\SurveyRepository')->find($id);
+        return \Modules\Village\Entities\Survey::withTrashed()->find($id);
     });
     $router->resource('surveys', 'SurveyController', ['except' => ['show'], 'names' => [
         'index' => 'admin.village.survey.index',

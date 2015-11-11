@@ -91,7 +91,7 @@ class VillageServiceProvider extends ServiceProvider
             $sms
                 ->setPhone($user->village->main_admin->phone)
                 ->setText('Добавлен новый заказ')
-                ->setSender($user->village->name)
+//                ->setSender($user->village->name)
             ;
             try {
                 smsGate()->send($sms);

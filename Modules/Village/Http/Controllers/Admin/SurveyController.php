@@ -49,6 +49,7 @@ class SurveyController extends AdminController
     {
         $query
             ->join('village__villages', 'village__surveys.village_id', '=', 'village__villages.id')
+            ->where('village__villages.deleted_at', null)
             ->with(['village'])
         ;
 
@@ -125,8 +126,12 @@ class SurveyController extends AdminController
         $rules = [
             'title' => "required|max:255",
             'ends_at' => 'required|date|date_format:Y-m-d',
-//            'active' => "required|boolean",
+            'options' => "required|array",
         ];
+
+//        foreach((array)@$data['options'] as $key => $val) {
+//            $rules['options.'.$key] = 'required|max:100';
+//        }
 
         if ($this->getCurrentUser()->inRole('admin')) {
             $rules['village_id'] = 'required|exists:village__villages,id';

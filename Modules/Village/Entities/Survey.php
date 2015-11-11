@@ -1,6 +1,7 @@
 <?php namespace Modules\Village\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Village\Entities\Scope\ApiScope;
 use Modules\Village\Entities\Scope\VillageAdminScope;
 
@@ -8,8 +9,11 @@ class Survey extends Model
 {
     use ApiScope;
     use VillageAdminScope;
+    use SoftDeletes;
 
     protected $table = 'village__surveys';
+
+    protected $dates = ['deleted_at'];
 
     protected $fillable = ['village_id', 'title', 'options', 'ends_at', 'active'];
 

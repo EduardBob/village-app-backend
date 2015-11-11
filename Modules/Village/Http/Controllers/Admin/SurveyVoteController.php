@@ -55,9 +55,12 @@ class SurveyVoteController extends AdminController
     protected function configureQuery(QueryBuilder $query)
     {
         $query
-            ->join('village__villages', 'village__survey_votes.village_id', '=', 'village__villages.id')
-            ->join('village__surveys', 'village__survey_votes.village_id', '=', 'village__surveys.id')
-            ->join('users', 'village__survey_votes.user_id', '=', 'users.id')
+            ->leftJoin('village__villages', 'village__survey_votes.village_id', '=', 'village__villages.id')
+            ->leftJoin('village__surveys', 'village__survey_votes.survey_id', '=', 'village__surveys.id')
+            ->leftJoin('users', 'village__survey_votes.user_id', '=', 'users.id')
+            ->where('village__villages.deleted_at', null)
+            ->where('village__surveys.deleted_at', null)
+            ->where('users.deleted_at', null)
             ->with(['village', 'survey', 'user'])
         ;
 
@@ -135,8 +138,8 @@ class SurveyVoteController extends AdminController
     public function validate(array $data)
     {
         return Validator::make($data, [
-            'user' => 'required|exists:users,id',
-            'survey' => 'required|exists:village__survey_votes,id',
+            'user_id' => 'required|exists:users,id',
+            'survey_id' => 'required|exists:village__surveys,id',
             'choice' => 'required|integer|min:0',
         ]);
     }

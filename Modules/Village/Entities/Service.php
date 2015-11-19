@@ -21,12 +21,12 @@ class Service extends Model
 
     public function village()
     {
-        return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
+        return $this->belongsTo('Modules\Village\Entities\Village', 'village_id')->withTrashed();
     }
 
     public function category()
     {
-    	return $this->belongsTo('Modules\Village\Entities\ServiceCategory', 'category_id');
+    	return $this->belongsTo('Modules\Village\Entities\ServiceCategory', 'category_id')->withTrashed();
     }
 
     public function orders()

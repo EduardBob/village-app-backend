@@ -459,16 +459,35 @@
 					"id": "4507d136-bc31-7c9c-66ce-a2ccd7f095e9",
 					"headers": "Authorization: Bearer  {{token}}\n",
 					"url": "{{domain}}/api/v1/services?category_id={{service.category.id}}&page={{page}}",
-					"preRequestScript": "// category_id: {{service.category.id}}\npostman.setEnvironmentVariable(\"service.category.id\", 1);",
+					"preRequestScript": "",
 					"pathVariables": {},
 					"method": "GET",
-					"data": [],
+					"data": [
+						{
+							"key": "service_id",
+							"value": "{{service.id }}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_at",
+							"value": "2015-10-11 12:30",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "comment",
+							"value": "test",
+							"type": "text",
+							"enabled": true
+						}
+					],
 					"dataMode": "params",
 					"version": 2,
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains category\"] = responseBody.has(\"category\");\n\n    postman.setEnvironmentVariable(\"service.id\", data.data[0].id);\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1445423872522,
+					"time": 1447939850569,
 					"name": "/api/v1/services",
 					"description": "Get all services",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e"
@@ -589,7 +608,6 @@
 				},
 				{
 					"id": "583c9627-4708-debf-039c-7250ff5e8dd6",
-					"owner": "161799",
 					"headers": "Authorization: Bearer  {{token}}\n",
 					"url": "{{domain}}/api/v1/services/orders",
 					"preRequestScript": "",
@@ -598,7 +616,7 @@
 					"data": [
 						{
 							"key": "service_id",
-							"value": "1",
+							"value": "{{service.id}}",
 							"type": "text",
 							"enabled": true
 						},
@@ -613,31 +631,24 @@
 							"value": "test",
 							"type": "text",
 							"enabled": true
+						},
+						{
+							"key": "payment_type",
+							"value": "cash|card",
+							"type": "text",
+							"enabled": true
 						}
 					],
 					"dataMode": "params",
 					"version": 2,
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    if (data.data.status === 'rejected') {\n        tests[\"decline_reason not null\"] = data.data.decline_reason !== null;\n    }\n    else {\n        tests[\"decline_reason is null\"] = data.data.decline_reason === null;\n    }\n    tests[\"Body contains service\"] = responseBody.has(\"service\") && data.data.service && data.data.service.data;\n}",
 					"currentHelper": "normal",
-					"helperAttributes": "{}",
-					"time": 1443128430195,
+					"helperAttributes": {},
+					"time": 1447944512839,
 					"name": "/api/v1/services/orders",
 					"description": "Add service order",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
-					"responses": [],
-					"synced": true,
-					"rawModeData": null,
-					"descriptionFormat": null,
-					"createdAt": "2015-09-23T16:02:34.000Z",
-					"updatedAt": "2015-09-24T21:00:30.000Z",
-					"lastUpdatedBy": {
-						"id": "161799",
-						"username": "NEOKILLER King"
-					},
-					"lastRevision": 60493108,
-					"history": null,
-					"folder": "41fdced9-4965-604e-c9b5-444424b69cfc",
-					"write": true
+					"responses": []
 				},
 				{
 					"id": "5b8620d2-9f6a-8493-5505-0a9f21b64320",
@@ -1021,7 +1032,6 @@
 				},
 				{
 					"id": "c28baeb5-c54b-784a-2213-f74253bb6060",
-					"owner": "161799",
 					"headers": "Authorization: Bearer  {{token}}\n",
 					"url": "{{domain}}/api/v1/products/orders",
 					"preRequestScript": "",
@@ -1030,7 +1040,7 @@
 					"data": [
 						{
 							"key": "product_id",
-							"value": "1",
+							"value": "{{product.id}}",
 							"type": "text",
 							"enabled": true
 						},
@@ -1051,31 +1061,24 @@
 							"value": "test",
 							"type": "text",
 							"enabled": true
+						},
+						{
+							"key": "payment_type",
+							"value": "cash|card",
+							"type": "text",
+							"enabled": true
 						}
 					],
 					"dataMode": "params",
 					"version": 2,
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains quantity\"] = responseBody.has(\"quantity\");\n    tests[\"Body contains unit_title\"] = responseBody.has(\"unit_title\");\n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    if (data.data.status === 'rejected') {\n        tests[\"decline_reason not null\"] = data.data.decline_reason !== null;\n    }\n    else {\n        tests[\"decline_reason is null\"] = data.data.decline_reason === null;\n    }\n    tests[\"Body contains product\"] = responseBody.has(\"product\") && data.data.product && data.data.product.data;\n}",
 					"currentHelper": "normal",
-					"helperAttributes": "{}",
-					"time": 1443128426325,
+					"helperAttributes": {},
+					"time": 1447944458209,
 					"name": "/api/v1/products/orders",
 					"description": "Add product order",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
-					"responses": [],
-					"synced": true,
-					"rawModeData": null,
-					"descriptionFormat": null,
-					"createdAt": "2015-09-23T16:02:33.000Z",
-					"updatedAt": "2015-09-24T21:00:26.000Z",
-					"lastUpdatedBy": {
-						"id": "161799",
-						"username": "NEOKILLER King"
-					},
-					"lastRevision": 60493587,
-					"history": null,
-					"folder": "87f3f239-cfe4-ee9b-21cb-48df531efef0",
-					"write": true
+					"responses": []
 				},
 				{
 					"id": "c4ab66b9-ef99-e600-15ea-a5d3f8b16fac",
@@ -1343,16 +1346,41 @@
 					"id": "f3fcc9cd-0735-ce4b-2835-fd87e511590d",
 					"headers": "Authorization: Bearer  {{token}}\n",
 					"url": "{{domain}}/api/v1/products?category_id={{product.category.id}}&page={{page}}",
-					"preRequestScript": "// category_id: {{product.category.id}}\npostman.setEnvironmentVariable(\"product.category.id\", 1);",
+					"preRequestScript": "",
 					"pathVariables": {},
 					"method": "GET",
-					"data": [],
+					"data": [
+						{
+							"key": "phone",
+							"value": "{{phone}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "full_name",
+							"value": "test full_name123123",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "position",
+							"value": "chairman",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "address",
+							"value": "test address",
+							"type": "text",
+							"enabled": true
+						}
+					],
 					"dataMode": "params",
 					"version": 2,
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains unit_title\"] = responseBody.has(\"unit_title\");\n    tests[\"Body contains image\"] = responseBody.has(\"image\");\n    tests[\"Body contains category\"] = responseBody.has(\"category\");\n\n    postman.setEnvironmentVariable(\"product.id\", data.data[0].id);\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1445423877657,
+					"time": 1447939061654,
 					"name": "/api/v1/products",
 					"description": "Get all my product's orders",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
@@ -1439,7 +1467,7 @@
 				},
 				{
 					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMzNDIsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6IjE0NDcxNzQ4MjQiLCJleHAiOiIxNDQ3MjYxMjI0IiwibmJmIjoiMTQ0NzE3NDgyNCIsImp0aSI6IjVhOTdkMTdmMDYxYmNiODZlOWU0ZmEwNzhlODhiNjc0In0.zJcoWDu_JnorfHLIp75UMkYKEsM5KoYmgqonrrYUgVw",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMzNDIsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6IjE0NDc5MzY1NzUiLCJleHAiOiIxNDQ4MDIyOTc1IiwibmJmIjoiMTQ0NzkzNjU3NSIsImp0aSI6IjQ2YWY3MTU4NGY3MTEzODI5YjFmZjgyMWRiYzUwZTdhIn0.KzXqDfTAI1dVhbMvSGTjLnTkr6CeSZUCiwzRwmDJ6I4",
 					"type": "text",
 					"name": "token",
 					"enabled": true
@@ -1495,14 +1523,14 @@
 				},
 				{
 					"key": "product.id",
-					"value": "37",
+					"value": "226",
 					"type": "text",
 					"name": "product.id",
 					"enabled": true
 				},
 				{
 					"key": "service.id",
-					"value": "19",
+					"value": "214",
 					"type": "text",
 					"name": "service.id",
 					"enabled": true
@@ -1516,14 +1544,14 @@
 				},
 				{
 					"key": "product.category.id",
-					"value": "1",
+					"value": "149",
 					"type": "text",
 					"name": "product.category.id",
 					"enabled": true
 				},
 				{
 					"key": "service.category.id",
-					"value": "1",
+					"value": "89",
 					"type": "text",
 					"name": "service.category.id",
 					"enabled": true
@@ -1551,7 +1579,7 @@
 				},
 				{
 					"key": "survey.id",
-					"value": "93",
+					"value": "493",
 					"type": "text",
 					"name": "survey.id",
 					"enabled": true
@@ -1588,7 +1616,7 @@
 					"value": "undefined"
 				}
 			],
-			"timestamp": 1447258790059
+			"timestamp": 1447944357651
 		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
@@ -1610,7 +1638,7 @@
 				},
 				{
 					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjYyIiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoiMTQ0NzE3NDc3MSIsImV4cCI6IjE0NDcyNjExNzEiLCJuYmYiOiIxNDQ3MTc0NzcxIiwianRpIjoiODgyZDI2OGM4MDFjZGIxNzRjMWE2ZDc0OTRhMTJkYTQifQ.Yad8YpBRyQ-eUsBQMSgU2xwfHoM0La58Twd2QHBwWAk",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjYyIiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL2F1dGhcL3JlZnJlc2giLCJpYXQiOiIxNDQ3MTc0NzcxIiwiZXhwIjoiMTQ0ODAxMzQxOSIsIm5iZiI6IjE0NDc5MjcwMTkiLCJqdGkiOiIwN2QxYzE4NDY0NzNkODMxNzVjZjA4MjAyMTQzNjU1ZCJ9.w0Yt9hD4XZcuRlS8tt85LOIkteY62qUXA0yOxbVpRaQ",
 					"type": "text",
 					"name": "token",
 					"enabled": true
@@ -1692,7 +1720,7 @@
 				{
 					"key": "product.id",
 					"type": "text",
-					"value": "7"
+					"value": "6"
 				},
 				{
 					"key": "me.id",
@@ -1705,7 +1733,7 @@
 					"value": "undefined"
 				}
 			],
-			"timestamp": 1447258790065
+			"timestamp": 1447944357656
 		}
 	],
 	"headerPresets": [

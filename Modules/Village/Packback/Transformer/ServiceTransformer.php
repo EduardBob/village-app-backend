@@ -3,6 +3,7 @@
 namespace Modules\Village\Packback\Transformer;
 
 use League\Fractal\Resource\Item;
+use Modules\Village\Entities\Margin;
 use Modules\Village\Entities\Service;
 
 class ServiceTransformer extends BaseTransformer
@@ -32,7 +33,7 @@ class ServiceTransformer extends BaseTransformer
         return [
             'id' =>  $service->id,
             'title' => $service->title,
-            'price' => $service->price,
+            'price' => Margin::getFinalPrice($service->price),
             'comment_label' => $service->comment_label,
             'order_button_label' => $service->order_button_label,
             'text' => $service->text,

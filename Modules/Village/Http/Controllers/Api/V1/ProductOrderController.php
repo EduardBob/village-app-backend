@@ -34,7 +34,7 @@ class ProductOrderController extends ApiController
      */
     public function store(Request $request)
     {
-        $data = $request::only('product_id', 'quantity', 'perform_at', 'comment');
+        $data = $request::only('product_id', 'quantity', 'perform_at', 'payment_type', 'comment');
         $data = array_merge([
             'status' => config('village.order.first_status'),
             'user_id' => $this->user()->id,
@@ -59,6 +59,7 @@ class ProductOrderController extends ApiController
     {
         return Validator::make($data, [
             'perform_at' => 'required|date|date_format:'.config('village.date.format'),
+            'payment_type' => 'required|in:'.implode(',', config('village.order.payment.type.values')),
             'status' => 'required|in:'.implode(',', config('village.order.statuses')),
 //            'comment' => 'sometimes|required|string',
             'decline_reason' => 'sometimes|required_if:status,rejected|string',

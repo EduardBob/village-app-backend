@@ -27,8 +27,8 @@
                                  {{ $model->order->id }}
                                 @endif
                             </td>
-                            <td>@if($model->from_status)<span class="label label-{{ config('village.order.label.'.$model->from_status) }}">{{ $statuses[$model->from_status] }}</span>@endif</td>
-                            <td><span class="label label-{{ config('village.order.label.'.$model->to_status) }}">{{ $statuses[$model->to_status] }}</span></td>
+                            <td>@if($model->from_status)<span class="label label-{{ config('village.order.label.'.$model->from_status) }}">{{ @$statuses[$model->from_status] }}</span>@endif</td>
+                            <td><span class="label label-{{ config('village.order.label.'.$model->to_status) }}">{{ @$statuses[$model->to_status] }}</span></td>
                             <td>{{ Date::parse($model->created_at)->diffForHumans() }}</td>
                             <td>
                                 @if($model->user)

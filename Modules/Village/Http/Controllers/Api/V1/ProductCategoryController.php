@@ -17,7 +17,7 @@ class ProductCategoryController extends ApiController
     {
         $productCategories = ProductCategory::api()
             ->whereHas('products', function($query) {
-                $query->where(['active' => 1]);
+                $query->where(['village__products.active' => 1]);
             })
             ->orderBy('order', 'desc')->get();
 

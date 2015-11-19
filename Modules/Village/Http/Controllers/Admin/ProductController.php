@@ -178,7 +178,7 @@ class ProductController extends AdminController
             'price' => 'required|numeric|min:1',
             'unit_title' => 'required|in:'.implode(',', config('village.product.unit.values')),
 //            'text' => 'required|max:255',
-            'active' => "required|boolean",
+            'active' => "boolean",
             'comment_label' => 'required|max:50',
         ];
 

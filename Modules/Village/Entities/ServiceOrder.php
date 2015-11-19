@@ -34,9 +34,12 @@ class ServiceOrder extends Model
         static::creating(function(ServiceOrder $serviceOrder) {
             $serviceOrder->village()->associate($serviceOrder->service->category->village);
 
-            $serviceOrder->price = $serviceOrder->service->price;
-            if ($serviceOrder->price == 0) {
+            if ($serviceOrder->service->price == 0) {
+                $serviceOrder->price = $serviceOrder->service->price;
                 $serviceOrder->payment_status = 'paid';
+            }
+            else {
+                $serviceOrder->price = Margin::getFinalPrice($serviceOrder->service->price);
                 $serviceOrder->status = 'processing';
             }
         });

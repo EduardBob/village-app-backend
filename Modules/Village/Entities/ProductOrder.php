@@ -33,7 +33,12 @@ class ProductOrder extends Model
 
         static::creating(function(ProductOrder $productOrder) {
             $productOrder->village()->associate($productOrder->product->category->village);
-            $productOrder->price = $productOrder->product->price * $productOrder->quantity;
+            if ($productOrder->product->price == 0) {
+                $productOrder->price = $productOrder->product->price;
+            }
+            else {
+                $productOrder->price = Margin::getFinalPrice($productOrder->product->price) * $productOrder->quantity;
+            }
             $productOrder->unit_title = $productOrder->product->unit_title;
         });
     }

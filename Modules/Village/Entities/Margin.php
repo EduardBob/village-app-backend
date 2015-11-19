@@ -14,7 +14,7 @@ class Margin extends Model
 
     protected $table = 'village__margins';
 
-    protected $fillable = ['village_id', 'type', 'value', 'title', 'order', 'is_removable'];
+    protected $fillable = ['village_id', 'type', 'value', 'title', 'active', 'order', 'is_removable'];
 
     public function village()
     {
@@ -29,7 +29,26 @@ class Margin extends Model
     	return [self::TYPE_CASH, self::TYPE_PERCENT];
     }
 
-    public function getFinalPrice($price)
+    /**
+     * @param $price
+     *
+     * @return float
+     */
+    static public function getFinalPrice($price)
     {
+        if ($price <= 0) return 0;
+
+        $margins = Margin::api()->orderBy('order', 'ASC')->get();
+
+        foreach ($margins as $margin) {
+            if (Margin::TYPE_PERCENT == $margin['type']) {
+                $price += $price * ($margin['value']/100);
+            }
+            elseif (Margin::TYPE_CASH == $margin['type']) {
+                $price += $margin['value'];
+            }
+        }
+
+        return round($price, 2);
     }
 }

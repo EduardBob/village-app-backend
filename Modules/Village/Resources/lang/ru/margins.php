@@ -17,6 +17,7 @@ return [
         'is_removable' => 'Удаляемая ?',
         'order' => 'Порядок выполнения',
         'created_at' => 'Создана',
+        'active' => 'Доступна',
         'actions' => 'Действия',
     ],
     'form' => [

@@ -3,6 +3,7 @@
 namespace Modules\Village\Packback\Transformer;
 
 use League\Fractal\Resource\Item;
+use Modules\Village\Entities\Margin;
 use Modules\Village\Entities\Product;
 
 class ProductTransformer extends BaseTransformer
@@ -32,7 +33,7 @@ class ProductTransformer extends BaseTransformer
         return [
             'id' =>  $product->id,
             'title' => $product->title,
-            'price' => $product->price,
+            'price' => Margin::getFinalPrice($product->price),
             'unit_title' => $product->unit_title,
             'text' => $product->text,
             'comment_label' => $product->comment_label,

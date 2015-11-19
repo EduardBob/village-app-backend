@@ -44,12 +44,19 @@
             </div>
         </div>
         <div class="col-sm-12">
-            <div class="form-group{{ $errors->has('is_removable') ? ' has-error' : '' }}">
-                {!! Form::label('is_removable', $admin->trans('table.is_removable')) !!}
-                <br>
-                {!! Form::checkbox('is_removable', 1, Input::old('is_removable', @$model->is_removable)) !!}
-                {!! $errors->first('is_removable', '<span class="help-block">:message</span>') !!}
+            <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
+                {!! Form::label('active', $admin->trans('table.active')) !!}
+                {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}
+                {!! $errors->first('active', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
+        {{--<div class="col-sm-12">--}}
+            {{--<div class="form-group{{ $errors->has('is_removable') ? ' has-error' : '' }}">--}}
+                {{--{!! Form::label('is_removable', $admin->trans('table.is_removable')) !!}--}}
+                {{--<br>--}}
+                {{--{!! Form::checkbox('is_removable', 1, Input::old('is_removable', @$model->is_removable)) !!}--}}
+                {{--{!! $errors->first('is_removable', '<span class="help-block">:message</span>') !!}--}}
+            {{--</div>--}}
+        {{--</div>--}}
     </div>
 </div>

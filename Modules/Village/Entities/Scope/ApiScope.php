@@ -22,8 +22,8 @@ trait ApiScope
         }
 
         return $query
-            ->where('active', 1)
-            ->where('village_id', $user->village->id)
+            ->where($query->getModel()->table.'.active', 1)
+            ->where($query->getModel()->table.'.village_id', $user->village->id)
         ;
     }
 }

@@ -56,6 +56,8 @@ class MarginController extends AdminController
             'village__margins.title',
             'village__margins.type',
             'village__margins.value',
+            'village__margins.active',
+            'village__margins.order',
         ];
     }
 
@@ -89,6 +91,8 @@ class MarginController extends AdminController
             ->addColumn(['data' => 'title', 'name' => 'village__margins.title', 'title' => $this->trans('table.title')])
             ->addColumn(['data' => 'type', 'name' => 'village__margins.type', 'title' => $this->trans('table.type')])
             ->addColumn(['data' => 'value', 'name' => 'village__margins.value', 'title' => $this->trans('table.value')])
+            ->addColumn(['data' => 'order', 'name' => 'village__margins.order', 'title' => $this->trans('table.order')])
+            ->addColumn(['data' => 'active', 'name' => 'village__margins.active', 'title' => $this->trans('table.active')])
         ;
     }
 
@@ -113,6 +117,14 @@ class MarginController extends AdminController
         $dataTable
             ->addColumn('type', function (Margin $margin) {
                 return $this->trans('form.type.values.'.$margin->type);
+            })
+            ->addColumn('active', function (Margin $margin) {
+                if($margin->active) {
+                    return '<span class="label label-success">'.trans('village::admin.table.active.yes').'</span>';
+                }
+                else {
+                    return '<span class="label label-danger">'.trans('village::admin.table.active.no').'</span>';
+                }
             })
         ;
     }

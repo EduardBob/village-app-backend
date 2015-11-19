@@ -32,7 +32,7 @@ class ServiceOrderController extends ApiController
      */
     public function store(Request $request)
     {
-        $data = $request::only('service_id', 'perform_at', 'comment');
+        $data = $request::only('service_id', 'perform_at', 'payment_type', 'comment');
         $data = array_merge([
             'status' => config('village.order.first_status'),
             'user_id' => $this->user()->id,
@@ -60,6 +60,7 @@ class ServiceOrderController extends ApiController
             'user_id'        => 'required|exists:users,id',
             'service_id'     => 'required|exists:village__services,id',
             'perform_at'     => 'required|date|date_format:'.config('village.date.format'),
+            'payment_type' => 'required|in:'.implode(',', config('village.order.payment.type.values')),
             'status'         => 'required|in:'.implode(',', config('village.order.statuses')),
 //            'comment'        => 'sometimes|required|string',
             'decline_reason' => 'sometimes|required_if:status,rejected|string',

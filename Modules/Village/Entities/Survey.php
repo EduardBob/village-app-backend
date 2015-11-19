@@ -13,7 +13,7 @@ class Survey extends Model
 
     protected $table = 'village__surveys';
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'ends_at'];
 
     protected $fillable = ['village_id', 'title', 'options', 'ends_at', 'active'];
 

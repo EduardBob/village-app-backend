@@ -54,16 +54,30 @@ return [
         ]
     ],
     'order' => [
-        'first_status' => 'not_paid',
-        'statuses' => ['not_paid', 'processing', 'running', 'done', 'rejected'], // cancelled
+        'first_status' => 'processing',
+        'statuses' => ['processing', 'running', 'done', 'rejected'], // cancelled
         'label' => [
-            'not_paid' => 'info', //Обрабатывается
+//            'not_paid' => 'info', //Обрабатывается
             'processing' => 'primary', //Обрабатывается
             'running' => 'waring', // Выполняется
             'done' => 'success', //Выполнен
             'rejected' => 'danger', // Отклонён
 //            'paid' =>  'primary',
 //            'cancelled' =>  'danger'
+        ],
+        'payment' => [
+            'type' => [
+                'values' => ['cash', 'card'],
+                'default' => 'cash',
+            ],
+            'status' => [
+                'values' => ['not_paid', 'paid'],
+                'default' => 'not_paid',
+                'label' => [
+                    'not_paid' => 'danger',
+                    'paid' => 'success'
+                ]
+            ]
         ]
     ],
     'date' => [

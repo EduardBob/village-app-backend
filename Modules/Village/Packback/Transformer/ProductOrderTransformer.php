@@ -36,6 +36,8 @@ class ProductOrderTransformer extends TransformerAbstract
             'price' => $productOrder->price,
             'quantity' => $productOrder->quantity,
             'unit_title' => $productOrder->unit_title,
+            'payment_type' => $productOrder->payment_type,
+            'payment_status' => $productOrder->payment_status,
             'status' => $productOrder->status,
             'comment' => $productOrder->comment,
             'decline_reason' => $productOrder->decline_reason,

@@ -51,6 +51,7 @@ class ServiceOrderController extends AdminController
         if (!$serviceOrder || $serviceOrder->status !== 'processing') {
             return redirect()->back(302);
         }
+        $serviceOrder->payment_status = 'paid';
         $serviceOrder->status = 'running';
         $serviceOrder->save();
 
@@ -71,6 +72,7 @@ class ServiceOrderController extends AdminController
             return redirect()->back(302);
         }
 
+        $serviceOrder->payment_status = 'paid';
         $serviceOrder->status = 'done';
         $serviceOrder->save();
 
@@ -92,6 +94,8 @@ class ServiceOrderController extends AdminController
             'village__service_orders.perform_at',
             'village__service_orders.created_at',
             'village__service_orders.price',
+            'village__service_orders.payment_type',
+            'village__service_orders.payment_status',
             'village__service_orders.status',
         ];
     }
@@ -140,6 +144,8 @@ class ServiceOrderController extends AdminController
             ->addColumn(['data' => 'price', 'name' => 'village__service_orders.price', 'title' => $this->trans('table.price')])
             ->addColumn(['data' => 'user_name', 'name' => 'users.last_name', 'title' => $this->trans('table.name')])
             ->addColumn(['data' => 'user_phone', 'name' => 'users.phone', 'title' => $this->trans('table.phone')])
+            ->addColumn(['data' => 'payment_type', 'name' => 'village__service_orders.payment_type', 'title' => $this->trans('table.payment_type')])
+            ->addColumn(['data' => 'payment_status', 'name' => 'village__service_orders.payment_status', 'title' => $this->trans('table.payment_status')])
             ->addColumn(['data' => 'status', 'name' => 'village__service_orders.status', 'title' => $this->trans('table.status')])
             ->addColumn(['data' => 'created_at', 'name' => 'village__service_orders.created_at', 'title' => $this->trans('table.created_at')])
         ;
@@ -199,6 +205,12 @@ class ServiceOrderController extends AdminController
             ->editColumn('user_phone', function (ServiceOrder $serviceOrder) {
                 return $serviceOrder->user->phone;
             })
+            ->editColumn('payment_type', function (ServiceOrder $ServiceOrder) {
+                return $this->trans('form.payment.type.values.'.$ServiceOrder->payment_type);
+            })
+            ->editColumn('payment_status', function (ServiceOrder $ServiceOrder) {
+                return '<span class="label label-'.config('village.order.payment.status.label.'.$ServiceOrder->payment_status).'">'.$this->trans('form.payment.status.values.'.$ServiceOrder->payment_status).'</span>';
+            })
             ->editColumn('status', function (ServiceOrder $serviceOrder) {
                 return '<span class="label label-'.config('village.order.label.'.$serviceOrder->status).'">'.$this->trans('form.status.values.'.$serviceOrder->status).'</span>';
             })
@@ -227,6 +239,8 @@ class ServiceOrderController extends AdminController
             'service_id' => 'required|exists:village__services,id',
             'perform_at' => 'required|date|date_format:'.config('village.date.format'),
             'status' => 'required|in:'.implode(',', config('village.order.statuses')),
+            'payment_type' => 'required|in:'.implode(',', config('village.order.payment.type.values')),
+            'payment_status' => 'required|in:'.implode(',', config('village.order.payment.status.values')),
 //            'comment' => 'sometimes|required|string',
             'decline_reason' => 'sometimes|required_if:status,rejected|string',
         ]);

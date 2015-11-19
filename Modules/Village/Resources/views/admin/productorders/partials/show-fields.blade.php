@@ -61,6 +61,24 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
+                {!! Form::label('payment_type', $admin->trans('table.payment_type')) !!}
+                <?php $statuses = array_combine(config('village.order.payment.type.values'), $admin->trans('form.payment.type.values')) ?>
+                <div>{{ $statuses[$model->payment_type] }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                {!! Form::label('payment_status', $admin->trans('table.payment_status')) !!}
+                <?php $statuses = array_combine(config('village.order.payment.status.values'), $admin->trans('form.payment.status.values')) ?>
+                <div>{{ $statuses[$model->payment_status] }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
                 {!! Form::label('status', $admin->trans('table.status')) !!}
                 <?php $statuses = array_combine(config('village.order.statuses'), $admin->trans('form.status.values')) ?>
                 <div>{{ $statuses[$model->status] }}</div>

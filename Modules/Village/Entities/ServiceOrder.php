@@ -10,7 +10,7 @@ class ServiceOrder extends Model
     use VillageAdminScope;
 
     protected $table = 'village__service_orders';
-    protected $fillable = ['user_id', 'service_id', 'status', 'perform_at', 'comment', 'decline_reason'];
+    protected $fillable = ['user_id', 'service_id', 'status', 'perform_at', 'comment', 'decline_reason', 'payment_type', 'payment_status'];
 
     public function village()
     {
@@ -36,6 +36,7 @@ class ServiceOrder extends Model
 
             $serviceOrder->price = $serviceOrder->service->price;
             if ($serviceOrder->price == 0) {
+                $serviceOrder->payment_status = 'paid';
                 $serviceOrder->status = 'processing';
             }
         });

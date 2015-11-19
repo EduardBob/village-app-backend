@@ -13,7 +13,8 @@ return [
         'edit' => 'Редактировать',
         'create' => 'Создать заказ сервиса',
         'status_running' => 'Начать выполнять',
-        'status_done' => 'Выполнено'
+        'status_done' => 'Выполнен',
+        'status_paid_and_done' => 'Выполнен и оплачен'
     ],
     'table' => [
         'id' => 'ID заказа',
@@ -23,6 +24,8 @@ return [
         'name' => 'ФИО',
         'phone' => 'Телефон',
         'price' => 'Цена',
+        'payment_type' => 'Тип оплаты',
+        'payment_status' => 'Статус оплаты',
         'status' => 'Статус',
         'user' => 'Пользователь',
         'comment' => 'Заметка покупателя',
@@ -37,10 +40,26 @@ return [
         'user' => [
             'placeholder' => 'Не выбран'
         ],
+        'payment' => [
+            'type' => [
+                'placeholder' => 'Не выбран',
+                'values' => [
+                    'cash' => 'Наличными',
+                    'card' => 'Карточкой',
+                ]
+            ],
+            'status' => [
+                'placeholder' => 'Не выбран',
+                'values' => [
+                    'not_paid' => 'Не оплачен',
+                    'paid'     => 'Оплачен',
+                ]
+            ],
+        ],
         'status' => [
             'placeholder' => 'Не выбран',
             'values' => [
-                'not_paid' => 'Не оплачен',
+//                'not_paid' => 'Не оплачен',
                 'processing' => 'Обрабатывается',
                 'running' => 'Выполняется',
                 'done' => 'Выполнен',

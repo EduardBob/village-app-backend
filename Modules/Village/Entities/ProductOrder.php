@@ -10,7 +10,7 @@ class ProductOrder extends Model
     use VillageAdminScope;
 
     protected $table = 'village__product_orders';
-    protected $fillable = ['user_id', 'product_id', 'quantity', 'comment', 'status', 'perform_at', 'decline_reason'];
+    protected $fillable = ['user_id', 'product_id', 'quantity', 'comment', 'status', 'perform_at', 'decline_reason', 'payment_type', 'payment_status'];
 
     public function village()
     {

@@ -34,6 +34,8 @@ class ServiceOrderTransformer extends TransformerAbstract
             'id' =>  $serviceOrder->id,
             'created_at' => $serviceOrder->created_at->format('Y-m-d H:i:s'),
             'price' => $serviceOrder->price,
+            'payment_type' => $serviceOrder->payment_type,
+            'payment_status' => $serviceOrder->payment_status,
             'status' => $serviceOrder->status,
             'comment' => $serviceOrder->comment,
             'decline_reason' => $serviceOrder->decline_reason,

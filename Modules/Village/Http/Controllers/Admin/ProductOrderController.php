@@ -80,6 +80,7 @@ class ProductOrderController extends AdminController
             return redirect()->back(302);
         }
 
+        $productOrder->payment_status = 'paid';
         $productOrder->status = 'done';
         $productOrder->save();
 
@@ -103,6 +104,8 @@ class ProductOrderController extends AdminController
             'village__product_orders.perform_at',
             'village__product_orders.created_at',
             'village__product_orders.price',
+            'village__product_orders.payment_type',
+            'village__product_orders.payment_status',
             'village__product_orders.status',
         ];
     }
@@ -147,12 +150,14 @@ class ProductOrderController extends AdminController
         $builder
             ->addColumn(['data' => 'product_title', 'name' => 'village__products.title', 'title' => $this->trans('table.product')])
             ->addColumn(['data' => 'building_address', 'name' => 'village__buildings.address', 'title' => $this->trans('table.address')])
-            ->addColumn(['data' => 'quantity', 'name' => 'village__product_orders.quantity', 'title' => $this->trans('table.quantity')])
-            ->addColumn(['data' => 'unit_title', 'name' => 'village__product_orders.unit_title', 'title' => $this->trans('table.unit_title')])
+//            ->addColumn(['data' => 'quantity', 'name' => 'village__product_orders.quantity', 'title' => $this->trans('table.quantity')])
+//            ->addColumn(['data' => 'unit_title', 'name' => 'village__product_orders.unit_title', 'title' => $this->trans('table.unit_title')])
             ->addColumn(['data' => 'perform_at', 'name' => 'village__product_orders.perform_at', 'title' => $this->trans('table.perform_at')])
             ->addColumn(['data' => 'price', 'name' => 'village__product_orders.price', 'title' => $this->trans('table.price')])
             ->addColumn(['data' => 'user_name', 'name' => 'users.last_name', 'title' => $this->trans('table.name')])
             ->addColumn(['data' => 'user_phone', 'name' => 'users.phone', 'title' => $this->trans('table.phone')])
+            ->addColumn(['data' => 'payment_type', 'name' => 'village__product_orders.payment_type', 'title' => $this->trans('table.payment_type')])
+            ->addColumn(['data' => 'payment_status', 'name' => 'village__product_orders.payment_status', 'title' => $this->trans('table.payment_status')])
             ->addColumn(['data' => 'status', 'name' => 'village__product_orders.status', 'title' => $this->trans('table.status')])
             ->addColumn(['data' => 'created_at', 'name' => 'village__product_orders.created_at', 'title' => $this->trans('table.created_at')])
         ;
@@ -215,6 +220,12 @@ class ProductOrderController extends AdminController
             ->editColumn('user_phone', function (ProductOrder $productOrder) {
                 return $productOrder->user->phone;
             })
+            ->editColumn('payment_type', function (ProductOrder $productOrder) {
+                return $this->trans('form.payment.type.values.'.$productOrder->payment_type);
+            })
+            ->editColumn('payment_status', function (ProductOrder $productOrder) {
+                return '<span class="label label-'.config('village.order.payment.status.label.'.$productOrder->payment_status).'">'.$this->trans('form.payment.status.values.'.$productOrder->payment_status).'</span>';
+            })
             ->editColumn('status', function (ProductOrder $productOrder) {
                 return '<span class="label label-'.config('village.order.label.'.$productOrder->status).'">'.$this->trans('form.status.values.'.$productOrder->status).'</span>';
             })
@@ -232,6 +243,8 @@ class ProductOrderController extends AdminController
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:village__products,id',
             'perform_at' => 'required|date|date_format:'.config('village.date.format'),
+            'payment_type' => 'required|in:'.implode(',', config('village.order.payment.type.values')),
+            'payment_status' => 'required|in:'.implode(',', config('village.order.payment.status.values')),
             'status' => 'required|in:'.implode(',', config('village.order.statuses')),
 //            'comment' => 'sometimes|required|string',
             'decline_reason' => 'sometimes|required_if:status,rejected|string',

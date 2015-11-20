@@ -1,4 +1,4 @@
-@if($currentUser->hasAccess('village.productorderchanges.index'))
+@if($currentUser && $currentUser->hasAccess('village.productorderchanges.index'))
     <div class="box box-primary">
         <div class="box-header">
             <h3 class="box-title">{{ trans('village::productorderchanges.widget.latest.title') }}</h3>
@@ -12,7 +12,7 @@
                     <th>{{ trans('village::productorderchanges.table.to_status') }}</th>
                     <th>{{ trans('village::productorderchanges.table.created_at') }}</th>
                     <th>{{ trans('village::productorderchanges.table.user') }}</th>
-                    @if($currentUser->inRole('admin'))
+                    @if($currentUser && $currentUser->inRole('admin'))
                     <th>{{ trans('village::villages.title.model') }}</th>
                     @endif
                 </tr>
@@ -21,7 +21,7 @@
                     @foreach($collection->load(['user', 'order', 'order.village']) as $model)
                         <tr>
                             <td>
-                                @if($currentUser->hasAccess('village.productorders.edit'))
+                                @if($currentUser && $currentUser->hasAccess('village.productorders.edit'))
                                     <a href="{{ route('admin.village.productorder.edit', ['id' => $model->order->id]) }}">{{ $model->order->id }}</a>
                                 @else
                                  {{ $model->order->id }}
@@ -32,16 +32,16 @@
                             <td>{{ Date::parse($model->created_at)->diffForHumans() }}</td>
                             <td>
                                 @if($model->user)
-                                    @if($currentUser->hasAccess('user.users.edit'))
+                                    @if($currentUser && $currentUser->hasAccess('user.users.edit'))
                                         <a href="{{ route('admin.user.user.edit', ['id' => $model->user->id]) }}">{{ $model->user->last_name }} {{ $model->user->first_name }}</a>
                                     @else
                                      {{ $model->user->last_name }} {{ $model->user->first_name }}
                                     @endif
                                 @endif
                             </td>
-                            @if($currentUser->inRole('admin'))
+                            @if($currentUser && $currentUser->inRole('admin'))
                             <td>
-                                @if($currentUser->hasAccess('village.villages.edit'))
+                                @if($currentUser && $currentUser->hasAccess('village.villages.edit'))
                                     <a href="{{ route('admin.village.village.edit', ['id' => $model->order->village->id]) }}">{{ $model->order->village->name }}</a>
                                 @else
                                  {{ $model->order->village->id }}

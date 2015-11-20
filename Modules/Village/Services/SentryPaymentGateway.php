@@ -43,7 +43,6 @@ class SentryPaymentGateway
      * @param string $orderId
      * @param float  $amount
      * @param string $returnUrl
-     * @param bool   $urlEncode
      *
      * @return array            Array form data to be POST'ed to MPG.
      *                          Attributes:
@@ -59,25 +58,20 @@ class SentryPaymentGateway
      *                          - Url
      *                          - Signature
      */
-    public function generateFormData($orderId, $amount, $returnUrl, $urlEncode = false)
+    public function generateFormData($orderId, $amount, $returnUrl)
     {
-        $this->orderId = $orderId;
-        $this->amount = (float)$amount;
+        $amount = (float)$amount;
         $this->returnUrl = $returnUrl;
-
-        // Format the amount
-        $amountFormatted = str_pad(number_format($this->amount, 2, '', ''), 12, '0', STR_PAD_LEFT);
-        $signature = $this->generateSignature();
 
         // Create form fields for MPG
         $mpgData = [
             'mid'           => $this->merchantId,
             'aid'           => $this->acquirerId,
             'resp_url'      => $this->returnUrl,
-            'oid'           => $this->orderId,
-            'amount'        => $amountFormatted,
-            'signature'     => $signature,
-            'site_link'     => '',
+            'oid'           => $orderId,
+            'amount'        => $this->getFormattedAmount($amount),
+            'signature'     => $this->generateSignature($orderId, $amount),
+            'site_link'     => route('homepage'),
             'merchant_mail' => config('village.order.payment.sentry.merchant_mail'),
         ];
 
@@ -89,13 +83,12 @@ class SentryPaymentGateway
      * @param string $orderId
      * @param float  $amount
      * @param string $returnUrl
-     * @param bool   $urlEncode
      *
      * @return string
      */
-    public function generateRedirectUrl($orderId, $amount, $returnUrl, $urlEncode = false)
+    public function generateRedirectUrl($orderId, $amount, $returnUrl)
     {
-        $data = $this->generateFormData($orderId, $amount, $returnUrl, $urlEncode);
+        $data = $this->generateFormData($orderId, $amount, $returnUrl);
 
         return $this->gatewayUrl.'?'.http_build_query($data, null, '&', PHP_QUERY_RFC3986);
     }
@@ -111,6 +104,7 @@ class SentryPaymentGateway
     public function processResponse(array $response)
     {
         $requiredFields = [
+            'Signature',
             'ResponseCode',
             'OrderID',
             'ReasonCode',
@@ -118,89 +112,76 @@ class SentryPaymentGateway
         ];
 
         // Check is response is an array and contains the required fields
-        if (is_array($response) &&
-            count(array_intersect_key(array_flip($requiredFields), $response)) != count($requiredFields)) {
-            throw new \Exception('Invalid response');
+        if (is_array($response) && count(array_intersect_key(array_flip($requiredFields), $response)) != count($requiredFields)) {
+            throw new \Exception('Invalid response data: '.json_encode($response));
         }
 
-        // Return formatted response data
-        return [
-            'responseCode'          => $response['ResponseCode'],
-            'responseDescription'   => $this->getErrorDescription($response['ResponseCode']),
-            'orderId'               => $response['OrderID'],
-            'reasonDescription'     => $response['ReasonCodeDesc'],
-            'reasonCode'            => $response['ReasonCode'],
-            'referenceNo'           => isset($response['ReferenceNo']) ?: '',
-            'authCode'              => isset($response['AuthCode']) ?: '',
-            'cardNo'                => isset($response['PaddedCardNo']) ?: '',
-            'signature'             => isset($response['Signature']) ?: ''
-        ];
+        // Если что-то не так, то ничего не делаем
+        if (1 != $response['ResponseCode']) {
+            throw new \Exception('Invalid ResponseCode');
+        }
+
+        if (!$this->validateResponseSignature($response)) {
+            throw new \Exception('Signature validation failure');
+        }
+
+        return $response;
     }
 
     /**
      * Check if response signature matches expected
      *
-     * @param string $signature     Signature to compare
-     * @return boolean              Boolean true, if match, false otherwise.
-     */
-    public function validateSignature($signature)
-    {
-        return $this->generateSignature() == $signature;
-    }
-
-    /**
-     * Generate signature
+     * @param array $response
      *
      * @throws \Exception
-     * @return string Signature string
+     * @return array Boolean true, if match, false otherwise.
      */
-    public function generateSignature()
+    public function validateResponseSignature(array $response)
     {
         // Signature method can only be SHA1
         if ($this->signatureMethod != 'SHA1') {
             throw new \Exception('Unsupported signature method');
         }
 
-        // Format the amount
-        $amountFormatted = str_pad(number_format($this->amount, 2, '', ''), 12, '0', STR_PAD_LEFT);
+        $signatureText = $this->password .
+                         $this->merchantId .
+                         $this->acquirerId .
+                         $response['OrderID'] .
+                         $response['ResponseCode'] .
+                         $response['ReasonCode']
+        ;
+
+        return base64_encode(hex2bin(sha1($signatureText))) === $response['Signature'];
+    }
+
+    /**
+     * Generate signature
+     *
+     * @param string $orderId
+     * @param float  $amount
+     *
+     * @throws \Exception
+     * @return string Signature string
+     */
+    public function generateSignature($orderId, $amount)
+    {
+        // Signature method can only be SHA1
+        if ($this->signatureMethod != 'SHA1') {
+            throw new \Exception('Unsupported signature method');
+        }
 
         $signatureText = $this->password .
                          $this->merchantId .
                          $this->acquirerId .
-                         $this->orderId .
-                         $amountFormatted .
+                         $orderId .
+                         $this->getFormattedAmount($amount) .
                          $this->purchaseCurrency;
 
         return base64_encode(hex2bin(sha1($signatureText)));
     }
 
-
-    /**
-     * Get textual error message for given code
-     *
-     * @param string $code
-     *
-     * @return string
-     */
-    public function getErrorDescription($code)
+    public function getFormattedAmount($amount)
     {
-        switch ($code) {
-            case '1':
-                $error = 'Transaction successful!';
-                break;
-
-            case '2':
-            case '3':
-            case '4':
-            case '11':
-                $error = 'Transaction was rejected. Please contact your bank.';
-                break;
-
-            default:
-                $error = 'Something went wrong. Please try again...';
-        }
-
-        return $error;
+        return str_pad(number_format($amount, 2, '', ''), 12, '0', STR_PAD_LEFT);
     }
-
 }

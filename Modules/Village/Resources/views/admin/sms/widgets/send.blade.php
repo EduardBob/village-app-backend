@@ -1,4 +1,4 @@
-@if($currentUser->inRole('admin') && $currentUser->hasAccess('village.sms.send'))
+@if($currentUser && $currentUser->inRole('admin') && $currentUser->hasAccess('village.sms.send'))
     <div class="box box-default">
         <div class="box-header with-border">
             <h3 class="box-title">{{ trans('village::sms.widget.send.title') }}</h3>
@@ -13,7 +13,7 @@
         <div class="box-body">
             <div class="row">
             {!! Form::open(['route' => ['admin.village.sms.send'], 'method' => 'post']) !!}
-                @if($currentUser->inRole('admin'))
+                @if($currentUser && $currentUser->inRole('admin'))
                     <div class="col-sm-3">
                         {!! Form::select(
                                 'village_id', Input::old('id', (new Modules\Village\Entities\Village)->lists('name', 'id')),

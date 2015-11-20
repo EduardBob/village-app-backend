@@ -14,7 +14,7 @@
 @section('content')
 <div class="row">
     <div class="col-xs-12">
-        @if($currentUser->hasAccess($admin->getAccess('create')))
+        @if($currentUser && $currentUser->hasAccess($admin->getAccess('create')))
         <div class="row">
             <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
                 <a href="{{ $admin->route('create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
@@ -49,7 +49,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline btn-flat" data-dismiss="modal">{{ trans('core::core.button.cancel') }}</button>
-                @if($currentUser->hasAccess($admin->getAccess('destroy')))
+                @if($currentUser && $currentUser->hasAccess($admin->getAccess('destroy')))
                     <button type="button" class="btn btn-outline btn-flat confirm"><i class="glyphicon glyphicon-trash"></i> {{ trans('core::core.button.delete') }}</button>
                 @endif
             </div>
@@ -86,7 +86,7 @@
         $( document ).ready(function() {
             $(document).keypressAction({
                 actions: [
-                    @if($currentUser->hasAccess($admin->getAccess('create')))
+                    @if($currentUser && $currentUser->hasAccess($admin->getAccess('create')))
                         { key: 'c', route: "<?= $admin->route('create') ?>" }
                     @endif
                 ]

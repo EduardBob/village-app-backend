@@ -18,35 +18,31 @@ class SentryPaymentController extends BasePublicController
         $data = \Request::all();
 
         if (empty($data)) {
-            die('empty request');
+            throw new \Exception('empty post request');
         }
 
         $payment = new SentryPaymentGateway();
+
         $response = $payment->processResponse($data);
 
-        // Если что-то не так, то ничего не делаем
-        if (1 != $response['responseCode']) {
-            var_dump('responseCode != 1', $response);die;
-            return false;
+        list($type, $id) = explode('_', $response['OrderID']);
+        if (config('village.order.payment.sentry.debug')) {
+            $type = str_replace('test', '', $type);
         }
 
-        list($type, $id) = explode('_', $response['OrderID']);
         $model = '\\Modules\\Village\\Entities\\'.$type;
         /** @var ProductOrder $order */
         $order = $model::find((int)$id);
 
         if (!$order) {
-            var_dump('Order '.$id.' not found', $response);die;
-            return false;
+            throw new \Exception('Order '.$type.' -> '.$id.' not found');
         }
 
         $order->save([
+           'payment_type' => 'card',
            'payment_status' => 'paid'
         ]);
 
-        die('ok');
-
-//        return redirect()->route('register');
-//        return redirect()->intended('/backend');
+        return redirect()->route('homepage');
     }
 }

@@ -23,19 +23,19 @@ class PayLinkTransformer extends TransformerAbstract
         $reflection = new \ReflectionClass($order);
         $payment = new SentryPaymentGateway();
 
-        $orderId = $reflection->getShortName().'_'.$order->id;
+        $orderId = 'test'.$reflection->getShortName().'_'.$order->id;
 
         $link = $payment
             ->generateRedirectUrl(
                 $orderId,
                 $order->price,
-                route('sentry.payment.process'),
+                secure_url(route('sentry.payment.process', [], false)),
                 true
             )
         ;
 
         return [
-            'link' => secure_url(route('sentry.payment.redirect', ['link' => urlencode($link)]))
+            'link' => secure_url(route('sentry.payment.redirect', ['link' => urlencode($link)], false))
         ];
     }
 }

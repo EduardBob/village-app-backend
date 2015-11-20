@@ -9,7 +9,7 @@
                 <div class="tab-pane active" id="tab_1-1">
                     <div class="box-body">
                         <div class="row">
-                            @if($currentUser->inRole('admin'))
+                            @if($currentUser && $currentUser->inRole('admin'))
                             <div class="col-sm-4">
                                 <div class="form-group{{ $errors->has('village_id') ? ' has-error has-feedback' : '' }}">
                                     {!! Form::label('village_id', trans('village::villages.form.village_id')) !!}

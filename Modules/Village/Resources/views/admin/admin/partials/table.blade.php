@@ -3,7 +3,7 @@
         <tr>
             @yield('table-head')
             @section('table-head-actions')
-                @if($currentUser->hasAccess($admin->getAccess('edit')) || $currentUser->hasAccess($admin->getAccess('destroy')))
+                @if($currentUser && $currentUser->hasAccess($admin->getAccess('edit')) || $currentUser->hasAccess($admin->getAccess('destroy')))
                     <th>{{ $admin->trans('table.actions') }}</th>
                 @endif
             @show

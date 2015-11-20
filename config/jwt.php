@@ -135,7 +135,7 @@ return [
         |
         */
 
-        'jwt' => 'Tymon\JWTAuth\Providers\JWT\NamshiAdapter',
+        'jwt' => Tymon\JWTAuth\Providers\JWT\NamshiAdapter::class,
 
         /*
         |--------------------------------------------------------------------------
@@ -146,9 +146,7 @@ return [
         |
         */
 
-        'auth' => function ($app) {
-            return new Modules\Village\Providers\Auth\VillageAuthAdapter($app['auth']);
-        },
+        'auth' => Modules\Village\Providers\Auth\VillageAuthAdapter::class,
 
         /*
         |--------------------------------------------------------------------------
@@ -159,10 +157,7 @@ return [
         |
         */
 
-        'storage' => function ($app) {
-            return new Tymon\JWTAuth\Providers\Storage\IlluminateCacheAdapter($app['cache']);
-        }
-
+        'storage' => Tymon\JWTAuth\Providers\Storage\IlluminateCacheAdapter::class
     ]
 
 ];

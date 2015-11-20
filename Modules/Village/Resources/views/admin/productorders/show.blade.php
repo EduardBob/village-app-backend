@@ -3,7 +3,7 @@
 @section('buttons')
     @parent
 
-    @if($currentUser->hasAccess($admin->getAccess('edit')))
+    @if($currentUser && $currentUser->hasAccess($admin->getAccess('edit')))
         {!! Form::open(['route' => [$admin->getRoute('edit'), $model->id], 'method' => 'get']) !!}
             <button type="submit" class="btn pull-left">{{ $admin->trans('button.edit') }}</button>
         {!! Form::close() !!}

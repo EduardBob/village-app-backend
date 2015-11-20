@@ -27,7 +27,7 @@
                     @endforeach
 
                     <div class="box-footer clearfix">
-                        @if($currentUser->hasAccess($admin->getAccess('update')))
+                        @if($currentUser && $currentUser->hasAccess($admin->getAccess('update')))
                             <button type="submit" class="btn btn-primary btn-flat">{{ trans('core::core.button.update') }}</button>
                         @endif
                         @yield('buttons')

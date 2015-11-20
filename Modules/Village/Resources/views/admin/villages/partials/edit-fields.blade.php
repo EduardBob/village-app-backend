@@ -1,6 +1,6 @@
 <div class="box-body">
     <div class="row">
-        @if($currentUser->inRole('admin'))
+        @if($currentUser && $currentUser->inRole('admin'))
         <div class="col-sm-12">
             <div class="form-group{{ $errors->has('main_admin_id') ? ' has-error' : '' }}">
                 {!! Form::label('main_admin_id', $admin->trans('table.main_admin_id')) !!}

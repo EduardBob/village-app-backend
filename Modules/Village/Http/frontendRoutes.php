@@ -7,7 +7,9 @@ $router->group(['prefix' => '/payment', 'middleware' => ['secure']], function (R
     $router->get('/redirect', [
         'as' => 'sentry.payment.redirect', 'uses' => 'SentryPaymentController@redirect'
     ]);
-    $router->post('/process', [
-        'as' => 'sentry.payment.process', 'uses' => 'SentryPaymentController@process'
-    ]);
 });
+
+// payment process
+$router->post('/', [
+    'as' => 'sentry.payment.process', 'uses' => 'SentryPaymentController@process'
+]);

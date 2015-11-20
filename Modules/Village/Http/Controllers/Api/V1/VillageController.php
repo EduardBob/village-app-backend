@@ -35,6 +35,7 @@ class VillageController extends ApiController
         Mail::queue('village::emails.request', ['data' => $data],
             function (Message $m) {
                 $toEmails = explode(',', \Setting::get('village::village-request-send-to-emails'));
+                $toEmails = array_map('trim', $toEmails);
                 $siteName = \Setting::get('core::site-name', \App::getLocale());
                 $m->to($toEmails)
                     ->subject(trans('village::villages.emails.request.subject', ['site-name' => $siteName]))

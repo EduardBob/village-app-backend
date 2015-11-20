@@ -169,22 +169,24 @@ class ProductController extends AdminController
      */
     public function validate(array $data, Product $product = null)
     {
-        $productId = $product ? $product->id : '';
+        if ($this->getCurrentUser()->inRole('admin')) {
+            $data['village_id'] = ProductCategory::find($data['category_id'])->village_id;
+        }
+        elseif (!$this->getCurrentUser()->inRole('admin')) {
+            $data['village_id'] = $this->getCurrentUser()->village_id;
+        }
 
         $rules = [
             'category_id' => 'required|exists:village__product_categories,id',
             'executor_id' => 'sometimes|exists:users,id',
-            'title' => "required|max:255|unique:village__products,title,{$productId}",
+            'title' => "required|max:255|unique_with:village__products,village_id",
+            'village_id' => 'required',
             'price' => 'required|numeric|min:1',
             'unit_title' => 'required|in:'.implode(',', config('village.product.unit.values')),
 //            'text' => 'required|max:255',
             'active' => "boolean",
             'comment_label' => 'required|max:50',
         ];
-
-//        if ($this->getCurrentUser()->inRole('admin')) {
-//            $rules['village_id'] = 'required|exists:village__villages,id';
-//        }
 
         return Validator::make($data, $rules);
     }

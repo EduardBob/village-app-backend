@@ -113,16 +113,15 @@ class ServiceCategoryController extends AdminController
      */
     public function validate(array $data, ServiceCategory $serviceCategory = null)
     {
-        $serviceCategoryId = $serviceCategory ? $serviceCategory->id : '';
+        if (!$this->getCurrentUser()->inRole('admin')) {
+            $data['village_id'] = $this->getCurrentUser()->village_id;
+        }
 
         $rules = [
-            'title' => "required|max:255|unique:village__service_categories,title,{$serviceCategoryId}",
+            'title' => "required|max:255|unique_with:village__service_categories,village_id",
+            'village_id' => 'required',
             'active' => "required|boolean",
         ];
-
-        if ($this->getCurrentUser()->inRole('admin')) {
-            $rules['village_id'] = 'required|exists:village__villages,id';
-        }
 
         return Validator::make($data, $rules);
     }

@@ -163,11 +163,17 @@ class ServiceController extends AdminController
      */
     public function validate(array $data, Service $service = null)
     {
-        $serviceId = $service ? $service->id : '';
+        if ($this->getCurrentUser()->inRole('admin')) {
+            $data['village_id'] = ServiceCategory::find($data['category_id'])->village_id;
+        }
+        elseif (!$this->getCurrentUser()->inRole('admin')) {
+            $data['village_id'] = $this->getCurrentUser()->village_id;
+        }
 
         $rules = [
             'category_id' => 'required|exists:village__service_categories,id',
-            'title' => "required|max:255|unique:village__services,title,{$serviceId}",
+            'title' => "required|max:255|unique_with:village__services,village_id",
+            'village_id' => 'required',
             'price' => 'required|numeric|min:0', // ноль разрешён http://redmine.fruitware.ru/issues/26453
             'active' => "required|boolean",
 //            'text' => 'required|max:255',

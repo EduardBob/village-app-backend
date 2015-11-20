@@ -66,6 +66,18 @@ return [
 //            'cancelled' =>  'danger'
         ],
         'payment' => [
+            'sentry' => [
+                'debug' => env('VILLAGE_PAYMENT_SENTRY_DEBUG'),
+                'merchant_mail' => env('VILLAGE_PAYMENT_SENTRY_MERCHANT_MAIL'),
+                'prod' => [
+                    'mid' => env('VILLAGE_PAYMENT_SENTRY_PROD_MID'),
+                    'password' => env('VILLAGE_PAYMENT_SENTRY_PROD_PASSWORD'),
+                ],
+                'test' => [
+                    'mid' => env('VILLAGE_PAYMENT_SENTRY_TEST_MID'),
+                    'password' => env('VILLAGE_PAYMENT_SENTRY_TEST_PASSWORD'),
+                ],
+            ],
             'type' => [
                 'values' => ['cash', 'card'],
                 'default' => 'cash',

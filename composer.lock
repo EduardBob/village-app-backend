@@ -1666,7 +1666,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/cd5fb1c262e1734366e77688b011a0f0422ce06d",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/008e69f17a1286c29b8a60082119b7d6eee69082",
                 "reference": "5a91b2475cd9a7a41d02615232eb4d1f18d4ae2c",
                 "shasum": ""
             },

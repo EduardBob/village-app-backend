@@ -21,7 +21,7 @@ class SurveyController extends ApiController
     {
         $survey = Survey::getCurrent();
         if (!$survey) {
-            return $this->response->withArray([]);
+            return $this->response->errorNotFound('');
         }
 
         return $this->response->withItem($survey, new SurveyTransformer($this->user()));

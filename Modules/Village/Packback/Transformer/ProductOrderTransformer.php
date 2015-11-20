@@ -13,14 +13,14 @@ class ProductOrderTransformer extends TransformerAbstract
      *
      * @var array
      */
-    protected $availableIncludes = ['product'];
+    protected $availableIncludes = ['product', 'pay'];
 
     /**
      * List of resources to automatically include
      *
      * @var  array
      */
-    protected $defaultIncludes = ['product'];
+    protected $defaultIncludes = ['product', 'pay'];
 
     /**
      * Turn user object into generic array
@@ -53,5 +53,17 @@ class ProductOrderTransformer extends TransformerAbstract
     public function includeProduct(ProductOrder $productOrder)
     {
         return $this->item($productOrder->product, new ProductTransformer);
+    }
+
+    /**
+     * Include bank payment form data
+     *
+     * @param ProductOrder $productOrder
+     *
+     * @return Item
+     */
+    public function includePay(ProductOrder $productOrder)
+    {
+        return $this->item($productOrder, new PayLinkTransformer);
     }
 }

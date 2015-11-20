@@ -35,9 +35,11 @@ class ProductOrder extends Model
             $productOrder->village()->associate($productOrder->product->category->village);
             if ($productOrder->product->price == 0) {
                 $productOrder->price = $productOrder->product->price;
+                $productOrder->payment_status = 'paid';
             }
             else {
                 $productOrder->price = Margin::getFinalPrice($productOrder->product->price) * $productOrder->quantity;
+                $productOrder->payment_status = 'not_paid';
             }
             $productOrder->unit_title = $productOrder->product->unit_title;
         });

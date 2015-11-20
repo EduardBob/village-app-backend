@@ -40,6 +40,7 @@ class ServiceOrder extends Model
             }
             else {
                 $serviceOrder->price = Margin::getFinalPrice($serviceOrder->service->price);
+                $serviceOrder->payment_status = 'not_paid';
                 $serviceOrder->status = 'processing';
             }
         });

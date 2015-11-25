@@ -125,4 +125,29 @@ class ServiceCategoryController extends AdminController
 
         return Validator::make($data, $rules);
     }
+
+    public function getChoicesByVillage($villageId, $selectedId = null)
+    {
+        $attributes = [];
+        if ($this->getCurrentUser()->inRole('admin')) {
+            $attributes['village_id'] = $villageId;
+        }
+        else {
+            $attributes['village_id'] = $this->getCurrentUser()->village_id;
+        }
+
+        $choices = $this->getRepository()->lists($attributes, 'title', 'id', ['title' => 'ASC']);
+
+        if (\Request::ajax()) {
+            $html = '<option value="">'.$this->trans('form.category.placeholder').'</option>';
+            foreach($choices as $id => $title) {
+                $selected = $selectedId == $id ? 'selected="selected"' : '';
+                $html .= '<option value="'.$id.'" '.$selected.'>'.$title.'</option>';
+            }
+
+            return $html;
+        }
+
+        return $choices;
+    }
 }

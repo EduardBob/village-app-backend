@@ -75,6 +75,10 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'update' => 'admin.village.productcategory.update',
         'destroy' => 'admin.village.productcategory.destroy',
     ]]);
+    $router->group(['prefix' => 'productcategories'], function (Router $router) {
+        $router->get('get-choices-by-village/{byVillageId}', ['uses' => 'ProductCategoryController@getChoicesByVillage', 'as' => 'admin.village.productcategory.get_choices_by_village']);
+        $router->get('get-choices-by-village/{byVillageId}/{selectedId}', ['uses' => 'ProductCategoryController@getChoicesByVillage', 'as' => 'admin.village.productcategory.get_choices_by_village']);
+    });
     $router->bind('productorders', function ($id) {
         return app('Modules\Village\Repositories\ProductOrderRepository')->find($id);
     });
@@ -117,6 +121,10 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'update' => 'admin.village.servicecategory.update',
         'destroy' => 'admin.village.servicecategory.destroy',
     ]]);
+    $router->group(['prefix' => 'servicecategories'], function (Router $router) {
+        $router->get('get-choices-by-village/{byVillageId}', ['uses' => 'ServiceCategoryController@getChoicesByVillage', 'as' => 'admin.village.servicecategory.get_choices_by_village']);
+        $router->get('get-choices-by-village/{byVillageId}/{selectedId}', ['uses' => 'ServiceCategoryController@getChoicesByVillage', 'as' => 'admin.village.servicecategory.get_choices_by_village']);
+    });
     $router->bind('serviceorders', function ($id) {
         return app('Modules\Village\Repositories\ServiceOrderRepository')->find($id);
     });

@@ -19,7 +19,7 @@ class Product extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['category_id', 'executor_id', 'title', 'price', 'unit_title', 'active', 'comment_label', 'text'];
+    protected $fillable = ['village_id', 'category_id', 'executor_id', 'title', 'price', 'unit_title', 'active', 'comment_label', 'text'];
 
     public function village()
     {

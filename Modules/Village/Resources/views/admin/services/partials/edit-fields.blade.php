@@ -1,5 +1,29 @@
 <div class="box-body">
     <div class="row">
+        @if($currentUser && $currentUser->inRole('admin'))
+        <div class="col-sm-4">
+            <div class="form-group{{ $errors->has('village_id') ? ' has-error has-feedback' : '' }}">
+                {!! Form::label('village_id', trans('village::villages.form.village_id')) !!}
+                {!! Form::select(
+                        'village_id', Input::old('id', (new Modules\Village\Entities\Village)->lists('name', 'id')),
+                        Input::old('village_id', @$model->village_id),
+                        ['class' => 'form-control', 'placeholder' => trans('village::villages.form.village.placeholder')]
+                    )
+                !!}
+                {!! $errors->first('village_id', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        @else
+            {!! Form::hidden('village_id', @$model->village_id, ['id' => 'village_id']) !!}
+        @endif
+        <div class="col-sm-4">
+            <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
+                {!! Form::label('category_id', $admin->trans('table.category')) !!}
+                {!! Form::select('category_id', $admin->getCategories(),
+                Input::old('category_id', @$model->category->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.category.placeholder')]) !!}
+                {!! $errors->first('category_id', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
         @if(isset($model))
         <div class="col-sm-4">
             <div class="form-group{{ $errors->has('executor_id') ? ' has-error' : '' }}">
@@ -15,14 +39,6 @@
                 {!! Form::label('title', $admin->trans('table.title')) !!}
                 {!! Form::text('title', Input::old('title', @$model->title), ['class' => 'form-control', 'placeholder' => $admin->trans('table.title')]) !!}
                 {!! $errors->first('title', '<span class="help-block">:message</span>') !!}
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
-                {!! Form::label('category_id', $admin->trans('table.category')) !!}
-                {!! Form::select('category_id', $admin->getCategories(),
-                Input::old('category_id', @$model->category->id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.category.placeholder')]) !!}
-                {!! $errors->first('category_id', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
         <div class="col-sm-4">
@@ -72,3 +88,27 @@
         </div>
     </div>
 </div>
+
+@section('scripts')
+    @parent
+
+<script>
+$( document ).ready(function() {
+    @if($currentUser->hasAccess('village.servicecategories.getChoicesByVillage'))
+    var $village = $('#village_id');
+    $village.change(function(){
+        var $category = $("#category_id");
+        $category.html('');
+        var selectedVillageId = $village.val();
+        if (selectedVillageId > 0) {
+            $.get('{{ URL::route('admin.village.servicecategory.get_choices_by_village', [null, null]) }}/'+selectedVillageId+'/'+'{{ @$model->category_id }}', function(data){
+                $category.html(data);
+            });
+        }
+    });
+
+    $village.trigger('change');
+    @endif
+});
+</script>
+@stop

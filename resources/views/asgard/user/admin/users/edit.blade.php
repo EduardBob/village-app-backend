@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            @if($currentUser->inRole('admin'))
+                            @if($currentUser && $currentUser->inRole('admin'))
                             <div class="col-sm-6">
                                 <div class="form-group{{ $errors->has('village_id') ? ' has-error has-feedback' : '' }}">
                                     {!! Form::label('village_id', trans('village::villages.form.village_id')) !!}

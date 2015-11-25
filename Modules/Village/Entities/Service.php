@@ -17,7 +17,7 @@ class Service extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['category_id', 'executor_id', 'title', 'price', 'active', 'text', 'comment_label', 'order_button_label'];
+    protected $fillable = ['village_id', 'category_id', 'executor_id', 'title', 'price', 'active', 'text', 'comment_label', 'order_button_label'];
 
     public function village()
     {

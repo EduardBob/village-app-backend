@@ -19,6 +19,9 @@ return [
     ],
     'form' => [
         'media' => 'Изображение',
+        'category' => [
+            'placeholder' => 'Не выбран'
+        ],
     ],
     'messages' => [
     ],

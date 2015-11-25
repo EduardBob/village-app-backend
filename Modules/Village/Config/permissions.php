@@ -49,6 +49,7 @@ return [
         'edit',
         'update',
         'destroy',
+        'getChoicesByVillage',
     ],
     'village.productorders' => [
         'index',
@@ -79,6 +80,7 @@ return [
         'edit',
         'update',
         'destroy',
+        'getChoicesByVillage',
     ],
     'village.serviceorders' => [
         'index',

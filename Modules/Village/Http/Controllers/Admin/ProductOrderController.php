@@ -191,6 +191,9 @@ class ProductOrderController extends AdminController
                 }
             })
             ->editColumn('building_address', function (ProductOrder $productOrder) {
+                if (!$productOrder->user) {
+                    return '';
+                }
                 if ($this->getCurrentUser()->hasAccess('village.buildings.edit') && $productOrder->user->building) {
                     return '<a href="'.route('admin.village.building.edit', ['id' => $productOrder->user->building->id]).'">'.$productOrder->user->building->address.'</a>';
                 }
@@ -208,6 +211,9 @@ class ProductOrderController extends AdminController
                 return localizeddate($productOrder->created_at);
             })
             ->editColumn('user_name', function (ProductOrder $productOrder) {
+                if (!$productOrder->user) {
+                    return '';
+                }
                 $name = $productOrder->user->last_name. ' '.$productOrder->user->first_name;
 
                 if ($this->getCurrentUser()->hasAccess('user.users.edit')) {
@@ -218,6 +224,9 @@ class ProductOrderController extends AdminController
                 }
             })
             ->editColumn('user_phone', function (ProductOrder $productOrder) {
+                if (!$productOrder->user) {
+                    return '';
+                }
                 return $productOrder->user->phone;
             })
             ->editColumn('payment_type', function (ProductOrder $productOrder) {

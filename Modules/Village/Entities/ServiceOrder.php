@@ -24,7 +24,7 @@ class ServiceOrder extends Model
 
     public function user()
     {
-        return $this->belongsTo('Modules\Village\Entities\User', 'user_id')->withTrashed();
+        return $this->belongsTo('Modules\Village\Entities\User', 'user_id');
     }
 
     protected static function boot()

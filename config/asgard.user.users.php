@@ -40,6 +40,6 @@ return [
         'village_id',
         'building_id',
     ],
-
-    'dates' => ['deleted_at']
+//
+//    'dates' => ['deleted_at']
 ];

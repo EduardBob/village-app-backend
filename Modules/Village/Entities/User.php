@@ -10,9 +10,6 @@ class User extends BaseUser implements AuthenticatableContract
 {
     use Authenticatable;
     use VillageAdminScope;
-    use SoftDeletes;
-
-    protected $dates = ['deleted_at'];
 
     protected $fillable = [
         'email',

@@ -179,6 +179,9 @@ class ServiceOrderController extends AdminController
                 }
             })
             ->editColumn('building_address', function (ServiceOrder $serviceOrder) {
+                if (!$serviceOrder->user) {
+                    return '';
+                }
                 if ($this->getCurrentUser()->hasAccess('village.buildings.edit') && $serviceOrder->user->building) {
                     return '<a href="'.route('admin.village.building.edit', ['id' => $serviceOrder->user->building->id]).'">'.$serviceOrder->user->building->address.'</a>';
                 }
@@ -193,6 +196,9 @@ class ServiceOrderController extends AdminController
                 return localizeddate($serviceOrder->created_at);
             })
             ->editColumn('user_name', function (ServiceOrder $serviceOrder) {
+                if (!$serviceOrder->user) {
+                    return '';
+                }
                 $name = $serviceOrder->user->last_name. ' '.$serviceOrder->user->first_name;
 
                 if ($this->getCurrentUser()->hasAccess('user.users.edit')) {
@@ -203,6 +209,9 @@ class ServiceOrderController extends AdminController
                 }
             })
             ->editColumn('user_phone', function (ServiceOrder $serviceOrder) {
+                if (!$serviceOrder->user) {
+                    return '';
+                }
                 return $serviceOrder->user->phone;
             })
             ->editColumn('payment_type', function (ServiceOrder $ServiceOrder) {

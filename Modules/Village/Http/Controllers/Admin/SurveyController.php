@@ -1,8 +1,10 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Date\Date;
 use Modules\Village\Entities\Survey;
+use Modules\Village\Entities\SurveyVote;
 use Modules\Village\Repositories\SurveyRepository;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -113,6 +115,21 @@ class SurveyController extends AdminController
                 }
             })
         ;
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param Model $model
+     * @return \Illuminate\View\View
+     */
+    public function edit(Model $model)
+    {
+        $response = parent::edit($model);
+
+        view()->share('votesCount', SurveyVote::countVotesBySurvey($model));
+
+        return $response;
     }
 
     /**

@@ -45,6 +45,35 @@
                                 </div>
                             </div>
                         </div>
+                        @if(isset($model))
+                        <?php $options = json_decode($model->options, true); ?>
+                        <div class="row">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                  <h3 class="box-title">Отданные голоса</h3>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer no-padding">
+                                    <ul class="nav nav-pills nav-stacked">
+                                        @if(isset($model->options))
+                                            @if(is_array($options))
+                                                @foreach($options as $key => $option)
+                                                    <li>
+                                                        <a href="#">{{ $option }}
+                                                            <span class="pull-right">
+                                                                @if(isset($votesCount[$key])){{ $votesCount[$key] }}@else 0 @endif
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            @endif
+                                        @endif
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                        @endif
                     </div>
                 </div>
                 <div class="tab-pane" id="tab_2-2">
@@ -54,7 +83,6 @@
                                 <div class="form-group option-collection">
                                     <label>{{ $admin->trans('tabs.answers') }}</label>
                                     @if(isset($model->options))
-                                        <?php $options = json_decode($model->options, true); ?>
                                         @if(is_array($options))
                                             @foreach($options as $key => $option)
                                                 <div class="option form-group{{ $errors->has('options') ? ' has-error' : '' }}">

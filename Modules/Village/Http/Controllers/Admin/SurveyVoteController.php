@@ -60,7 +60,6 @@ class SurveyVoteController extends AdminController
             ->leftJoin('users', 'village__survey_votes.user_id', '=', 'users.id')
             ->where('village__villages.deleted_at', null)
             ->where('village__surveys.deleted_at', null)
-            ->where('users.deleted_at', null)
             ->with(['village', 'survey', 'user'])
         ;
 
@@ -118,6 +117,9 @@ class SurveyVoteController extends AdminController
                 }
             })
             ->editColumn('user_name', function (SurveyVote $surveyVote) {
+                if (!$surveyVote->user) {
+                    return '';
+                }
                 $name = $surveyVote->user->last_name. ' '.$surveyVote->user->first_name;
 
                 if ($this->getCurrentUser()->hasAccess('user.users.edit')) {

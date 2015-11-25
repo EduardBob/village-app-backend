@@ -27,17 +27,6 @@ class Survey extends Model
     	return $this->hasMany('Modules\Village\Entities\SurveyVote');
     }
 
-    /**
-     * @return $this
-     */
-    static public function getCurrent()
-    {
-        return static::api()
-            ->where('ends_at', '>', date('Y-m-d H:i:s'))
-            ->orderBy('id', 'desc')
-            ->first();
-    }
-
     protected static function boot()
     {
         parent::boot();
@@ -48,5 +37,17 @@ class Survey extends Model
                 $survey->options = json_encode($survey->options);
             }
         });
+    }
+
+    /**
+     * @return $this
+     */
+    static public function getCurrent()
+    {
+        return static::api()
+            ->where('ends_at', '>', date('Y-m-d H:i:s'))
+            ->orderBy('id', 'desc')
+            ->first()
+        ;
     }
 }

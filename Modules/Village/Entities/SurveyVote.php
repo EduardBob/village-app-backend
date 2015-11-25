@@ -41,4 +41,23 @@ class SurveyVote extends Model
     {
         return static::where(['survey_id' => $survey->id, 'user_id' => $user->id])->first();
     }
+
+    static public function countVotesBySurvey(Survey $survey)
+    {
+        $data = static
+            ::select(\DB::raw("COUNT(choice) count, choice"))
+            ->where(['survey_id' => $survey->id])
+            ->groupBy('choice')
+            ->orderBy('choice', 'ASC')
+            ->get()
+            ->toArray()
+        ;
+
+        $result = [];
+        foreach ($data as $item) {
+            $result[$item['choice']] = $item['count'];
+        }
+
+        return $result;
+    }
 }

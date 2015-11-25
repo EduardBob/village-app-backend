@@ -172,10 +172,9 @@ class ServiceController extends AdminController
 
         $rules = [
             'category_id' => 'required|exists:village__service_categories,id',
-            'title' => "required|max:255|unique_with:village__services,village_id",
-            'village_id' => 'required',
+            'title' => "required|max:255",
+            'village_id' => 'required|numeric|min:1',
             'price' => 'required|numeric|min:0', // ноль разрешён http://redmine.fruitware.ru/issues/26453
-            'active' => "required|boolean",
 //            'text' => 'required|max:255',
             'comment_label' => 'required|max:50',
             'order_button_label' => 'required|max:50',

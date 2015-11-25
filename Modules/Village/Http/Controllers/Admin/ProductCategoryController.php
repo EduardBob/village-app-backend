@@ -118,8 +118,8 @@ class ProductCategoryController extends AdminController
         }
 
         $rules = [
-            'title' => "required|max:255|unique_with:village__product_categories,village_id",
-            'village_id' => 'required',
+            'title' => "required|max:255",
+            'village_id' => 'required|numeric|min:1',
             'active' => "required|boolean",
         ];
 

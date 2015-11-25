@@ -179,8 +179,8 @@ class ProductController extends AdminController
         $rules = [
             'category_id' => 'required|exists:village__product_categories,id',
             'executor_id' => 'sometimes|exists:users,id',
-            'title' => "required|max:255|unique_with:village__products,village_id",
-            'village_id' => 'required',
+            'title' => "required|max:255",
+            'village_id' => 'required|numeric|min:1',
             'price' => 'required|numeric|min:1',
             'unit_title' => 'required|in:'.implode(',', config('village.product.unit.values')),
 //            'text' => 'required|max:255',

@@ -229,7 +229,6 @@ abstract class AdminController extends AdminBaseController
      */
     protected function configureDatagridFields(TableBuilder $builder)
     {
-        die('123');
         return $builder
             ->columns($this->configureDatagridColumns())
             ->parameters([
@@ -342,6 +341,11 @@ abstract class AdminController extends AdminBaseController
      */
     public function show(Model $model)
     {
+        $redirect = $this->checkPermissionDenied($model);
+        if ($redirect !== false) {
+            return $redirect;
+        }
+
         return view($this->getView('show'), $this->mergeViewData(compact('model')));
     }
 
@@ -485,7 +489,7 @@ abstract class AdminController extends AdminBaseController
     protected function checkPermissionDenied(Model $model)
     {
         if (method_exists($model, 'village') && !$this->getCurrentUser()->inRole('admin')) {
-            if ((int)$model->village->id !== (int)$this->getCurrentUser()->village->id) {
+            if (!$model->village || (int)$model->village->id !== (int)$this->getCurrentUser()->village->id) {
                 return redirect()->route($this->getRoute('index'));
             }
         }

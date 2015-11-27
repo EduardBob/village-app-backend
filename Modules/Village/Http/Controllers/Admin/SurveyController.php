@@ -1,8 +1,8 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Jenssegers\Date\Date;
+use Illuminate\Http\Request;
+use Modules\Village\Entities\BaseSurvey;
 use Modules\Village\Entities\Survey;
 use Modules\Village\Entities\SurveyVote;
 use Modules\Village\Repositories\SurveyRepository;
@@ -100,12 +100,17 @@ class SurveyController extends AdminController
         }
 
         $dataTable
+            ->addColumn('title', function (Survey $survey) {
+                if ($this->getCurrentUser()->hasAccess($this->getAccess('edit'))) {
+                    return '<a href="'.$this->route('edit', ['id' => $survey->id]).'">'.$survey->title.'</a>';
+                }
+                else {
+                    return $survey->title;
+                }
+            })
             ->addColumn('ends_at', function (Survey $survey) {
                 return localizeddate($survey->ends_at, 'short');
             })
-        ;
-
-        $dataTable
             ->addColumn('active', function (Survey $survey) {
                 if($survey->active) {
                     return '<span class="label label-success">'.trans('village::admin.table.active.yes').'</span>';
@@ -115,6 +120,24 @@ class SurveyController extends AdminController
                 }
             })
         ;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function preStore(Model $model, Request $request)
+    {
+        parent::preStore($model, $request);
+
+        if ($request->get('show_all')) {
+            $baseModel = new BaseSurvey();
+            $data = $model->toArray();
+            $data['active'] = 1;
+            $baseModel->fill($data)->save();
+        }
     }
 
     /**
@@ -130,6 +153,22 @@ class SurveyController extends AdminController
         view()->share('votesCount', SurveyVote::countVotesBySurvey($model));
 
         return $response;
+    }
+
+    /**
+     * @param int $baseId
+     *
+     * @return \BladeView|bool|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function baseCopy($baseId)
+    {
+        $model = BaseSurvey::find($baseId);
+
+        if (!$this->getCurrentUser()->inRole('admin') && !$model->active) {
+            return redirect()->route($this->getRoute('index'));
+        }
+
+        return view($this->getView('baseCopy'), $this->mergeViewData(compact('model')));
     }
 
     /**

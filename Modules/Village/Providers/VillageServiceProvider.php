@@ -211,6 +211,12 @@ class VillageServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
+            'Modules\Village\Repositories\BaseSurveyRepository',
+            function () {
+                return new \Modules\Village\Repositories\Eloquent\EloquentBaseSurveyRepository(new \Modules\Village\Entities\BaseSurvey());
+            }
+        );
+        $this->app->bind(
             'Modules\Village\Repositories\SurveyRepository',
             function () {
                 return new \Modules\Village\Repositories\Eloquent\EloquentSurveyRepository(new \Modules\Village\Entities\Survey());

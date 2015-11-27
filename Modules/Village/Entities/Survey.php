@@ -15,7 +15,12 @@ class Survey extends Model
 
     protected $dates = ['deleted_at', 'ends_at'];
 
-    protected $fillable = ['village_id', 'title', 'options', 'ends_at', 'active'];
+    protected $fillable = ['village_id', 'title', 'options', 'ends_at', 'active', 'base_id'];
+
+    public function base()
+    {
+        return $this->belongsTo('Modules\Village\Entities\BaseSurvey', 'base_id');
+    }
 
     public function village()
     {

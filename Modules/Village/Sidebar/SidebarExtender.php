@@ -220,27 +220,39 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                     $this->auth->hasAccess('village.surveys.index')
                 );
 
-                $item->item(trans('village::surveyvotes.title.module'), function (Item $item) {
-                    $item->icon('fa fa-list');
-                    $item->weight(5);
-                    if ($this->auth->hasAccess('village.surveyvotes.create')) {
-                        $item->append('admin.village.surveyvote.create');
+                $item->item(trans('village::basesurveys.title.module'), function (Item $item) {
+                    $item->icon('fa fa-cube');
+                    $item->weight(1);
+                    if ($this->auth->hasAccess('village.basesurveys.create')) {
+                        $item->append('admin.village.basesurvey.create');
                     }
-                    $item->route('admin.village.surveyvote.index');
+                    $item->route('admin.village.basesurvey.index');
                     $item->authorize(
-                        $this->auth->hasAccess('village.surveyvotes.index')
+                        $this->auth->hasAccess('village.basesurveys.index')
                     );
                 });
 
                 $item->item(trans('village::surveys.title.module'), function (Item $item) {
                     $item->icon('fa fa-cube');
-                    $item->weight(5);
+                    $item->weight(2);
                     if ($this->auth->hasAccess('village.surveys.create')) {
                         $item->append('admin.village.survey.create');
                     }
                     $item->route('admin.village.survey.index');
                     $item->authorize(
                         $this->auth->hasAccess('village.surveys.index')
+                    );
+                });
+
+                $item->item(trans('village::surveyvotes.title.module'), function (Item $item) {
+                    $item->icon('fa fa-list');
+                    $item->weight(3);
+                    if ($this->auth->hasAccess('village.surveyvotes.create')) {
+                        $item->append('admin.village.surveyvote.create');
+                    }
+                    $item->route('admin.village.surveyvote.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('village.surveyvotes.index')
                     );
                 });
             });

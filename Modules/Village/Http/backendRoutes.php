@@ -145,6 +145,20 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'index' => 'admin.village.serviceorderchange.index',
     ]]);
 
+    $router->bind('basesurveys', function ($id) {
+        return \Modules\Village\Entities\BaseSurvey::find($id);
+    });
+    $router->resource('basesurveys', 'BaseSurveyController', ['names' => [
+        'index' => 'admin.village.basesurvey.index',
+        'show' => 'admin.village.basesurvey.show',
+        'create' => 'admin.village.basesurvey.create',
+        'store' => 'admin.village.basesurvey.store',
+        'edit' => 'admin.village.basesurvey.edit',
+        'update' => 'admin.village.basesurvey.update',
+        'destroy' => 'admin.village.basesurvey.destroy',
+        'copy' => 'admin.village.basesurvey.copy',
+    ]]);
+
     $router->bind('surveys', function ($id) {
         return \Modules\Village\Entities\Survey::withTrashed()->find($id);
     });
@@ -156,6 +170,9 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'update' => 'admin.village.survey.update',
         'destroy' => 'admin.village.survey.destroy',
     ]]);
+    $router->group(['prefix' => 'surveys'], function (Router $router) {
+        $router->get('{id}/base-copy', ['uses' => 'SurveyController@baseCopy', 'as' => 'admin.village.survey.baseCopy']);
+    });
     $router->bind('surveyvotes', function ($id) {
         return app('Modules\Village\Repositories\SurveyVoteRepository')->find($id);
     });

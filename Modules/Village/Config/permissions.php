@@ -96,6 +96,15 @@ return [
     'village.serviceorderchanges' => [
         'index',
     ],
+    'village.basesurveys' => [
+        'index',
+        'show',
+        'create',
+        'store',
+        'edit',
+        'update',
+        'destroy',
+    ],
     'village.surveys' => [
         'index',
         'create',
@@ -103,6 +112,7 @@ return [
         'edit',
         'update',
         'destroy',
+        'baseCopy',
     ],
     'village.surveyvotes' => [
         'index',

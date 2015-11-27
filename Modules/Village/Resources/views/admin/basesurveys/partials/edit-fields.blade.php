@@ -1,5 +1,5 @@
 <?php
-if (isset($model)) $options = json_decode($model->options, true);
+ if (isset($model)) $options = json_decode($model->options, true);
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -11,25 +11,7 @@ if (isset($model)) $options = json_decode($model->options, true);
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1-1">
                     <div class="box-body">
-                        @if (isset($model) && $model instanceof \Modules\Village\Entities\BaseSurvey)
-                            {!! Form::hidden('base_id', Input::old('base_id', @$model->id)) !!}
-                        @endif
-
                         <div class="row">
-                            @if($currentUser && $currentUser->inRole('admin'))
-                            <div class="col-sm-4">
-                                <div class="form-group{{ $errors->has('village_id') ? ' has-error has-feedback' : '' }}">
-                                    {!! Form::label('village_id', trans('village::villages.form.village_id')) !!}
-                                    {!! Form::select(
-                                            'village_id', Input::old('id', (new Modules\Village\Entities\Village)->lists('name', 'id')),
-                                            Input::old('village_id', @$model->village_id),
-                                            ['class' => 'form-control', 'placeholder' => trans('village::villages.form.village.placeholder')]
-                                        )
-                                    !!}
-                                    {!! $errors->first('village_id', '<span class="help-block">:message</span>') !!}
-                                </div>
-                            </div>
-                            @endif
                             <div class="col-sm-4">
                                 <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                                     {!! Form::label('title', $admin->trans('table.title')) !!}
@@ -37,58 +19,14 @@ if (isset($model)) $options = json_decode($model->options, true);
                                     {!! $errors->first('title', '<span class="help-block">:message</span>') !!}
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="form-group{{ $errors->has('ends_at') ? ' has-error' : '' }}">
-                                    {!! Form::label('ends_at', $admin->trans('table.ends_at')) !!}
-                                    {!! Form::text('ends_at', Input::old('ends_at', Carbon\Carbon::parse(@$model->ends_at)->format('Y-m-d')), ['class' => 'js-date-field form-control']) !!}
-                                    {!! $errors->first('ends_at', '<span class="help-block">:message</span>') !!}
-                                </div>
-                            </div>
                             <div class="col-sm-12">
                                 <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
-                                    {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}
                                     {!! Form::label('active', $admin->trans('table.active')) !!}
+                                    {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}
                                     {!! $errors->first('active', '<span class="help-block">:message</span>') !!}
                                 </div>
                             </div>
-                            @if (!isset($model))
-                            <div class="col-sm-12">
-                                <div class="form-group{{ $errors->has('show_all') ? ' has-error' : '' }}">
-                                    {!! Form::checkbox('show_all', (int)Input::old('show_all', 0), (bool)Input::old('show_all', 0), ['class' => 'flat-blue']) !!}
-                                    {!! Form::label('show_all', $admin->trans('table.show_all')) !!}
-                                    {!! $errors->first('show_all', '<span class="help-block">:message</span>') !!}
-                                </div>
-                            </div>
-                            @endif
                         </div>
-                        @if(isset($model) && isset($votesCount))
-                        <div class="row">
-                            <div class="box box-default">
-                                <div class="box-header with-border">
-                                  <h3 class="box-title">Отданные голоса</h3>
-                                </div>
-                                <!-- /.box-body -->
-                                <div class="box-footer no-padding">
-                                    <ul class="nav nav-pills nav-stacked">
-                                        @if(isset($model->options))
-                                            @if(is_array($options))
-                                                @foreach($options as $key => $option)
-                                                    <li>
-                                                        <a href="#">{{ $option }}
-                                                            <span class="pull-right">
-                                                                @if(isset($votesCount[$key])){{ $votesCount[$key] }}@else 0 @endif
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                @endforeach
-                                            @endif
-                                        @endif
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- /.box -->
-                        </div>
-                        @endif
                     </div>
                 </div>
                 <div class="tab-pane" id="tab_2-2">

@@ -2,34 +2,22 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Modules\Media\Support\Traits\MediaRelation;
-use Modules\Village\Entities\Scope\ApiScope;
 use Modules\Village\Entities\Scope\VillageAdminScope;
 
-class Article extends Model
+class BaseArticle extends Model
 {
     use MediaRelation;
-    use ApiScope;
     use VillageAdminScope;
 
-    protected $table = 'village__articles';
+    protected $table = 'village__base__articles';
 
-    protected $fillable = ['village_id', 'title', 'text', 'active', 'base_id'];
-
-    public function base()
-    {
-        return $this->belongsTo('Modules\Village\Entities\BaseSurvey', 'base_id');
-    }
-
-    public function village()
-    {
-        return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
-    }
+    protected $fillable = ['title', 'text', 'active'];
 
     protected static function boot()
     {
         parent::boot();
 
-        static::saving(function(Article $article) {
+        static::saving(function(BaseArticle $article) {
             $article->short = static::generateShort($article->text);
         });
     }

@@ -18,6 +18,15 @@ return [
         'destroy',
         'getChoicesByVillage'
     ],
+    'village.basearticles' => [
+        'index',
+        'show',
+        'create',
+        'store',
+        'edit',
+        'update',
+        'destroy',
+    ],
     'village.articles' => [
         'index',
         'create',
@@ -25,6 +34,7 @@ return [
         'edit',
         'update',
         'destroy',
+        'baseCopy'
     ],
     'village.margins' => [
         'index',

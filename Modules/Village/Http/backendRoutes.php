@@ -31,6 +31,20 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         $router->get('get-choices-by-village/{byVillageId}/{selectedBuildingId}', ['uses' => 'BuildingController@getChoicesByVillage', 'as' => 'admin.village.building.get_choices_by_village']);
     });
 
+    $router->bind('basearticles', function ($id) {
+        return \Modules\Village\Entities\BaseArticle::find($id);
+    });
+    $router->resource('basearticles', 'BaseArticleController', ['names' => [
+        'index' => 'admin.village.basearticle.index',
+        'show' => 'admin.village.basearticle.show',
+        'create' => 'admin.village.basearticle.create',
+        'store' => 'admin.village.basearticle.store',
+        'edit' => 'admin.village.basearticle.edit',
+        'update' => 'admin.village.basearticle.update',
+        'destroy' => 'admin.village.basearticle.destroy',
+        'copy' => 'admin.village.basearticle.copy',
+    ]]);
+
     $router->bind('articles', function ($id) {
         return app('Modules\Village\Repositories\ArticleRepository')->find($id);
     });
@@ -42,6 +56,10 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'update' => 'admin.village.article.update',
         'destroy' => 'admin.village.article.destroy',
     ]]);
+    $router->group(['prefix' => 'articles'], function (Router $router) {
+        $router->get('{id}/base-copy', ['uses' => 'ArticleController@baseCopy', 'as' => 'admin.village.article.baseCopy']);
+    });
+
     $router->bind('margins', function ($id) {
         return app('Modules\Village\Repositories\MarginRepository')->find($id);
     });

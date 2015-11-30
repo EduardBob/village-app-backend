@@ -23,7 +23,7 @@ class AddBaseSurveysTable extends Migration
         });
 
         Schema::table('village__surveys', function (Blueprint $table) {
-            $table->integer('base_id')->unsigned()->nullable()->unique();
+            $table->integer('base_id')->unsigned()->nullable();
             $table->foreign('base_id')->references('id')->on('village__base__surveys')->onDelete('SET NULL');
             DB::statement("ALTER TABLE `village__surveys` CHANGE `active` `active` TINYINT(1) NOT NULL DEFAULT '0';");
         });

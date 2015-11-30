@@ -1,6 +1,9 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Modules\Village\Entities\Article;
+use Modules\Village\Entities\BaseArticle;
 use Modules\Village\Repositories\ArticleRepository;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -111,6 +114,40 @@ class ArticleController extends AdminController
                 }
             })
         ;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function preStore(Model $model, Request $request)
+    {
+        parent::preStore($model, $request);
+
+        if ($request->get('show_all')) {
+            $baseModel = new BaseArticle();
+            $data = $model->toArray();
+            $data['active'] = 1;
+            $baseModel->fill($data)->save();
+        }
+    }
+
+    /**
+     * @param int $baseId
+     *
+     * @return \BladeView|bool|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function baseCopy($baseId)
+    {
+        $model = BaseArticle::find($baseId);
+
+        if (!$this->getCurrentUser()->inRole('admin') && !$model->active) {
+            return redirect()->route($this->getRoute('index'));
+        }
+
+        return view($this->getView('baseCopy'), $this->mergeViewData(compact('model')));
     }
 
     /**

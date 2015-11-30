@@ -204,13 +204,34 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
             $group->item(trans('village::articles.title.module'), function (Item $item) {
                 $item->icon('fa fa-money');
                 $item->weight(5);
-                if ($this->auth->hasAccess('village.articles.create')) {
-                    $item->append('admin.village.article.create');
-                }
-                $item->route('admin.village.article.index');
+
                 $item->authorize(
                     $this->auth->hasAccess('village.articles.index')
                 );
+
+                $item->item(trans('village::basearticles.title.module'), function (Item $item) {
+                    $item->icon('fa fa-cube');
+                    $item->weight(1);
+                    if ($this->auth->hasAccess('village.basearticles.create')) {
+                        $item->append('admin.village.basearticle.create');
+                    }
+                    $item->route('admin.village.basearticle.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('village.basearticles.index')
+                    );
+                });
+
+                $item->item(trans('village::articles.title.module'), function (Item $item) {
+                    $item->icon('fa fa-cube');
+                    $item->weight(2);
+                    if ($this->auth->hasAccess('village.articles.create')) {
+                        $item->append('admin.village.article.create');
+                    }
+                    $item->route('admin.village.article.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('village.articles.index')
+                    );
+                });
             });
 
             $group->item(trans('village::surveys.title.module'), function (Item $item) {

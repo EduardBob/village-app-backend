@@ -64,9 +64,22 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                     $this->auth->hasAccess('village.products.index')
                 );
 
+                $item->item(trans('village::baseproducts.title.module'), function (Item $item) {
+                    $item->icon('fa fa-cube');
+                    $item->weight(1);
+                    if ($this->auth->hasAccess('village.baseproducts.create')) {
+                        $item->append('admin.village.baseproduct.create');
+                    }
+                    $item->route('admin.village.baseproduct.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('village.baseproducts.index')
+                    );
+                });
+
                 $item->item(trans('village::products.title.module'), function (Item $item) {
                     $item->icon('fa fa-cube');
-                    $item->weight(5);
+                    $item->weight(2);
+
                     if ($this->auth->hasAccess('village.products.create')) {
                         $item->append('admin.village.product.create');
                     }
@@ -78,7 +91,7 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
 
                 $item->item(trans('village::productcategories.title.module'), function (Item $item) {
                     $item->icon('fa fa-list');
-                    $item->weight(5);
+                    $item->weight(3);
                     if ($this->auth->hasAccess('village.productcategories.create')) {
                         $item->append('admin.village.productcategory.create');
                     }

@@ -32,7 +32,7 @@ class ProductOrder extends Model
         parent::boot();
 
         static::creating(function(ProductOrder $productOrder) {
-            $productOrder->village()->associate($productOrder->product->category->village);
+            $productOrder->village()->associate($productOrder->product->village);
             if ($productOrder->product->price == 0) {
                 $productOrder->price = $productOrder->product->price;
                 $productOrder->payment_status = 'paid';

@@ -21,9 +21,12 @@ trait ApiScope
             throw new AccessDeniedHttpException();
         }
 
-        return $query
-            ->where($query->getModel()->table.'.active', 1)
-            ->where($query->getModel()->table.'.village_id', $user->village->id)
-        ;
+        $query->where($query->getModel()->table.'.active', 1);
+
+        if (method_exists($query->getModel(), 'village')) {
+            $query->where($query->getModel()->table.'.village_id', $user->village->id);
+        }
+
+        return $query;
     }
 }

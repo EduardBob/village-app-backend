@@ -71,6 +71,20 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'update' => 'admin.village.margin.update',
         'destroy' => 'admin.village.margin.destroy',
     ]]);
+
+    $router->bind('baseproducts', function ($id) {
+        return \Modules\Village\Entities\BaseProduct::find($id);
+    });
+    $router->resource('baseproducts', 'BaseProductController', ['names' => [
+        'index' => 'admin.village.baseproduct.index',
+        'show' => 'admin.village.baseproduct.show',
+        'create' => 'admin.village.baseproduct.create',
+        'store' => 'admin.village.baseproduct.store',
+        'edit' => 'admin.village.baseproduct.edit',
+        'update' => 'admin.village.baseproduct.update',
+        'destroy' => 'admin.village.baseproduct.destroy',
+        'copy' => 'admin.village.baseproduct.copy',
+    ]]);
     $router->bind('products', function ($id) {
         return \Modules\Village\Entities\Product::withTrashed()->find($id);
     });
@@ -82,6 +96,10 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'update' => 'admin.village.product.update',
         'destroy' => 'admin.village.product.destroy',
     ]]);
+    $router->group(['prefix' => 'products'], function (Router $router) {
+        $router->get('{id}/base-copy', ['uses' => 'ProductController@baseCopy', 'as' => 'admin.village.product.baseCopy']);
+    });
+
     $router->bind('productcategories', function ($id) {
         return \Modules\Village\Entities\ProductCategory::withTrashed()->find($id);
     });

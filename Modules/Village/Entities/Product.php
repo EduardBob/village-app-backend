@@ -19,7 +19,12 @@ class Product extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['village_id', 'category_id', 'executor_id', 'title', 'price', 'unit_title', 'active', 'comment_label', 'text'];
+    protected $fillable = ['base_id', 'village_id', 'category_id', 'executor_id', 'title', 'price', 'unit_title', 'active', 'comment_label', 'text'];
+
+    public function base()
+    {
+        return $this->belongsTo('Modules\Village\Entities\BaseSurvey', 'base_id');
+    }
 
     public function village()
     {
@@ -29,11 +34,6 @@ class Product extends Model
     public function category()
     {
     	return $this->belongsTo('Modules\Village\Entities\ProductCategory', 'category_id')->withTrashed();
-    }
-
-    public function orders()
-    {
-    	return $this->hasMany('Modules\Village\Entities\ProductOrder', 'product_id');
     }
 
     public function executor()
@@ -46,7 +46,7 @@ class Product extends Model
         parent::boot();
 
         static::creating(function(Product $product) {
-            $product->village()->associate($product->category->village);
+            $product->village()->associate($product->village_id);
         });
 
         static::saving(function(Product $product) {

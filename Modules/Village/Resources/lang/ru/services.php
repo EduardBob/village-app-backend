@@ -17,7 +17,7 @@ return [
         'title' => 'Название',
         'price' => 'Цена',
         'text' => 'Описание',
-        'comment_label' => 'Метка заметки',
+        'comment_label' => 'Текст заметки',
         'order_button_label' => 'Метка кнопки заказа',
         'active' => 'Доступен',
         'created_at' => 'Создан',

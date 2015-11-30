@@ -33,7 +33,6 @@ class ProductCategoryController extends AdminController
     {
         return [
             'village__product_categories.id',
-            'village__product_categories.village_id',
             'village__product_categories.title',
             'village__product_categories.active',
         ];
@@ -44,15 +43,6 @@ class ProductCategoryController extends AdminController
      */
     protected function configureQuery(QueryBuilder $query)
     {
-        $query
-            ->join('village__villages', 'village__product_categories.village_id', '=', 'village__villages.id')
-            ->where('village__villages.deleted_at', null)
-            ->with(['village'])
-        ;
-
-        if (!$this->getCurrentUser()->inRole('admin')) {
-            $query->where('village_id', $this->getCurrentUser()->village->id);
-        }
     }
 
     /**
@@ -62,14 +52,6 @@ class ProductCategoryController extends AdminController
     {
         $builder
             ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
-        ;
-
-        if ($this->getCurrentUser()->inRole('admin')) {
-            $builder
-                ->addColumn(['data' => 'village_name', 'name' => 'village__villages.name', 'title' => trans('village::villages.title.model')])
-            ;
-        }
-        $builder
             ->addColumn(['data' => 'title', 'name' => 'village__product_categories.title', 'title' => $this->trans('table.title')])
             ->addColumn(['data' => 'active', 'name' => 'village__product_categories.active', 'title' => $this->trans('table.active')])
         ;
@@ -80,19 +62,6 @@ class ProductCategoryController extends AdminController
      */
     protected function configureDatagridValues(EloquentEngine $dataTable)
     {
-        if ($this->getCurrentUser()->inRole('admin')) {
-            $dataTable
-                ->editColumn('village_name', function (ProductCategory $productCategory) {
-                    if ($this->getCurrentUser()->hasAccess('village.villages.edit')) {
-                        return '<a href="'.route('admin.village.village.edit', ['id' => $productCategory->village->id]).'">'.$productCategory->village->name.'</a>';
-                    }
-                    else {
-                        return $productCategory->village->name;
-                    }
-                })
-            ;
-        }
-
         $dataTable
             ->addColumn('active', function (ProductCategory $productCategory) {
                 if($productCategory->active) {
@@ -113,41 +82,11 @@ class ProductCategoryController extends AdminController
      */
     public function validate(array $data, ProductCategory $productCategory = null)
     {
-        if (!$this->getCurrentUser()->inRole('admin')) {
-            $data['village_id'] = $this->getCurrentUser()->village_id;
-        }
-
         $rules = [
             'title' => "required|max:255",
-            'village_id' => 'required|numeric|min:1',
-            'active' => "required|boolean",
+            'active' => "boolean",
         ];
 
         return Validator::make($data, $rules);
-    }
-
-    public function getChoicesByVillage($villageId, $selectedId = null)
-    {
-        $attributes = [];
-        if ($this->getCurrentUser()->inRole('admin')) {
-            $attributes['village_id'] = $villageId;
-        }
-        else {
-            $attributes['village_id'] = $this->getCurrentUser()->village_id;
-        }
-
-        $choices = $this->getRepository()->lists($attributes, 'title', 'id', ['title' => 'ASC']);
-
-        if (\Request::ajax()) {
-            $html = '<option value="">'.$this->trans('form.category.placeholder').'</option>';
-            foreach($choices as $id => $title) {
-                $selected = $selectedId == $id ? 'selected="selected"' : '';
-                $html .= '<option value="'.$id.'" '.$selected.'>'.$title.'</option>';
-            }
-
-            return $html;
-        }
-
-        return $choices;
     }
 }

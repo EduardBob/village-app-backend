@@ -44,6 +44,15 @@ return [
         'update',
         'destroy',
     ],
+    'village.baseproducts' => [
+        'index',
+        'show',
+        'create',
+        'store',
+        'edit',
+        'update',
+        'destroy',
+    ],
     'village.products' => [
         'index',
         'create',
@@ -51,6 +60,7 @@ return [
         'edit',
         'update',
         'destroy',
+        'baseCopy'
     ],
     'village.productcategories' => [
         'index',
@@ -59,7 +69,6 @@ return [
         'edit',
         'update',
         'destroy',
-        'getChoicesByVillage',
     ],
     'village.productorders' => [
         'index',

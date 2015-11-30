@@ -357,14 +357,20 @@ abstract class AdminController extends AdminBaseController
      */
     public function store(Request $request)
     {
-        $validator = $this->validate($request->all());
+        $data = $request->all();
+        $model = new $this->modelClass();
+
+        if (!$this->getCurrentUser()->inRole('admin') && method_exists($model, 'village')) {
+            $data['village_id'] = $this->getCurrentUser()->village_id;
+        }
+
+        $validator = $this->validate($data);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        $model = new $this->modelClass();
-        $model->fill($request->all());
+        $model->fill($data);
         $this->preStore($model, $request);
         $model->save();
 

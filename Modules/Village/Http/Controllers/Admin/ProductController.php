@@ -1,7 +1,10 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Modules\Media\Entities\File;
 use Modules\User\Repositories\RoleRepository;
+use Modules\Village\Entities\BaseProduct;
 use Modules\Village\Entities\Product;
 use Modules\Village\Entities\User;
 use Modules\Village\Repositories\ProductCategoryRepository;
@@ -162,6 +165,41 @@ class ProductController extends AdminController
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function preStore(Model $model, Request $request)
+    {
+        parent::preStore($model, $request);
+
+        if ($request->get('show_all')) {
+            $baseModel = new BaseProduct();
+            $data = $model->toArray();
+            $data['active'] = 1;
+            $baseModel->fill($data);
+            $baseModel->save();
+        }
+    }
+
+    /**
+     * @param int $baseId
+     *
+     * @return \BladeView|bool|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function baseCopy($baseId)
+    {
+        $model = BaseProduct::find($baseId);
+
+        if (!$this->getCurrentUser()->inRole('admin') && !$model->active) {
+            return redirect()->route($this->getRoute('index'));
+        }
+
+        return view($this->getView('baseCopy'), $this->mergeViewData(compact('model')));
+    }
+
+    /**
      * @param array   $data
      * @param Product $product
      *
@@ -169,13 +207,6 @@ class ProductController extends AdminController
      */
     public function validate(array $data, Product $product = null)
     {
-        if ($this->getCurrentUser()->inRole('admin')) {
-            $data['village_id'] = ProductCategory::find($data['category_id'])->village_id;
-        }
-        elseif (!$this->getCurrentUser()->inRole('admin')) {
-            $data['village_id'] = $this->getCurrentUser()->village_id;
-        }
-
         $rules = [
             'category_id' => 'required|exists:village__product_categories,id',
             'executor_id' => 'sometimes|exists:users,id',
@@ -199,20 +230,17 @@ class ProductController extends AdminController
         $attributes = [];
         if (!$this->getCurrentUser()->inRole('admin')){
             if ($this->getCurrentUser()->village) {
-                $attributes = ['village_id' => $this->getCurrentUser()->village->id];
+                $attributes = ['active' => 1];
             }
-
         }
 
         return $this->categoryRepository->lists($attributes, 'title', 'id', ['order' => 'desc']);
     }
 
     /**
-     * @param Product $product
-     *
      * @return \Illuminate\Support\Collection
      */
-    public function getExecutors(Product $product)
+    public function getExecutors()
     {
         $role = $this->roleRepository->findBySlug('executor');
         $userIds = [];

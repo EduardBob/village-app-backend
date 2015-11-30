@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Query\Builder;
 use Modules\Core\Contracts\Authentication;
-use Modules\Core\Permissions\PermissionManager;
+use Modules\User\Permissions\PermissionManager;
 use Modules\User\Http\Controllers\Admin\BaseUserModuleController;
 use Modules\Village\Entities\User;
 use Modules\Village\Http\Requests\CreateUserRequest;
@@ -54,9 +54,7 @@ class UserController extends BaseUserModuleController
     public function index()
     {
         /** @var Builder $query */
-        $query = User::villageAdmin();
-        $users = $query
-            ->with(['activation'])
+        $users = User::with(['activation'])
             ->get();
 
         $currentUser = $this->auth->check();

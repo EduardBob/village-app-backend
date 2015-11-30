@@ -17,12 +17,7 @@ class ProductCategory extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['village_id', 'title', 'order', 'active'];
-
-    public function village()
-    {
-        return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
-    }
+    protected $fillable = ['title', 'order', 'active'];
 
     public function products()
     {

@@ -440,7 +440,7 @@ abstract class AdminController extends AdminBaseController
             return back()->withErrors($validator)->withInput();
         }
 
-        $model = $this->getRepository()->update($model, $request->all());
+        $model->fill($request->all());
         $this->preUpdate($model, $request);
         $model->save();
 

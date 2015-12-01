@@ -1,6 +1,9 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Modules\User\Repositories\RoleRepository;
+use Modules\Village\Entities\BaseService;
 use Modules\Village\Entities\Service;
 use Modules\Village\Entities\User;
 use Modules\Village\Repositories\ServiceCategoryRepository;
@@ -52,6 +55,7 @@ class ServiceController extends AdminController
     {
         return [
             'village__services.id',
+            'village__services.base_id',
             'village__services.village_id',
             'village__services.category_id',
             'village__services.executor_id',
@@ -67,12 +71,13 @@ class ServiceController extends AdminController
     protected function configureQuery(QueryBuilder $query)
     {
         $query
+            ->leftJoin('village__base__services', 'village__services.base_id', '=', 'village__base__services.id')
             ->leftJoin('village__villages', 'village__services.village_id', '=', 'village__villages.id')
             ->leftJoin('village__service_categories', 'village__services.category_id', '=', 'village__service_categories.id')
             ->leftJoin('users', 'village__services.executor_id', '=', 'users.id')
             ->where('village__service_categories.deleted_at', null)
             ->where('village__villages.deleted_at', null)
-            ->with(['village', 'category', 'executor'])
+            ->with(['base', 'village', 'category', 'executor'])
         ;
 
         if (!$this->getCurrentUser()->inRole('admin')) {
@@ -156,6 +161,62 @@ class ServiceController extends AdminController
     }
 
     /**
+     * @inheritdoc
+     */
+    public function preStore(Model $model, Request $request)
+    {
+        parent::preStore($model, $request);
+
+        $baseModel = BaseService::find($request->get('base_id'));
+        if ($baseModel) {
+            $model->base()->associate($baseModel);
+
+            $copiedFields = Service::getRewriteFields();
+            foreach ($copiedFields as $copiedField) {
+                if ($baseModel->$copiedField == $model->$copiedField) {
+                    $model->$copiedField = null;
+                }
+            }
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function preUpdate(Model $model, Request $request)
+    {
+        parent::preUpdate($model, $request);
+
+        $baseModel = BaseService::find($model->base_id);
+        if ($baseModel) {
+            $model->base()->associate($baseModel);
+
+            $copiedFields = Service::getRewriteFields();
+            foreach ($copiedFields as $copiedField) {
+                if ($baseModel->$copiedField == $model->$copiedField) {
+                    $model->$copiedField = null;
+                }
+            }
+        }
+    }
+
+    /**
+     * @param int $baseId
+     *
+     * @return \BladeView|bool|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function baseCopy($baseId)
+    {
+        $model = BaseService::find($baseId);
+
+        if (!$this->getCurrentUser()->inRole('admin') && !$model->active) {
+            return redirect()->route($this->getRoute('index'));
+        }
+
+        return view($this->getView('baseCopy'), $this->mergeViewData(compact('model')));
+    }
+
+    /**
      * @param array   $data
      * @param Service $service
      *
@@ -163,19 +224,18 @@ class ServiceController extends AdminController
      */
     public function validate(array $data, Service $service = null)
     {
-        if ($this->getCurrentUser()->inRole('admin')) {
-            $data['village_id'] = ServiceCategory::find($data['category_id'])->village_id;
+        if (!$this->getCurrentUser()->inRole('admin')) {
+            $data['village_id'] = $this->getCurrentUser()->village->id;
         }
-        elseif (!$this->getCurrentUser()->inRole('admin')) {
-            $data['village_id'] = $this->getCurrentUser()->village_id;
-        }
+        $id = $service ? $service->id : 'null';
+        $baseId = isset($data['base_id']) ? $data['base_id'] : $service->base->id;
 
         $rules = [
             'category_id' => 'required|exists:village__service_categories,id',
             'title' => "required|max:255",
-            'village_id' => 'required|numeric|min:1',
+            'village_id' => 'required|numeric|min:1|unique:village__services,village_id,'.$id.',id,base_id,'.$baseId,
             'price' => 'required|numeric|min:0', // ноль разрешён http://redmine.fruitware.ru/issues/26453
-//            'text' => 'required|max:255',
+            'text' => 'required|max:255',
             'comment_label' => 'required|max:50',
             'order_button_label' => 'required|max:50',
         ];
@@ -194,20 +254,16 @@ class ServiceController extends AdminController
     {
         $attributes = [];
         if (!$this->getCurrentUser()->inRole('admin')){
-            if ($this->getCurrentUser()->village) {
-                $attributes = ['village_id' => $this->getCurrentUser()->village->id];
-            }
+            $attributes = ['active' => 1];
         }
 
         return $this->categoryRepository->lists($attributes, 'title', 'id', ['order' => 'desc']);
     }
 
     /**
-     * @param Service $service
-     *
      * @return \Illuminate\Support\Collection
      */
-    public function getExecutors(Service $service)
+    public function getExecutors()
     {
         $role = $this->roleRepository->findBySlug('executor');
         $userIds = [];

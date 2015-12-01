@@ -205,7 +205,7 @@ class ProductOrderController extends AdminController
                 return $this->trans('form.unit_title.values.'.$productOrder->unit_title);
             })
             ->addColumn('perform_at', function (ProductOrder $productOrder) {
-                return localizeddate($productOrder->perform_at);
+                return $productOrder->perform_at ? localizeddate($productOrder->perform_at) : null;
             })
             ->addColumn('created_at', function (ProductOrder $productOrder) {
                 return localizeddate($productOrder->created_at);
@@ -251,7 +251,7 @@ class ProductOrderController extends AdminController
         return Validator::make($data, [
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:village__products,id',
-            'perform_at' => 'required|date|date_format:'.config('village.date.format'),
+            'perform_at' => 'sometimes|date|date_format:'.config('village.date.format'),
             'payment_type' => 'required|in:'.implode(',', config('village.order.payment.type.values')),
             'payment_status' => 'required|in:'.implode(',', config('village.order.payment.status.values')),
             'status' => 'required|in:'.implode(',', config('village.order.statuses')),

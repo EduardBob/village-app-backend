@@ -58,7 +58,7 @@ class ProductOrderController extends ApiController
     static function validate(array $data)
     {
         return Validator::make($data, [
-            'perform_at' => 'required|date|date_format:'.config('village.date.format'),
+            'sometimes' => 'required|date|date_format:'.config('village.date.format'),
             'payment_type' => 'required|in:'.implode(',', config('village.order.payment.type.values')),
             'status' => 'required|in:'.implode(',', config('village.order.statuses')),
 //            'comment' => 'sometimes|required|string',

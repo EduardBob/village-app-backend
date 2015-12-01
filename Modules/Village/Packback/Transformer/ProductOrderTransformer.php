@@ -33,14 +33,15 @@ class ProductOrderTransformer extends TransformerAbstract
         return [
             'id' =>  $productOrder->id,
             'created_at' => $productOrder->created_at->format('Y-m-d H:i:s'),
+            'perform_at' => $productOrder->perform_at ? $productOrder->perform_at->format(config('village.date.format')) : null,
             'price' => $productOrder->price,
-            'quantity' => $productOrder->quantity,
             'unit_title' => $productOrder->unit_title,
+            'quantity' => $productOrder->quantity,
+            'comment' => $productOrder->comment,
+            'status' => $productOrder->status,
+            'decline_reason' => $productOrder->decline_reason,
             'payment_type' => $productOrder->payment_type,
             'payment_status' => $productOrder->payment_status,
-            'status' => $productOrder->status,
-            'comment' => $productOrder->comment,
-            'decline_reason' => $productOrder->decline_reason,
         ];
     }
 

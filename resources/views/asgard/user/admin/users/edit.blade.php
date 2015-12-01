@@ -104,25 +104,25 @@
                                 {!! Form::hidden('building_id', $user->building_id, ['id' => 'building_id']) !!}
                             @endif
                         </div>
-                        {{--<div class="row">--}}
-                            {{--<div class="col-md-3">--}}
-                                {{--<div class="checkbox{{ $errors->has('activated') ? ' has-error' : '' }}">--}}
-                                    {{--<input type="hidden" value="{{ $user->id === $currentUser->id ? '1' : '0' }}" name="activated"/>--}}
-                                    {{--{{ $oldValue = (bool) $user->isActivated() ? 'checked' : '' }}--}}
-                                    {{--<label for="activated">--}}
-                                        {{--<input id="activated"--}}
-                                               {{--name="activated"--}}
-                                               {{--type="checkbox"--}}
-                                               {{--class="flat-blue"--}}
-                                               {{--{{ $user->id === $currentUser->id ? 'disabled' : '' }}--}}
-                                               {{--{{ Input::old('activated', $oldValue) }}--}}
-                                               {{--value="1" />--}}
-                                        {{--{{ trans('user::users.form.status') }}--}}
-                                        {{--{!! $errors->first('activated', '<span class="help-block">:message</span>') !!}--}}
-                                    {{--</label>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="checkbox{{ $errors->has('activated') ? ' has-error' : '' }}">
+                                    <input type="hidden" value="{{ $user->id === $currentUser->id ? '1' : '0' }}" name="activated"/>
+                                    <?php $oldValue = (bool) $user->isActivated() ? 'checked' : ''; ?>
+                                    <label for="activated">
+                                        <input id="activated"
+                                               name="activated"
+                                               type="checkbox"
+                                               class="flat-blue"
+                                               {{ $user->id === $currentUser->id ? 'disabled' : '' }}
+                                               {{ Input::old('activated', $oldValue) }}
+                                               value="1" />
+                                        {{ trans('user::users.form.status') }}
+                                        {!! $errors->first('activated', '<span class="help-block">:message</span>') !!}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 @if($currentUser->hasAccess('user.users.update'))

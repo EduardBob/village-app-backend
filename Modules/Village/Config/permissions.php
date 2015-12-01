@@ -84,6 +84,15 @@ return [
     'village.productorderchanges' => [
         'index',
     ],
+    'village.baseservices' => [
+        'index',
+        'show',
+        'create',
+        'store',
+        'edit',
+        'update',
+        'destroy',
+    ],
     'village.services' => [
         'index',
         'create',
@@ -91,6 +100,7 @@ return [
         'edit',
         'update',
         'destroy',
+        'baseCopy',
     ],
     'village.servicecategories' => [
         'index',
@@ -99,7 +109,6 @@ return [
         'edit',
         'update',
         'destroy',
-        'getChoicesByVillage',
     ],
     'village.serviceorders' => [
         'index',

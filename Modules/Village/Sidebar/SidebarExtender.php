@@ -109,12 +109,24 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                     $this->auth->hasAccess('village.services.index')
                 );
 
+                $item->item(trans('village::baseservices.title.module'), function (Item $item) {
+                    $item->icon('fa fa-cube');
+                    $item->weight(1);
+                    if ($this->auth->hasAccess('village.baseservices.create')) {
+                        $item->append('admin.village.baseservice.create');
+                    }
+                    $item->route('admin.village.baseservice.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('village.baseservices.index')
+                    );
+                });
+
                 $item->item(trans('village::services.title.module'), function(Item $item) {
                     $item->icon('fa fa-cube');
-                    $item->weight(5);
-                    if ($this->auth->hasAccess('village.services.create')) {
-                        $item->append('admin.village.service.create');
-                    }
+                    $item->weight(2);
+//                    if ($this->auth->hasAccess('village.services.create')) {
+//                        $item->append('admin.village.service.create');
+//                    }
                     $item->route('admin.village.service.index');
                     $item->authorize(
                         $this->auth->hasAccess('village.services.index')
@@ -123,7 +135,7 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
 
                 $item->item(trans('village::servicecategories.title.module'), function (Item $item) {
                     $item->icon('fa fa-list');
-                    $item->weight(5);
+                    $item->weight(3);
                     if ($this->auth->hasAccess('village.servicecategories.create')) {
                         $item->append('admin.village.servicecategory.create');
                     }
@@ -158,7 +170,6 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                         }
                     });
                 });
-
                 $item->item(trans('village::serviceorders.title.module'), function (Item $item) {
                     $item->icon('fa fa-shopping-cart');
 //                    if ($this->auth->hasAccess('village.serviceorders.create')) {

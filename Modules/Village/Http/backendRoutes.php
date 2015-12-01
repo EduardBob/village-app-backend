@@ -135,6 +135,20 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'index' => 'admin.village.productorderchange.index',
     ]]);
 
+    $router->bind('baseservices', function ($id) {
+        return \Modules\Village\Entities\BaseService::find($id);
+    });
+    $router->resource('baseservices', 'BaseServiceController', ['names' => [
+        'index' => 'admin.village.baseservice.index',
+        'show' => 'admin.village.baseservice.show',
+        'create' => 'admin.village.baseservice.create',
+        'store' => 'admin.village.baseservice.store',
+        'edit' => 'admin.village.baseservice.edit',
+        'update' => 'admin.village.baseservice.update',
+        'destroy' => 'admin.village.baseservice.destroy',
+        'copy' => 'admin.village.baseservice.copy',
+    ]]);
+
     $router->bind('services', function ($id) {
         return \Modules\Village\Entities\Service::withTrashed()->find($id);
     });
@@ -146,6 +160,10 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'update' => 'admin.village.service.update',
         'destroy' => 'admin.village.service.destroy',
     ]]);
+    $router->group(['prefix' => 'services'], function (Router $router) {
+        $router->get('{id}/base-copy', ['uses' => 'ServiceController@baseCopy', 'as' => 'admin.village.service.baseCopy']);
+    });
+
     $router->bind('servicecategories', function ($id) {
         return \Modules\Village\Entities\ServiceCategory::withTrashed()->find($id);
     });

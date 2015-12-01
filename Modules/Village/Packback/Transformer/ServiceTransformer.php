@@ -36,6 +36,7 @@ class ServiceTransformer extends BaseTransformer
             'price' => Margin::getFinalPrice($service->price),
             'comment_label' => $service->comment_label,
             'order_button_label' => $service->order_button_label,
+            'show_perform_at' => $service->show_perform_at,
             'text' => $service->text,
             'image' => $this->getImage($service->files()->first()),
         ];

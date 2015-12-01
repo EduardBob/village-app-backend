@@ -161,7 +161,7 @@ return [
 		\EllipseSynergie\ApiResponse\Laravel\ResponseServiceProvider::class,
 		\yajra\Datatables\DatatablesServiceProvider::class,
 		\Jenssegers\Date\DateServiceProvider::class,
-		\Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider::class,
+//		\Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider::class,
 	],
 
 	/*

@@ -16,17 +16,18 @@ class AllowPermissions implements PermissionsInterface
     {
         $prepared = [];
 
+        // права группы
         if (! empty($this->secondaryPermissions)) {
             foreach ($this->secondaryPermissions as $permissions) {
                 $this->preparePermissions($prepared, $permissions);
             }
         }
 
-        if (! empty($this->permissions)) {
-            $this->preparePermissions($prepared, $this->permissions);
-        }
+        // игнор permissions конкретного пользователя
+//        if (! empty($this->permissions)) {
+//            $this->preparePermissions($prepared, $this->permissions);
+//        }
 
-//        var_dump($prepared);die;
         return $prepared;
     }
 

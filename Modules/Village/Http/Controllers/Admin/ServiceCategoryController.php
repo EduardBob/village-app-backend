@@ -33,7 +33,6 @@ class ServiceCategoryController extends AdminController
     {
         return [
             'village__service_categories.id',
-            'village__service_categories.village_id',
             'village__service_categories.title',
             'village__service_categories.active',
         ];
@@ -45,13 +44,11 @@ class ServiceCategoryController extends AdminController
     protected function configureQuery(QueryBuilder $query)
     {
         $query
-            ->join('village__villages', 'village__service_categories.village_id', '=', 'village__villages.id')
-            ->where('village__villages.deleted_at', null)
-            ->with(['village'])
+            ->where('village__service_categories.deleted_at', null)
         ;
 
         if (!$this->getCurrentUser()->inRole('admin')) {
-            $query->where('village__service_categories.village_id', $this->getCurrentUser()->village->id);
+            $query->where('village__service_categories.active', 1);
         }
     }
 
@@ -62,17 +59,14 @@ class ServiceCategoryController extends AdminController
     {
         $builder
             ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+            ->addColumn(['data' => 'title', 'name' => 'village__service_categories.title', 'title' => $this->trans('table.title')])
         ;
 
         if ($this->getCurrentUser()->inRole('admin')) {
             $builder
-                ->addColumn(['data' => 'village_name', 'name' => 'village__villages.name', 'title' => trans('village::villages.title.model')])
+                ->addColumn(['data' => 'active', 'name' => 'village__service_categories.active', 'title' => $this->trans('table.active')])
             ;
         }
-        $builder
-            ->addColumn(['data' => 'title', 'name' => 'village__service_categories.title', 'title' => $this->trans('table.title')])
-            ->addColumn(['data' => 'active', 'name' => 'village__service_categories.active', 'title' => $this->trans('table.active')])
-        ;
     }
 
     /**
@@ -82,27 +76,16 @@ class ServiceCategoryController extends AdminController
     {
         if ($this->getCurrentUser()->inRole('admin')) {
             $dataTable
-                ->editColumn('village_name', function (ServiceCategory $serviceCategory) {
-                    if ($this->getCurrentUser()->hasAccess('village.villages.edit')) {
-                        return '<a href="'.route('admin.village.village.edit', ['id' => $serviceCategory->village->id]).'">'.$serviceCategory->village->name.'</a>';
+                ->addColumn('active', function (ServiceCategory $serviceCategory) {
+                    if($serviceCategory->active) {
+                        return '<span class="label label-success">'.trans('village::admin.table.active.yes').'</span>';
                     }
                     else {
-                        return $serviceCategory->village->name;
+                        return '<span class="label label-danger">'.trans('village::admin.table.active.no').'</span>';
                     }
                 })
             ;
         }
-
-        $dataTable
-            ->addColumn('active', function (ServiceCategory $serviceCategory) {
-                if($serviceCategory->active) {
-                    return '<span class="label label-success">'.trans('village::admin.table.active.yes').'</span>';
-                }
-                else {
-                    return '<span class="label label-danger">'.trans('village::admin.table.active.no').'</span>';
-                }
-            })
-        ;
     }
 
     /**
@@ -113,41 +96,11 @@ class ServiceCategoryController extends AdminController
      */
     public function validate(array $data, ServiceCategory $serviceCategory = null)
     {
-        if (!$this->getCurrentUser()->inRole('admin')) {
-            $data['village_id'] = $this->getCurrentUser()->village_id;
-        }
-
         $rules = [
             'title' => "required|max:255",
-            'village_id' => 'required|numeric|min:1',
             'active' => "required|boolean",
         ];
 
         return Validator::make($data, $rules);
-    }
-
-    public function getChoicesByVillage($villageId, $selectedId = null)
-    {
-        $attributes = [];
-        if ($this->getCurrentUser()->inRole('admin')) {
-            $attributes['village_id'] = $villageId;
-        }
-        else {
-            $attributes['village_id'] = $this->getCurrentUser()->village_id;
-        }
-
-        $choices = $this->getRepository()->lists($attributes, 'title', 'id', ['title' => 'ASC']);
-
-        if (\Request::ajax()) {
-            $html = '<option value="">'.$this->trans('form.category.placeholder').'</option>';
-            foreach($choices as $id => $title) {
-                $selected = $selectedId == $id ? 'selected="selected"' : '';
-                $html .= '<option value="'.$id.'" '.$selected.'>'.$title.'</option>';
-            }
-
-            return $html;
-        }
-
-        return $choices;
     }
 }

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0e58b978a5c8e2c6449f5e8d355c0b0f",
-    "content-hash": "445b46554a049d231eeb0ab4f7f6a30e",
+    "hash": "3c68c42f3a1106bd9e7c8cb5d9c9acf1",
+    "content-hash": "5336276c31cd012748a9de748ab3af4d",
     "packages": [
         {
             "name": "asgardcms/adminlte-theme",
@@ -45,16 +45,16 @@
         },
         {
             "name": "asgardcms/core-module",
-            "version": "1.18.0",
+            "version": "1.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AsgardCms/Core.git",
-                "reference": "5e199bf7d3f3395477d596bb7939a0f87aa55ef7"
+                "reference": "2d6fbfaa8779f554fa48df41380dbb7d04e13986"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AsgardCms/Core/zipball/5e199bf7d3f3395477d596bb7939a0f87aa55ef7",
-                "reference": "5e199bf7d3f3395477d596bb7939a0f87aa55ef7",
+                "url": "https://api.github.com/repos/AsgardCms/Core/zipball/2d6fbfaa8779f554fa48df41380dbb7d04e13986",
+                "reference": "2d6fbfaa8779f554fa48df41380dbb7d04e13986",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +95,7 @@
                 "asgardcms",
                 "core"
             ],
-            "time": "2015-11-30 16:47:10"
+            "time": "2015-12-01 10:56:08"
         },
         {
             "name": "asgardcms/dashboard-module",
@@ -172,16 +172,16 @@
         },
         {
             "name": "asgardcms/media-module",
-            "version": "1.14.1",
+            "version": "1.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AsgardCms/Media.git",
-                "reference": "d2af8b3c30238f429e16b4c0de937a218cd95c65"
+                "reference": "2f3111bae5390cbdb5c2ee79359c1963faaf8261"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AsgardCms/Media/zipball/d2af8b3c30238f429e16b4c0de937a218cd95c65",
-                "reference": "d2af8b3c30238f429e16b4c0de937a218cd95c65",
+                "url": "https://api.github.com/repos/AsgardCms/Media/zipball/2f3111bae5390cbdb5c2ee79359c1963faaf8261",
+                "reference": "2f3111bae5390cbdb5c2ee79359c1963faaf8261",
                 "shasum": ""
             },
             "require": {
@@ -215,7 +215,7 @@
                 "library",
                 "media"
             ],
-            "time": "2015-11-28 14:28:06"
+            "time": "2015-12-01 11:06:41"
         },
         {
             "name": "asgardcms/menu-module",
@@ -1568,51 +1568,6 @@
             "time": "2015-11-01 10:19:22"
         },
         {
-            "name": "felixkiss/uniquewith-validator",
-            "version": "2.0.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/felixkiss/uniquewith-validator.git",
-                "reference": "9ce2c82c3feac7e9fbfbbb8b527cce3a0b45bef7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/felixkiss/uniquewith-validator/zipball/9ce2c82c3feac7e9fbfbbb8b527cce3a0b45bef7",
-                "reference": "9ce2c82c3feac7e9fbfbbb8b527cce3a0b45bef7",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "5.x",
-                "illuminate/validation": "5.x",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Felixkiss\\UniqueWithValidator\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Felix Kiss",
-                    "email": "felix@felixkiss.com"
-                }
-            ],
-            "description": "Custom Laravel Validator for combined unique indexes",
-            "homepage": "https://github.com/felixkiss/uniquewith-validator",
-            "keywords": [
-                "laravel"
-            ],
-            "time": "2015-11-25 02:41:52"
-        },
-        {
             "name": "floatingpoint/stylist",
             "version": "0.2",
             "source": {
@@ -2418,16 +2373,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.1.24",
+            "version": "v5.1.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "875baf2d1645ce23e2ec0bf94fa7bb3e7fbfd6ed"
+                "reference": "53979acc664debc401bfcb61086c4fc4f196b22d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/875baf2d1645ce23e2ec0bf94fa7bb3e7fbfd6ed",
-                "reference": "875baf2d1645ce23e2ec0bf94fa7bb3e7fbfd6ed",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/53979acc664debc401bfcb61086c4fc4f196b22d",
+                "reference": "53979acc664debc401bfcb61086c4fc4f196b22d",
                 "shasum": ""
             },
             "require": {
@@ -2492,7 +2447,7 @@
             "require-dev": {
                 "aws/aws-sdk-php": "~3.0",
                 "iron-io/iron_mq": "~2.0",
-                "mockery/mockery": "~0.9.1",
+                "mockery/mockery": "~0.9.2",
                 "pda/pheanstalk": "~3.0",
                 "phpunit/phpunit": "~4.0",
                 "predis/predis": "~1.0"
@@ -2543,7 +2498,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-11-11 22:45:42"
+            "time": "2015-11-30 19:24:36"
         },
         {
             "name": "laravelcollective/html",
@@ -5807,25 +5762,25 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.7.7",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "4cfcd7a9fceba662b3c036b7d9a91f6197af046c"
+                "reference": "177a015cb0e19ff4a49e0e2e2c5fc1c1bee07002"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/4cfcd7a9fceba662b3c036b7d9a91f6197af046c",
-                "reference": "4cfcd7a9fceba662b3c036b7d9a91f6197af046c",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/177a015cb0e19ff4a49e0e2e2c5fc1c1bee07002",
+                "reference": "177a015cb0e19ff4a49e0e2e2c5fc1c1bee07002",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9"
+                "php": ">=5.5.9"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.7-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -5852,7 +5807,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-18 13:41:01"
+            "time": "2015-11-30 12:36:17"
         }
     ],
     "aliases": [],

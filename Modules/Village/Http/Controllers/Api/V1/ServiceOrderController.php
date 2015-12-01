@@ -59,7 +59,7 @@ class ServiceOrderController extends ApiController
         return Validator::make($data, [
             'user_id'        => 'required|exists:users,id',
             'service_id'     => 'required|exists:village__services,id',
-            'perform_at'     => 'required|date|date_format:'.config('village.date.format'),
+            'perform_at'     => 'sometimes|date|date_format:'.config('village.date.format'),
             'payment_type' => 'required|in:'.implode(',', config('village.order.payment.type.values')),
             'status'         => 'required|in:'.implode(',', config('village.order.statuses')),
 //            'comment'        => 'sometimes|required|string',

@@ -1,5 +1,6 @@
 <?php namespace Modules\Village\Entities;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Village\Entities\Scope\ApiScope;
 use Modules\Village\Entities\Scope\VillageAdminScope;
@@ -11,6 +12,7 @@ class ServiceOrder extends Model
 
     protected $table = 'village__service_orders';
     protected $fillable = ['user_id', 'service_id', 'status', 'perform_at', 'comment', 'decline_reason', 'payment_type', 'payment_status'];
+    protected $dates = ['perform_at'];
 
     public function village()
     {
@@ -32,7 +34,7 @@ class ServiceOrder extends Model
         parent::boot();
 
         static::creating(function(ServiceOrder $serviceOrder) {
-            $serviceOrder->village()->associate($serviceOrder->service->category->village);
+            $serviceOrder->village()->associate($serviceOrder->service->village);
 
             if ($serviceOrder->service->price == 0) {
                 $serviceOrder->price = $serviceOrder->service->price;
@@ -44,5 +46,19 @@ class ServiceOrder extends Model
                 $serviceOrder->status = 'processing';
             }
         });
+    }
+
+    public function getPerformAtAttribute($value)
+    {
+        if ($value === '0000-00-00 00:00:00') {
+            return null;
+        }
+
+        try {
+            return Carbon::createFromFormat($this->getDateFormat(), $value);
+        }
+        catch (\Exception $ex) {
+            return null;
+        }
     }
 }

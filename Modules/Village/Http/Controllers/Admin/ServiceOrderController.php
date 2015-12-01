@@ -190,7 +190,7 @@ class ServiceOrderController extends AdminController
                 }
             })
             ->addColumn('perform_at', function (ServiceOrder $serviceOrder) {
-                return localizeddate($serviceOrder->perform_at);
+                return $serviceOrder->perform_at ? localizeddate($serviceOrder->perform_at) : null;
             })
             ->addColumn('created_at', function (ServiceOrder $serviceOrder) {
                 return localizeddate($serviceOrder->created_at);
@@ -246,7 +246,7 @@ class ServiceOrderController extends AdminController
         return Validator::make($data, [
             'user_id' => 'required|exists:users,id',
             'service_id' => 'required|exists:village__services,id',
-            'perform_at' => 'required|date|date_format:'.config('village.date.format'),
+            'perform_at' => 'sometimes|date|date_format:'.config('village.date.format'),
             'status' => 'required|in:'.implode(',', config('village.order.statuses')),
             'payment_type' => 'required|in:'.implode(',', config('village.order.payment.type.values')),
             'payment_status' => 'required|in:'.implode(',', config('village.order.payment.status.values')),

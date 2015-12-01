@@ -93,7 +93,7 @@ return [
         ]
     ],
     'date' => [
-        'format' => 'Y-m-d H:i',
+        'format' => 'Y-m-d H:i:s',
         'human' => [
             'short' => 'd M Y',
             'medium' => 'd M Y H:i',

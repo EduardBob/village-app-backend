@@ -17,7 +17,32 @@ class Service extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['village_id', 'category_id', 'executor_id', 'title', 'price', 'active', 'text', 'comment_label', 'order_button_label'];
+    protected $fillable = ['base_id', 'village_id', 'category_id', 'executor_id', 'price', 'active', 'title', 'text', 'comment_label', 'order_button_label', 'show_perform_at'];
+
+    /**
+     * @var string
+     */
+    protected $title;
+
+    /**
+     * @var string
+     */
+    protected $text;
+
+    /**
+     * @var string
+     */
+    protected $comment_label;
+
+    /**
+     * @var string
+     */
+    protected $order_button_label;
+
+    public function base()
+    {
+        return $this->belongsTo('Modules\Village\Entities\BaseService', 'base_id');
+    }
 
     public function village()
     {
@@ -43,14 +68,68 @@ class Service extends Model
     {
         parent::boot();
 
-        static::creating(function(Service $service) {
-            $service->village()->associate($service->category->village);
-        });
-
         static::saving(function(Service $service) {
             if (!$service->executor_id) {
                 $service->executor_id = null;
             }
         });
+    }
+
+    static public function getRewriteFields()
+    {
+        return ['title', 'text', 'comment_label', 'order_button_label'];
+    }
+
+    public function getTitleAttribute($value)
+    {
+        if (!is_null($value)) {
+            return $value;
+        }
+        elseif ($this->base) {
+            return $this->base->title;
+        }
+
+        return '';
+    }
+
+    public function getTextAttribute($value)
+    {
+        if (!is_null($value)) {
+            return $value;
+        }
+        elseif ($this->base) {
+            return $this->base->text;
+        }
+
+        return '';
+    }
+
+    public function getCommentLabelAttribute($value)
+    {
+        if (!is_null($value)) {
+            return $value;
+        }
+        elseif ($this->base) {
+            return $this->base->comment_label;
+        }
+
+        return '';
+    }
+
+    public function getOrderButtonLabelAttribute($value)
+    {
+        if (!is_null($value)) {
+            return $value;
+        }
+        elseif ($this->base) {
+            return $this->base->order_button_label;
+        }
+
+        return '';
+    }
+
+    public function findOneByVillageAndBaseId(Village $village, $baseId)
+    {
+        return self::where(['village_id' => $village->id, 'base_id' => $baseId])->first();
     }
 }

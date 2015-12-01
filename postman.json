@@ -622,9 +622,9 @@
 						},
 						{
 							"key": "perform_at",
-							"value": "2015-10-11 12:30",
+							"value": "2015-10-11 12:30:00",
 							"type": "text",
-							"enabled": true
+							"enabled": false
 						},
 						{
 							"key": "comment",
@@ -634,7 +634,7 @@
 						},
 						{
 							"key": "payment_type",
-							"value": "cash|card",
+							"value": "cash",
 							"type": "text",
 							"enabled": true
 						}
@@ -644,7 +644,7 @@
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    if (data.data.status === 'rejected') {\n        tests[\"decline_reason not null\"] = data.data.decline_reason !== null;\n    }\n    else {\n        tests[\"decline_reason is null\"] = data.data.decline_reason === null;\n    }\n    tests[\"Body contains service\"] = responseBody.has(\"service\") && data.data.service && data.data.service.data;\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1447944512839,
+					"time": 1449056538404,
 					"name": "/api/v1/services/orders",
 					"description": "Add service order",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
@@ -1448,6 +1448,300 @@
 	],
 	"environments": [
 		{
+			"id": "944b564f-d8be-2d62-87bd-0db2b3d440dc",
+			"name": "test amazon",
+			"values": [
+				{
+					"key": "debug",
+					"value": "true",
+					"type": "text",
+					"name": "debug",
+					"enabled": true
+				},
+				{
+					"key": "domain",
+					"value": "http://village.eprst.eu",
+					"type": "text",
+					"name": "domain",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODAzIiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5lcHJzdC5ldVwvYXBpXC92MVwvYXV0aFwvdG9rZW4iLCJpYXQiOiIxNDQ4MzIwODA0IiwiZXhwIjoiMTQ0ODQwNzIwNCIsIm5iZiI6IjE0NDgzMjA4MDQiLCJqdGkiOiIyNzBkZmIwY2E2YmQwZTFjZDgzZGQyMWY4Mzg4NjI1ZiJ9.OXE0Eed5SLIIDCr_nBDzZXDKt_rE1S3frJN9wdzYn-U",
+					"type": "text",
+					"name": "token",
+					"enabled": true
+				},
+				{
+					"key": "phone",
+					"value": "+7(960)6850046",
+					"type": "text",
+					"name": "phone",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "qwerty",
+					"type": "text",
+					"name": "password",
+					"enabled": true
+				},
+				{
+					"key": "token.session",
+					"value": "y3s6qzc112",
+					"type": "text",
+					"name": "token.session",
+					"enabled": true
+				},
+				{
+					"key": "token.code",
+					"value": "2937477",
+					"type": "text",
+					"name": "token.code",
+					"enabled": true
+				},
+				{
+					"key": "service.category.id",
+					"value": "1",
+					"type": "text",
+					"name": "service.category.id",
+					"enabled": true
+				},
+				{
+					"key": "building.code",
+					"value": "test",
+					"type": "text",
+					"name": "building.code",
+					"enabled": true
+				},
+				{
+					"key": "building.id",
+					"value": "1",
+					"type": "text",
+					"name": "building.id",
+					"enabled": true
+				},
+				{
+					"key": "article.id",
+					"value": "538",
+					"type": "text",
+					"name": "article.id",
+					"enabled": true
+				},
+				{
+					"key": "product.category.id",
+					"value": "154",
+					"type": "text",
+					"name": "product.category.id",
+					"enabled": true
+				},
+				{
+					"key": "page",
+					"value": "1",
+					"type": "text",
+					"name": "page",
+					"enabled": true
+				},
+				{
+					"key": "service.id",
+					"value": "142",
+					"type": "text",
+					"name": "service.id",
+					"enabled": true
+				},
+				{
+					"key": "survey.id",
+					"value": "507",
+					"type": "text",
+					"name": "survey.id",
+					"enabled": true
+				},
+				{
+					"key": "survey.my_vote.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.my_vote.choice",
+					"enabled": true
+				},
+				{
+					"key": "survey.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.choice",
+					"enabled": true
+				},
+				{
+					"key": "product.id",
+					"value": "260",
+					"type": "text",
+					"name": "product.id",
+					"enabled": true
+				},
+				{
+					"key": "me.id",
+					"value": "undefined",
+					"type": "text",
+					"name": "me.id",
+					"enabled": true
+				},
+				{
+					"key": "me.phone",
+					"value": "undefined",
+					"type": "text",
+					"name": "me.phone",
+					"enabled": true
+				}
+			],
+			"timestamp": 1449054059050
+		},
+		{
+			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
+			"name": "staging",
+			"values": [
+				{
+					"key": "debug",
+					"value": "true",
+					"type": "text",
+					"name": "debug",
+					"enabled": true
+				},
+				{
+					"key": "domain",
+					"value": "http://village.fruitware.ru",
+					"type": "text",
+					"name": "domain",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODAzIiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoiMTQ0ODI4NTAyMCIsImV4cCI6IjE0NDgzNzE0MjAiLCJuYmYiOiIxNDQ4Mjg1MDIwIiwianRpIjoiZDUzNDgyMGYxMjQ5OGY1ODNkY2JlMzNmMzEwMWRhM2EifQ.uQ62olEr09bZDYXlEyNW2AWGz0fdwzEKQrRPAbRFmUg",
+					"type": "text",
+					"name": "token",
+					"enabled": true
+				},
+				{
+					"key": "phone",
+					"value": "+7(960)6850046",
+					"type": "text",
+					"name": "phone",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "qwerty",
+					"type": "text",
+					"name": "password",
+					"enabled": true
+				},
+				{
+					"key": "token.session",
+					"value": "y3s6qzc112",
+					"type": "text",
+					"name": "token.session",
+					"enabled": true
+				},
+				{
+					"key": "token.code",
+					"value": "2937477",
+					"type": "text",
+					"name": "token.code",
+					"enabled": true
+				},
+				{
+					"key": "service.category.id",
+					"value": "1",
+					"type": "text",
+					"name": "service.category.id",
+					"enabled": true
+				},
+				{
+					"key": "building.code",
+					"value": "test",
+					"type": "text",
+					"name": "building.code",
+					"enabled": true
+				},
+				{
+					"key": "building.id",
+					"value": "1",
+					"type": "text",
+					"name": "building.id",
+					"enabled": true
+				},
+				{
+					"key": "article.id",
+					"value": "538",
+					"type": "text",
+					"name": "article.id",
+					"enabled": true
+				},
+				{
+					"key": "product.category.id",
+					"value": "154",
+					"type": "text",
+					"name": "product.category.id",
+					"enabled": true
+				},
+				{
+					"key": "page",
+					"value": "1",
+					"type": "text",
+					"name": "page",
+					"enabled": true
+				},
+				{
+					"key": "service.id",
+					"value": "142",
+					"type": "text",
+					"name": "service.id",
+					"enabled": true
+				},
+				{
+					"key": "survey.id",
+					"value": "507",
+					"type": "text",
+					"name": "survey.id",
+					"enabled": true
+				},
+				{
+					"key": "survey.my_vote.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.my_vote.choice",
+					"enabled": true
+				},
+				{
+					"key": "survey.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.choice",
+					"enabled": true
+				},
+				{
+					"key": "product.id",
+					"value": "260",
+					"type": "text",
+					"name": "product.id",
+					"enabled": true
+				},
+				{
+					"key": "me.id",
+					"value": "undefined",
+					"type": "text",
+					"name": "me.id",
+					"enabled": true
+				},
+				{
+					"key": "me.phone",
+					"value": "undefined",
+					"type": "text",
+					"name": "me.phone",
+					"enabled": true
+				}
+			],
+			"timestamp": 1449054059055
+		},
+		{
 			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
 			"name": "dev",
 			"values": [
@@ -1467,7 +1761,7 @@
 				},
 				{
 					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMzNDIsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6IjE0NDc5MzY1NzUiLCJleHAiOiIxNDQ4MDIyOTc1IiwibmJmIjoiMTQ0NzkzNjU3NSIsImp0aSI6IjQ2YWY3MTU4NGY3MTEzODI5YjFmZjgyMWRiYzUwZTdhIn0.KzXqDfTAI1dVhbMvSGTjLnTkr6CeSZUCiwzRwmDJ6I4",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjMsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ0OTA1NDA2NCwiZXhwIjoxNDQ5MTQwNDY0LCJuYmYiOjE0NDkwNTQwNjQsImp0aSI6IjBlZTZiMDIzYzg2Y2ZhOTZlOTMzOTUzNmI5YmNhNDQ2In0.2oUY55SQEiBh05ykwXb-r_Vd2eMB-rkaKk0-zl7VY2A",
 					"type": "text",
 					"name": "token",
 					"enabled": true
@@ -1502,35 +1796,35 @@
 				},
 				{
 					"key": "article.id",
-					"value": "500",
+					"value": "551",
 					"type": "text",
 					"name": "article.id",
 					"enabled": true
 				},
 				{
 					"key": "me.first_name",
-					"value": "adygxdivn",
+					"value": "wzkqgjbyou",
 					"type": "text",
 					"name": "me.first_name",
 					"enabled": true
 				},
 				{
 					"key": "me.last_name",
-					"value": "mncatcvjk",
+					"value": "hsxdxcflwj",
 					"type": "text",
 					"name": "me.last_name",
 					"enabled": true
 				},
 				{
 					"key": "product.id",
-					"value": "226",
+					"value": "269",
 					"type": "text",
 					"name": "product.id",
 					"enabled": true
 				},
 				{
 					"key": "service.id",
-					"value": "214",
+					"value": "280",
 					"type": "text",
 					"name": "service.id",
 					"enabled": true
@@ -1544,14 +1838,14 @@
 				},
 				{
 					"key": "product.category.id",
-					"value": "149",
+					"value": "154",
 					"type": "text",
 					"name": "product.category.id",
 					"enabled": true
 				},
 				{
 					"key": "service.category.id",
-					"value": "89",
+					"value": "107",
 					"type": "text",
 					"name": "service.category.id",
 					"enabled": true
@@ -1579,7 +1873,7 @@
 				},
 				{
 					"key": "survey.id",
-					"value": "493",
+					"value": "447",
 					"type": "text",
 					"name": "survey.id",
 					"enabled": true
@@ -1616,124 +1910,7 @@
 					"value": "undefined"
 				}
 			],
-			"timestamp": 1447944357651
-		},
-		{
-			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
-			"name": "staging",
-			"values": [
-				{
-					"key": "debug",
-					"value": "true",
-					"type": "text",
-					"name": "debug",
-					"enabled": true
-				},
-				{
-					"key": "domain",
-					"value": "http://village.fruitware.ru",
-					"type": "text",
-					"name": "domain",
-					"enabled": true
-				},
-				{
-					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjYyIiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL2F1dGhcL3JlZnJlc2giLCJpYXQiOiIxNDQ3MTc0NzcxIiwiZXhwIjoiMTQ0ODAxMzQxOSIsIm5iZiI6IjE0NDc5MjcwMTkiLCJqdGkiOiIwN2QxYzE4NDY0NzNkODMxNzVjZjA4MjAyMTQzNjU1ZCJ9.w0Yt9hD4XZcuRlS8tt85LOIkteY62qUXA0yOxbVpRaQ",
-					"type": "text",
-					"name": "token",
-					"enabled": true
-				},
-				{
-					"key": "phone",
-					"value": "+7(111)1111111",
-					"type": "text",
-					"name": "phone",
-					"enabled": true
-				},
-				{
-					"key": "password",
-					"value": "yj3wev32R6eQJWV",
-					"type": "text",
-					"name": "password",
-					"enabled": true
-				},
-				{
-					"key": "token.session",
-					"type": "text",
-					"value": "y3s6qzc112"
-				},
-				{
-					"key": "token.code",
-					"type": "text",
-					"value": "2937477"
-				},
-				{
-					"key": "service.category.id",
-					"type": "text",
-					"value": "1"
-				},
-				{
-					"key": "building.code",
-					"type": "text",
-					"value": "test"
-				},
-				{
-					"key": "building.id",
-					"type": "text",
-					"value": "1"
-				},
-				{
-					"key": "article.id",
-					"type": "text",
-					"value": "538"
-				},
-				{
-					"key": "product.category.id",
-					"type": "text",
-					"value": "1"
-				},
-				{
-					"key": "page",
-					"type": "text",
-					"value": "1"
-				},
-				{
-					"key": "service.id",
-					"type": "text",
-					"value": "142"
-				},
-				{
-					"key": "survey.id",
-					"type": "text",
-					"value": "98"
-				},
-				{
-					"key": "survey.my_vote.choice",
-					"type": "text",
-					"value": "0"
-				},
-				{
-					"key": "survey.choice",
-					"type": "text",
-					"value": "0"
-				},
-				{
-					"key": "product.id",
-					"type": "text",
-					"value": "6"
-				},
-				{
-					"key": "me.id",
-					"type": "text",
-					"value": "undefined"
-				},
-				{
-					"key": "me.phone",
-					"type": "text",
-					"value": "undefined"
-				}
-			],
-			"timestamp": 1447944357656
+			"timestamp": 1449056404637
 		}
 	],
 	"headerPresets": [
@@ -1755,18 +1932,24 @@
 	"globals": [
 		{
 			"key": "{id}",
+			"value": "1",
 			"type": "text",
-			"value": "1"
+			"name": "{id}",
+			"enabled": true
 		},
 		{
 			"key": "{{id}}",
+			"value": "1",
 			"type": "text",
-			"value": "1"
+			"name": "{{id}}",
+			"enabled": true
 		},
 		{
 			"key": "id",
+			"value": "1",
 			"type": "text",
-			"value": "1"
+			"name": "id",
+			"enabled": true
 		}
 	]
 }

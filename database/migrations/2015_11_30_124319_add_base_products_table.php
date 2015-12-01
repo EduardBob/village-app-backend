@@ -21,7 +21,6 @@ class AddBaseProductsTable extends Migration
             $table->string('title');
             $table->decimal('price', 10, 2);
             $table->enum('unit_title', config('village.product.unit.values'));
-            $table->string('image');
             $table->boolean('active')->default(false);
             $table->string('comment_label', 50);
             $table->string('text');

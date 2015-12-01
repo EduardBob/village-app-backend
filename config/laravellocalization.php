@@ -6,8 +6,8 @@ return array(
     // These are sorted by the native name, which is the order you might show them in a language selector.
     // Regional languages are sorted by their base languge, so "British English" sorts as "English, British"
     'supportedLocales' => [
-//        'en' => ['name' => 'English', 'script' => 'Latn', 'native' => 'English'],
-//        'ru' => ['name' => 'Russian', 'script' => 'Cyrl', 'native' => 'Русский'],
+        'en' => ['name' => 'English', 'script' => 'Latn', 'native' => 'English'],
+        'ru' => ['name' => 'Russian', 'script' => 'Cyrl', 'native' => 'Русский'],
     ],
     // Negotiate for the user locale using the Accept-Language header if it's not defined in the URL?
     // If false, system will take app.php locale attribute

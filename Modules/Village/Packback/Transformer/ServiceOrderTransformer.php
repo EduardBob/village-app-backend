@@ -33,12 +33,13 @@ class ServiceOrderTransformer extends TransformerAbstract
         return [
             'id' =>  $serviceOrder->id,
             'created_at' => $serviceOrder->created_at->format('Y-m-d H:i:s'),
+            'perform_at' => $serviceOrder->perform_at ? $serviceOrder->perform_at->format(config('village.date.format')) : null,
             'price' => $serviceOrder->price,
+            'comment' => $serviceOrder->comment,
+            'status' => $serviceOrder->status,
+            'decline_reason' => $serviceOrder->decline_reason,
             'payment_type' => $serviceOrder->payment_type,
             'payment_status' => $serviceOrder->payment_status,
-            'status' => $serviceOrder->status,
-            'comment' => $serviceOrder->comment,
-            'decline_reason' => $serviceOrder->decline_reason,
         ];
     }
 

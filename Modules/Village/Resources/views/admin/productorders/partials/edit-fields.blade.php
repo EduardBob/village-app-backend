@@ -22,7 +22,7 @@
             <div class="col-sm-3">
                 <div class="form-group{{ $errors->has('perform_at') ? ' has-error' : '' }}">
                     {!! Form::label('perform_at', $admin->trans('table.perform_at')) !!}
-                    {!! Form::text('perform_at', Input::old('perform_at', Carbon\Carbon::parse(@$model->perform_at)->format(config('village.date.format'))), ['class' => 'js-date-field form-control']) !!}
+                    {!! Form::text('perform_at', Input::old('perform_at', @$model->perform_at ? Carbon\Carbon::parse(@$model->perform_at)->format(config('village.date.format')) : ''), ['class' => 'js-date-field form-control']) !!}
                     {!! $errors->first('perform_at', '<span class="help-block">:message</span>') !!}
                 </div>
             </div>

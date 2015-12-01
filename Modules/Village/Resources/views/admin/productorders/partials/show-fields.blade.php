@@ -17,6 +17,7 @@
             </div>
         </div>
     </div>
+    @if(isset($model) && $model->perform_at)
     <div class="row">
         <div class="col-sm-12">
         	<div class="form-group">
@@ -25,6 +26,7 @@
         	</div>
         </div>
     </div>
+    @endif
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">

@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Modules\Media\Entities\File;
 use Modules\User\Repositories\RoleRepository;
 use Modules\Village\Entities\BaseProduct;
 use Modules\Village\Entities\Product;

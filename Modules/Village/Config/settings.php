@@ -6,4 +6,9 @@ return [
         'view' => 'text',
         'translatable' => false,
     ],
+    'village-agreement-condition' => [
+        'description' => 'Текст пользовательского соглашение',
+        'view' => 'textarea',
+        'translatable' => false,
+    ],
 ];

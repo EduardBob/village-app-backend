@@ -135,9 +135,9 @@ class ProductOrderChangeController extends AdminController
                     return $productOrderChange->order->product->title;
                 }
             })
-            ->addColumn('created_at', function (ProductOrderChange $productOrderChange) {
-                return Date::parse($productOrderChange->created_at)->diffForHumans();
-            })
+//            ->addColumn('created_at', function (ProductOrderChange $productOrderChange) {
+//                return Date::parse($productOrderChange->created_at)->diffForHumans();
+//            })
             ->editColumn('user_name', function (ProductOrderChange $productOrderChange) {
                 if (!$productOrderChange->user) {
                     return '';

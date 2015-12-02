@@ -135,9 +135,9 @@ class ServiceOrderChangeController extends AdminController
                     return $serviceOrderChange->order->service->title;
                 }
             })
-            ->addColumn('created_at', function (ServiceOrderChange $serviceOrderChange) {
-                return Date::parse($serviceOrderChange->created_at)->diffForHumans();
-            })
+//            ->addColumn('created_at', function (ServiceOrderChange $serviceOrderChange) {
+//                return Date::parse($serviceOrderChange->created_at)->diffForHumans();
+//            })
             ->editColumn('user_name', function (ServiceOrderChange $serviceOrderChange) {
                 if (!$serviceOrderChange->user) {
                     return '';

@@ -48,6 +48,20 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                {!! Form::label('show_perform_at', $admin->trans('table.show_perform_at')) !!}
+                <div>
+                    @if($model->show_perform_at)
+                        <span class="label label-success">{{ trans('village::admin.table.active.yes') }}</span>
+                    @else
+                        <span class="label label-danger">{{ trans('village::admin.table.active.no') }}</span>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
     @if($currentUser && $currentUser->inRole('admin'))
     <div class="row">
         <div class="col-sm-12">

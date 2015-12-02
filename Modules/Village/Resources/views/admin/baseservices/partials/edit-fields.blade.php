@@ -43,16 +43,6 @@
                 {!! $errors->first('text', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
-        @if(isset($model))
-        <div class="col-sm-6">
-            @include('media::admin.fields.file-link', [
-                'entityClass' => 'Modules\\\\Village\\\\Entities\\\\Service',
-                'entityId' => @$model->id,
-                'zone' => 'media',
-                'media' => isset($model) ? $model->files()->first() : null
-            ])
-        </div>
-        @endif
         <div class="col-sm-12">
             <div class="form-group{{ $errors->has('show_perform_at') ? ' has-error' : '' }}">
                 {!! Form::checkbox('show_perform_at', (int)Input::old('show_perform_at', @$model->show_perform_at), (bool)Input::old('show_perform_at', @$model->show_perform_at), ['class' => 'flat-blue']) !!}
@@ -67,5 +57,15 @@
                 {!! $errors->first('active', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
+        @if(isset($model))
+        <div class="col-sm-6">
+            @include('media::admin.fields.file-link', [
+                'entityClass' => 'Modules\\\\Village\\\\Entities\\\\Service',
+                'entityId' => @$model->id,
+                'zone' => 'media',
+                'media' => isset($model) ? $model->files()->first() : null
+            ])
+        </div>
+        @endif
     </div>
 </div>

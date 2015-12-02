@@ -19,6 +19,14 @@ class AddColumnShowPerformAtInServicesTable extends Migration
         Schema::table('village__services', function (Blueprint $table) {
             $table->boolean('show_perform_at')->default(false);
         });
+
+        Schema::table('village__base__products', function (Blueprint $table) {
+            $table->boolean('show_perform_at')->default(false);
+        });
+
+        Schema::table('village__products', function (Blueprint $table) {
+            $table->boolean('show_perform_at')->default(false);
+        });
     }
 
     /**
@@ -33,6 +41,14 @@ class AddColumnShowPerformAtInServicesTable extends Migration
         });
 
         Schema::table('village__services', function (Blueprint $table) {
+            $table->dropColumn('show_perform_at');
+        });
+
+        Schema::table('village__base__products', function (Blueprint $table) {
+            $table->dropColumn('show_perform_at');
+        });
+
+        Schema::table('village__products', function (Blueprint $table) {
             $table->dropColumn('show_perform_at');
         });
     }

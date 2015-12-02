@@ -74,7 +74,14 @@
                 {!! $errors->first('text', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
-        <div class="col-sm-7">
+        <div class="col-sm-12">
+            <div class="form-group{{ $errors->has('show_perform_at') ? ' has-error' : '' }}">
+                {!! Form::checkbox('show_perform_at', (int)Input::old('show_perform_at', @$model->show_perform_at), (bool)Input::old('show_perform_at', @$model->show_perform_at), ['class' => 'flat-blue']) !!}
+                {!! Form::label('show_perform_at', $admin->trans('table.show_perform_at')) !!}
+                {!! $errors->first('show_perform_at', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-12">
             <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
                 {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}
                 {!! Form::label('active', $admin->trans('table.active')) !!}

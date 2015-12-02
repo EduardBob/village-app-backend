@@ -37,7 +37,7 @@ class ProductTransformer extends BaseTransformer
             'unit_title' => $product->unit_title,
             'text' => $product->text,
             'comment_label' => $product->comment_label,
-            'show_perform_at' => $product->show_perform_at,
+            'show_perform_time' => $product->show_perform_time,
             'image' => $this->getImage($product->files()->first()),
         ];
     }

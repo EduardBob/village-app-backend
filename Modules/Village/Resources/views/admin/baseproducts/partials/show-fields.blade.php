@@ -51,9 +51,9 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
-                {!! Form::label('show_perform_at', $admin->trans('table.show_perform_at')) !!}
+                {!! Form::label('show_perform_time', $admin->trans('table.show_perform_time')) !!}
                 <div>
-                    @if($model->show_perform_at)
+                    @if($model->show_perform_time)
                         <span class="label label-success">{{ trans('village::admin.table.active.yes') }}</span>
                     @else
                         <span class="label label-danger">{{ trans('village::admin.table.active.no') }}</span>

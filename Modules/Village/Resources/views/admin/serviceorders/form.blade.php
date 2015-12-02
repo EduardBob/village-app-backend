@@ -16,7 +16,14 @@
         $( document ).ready(function() {
             $('.js-date-field').datetimepicker({
 //                minDate: new Date(),
-                format: 'YYYY-MM-DD HH:mm:ss'
+                format: 'YYYY-MM-DD'
+            });
+        });
+
+        $( document ).ready(function() {
+            $('.js-time-field').datetimepicker({
+//                minDate: new Date(),
+                format: 'HH:mm'
             });
         });
     </script>

@@ -17,12 +17,12 @@
             </div>
         </div>
     </div>
-    @if(isset($model) && $model->perform_at)
+    @if(isset($model) && $model->perform_date)
     <div class="row">
         <div class="col-sm-12">
         	<div class="form-group">
-        	    {!! Form::label('perform_at', $admin->trans('table.perform_at')) !!}
-        	    <div>{{ Carbon\Carbon::parse(@$model->perform_at)->format(config('village.date.format')) }}</div>
+        	    {!! Form::label('perform_date', $admin->trans('table.perform_date')) !!}
+        	    <div>{{ Carbon\Carbon::parse(@$model->perform_date)->format(config('village.date.format')) }}</div>
         	</div>
         </div>
     </div>

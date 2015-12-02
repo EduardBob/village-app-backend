@@ -33,7 +33,8 @@ class ServiceOrderTransformer extends TransformerAbstract
         return [
             'id' =>  $serviceOrder->id,
             'created_at' => $serviceOrder->created_at->format('Y-m-d H:i:s'),
-            'perform_at' => $serviceOrder->perform_at ? $serviceOrder->perform_at->format(config('village.date.format')) : null,
+            'perform_date' => $serviceOrder->perform_date->format('Y-m-d'),
+            'perform_time' => $serviceOrder->perform_time,
             'price' => $serviceOrder->price,
             'comment' => $serviceOrder->comment,
             'status' => $serviceOrder->status,

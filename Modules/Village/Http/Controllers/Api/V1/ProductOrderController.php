@@ -34,7 +34,7 @@ class ProductOrderController extends ApiController
      */
     public function store(Request $request)
     {
-        $data = $request::only('product_id', 'quantity', 'perform_at', 'payment_type', 'comment');
+        $data = $request::only('product_id', 'quantity', 'perform_date', 'perform_time', 'payment_type', 'comment');
         $data = array_merge([
             'status' => config('village.order.first_status'),
             'user_id' => $this->user()->id,
@@ -58,14 +58,15 @@ class ProductOrderController extends ApiController
     static function validate(array $data)
     {
         return Validator::make($data, [
-            'sometimes' => 'required|date|date_format:'.config('village.date.format'),
-            'payment_type' => 'required|in:'.implode(',', config('village.order.payment.type.values')),
-            'status' => 'required|in:'.implode(',', config('village.order.statuses')),
+            'payment_type'   => 'required|in:'.implode(',', config('village.order.payment.type.values')),
+            'status'         => 'required|in:'.implode(',', config('village.order.statuses')),
+            'perform_date'   => 'required|date|date_format:Y-m-d',
+            'perform_time'   => 'sometimes|date_format:H:i',
 //            'comment' => 'sometimes|required|string',
             'decline_reason' => 'sometimes|required_if:status,rejected|string',
-            'user_id' => 'required|exists:users,id',
-            'product_id' => 'required|exists:village__products,id',
-            'quantity' => 'required|numeric|min:0'
+            'user_id'        => 'required|exists:users,id',
+            'product_id'     => 'required|exists:village__products,id',
+            'quantity'       => 'required|numeric|min:0'
         ]);
     }
 }

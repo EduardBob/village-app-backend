@@ -228,7 +228,7 @@ class ServiceController extends AdminController
             $data['village_id'] = $this->getCurrentUser()->village->id;
         }
         $id = $service ? $service->id : 'null';
-        $baseId = isset($data['base_id']) ? $data['base_id'] : $service->base->id;
+        $baseId = isset($data['base_id']) ? $data['base_id'] : @$service->base->id;
 
         $rules = [
             'category_id' => 'required|exists:village__service_categories,id',

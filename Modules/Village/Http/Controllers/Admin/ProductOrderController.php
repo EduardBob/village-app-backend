@@ -101,7 +101,8 @@ class ProductOrderController extends AdminController
             'village__product_orders.user_id',
             'village__product_orders.quantity',
             'village__product_orders.unit_title',
-            'village__product_orders.perform_at',
+            'village__product_orders.perform_date',
+            'village__product_orders.perform_time',
             'village__product_orders.created_at',
             'village__product_orders.price',
             'village__product_orders.payment_type',
@@ -152,7 +153,7 @@ class ProductOrderController extends AdminController
             ->addColumn(['data' => 'building_address', 'name' => 'village__buildings.address', 'title' => $this->trans('table.address')])
 //            ->addColumn(['data' => 'quantity', 'name' => 'village__product_orders.quantity', 'title' => $this->trans('table.quantity')])
 //            ->addColumn(['data' => 'unit_title', 'name' => 'village__product_orders.unit_title', 'title' => $this->trans('table.unit_title')])
-            ->addColumn(['data' => 'perform_at', 'name' => 'village__product_orders.perform_at', 'title' => $this->trans('table.perform_at')])
+            ->addColumn(['data' => 'perform_date', 'name' => 'village__product_orders.perform_date', 'title' => $this->trans('table.perform_date')])
             ->addColumn(['data' => 'price', 'name' => 'village__product_orders.price', 'title' => $this->trans('table.price')])
             ->addColumn(['data' => 'user_name', 'name' => 'users.last_name', 'title' => $this->trans('table.name')])
             ->addColumn(['data' => 'user_phone', 'name' => 'users.phone', 'title' => $this->trans('table.phone')])
@@ -204,8 +205,8 @@ class ProductOrderController extends AdminController
             ->addColumn('unit_title', function (ProductOrder $productOrder) {
                 return $this->trans('form.unit_title.values.'.$productOrder->unit_title);
             })
-            ->addColumn('perform_at', function (ProductOrder $productOrder) {
-                return $productOrder->perform_at ? localizeddate($productOrder->perform_at) : null;
+            ->addColumn('perform_date', function (ProductOrder $productOrder) {
+                return localizeddate($productOrder->perform_date, 'short').' '.@mb_strcut($productOrder->perform_time, 0, 5);
             })
             ->addColumn('created_at', function (ProductOrder $productOrder) {
                 return localizeddate($productOrder->created_at);
@@ -251,7 +252,8 @@ class ProductOrderController extends AdminController
         return Validator::make($data, [
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:village__products,id',
-            'perform_at' => 'sometimes|date|date_format:'.config('village.date.format'),
+            'perform_date' => 'required|date|date_format:Y-m-d',
+            'perform_time' => 'date_format:H:i',
             'payment_type' => 'required|in:'.implode(',', config('village.order.payment.type.values')),
             'payment_status' => 'required|in:'.implode(',', config('village.order.payment.status.values')),
             'status' => 'required|in:'.implode(',', config('village.order.statuses')),

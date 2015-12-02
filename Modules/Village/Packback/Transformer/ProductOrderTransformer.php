@@ -33,7 +33,8 @@ class ProductOrderTransformer extends TransformerAbstract
         return [
             'id' =>  $productOrder->id,
             'created_at' => $productOrder->created_at->format('Y-m-d H:i:s'),
-            'perform_at' => $productOrder->perform_at ? $productOrder->perform_at->format(config('village.date.format')) : null,
+            'perform_date' => $productOrder->perform_date->format('Y-m-d'),
+            'perform_time' => $productOrder->perform_time,
             'price' => $productOrder->price,
             'unit_title' => $productOrder->unit_title,
             'quantity' => $productOrder->quantity,

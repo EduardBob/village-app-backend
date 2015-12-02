@@ -621,10 +621,16 @@
 							"enabled": true
 						},
 						{
-							"key": "perform_at",
-							"value": "2015-10-11 12:30:00",
+							"key": "perform_date",
+							"value": "2015-10-11",
 							"type": "text",
-							"enabled": false
+							"enabled": true
+						},
+						{
+							"key": "perform_time",
+							"value": "12:30",
+							"type": "text",
+							"enabled": true
 						},
 						{
 							"key": "comment",
@@ -634,7 +640,7 @@
 						},
 						{
 							"key": "payment_type",
-							"value": "cash",
+							"value": "cash|card",
 							"type": "text",
 							"enabled": true
 						}
@@ -644,7 +650,7 @@
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    if (data.data.status === 'rejected') {\n        tests[\"decline_reason not null\"] = data.data.decline_reason !== null;\n    }\n    else {\n        tests[\"decline_reason is null\"] = data.data.decline_reason === null;\n    }\n    tests[\"Body contains service\"] = responseBody.has(\"service\") && data.data.service && data.data.service.data;\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1449056538404,
+					"time": 1449070910869,
 					"name": "/api/v1/services/orders",
 					"description": "Add service order",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
@@ -1045,8 +1051,14 @@
 							"enabled": true
 						},
 						{
-							"key": "perform_at",
-							"value": "2015-10-11 12:30",
+							"key": "perform_date",
+							"value": "2015-10-11",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_time",
+							"value": "12:30",
 							"type": "text",
 							"enabled": true
 						},
@@ -1074,7 +1086,7 @@
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains quantity\"] = responseBody.has(\"quantity\");\n    tests[\"Body contains unit_title\"] = responseBody.has(\"unit_title\");\n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    if (data.data.status === 'rejected') {\n        tests[\"decline_reason not null\"] = data.data.decline_reason !== null;\n    }\n    else {\n        tests[\"decline_reason is null\"] = data.data.decline_reason === null;\n    }\n    tests[\"Body contains product\"] = responseBody.has(\"product\") && data.data.product && data.data.product.data;\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1447944458209,
+					"time": 1449070874265,
 					"name": "/api/v1/products/orders",
 					"description": "Add product order",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
@@ -1592,7 +1604,7 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1449054059050
+			"timestamp": 1449070106761
 		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
@@ -1739,7 +1751,7 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1449054059055
+			"timestamp": 1449070106767
 		},
 		{
 			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
@@ -1817,14 +1829,14 @@
 				},
 				{
 					"key": "product.id",
-					"value": "269",
+					"value": "264",
 					"type": "text",
 					"name": "product.id",
 					"enabled": true
 				},
 				{
 					"key": "service.id",
-					"value": "280",
+					"value": "291",
 					"type": "text",
 					"name": "service.id",
 					"enabled": true
@@ -1838,7 +1850,7 @@
 				},
 				{
 					"key": "product.category.id",
-					"value": "154",
+					"value": "156",
 					"type": "text",
 					"name": "product.category.id",
 					"enabled": true
@@ -1910,7 +1922,7 @@
 					"value": "undefined"
 				}
 			],
-			"timestamp": 1449056404637
+			"timestamp": 1449070854304
 		}
 	],
 	"headerPresets": [

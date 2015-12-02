@@ -11,8 +11,8 @@ class ServiceOrder extends Model
     use VillageAdminScope;
 
     protected $table = 'village__service_orders';
-    protected $fillable = ['user_id', 'service_id', 'status', 'perform_at', 'comment', 'decline_reason', 'payment_type', 'payment_status'];
-    protected $dates = ['perform_at'];
+    protected $fillable = ['user_id', 'service_id', 'status', 'perform_date', 'perform_time', 'comment', 'decline_reason', 'payment_type', 'payment_status'];
+    protected $dates = ['perform_date'];
 
     public function village()
     {
@@ -46,19 +46,11 @@ class ServiceOrder extends Model
                 $serviceOrder->status = 'processing';
             }
         });
-    }
 
-    public function getPerformAtAttribute($value)
-    {
-        if ($value === '0000-00-00 00:00:00') {
-            return null;
-        }
-
-        try {
-            return Carbon::createFromFormat($this->getDateFormat(), $value);
-        }
-        catch (\Exception $ex) {
-            return null;
-        }
+        static::saving(function(ServiceOrder $serviceOrder) {
+            if ($serviceOrder->perform_time === '') {
+                $serviceOrder->perform_time = null;
+            }
+        });
     }
 }

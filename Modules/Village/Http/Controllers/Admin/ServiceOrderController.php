@@ -91,7 +91,8 @@ class ServiceOrderController extends AdminController
             'village__service_orders.village_id',
             'village__service_orders.service_id',
             'village__service_orders.user_id',
-            'village__service_orders.perform_at',
+            'village__service_orders.perform_date',
+            'village__service_orders.perform_time',
             'village__service_orders.created_at',
             'village__service_orders.price',
             'village__service_orders.payment_type',
@@ -140,7 +141,7 @@ class ServiceOrderController extends AdminController
         $builder
             ->addColumn(['data' => 'service_title', 'name' => 'village__services.title', 'title' => $this->trans('table.service')])
             ->addColumn(['data' => 'building_address', 'name' => 'village__buildings.address', 'title' => $this->trans('table.address')])
-            ->addColumn(['data' => 'perform_at', 'name' => 'village__service_orders.perform_at', 'title' => $this->trans('table.perform_at')])
+            ->addColumn(['data' => 'perform_date', 'name' => 'village__service_orders.perform_date', 'title' => $this->trans('table.perform_date')])
             ->addColumn(['data' => 'price', 'name' => 'village__service_orders.price', 'title' => $this->trans('table.price')])
             ->addColumn(['data' => 'user_name', 'name' => 'users.last_name', 'title' => $this->trans('table.name')])
             ->addColumn(['data' => 'user_phone', 'name' => 'users.phone', 'title' => $this->trans('table.phone')])
@@ -189,8 +190,8 @@ class ServiceOrderController extends AdminController
                     return $serviceOrder->user->building->address;
                 }
             })
-            ->addColumn('perform_at', function (ServiceOrder $serviceOrder) {
-                return $serviceOrder->perform_at ? localizeddate($serviceOrder->perform_at) : null;
+            ->addColumn('perform_date', function (ServiceOrder $serviceOrder) {
+                    return localizeddate($serviceOrder->perform_date, 'short').' '.@mb_strcut($serviceOrder->perform_time, 0, 5);
             })
             ->addColumn('created_at', function (ServiceOrder $serviceOrder) {
                 return localizeddate($serviceOrder->created_at);
@@ -246,7 +247,8 @@ class ServiceOrderController extends AdminController
         return Validator::make($data, [
             'user_id' => 'required|exists:users,id',
             'service_id' => 'required|exists:village__services,id',
-            'perform_at' => 'sometimes|date|date_format:'.config('village.date.format'),
+            'perform_date' => 'required|date|date_format:Y-m-d',
+            'perform_time' => 'date_format:H:i',
             'status' => 'required|in:'.implode(',', config('village.order.statuses')),
             'payment_type' => 'required|in:'.implode(',', config('village.order.payment.type.values')),
             'payment_status' => 'required|in:'.implode(',', config('village.order.payment.status.values')),

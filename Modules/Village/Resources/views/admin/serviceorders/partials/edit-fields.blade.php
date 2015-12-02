@@ -10,7 +10,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
                     {!! Form::label('user_id', $admin->trans('table.user')) !!}
                     {!! Form::select('user_id', (new Modules\Village\Entities\User)->getList(),
@@ -19,11 +19,18 @@
                 </div>
             </div>
 
-            <div class="col-sm-4">
-                <div class="form-group{{ $errors->has('perform_at') ? ' has-error' : '' }}">
-                    {!! Form::label('perform_at', $admin->trans('table.perform_at')) !!}
-                    {!! Form::text('perform_at', Input::old('perform_at', @$model->perform_at ? Carbon\Carbon::parse(@$model->perform_at)->format(config('village.date.format')) : ''), ['class' => 'js-date-field form-control']) !!}
-                    {!! $errors->first('perform_at', '<span class="help-block">:message</span>') !!}
+            <div class="col-sm-3">
+                <div class="form-group{{ $errors->has('perform_date') ? ' has-error' : '' }}">
+                    {!! Form::label('perform_date', $admin->trans('table.perform_date')) !!}
+                    {!! Form::text('perform_date', Input::old('perform_date', @$model->perform_date ? Carbon\Carbon::parse(@$model->perform_date)->format('Y-m-d') : ''), ['class' => 'js-date-field form-control']) !!}
+                    {!! $errors->first('perform_date', '<span class="help-block">:message</span>') !!}
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group{{ $errors->has('perform_time') ? ' has-error' : '' }}">
+                    {!! Form::label('perform_time', $admin->trans('table.perform_time')) !!}
+                    {!! Form::text('perform_time', Input::old('perform_time', @$model->perform_time), ['class' => 'js-time-field form-control']) !!}
+                    {!! $errors->first('perform_time', '<span class="help-block">:message</span>') !!}
                 </div>
             </div>
         </div>

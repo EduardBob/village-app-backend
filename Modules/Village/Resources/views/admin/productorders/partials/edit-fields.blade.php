@@ -18,12 +18,21 @@
                     {!! $errors->first('user_id', '<span class="help-block">:message</span>') !!}
                 </div>
             </div>
+        </div>
 
-            <div class="col-sm-3">
-                <div class="form-group{{ $errors->has('perform_at') ? ' has-error' : '' }}">
-                    {!! Form::label('perform_at', $admin->trans('table.perform_at')) !!}
-                    {!! Form::text('perform_at', Input::old('perform_at', @$model->perform_at ? Carbon\Carbon::parse(@$model->perform_at)->format(config('village.date.format')) : ''), ['class' => 'js-date-field form-control']) !!}
-                    {!! $errors->first('perform_at', '<span class="help-block">:message</span>') !!}
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="form-group{{ $errors->has('perform_date') ? ' has-error' : '' }}">
+                    {!! Form::label('perform_date', $admin->trans('table.perform_date')) !!}
+                    {!! Form::text('perform_date', Input::old('perform_date', @$model->perform_date ? Carbon\Carbon::parse(@$model->perform_date)->format('Y-m-d') : ''), ['class' => 'js-date-field form-control']) !!}
+                    {!! $errors->first('perform_date', '<span class="help-block">:message</span>') !!}
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group{{ $errors->has('perform_time') ? ' has-error' : '' }}">
+                    {!! Form::label('perform_time', $admin->trans('table.perform_time')) !!}
+                    {!! Form::text('perform_time', Input::old('perform_time', @$model->perform_time), ['class' => 'js-time-field form-control']) !!}
+                    {!! $errors->first('perform_time', '<span class="help-block">:message</span>') !!}
                 </div>
             </div>
 
@@ -37,7 +46,7 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="form-group{{ $errors->has('payment_type') ? ' has-error' : '' }}">
                     {!! Form::label('payment_type', $admin->trans('table.payment_type')) !!}
                     {!! Form::select('payment_type', array_combine(config('village.order.payment.type.values'), $admin->trans('form.payment.type.values')),
@@ -46,7 +55,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="form-group{{ $errors->has('payment_status') ? ' has-error' : '' }}">
                     {!! Form::label('payment_status', $admin->trans('table.payment_status')) !!}
                     {!! Form::select('payment_status', array_combine(config('village.order.payment.status.values'), $admin->trans('form.payment.status.values')),
@@ -56,7 +65,7 @@
             </div>
 
             <?php if (isset($model)): ?>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
                     {!! Form::label('status', $admin->trans('table.status')) !!}
                     {!! Form::select('status', array_combine(config('village.order.statuses'), $admin->trans('form.status.values')),

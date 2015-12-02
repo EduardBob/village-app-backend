@@ -13,7 +13,7 @@ class BaseService extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['category_id', 'title', 'price', 'active', 'text', 'comment_label', 'order_button_label', 'show_perform_at'];
+    protected $fillable = ['category_id', 'title', 'price', 'active', 'text', 'comment_label', 'order_button_label', 'show_perform_time'];
 
     public function category()
     {

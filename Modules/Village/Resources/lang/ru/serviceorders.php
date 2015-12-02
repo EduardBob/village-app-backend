@@ -19,7 +19,8 @@ return [
     'table' => [
         'id' => 'ID заказа',
         'service' => 'Услуга',
-        'perform_at' => 'Исполнить в',
+        'perform_date' => 'Дата исполнения',
+        'perform_time' => 'Время исполнения',
         'address' => 'Адресс',
         'name' => 'ФИО',
         'phone' => 'Телефон',

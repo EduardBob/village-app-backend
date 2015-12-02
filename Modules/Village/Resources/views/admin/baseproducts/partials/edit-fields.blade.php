@@ -45,10 +45,10 @@
             </div>
         </div>
         <div class="col-sm-12">
-            <div class="form-group{{ $errors->has('show_perform_at') ? ' has-error' : '' }}">
-                {!! Form::checkbox('show_perform_at', (int)Input::old('show_perform_at', @$model->show_perform_at), (bool)Input::old('show_perform_at', @$model->show_perform_at), ['class' => 'flat-blue']) !!}
-                {!! Form::label('show_perform_at', $admin->trans('table.show_perform_at')) !!}
-                {!! $errors->first('show_perform_at', '<span class="help-block">:message</span>') !!}
+            <div class="form-group{{ $errors->has('show_perform_time') ? ' has-error' : '' }}">
+                {!! Form::checkbox('show_perform_time', (int)Input::old('show_perform_time', @$model->show_perform_time), (bool)Input::old('show_perform_time', @$model->show_perform_time), ['class' => 'flat-blue']) !!}
+                {!! Form::label('show_perform_time', $admin->trans('table.show_perform_time')) !!}
+                {!! $errors->first('show_perform_time', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
         <div class="col-sm-12">

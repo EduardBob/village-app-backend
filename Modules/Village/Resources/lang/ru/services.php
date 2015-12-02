@@ -21,7 +21,7 @@ return [
         'order_button_label' => 'Метка кнопки заказа',
         'active' => 'Доступен',
         'created_at' => 'Создан',
-        'show_perform_at' => 'Возможность выбора удобного времени',
+        'show_perform_time' => 'Возможность выбора удобного времени',
         'actions' => 'Действия',
     ],
     'form' => [

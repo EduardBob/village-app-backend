@@ -124,6 +124,9 @@ return [
            'main.js',
            'sisyphus.js',
 
+           // additional js
+           'ckeditor.js',
+
            // custom js
            'jquery.inputmask.js',
            'jquery.inputmask.extensions.js',

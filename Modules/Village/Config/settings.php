@@ -8,7 +8,7 @@ return [
     ],
     'village-agreement-condition' => [
         'description' => 'Текст пользовательского соглашение',
-        'view' => 'textarea',
+        'view' => 'wysiwyg',
         'translatable' => false,
     ],
 ];

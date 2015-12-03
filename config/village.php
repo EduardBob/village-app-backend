@@ -59,7 +59,7 @@ return [
         'label' => [
 //            'not_paid' => 'info', //Обрабатывается
             'processing' => 'primary', //Обрабатывается
-            'running' => 'waring', // Выполняется
+            'running' => 'warning', // Выполняется
             'done' => 'success', //Выполнен
             'rejected' => 'danger', // Отклонён
 //            'paid' =>  'primary',

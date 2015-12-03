@@ -34,4 +34,11 @@ class Village extends Model
             }
         });
     }
+
+    static public function getUnitStepByVillage(Village $village, $unitTitle)
+    {
+        $field = 'product_unit_step_'.$unitTitle;
+
+        return $village->$field;
+    }
 }

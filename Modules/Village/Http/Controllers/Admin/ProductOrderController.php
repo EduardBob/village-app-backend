@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Jenssegers\Date\Date;
 use Modules\Village\Entities\ProductOrder;
+use Modules\Village\Entities\Village;
 use Modules\Village\Repositories\ProductOrderRepository;
 use Modules\Village\Entities\Product;
 use Modules\Village\Repositories\ProductRepository;
@@ -243,12 +244,23 @@ class ProductOrderController extends AdminController
     }
 
     /**
-     * @param array $data
+     * @param array        $data
+     * @param ProductOrder $productOrder
      *
      * @return Validator
      */
-    public function validate(array $data)
+    public function validate(array $data, ProductOrder $productOrder = null)
     {
+//        $product = Product::find(@(int)$data['product_id']);
+//
+//        Validator::extend('step', function ($attribute, $value, $parameters) use ($product) {
+//            if ($product) {
+//                $step = (float)Village::getUnitStepByVillage($product->village, $product->unit_title);
+//                $value = (float)$value;
+//                return fmod($value, $step) === 0;
+//            }
+//        }, 'Неверный шаг');
+
         return Validator::make($data, [
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:village__products,id',
@@ -259,7 +271,7 @@ class ProductOrderController extends AdminController
             'status' => 'required|in:'.implode(',', config('village.order.statuses')),
 //            'comment' => 'sometimes|required|string',
             'decline_reason' => 'sometimes|required_if:status,rejected|string',
-            'quantity' => 'required|numeric|min:1'
+            'quantity' => 'required|numeric' // |step
         ]);
     }
 

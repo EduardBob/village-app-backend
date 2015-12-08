@@ -157,6 +157,7 @@
             "info": true,
             "autoWidth": true,
             "order": [[ 0, "desc" ]],
+            "iDisplayLength": 50,
             "language": {
                 "url": '<?php echo Module::asset("core:js/vendor/datatables/{$locale}.json") ?>'
             }

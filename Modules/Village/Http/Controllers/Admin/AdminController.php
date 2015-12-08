@@ -208,6 +208,7 @@ abstract class AdminController extends AdminBaseController
         return [
             'order' => [[ 0, 'desc' ]],
             "lengthMenu" => [[10, 25, 50, -1], [10, 25, 50, "Все"]],
+            'iDisplayLength' => 50, // http://legacy.datatables.net/usage/options#iDisplayLength
             // // http://datatables.net/reference/option/dom
             // defaukt Blfrtip
             'dom' => 'lBfrtip', //Bfrtip // lfrtBip // Blfrtip

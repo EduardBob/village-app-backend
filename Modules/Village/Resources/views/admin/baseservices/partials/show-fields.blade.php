@@ -51,14 +51,6 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
-                {!! Form::label('text', $admin->trans('table.text')) !!}
-                <div>{{ $model->text }}</div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
                 {!! Form::label('show_perform_time', $admin->trans('table.show_perform_time')) !!}
                 <div>
                     @if($model->show_perform_time)

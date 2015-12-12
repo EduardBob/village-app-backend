@@ -39,7 +39,7 @@
         <div class="col-sm-6">
             <div class="form-group{{ $errors->has('text') ? ' has-error' : '' }}">
                 {!! Form::label('text', $admin->trans('table.text')) !!}
-                {!! Form::textarea('text', Input::old('text', @$model->text), ['class' => 'form-control', 'placeholder' => $admin->trans('table.text')]) !!}
+                {!! Form::textarea('text', Input::old('text', @$model->text), ['class' => 'form-control', 'placeholder' => $admin->trans('table.text'), 'maxlength' => 255]) !!}
                 {!! $errors->first('text', '<span class="help-block">:message</span>') !!}
             </div>
         </div>

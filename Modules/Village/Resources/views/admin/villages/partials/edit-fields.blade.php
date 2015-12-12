@@ -81,10 +81,24 @@
                 {!! $errors->first('product_unit_step_piece', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-12">
+            <div class="form-group{{ $errors->has('send_sms_to_village_admin') ? ' has-error' : '' }}">
+                {!! Form::checkbox('send_sms_to_village_admin', (int)Input::old('send_sms_to_village_admin', @$model->send_sms_to_village_admin), (bool)Input::old('send_sms_to_village_admin', @$model->send_sms_to_village_admin), ['class' => 'flat-blue']) !!}
+                {!! Form::label('send_sms_to_village_admin', $admin->trans('table.send_sms_to_village_admin')) !!}
+                {!! $errors->first('send_sms_to_village_admin', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group{{ $errors->has('send_sms_to_executor') ? ' has-error' : '' }}">
+                {!! Form::checkbox('send_sms_to_executor', (int)Input::old('send_sms_to_executor', @$model->send_sms_to_executor), (bool)Input::old('send_sms_to_executor', @$model->send_sms_to_executor), ['class' => 'flat-blue']) !!}
+                {!! Form::label('send_sms_to_executor', $admin->trans('table.send_sms_to_executor')) !!}
+                {!! $errors->first('send_sms_to_executor', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-12">
             <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
-                {!! Form::label('active', $admin->trans('table.active')) !!}
                 {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}
+                {!! Form::label('active', $admin->trans('table.active')) !!}
                 {!! $errors->first('active', '<span class="help-block">:message</span>') !!}
             </div>
         </div>

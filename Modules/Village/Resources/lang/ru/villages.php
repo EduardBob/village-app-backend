@@ -24,6 +24,8 @@ return [
         'product_unit_step_kg' => 'Шаг изменения для киллограммов',
         'product_unit_step_bottle' => 'Шаг изменения для бутылок',
         'product_unit_step_piece' => 'Шаг изменения для штук',
+        'send_sms_to_village_admin' => 'Отпрвлять SMS администратору поселка о новых заказах',
+        'send_sms_to_executor' => 'Отпрвлять SMS исполнителю о новых заказах',
         'active' => 'Включен',
         'created_at' => 'Создана',
         'actions' => 'Действия',

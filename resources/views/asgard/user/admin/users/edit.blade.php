@@ -65,7 +65,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                     {!! Form::label('email', trans('user::users.form.email')) !!}
-                                    {!! Form::email('email', Input::old('email'), ['class' => 'form-control', 'placeholder' => trans('user::users.form.email')]) !!}
+                                    {!! Form::email('email', Input::old('email', @$user->email), ['class' => 'form-control', 'placeholder' => trans('user::users.form.email')]) !!}
                                     {!! $errors->first('email', '<span class="help-block">:message</span>') !!}
                                 </div>
                             </div>

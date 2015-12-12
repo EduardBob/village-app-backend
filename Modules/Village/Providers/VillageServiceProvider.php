@@ -1,6 +1,8 @@
 <?php namespace Modules\Village\Providers;
 
 use Fruitware\ProstorSms\Exception\BadSmsStatusException;
+use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Contracts\Authentication;
 use Modules\Media\Image\ThumbnailsManager;
@@ -9,6 +11,7 @@ use Modules\Village\Entities\ProductOrderChange;
 use Modules\Village\Entities\ServiceOrder;
 use Modules\Village\Entities\ServiceOrderChange;
 use Modules\Village\Entities\Sms;
+use Modules\Village\Entities\User;
 
 class VillageServiceProvider extends ServiceProvider
 {
@@ -56,7 +59,8 @@ class VillageServiceProvider extends ServiceProvider
                 ]);
 
                 if ('processing' === $productOrder->status) {
-                    $this->sendSmsOnProcessingOrder($auth);
+                    $this->sendMailOnProcessingOrder($auth, $productOrder);
+                    $this->sendSmsOnProcessingOrder($auth, $productOrder);
                 }
             }
         });
@@ -71,7 +75,8 @@ class VillageServiceProvider extends ServiceProvider
                 ]);
 
                 if ('processing' === $serviceOrder->status) {
-                    $this->sendSmsOnProcessingOrder($auth);
+                    $this->sendMailOnProcessingOrder($auth, $serviceOrder);
+                    $this->sendSmsOnProcessingOrder($auth, $serviceOrder);
                 }
             }
         });
@@ -79,28 +84,97 @@ class VillageServiceProvider extends ServiceProvider
 
     /**
      * @param Authentication $auth
+     * @param                $order
      */
-    private function sendSmsOnProcessingOrder(Authentication $auth)
+    private function sendMailOnProcessingOrder(Authentication $auth, $order)
     {
-        if (config('village.sms.enabled.on_order_processing')) {
-            $user = $this->user($auth);
+        $user = $this->user($auth);
+
+        $type = $order->product ? 'product' : 'service';
+        $orderAdminUrl = route('admin.village.'.$type.'order.show', [$order->id]);
+        $toEmails = [];
+        if ($order->village->mainAdmin && $user->village->mainAdmin->email) {
+            $toEmails[] = $user->village->mainAdmin->email;
+        }
+        /** @var User $executor */
+        $executor = $order->{$type}->executor;
+        if ($executor && $executor->email) {
+            $toEmails[] = $executor->email;
+        }
+
+        $data = [
+            'adminUrl' => $orderAdminUrl,
+            'user'     => $user,
+            'order'     => $order,
+            'type'      => $type,
+            'entity'     => $order->{$type},
+        ];
+
+        Mail::queue('village::emails.new-order', ['data' => $data],
+            function (Message $m) use ($toEmails){
+                $toEmails = array_map('trim', $toEmails);
+                $siteName = \Setting::get('core::site-name', \App::getLocale());
+                $m->to($toEmails)
+                  ->subject('Новый заказ в приложении '.$siteName.'.')
+                ;
+            }
+        );
+    }
+
+    /**
+     * @param Authentication $auth
+     * @param                $order
+     */
+    private function sendSmsOnProcessingOrder(Authentication $auth, $order)
+    {
+        $user = $this->user($auth);
+
+        if (!config('village.sms.enabled.on_order_processing')) {
+            return;
+        }
+
+        $siteName = \Setting::get('core::site-name', \App::getLocale());
+        $type = $order->product ? 'product' : 'service';
+        $orderAdminUrl = route('admin.village.'.$type.'order.show', [$order->id]);
+        $text = $siteName.'. Новый заказ '.$orderAdminUrl;
+
+        if ($order->village->send_sms_to_village_admin && $order->village->mainAdmin && $user->village->mainAdmin->phone) {
             $sms = new Sms();
             $sms->village()
                 ->associate($user->village)
             ;
             $sms
-                ->setPhone($user->village->main_admin->phone)
-                ->setText('Добавлен новый заказ')
+                ->setPhone($user->village->mainAdmin->phone)
+                ->setText($text)
 //                ->setSender($user->village->name)
             ;
+
             try {
                 smsGate()->send($sms);
             }
             catch (\Exception $ex) {
             }
         }
-        else {
-            flash()->warning(trans('village::sms.messages.send on_order_processing disabled'));
+
+        if ($order->village->send_sms_to_executor) {
+            /** @var User $executor */
+            $executor = $order->{$type}->executor;
+            if ($executor) {
+                $sms = new Sms();
+                $sms->village()
+                    ->associate($user->village)
+                ;
+                $sms
+                    ->setPhone($executor->phone)
+                    ->setText($text)
+//                ->setSender($user->village->name)
+                ;
+                try {
+                    smsGate()->send($sms);
+                }
+                catch (\Exception $ex) {
+                }
+            }
         }
     }
 

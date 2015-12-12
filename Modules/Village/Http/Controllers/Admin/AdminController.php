@@ -38,7 +38,7 @@ abstract class AdminController extends AdminBaseController
      * @param BaseRepository $repository
      * @param string         $modelClass
      */
-    public function __construct(BaseRepository $repository, $modelClass = null)
+    public function __construct($repository, $modelClass = null)
     {
         parent::__construct();
 
@@ -119,7 +119,7 @@ abstract class AdminController extends AdminBaseController
         $view = $view ? $view : $this->getViewName();
         $modelView = $this->getModule().'::admin.'.$view.'.'.$action;
 
-        return view()->exists($modelView) ? $modelView : $this->getModule().'::admin.admin.'.$action;
+        return view()->exists($modelView) ? $modelView : 'village::admin.admin.'.$action;
     }
 
     /**
@@ -276,6 +276,7 @@ abstract class AdminController extends AdminBaseController
             $this->configureDatagridFilters($dataTable, $request);
 
             if ($this->getCurrentUser()->hasAccess($this->getAccess('show')) || $this->getCurrentUser()->hasAccess($this->getAccess('edit')) || $this->getCurrentUser()->hasAccess($this->getAccess('destroy'))) {
+
                 $dataTable->addColumn('action', function (Model $model) {
                     $actions = '';
                     if ($this->getCurrentUser()->hasAccess($this->getAccess('show'))) {
@@ -396,11 +397,14 @@ abstract class AdminController extends AdminBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Model $model
+     * @param Model|int $model
      * @return \Illuminate\View\View
      */
-    public function edit(Model $model)
+    public function edit($model)
     {
+        if (!$model instanceof Model) {
+            $model = $this->getRepository()->find($model);
+        }
         if (isset($model->deleted_at) && !is_null($model->deleted_at)) {
             flash()->error(trans('Запись не найдена'));
 
@@ -418,12 +422,16 @@ abstract class AdminController extends AdminBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param Model   $model
+     * @param Model|int $model
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Model $model, Request $request)
+    public function update($model, Request $request)
     {
+        if (!$model instanceof Model) {
+            $model = $this->getRepository()->find($model);
+        }
+
         if (isset($model->deleted_at) && !is_null($model->deleted_at)) {
             flash()->error(trans('Запись не найдена'));
 
@@ -461,11 +469,15 @@ abstract class AdminController extends AdminBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Model $model
+     * @param  Model|int $model
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Model $model)
+    public function destroy($model)
     {
+        if (!$model instanceof Model) {
+            $model = $this->getRepository()->find($model);
+        }
+
         $redirect = $this->checkPermissionDenied($model);
         if ($redirect !== false) {
             return $redirect;

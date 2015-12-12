@@ -18,7 +18,7 @@
         <div class="row">
             <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
                 <a href="{{ $admin->route('create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
-                    <i class="fa fa-pencil"></i> {{ $admin->trans('button.create') }}
+                    <i class="fa fa-pencil"></i> {{  trans('core::core.button.create') }}
                 </a>
             </div>
         </div>

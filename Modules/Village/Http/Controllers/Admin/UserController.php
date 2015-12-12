@@ -1,17 +1,18 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Illuminate\Database\Query\Builder;
-use Modules\Core\Contracts\Authentication;
-use Modules\User\Permissions\PermissionManager;
-use Modules\User\Http\Controllers\Admin\BaseUserModuleController;
+use Illuminate\Http\Request;
 use Modules\Village\Entities\User;
-use Modules\Village\Http\Requests\CreateUserRequest;
-use Modules\Village\Http\Requests\UpdateUserRequest;
 use Modules\User\Repositories\RoleRepository;
 use Modules\User\Repositories\UserRepository;
 use Response;
 
-class UserController extends BaseUserModuleController
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Validator;
+use yajra\Datatables\Engines\EloquentEngine;
+use yajra\Datatables\Html\Builder as TableBuilder;
+use yajra\Datatables\Datatables;
+
+class UserController extends AdminController
 {
     /**
      * @var UserRepository
@@ -21,71 +22,166 @@ class UserController extends BaseUserModuleController
      * @var RoleRepository
      */
     private $role;
-    /**
-     * @var Authentication
-     */
-    private $auth;
 
     /**
-     * @param PermissionManager $permissions
      * @param UserRepository    $user
      * @param RoleRepository    $role
-     * @param Authentication    $auth
      */
-    public function __construct(
-        PermissionManager $permissions,
-        UserRepository $user,
-        RoleRepository $role,
-        Authentication $auth
-    ) {
-        parent::__construct();
+    public function __construct(UserRepository $user, RoleRepository $role)
+    {
+        parent::__construct($user, User::class);
 
-        $this->permissions = $permissions;
         $this->user = $user;
         $this->role = $role;
-        $this->auth = $auth;
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return string
      */
-    public function index()
+    public function getModule()
     {
-        /** @var Builder $query */
-        $users = User::with(['activation'])
-            ->get();
+        return 'user';
+    }
 
-        $currentUser = $this->auth->check();
-
-        return view('user::admin.users.index', compact('users', 'currentUser'));
+    public function getClass()
+    {
+        return 'user';
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @return string
+     */
+    public function getViewName()
+    {
+        return 'users';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function configureDatagridColumns()
+    {
+        return [
+            'users.id',
+            'users.village_id',
+            'users.building_id',
+            'users.first_name',
+            'users.last_name',
+            'users.phone',
+            'activations.completed'
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function configureQuery(QueryBuilder $query)
+    {
+        $query
+            ->leftJoin('village__villages', 'users.village_id', '=', 'village__villages.id')
+            ->where('village__villages.deleted_at', null)
+            ->leftJoin('village__buildings', 'users.building_id', '=', 'village__buildings.id')
+            ->leftJoin('activations', 'users.id', '=', 'activations.user_id')
+            ->with(['village', 'building', 'activation'])
+        ;
+
+        if (!$this->getCurrentUser()->inRole('admin')) {
+            $query->where('users.village_id', $this->getCurrentUser()->village->id);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function configureDatagridFields(TableBuilder $builder)
+    {
+        $builder
+            ->addColumn(['data' => 'id', 'title' => 'ID'])
+        ;
+
+        if ($this->getCurrentUser()->inRole('admin')) {
+            $builder
+                ->addColumn(['data' => 'village_name', 'name' => 'village__villages.name', 'title' => trans('village::villages.title.model')])
+            ;
+        }
+
+        $builder
+            ->addColumn(['data' => 'first_name', 'name' => 'users.first_name', 'title' => $this->trans('form.first-name')])
+            ->addColumn(['data' => 'last_name', 'name' => 'users.last_name', 'title' => $this->trans('form.last-name')])
+            ->addColumn(['data' => 'phone', 'name' => 'users.phone', 'title' => trans('village::users.form.phone')])
+            ->addColumn(['data' => 'building_address', 'name' => 'village__buildings.address', 'title' => trans('village::users.form.building_id')])
+            ->addColumn(['data' => 'activation_completed', 'name' => 'activations.completed', 'title' => $this->trans('form.status')])
+        ;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function configureDatagridValues(EloquentEngine $dataTable)
+    {
+        if ($this->getCurrentUser()->inRole('admin')) {
+            $dataTable
+                ->editColumn('village_name', function (User $user) {
+                    if (!$user->village) {
+                        return '';
+                    }
+                    if ($this->getCurrentUser()->hasAccess('village.villages.edit')) {
+                        return '<a href="'.route('admin.village.village.edit', ['id' => $user->village->id]).'">'.$user->village->name.'</a>';
+                    }
+                    else {
+                        return $user->village->name;
+                    }
+                })
+            ;
+        }
+
+        $dataTable
+            ->editColumn('building_address', function (User $user) {
+                if (!$user->building) {
+                    return '';
+                }
+                if ($this->getCurrentUser()->hasAccess('village.buildings.edit')) {
+                    return '<a href="'.route('admin.village.building.edit', ['id' => $user->building->id]).'">'.$user->building->address.'</a>';
+                }
+                else {
+                    return $user->building->address;
+                }
+            })
+            ->editColumn('activation_completed', function (User $user) {
+                if($user->isActivated()) {
+                    return '<span class="label label-success">'.trans('village::admin.table.active.yes').'</span>';
+                }
+                else {
+                    return '<span class="label label-danger">'.trans('village::admin.table.active.no').'</span>';
+                }
+            })
+        ;
+    }
+
+    /**
+     * @inheritdoc
      */
     public function create()
     {
-        $roles = $this->role->all();
-        $currentUser = $this->auth->check();
+        $view = parent::create();
 
-        return view('user::admin.users.create', compact('roles', 'currentUser'));
+        $roles = $this->getPermittedRoles();
+        view()->share('roles', $roles);
+
+        return $view;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  CreateUserRequest $request
+     * @param  Request $request
      * @return Response
      */
-    public function store(CreateUserRequest $request)
+    public function store(Request $request)
     {
-        $data = $this->mergeRequestWithPermissions($request);
+        $data = $this->clearNotPermittedRoles($request->all());
 
-        $this->user->createWithRoles($data, $request->roles, true);
+        $this->user->createWithRoles($data, @$data['roles'], $data['activated']);
 
         flash(trans('user::messages.user created'));
 
@@ -100,30 +196,26 @@ class UserController extends BaseUserModuleController
      */
     public function edit($id)
     {
-        if (!$user = $this->user->find($id)) {
-            flash()->error(trans('user::messages.user not found'));
+        $view = parent::edit($id);
 
-            return redirect()->route('admin.user.user.index');
-        }
-        $roles = $this->role->all();
+        $roles = $this->getPermittedRoles();
+        view()->share('roles', $roles);
 
-        $currentUser = $this->auth->check();
-
-        return view('user::admin.users.edit', compact('user', 'roles', 'currentUser'));
+        return $view;
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int               $id
-     * @param  UpdateUserRequest $request
+     * @param  int     $id
+     * @param  Request $request
      * @return Response
      */
-    public function update($id, UpdateUserRequest $request)
+    public function update($id, Request $request)
     {
-        $data = $this->mergeRequestWithPermissions($request);
+        $data = $this->clearNotPermittedRoles($request->all());
 
-        $this->user->updateAndSyncRoles($id, $data, $request->roles);
+        $this->user->updateAndSyncRoles($id, $data, @$data['roles']);
 
         flash(trans('user::messages.user updated'));
 
@@ -136,12 +228,82 @@ class UserController extends BaseUserModuleController
      * @param  int      $id
      * @return Response
      */
-    public function destroy($id)
+//    public function destroy($id)
+//    {
+//        $this->user->delete($id);
+//
+//        flash(trans('user::messages.user deleted'));
+//
+//        return redirect()->route('admin.user.user.index');
+//    }
+
+    /**
+     * @param array $data
+     * @param User  $user
+     *
+     * @return Validator
+     */
+    public function validate(array $data, User $user = null)
     {
-        $this->user->delete($id);
+        $id = $user ? $user->id : '';
 
-        flash(trans('user::messages.user deleted'));
+        $rules = [
+//            'address' => "required|max:255|unique:village__buildings,address,{$id}",
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => "email|unique:users,email,{$id}",
+//            'password' => 'min:3|confirmed',
+            'phone' => 'required|regex:'.config('village.user.phone.regex'),
+        ];
 
-        return redirect()->route('admin.user.user.index');
+        if (!$this->getCurrentUser()->inRole('admin')) {
+            $rules['village_id'] = 'required|exists:village__villages,id';
+        }
+
+        return Validator::make($data, $rules);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    private function getPermittedRoles()
+    {
+        $roles = $this->role->all();
+
+        if (!$this->getCurrentUser()->inRole('admin')) {
+            foreach ($roles as $key => $role) {
+                if (!in_array($role->slug, ['user', 'village-admin', 'executor'])) {
+                    unset($roles[$key]);
+                }
+            }
+        }
+
+        return $roles;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return bool
+     */
+    private function clearNotPermittedRoles(array $data)
+    {
+        $roles = @$data['roles'];
+
+        if (is_array($roles)) {
+            $permittedRoles = $this->getPermittedRoles();
+            foreach ($roles as $index => $roleId) {
+                if (!$permittedRoles->contains('id', $roleId)) {
+                    unset($roles[$index]);
+                }
+            }
+
+            $data['roles'] = $roles;
+        }
+        else {
+            $data['roles'] = ['']; // need for delete role relations
+        }
+
+        return $data;
     }
 }

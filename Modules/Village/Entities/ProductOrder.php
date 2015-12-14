@@ -40,7 +40,7 @@ class ProductOrder extends Model
                 $productOrder->payment_status = 'paid';
             }
             else {
-                $productOrder->price = Margin::getFinalPrice($productOrder->product->price) * $productOrder->quantity;
+                $productOrder->price = Margin::getFinalPrice($productOrder->village, $productOrder->product->price) * $productOrder->quantity;
                 $productOrder->payment_status = 'not_paid';
             }
             $productOrder->unit_title = $productOrder->product->unit_title;

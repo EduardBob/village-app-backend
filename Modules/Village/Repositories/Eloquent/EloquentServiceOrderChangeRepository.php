@@ -16,6 +16,7 @@ class EloquentServiceOrderChangeRepository extends VillageBaseRepository impleme
     {
         $query = $this
             ->model
+            ->leftJoin('village__service_orders', 'village__service_order_changes.order_id', '=', 'village__service_orders.id')
             ->leftJoin('village__services', 'village__service_order_changes.service_id', '=', 'village__services.id')
             ->leftJoin('village__villages', 'village__services.village_id', '=', 'village__villages.id')
         ;
@@ -24,9 +25,40 @@ class EloquentServiceOrderChangeRepository extends VillageBaseRepository impleme
             $query->where('village__villages.id', $village->id);
         }
         if ($executor) {
-            $query->where('village__service_order_changes.user_id', $executor->id);
+            $query->where('village__services.executor_id', $executor->id);
         }
 
         return $query->count();
+    }
+
+
+    /**
+     * @param int     $count
+     * @param Village $village
+     * @param User    $executor
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function latest($count, Village $village = null, User $executor = null)
+    {
+        $query = $this
+            ->model
+            ->select('village__service_order_changes.*')
+            ->leftJoin('village__service_orders', 'village__service_order_changes.order_id', '=', 'village__service_orders.id')
+            ->leftJoin('village__services', 'village__service_orders.service_id', '=', 'village__services.id')
+            ->leftJoin('village__villages', 'village__services.village_id', '=', 'village__villages.id')
+        ;
+
+        if ($village) {
+            $query->where('village__villages.id', $village->id);
+        }
+        if ($executor) {
+            $query->where('village__services.executor_id', $executor->id);
+        }
+
+        return $query
+            ->orderBy('id', 'DESC')
+            ->paginate($count)
+        ;
     }
 }

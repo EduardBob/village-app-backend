@@ -33,7 +33,7 @@ class ServiceTransformer extends BaseTransformer
         return [
             'id' =>  $service->id,
             'title' => $service->title,
-            'price' => Margin::getFinalPrice($service->price),
+            'price' => Margin::getFinalPrice($service->village, $service->price),
             'comment_label' => $service->comment_label,
             'order_button_label' => $service->order_button_label,
             'show_perform_time' => $service->show_perform_time,

@@ -16,7 +16,9 @@ class EloquentProductOrderChangeRepository extends VillageBaseRepository impleme
     {
         $query = $this
             ->model
-            ->leftJoin('village__products', 'village__product_order_changes.product_id', '=', 'village__products.id')
+            ->select('village__product_order_changes.*')
+            ->leftJoin('village__product_orders', 'village__product_order_changes.order_id', '=', 'village__product_orders.id')
+            ->leftJoin('village__products', 'village__product_orders.product_id', '=', 'village__products.id')
             ->leftJoin('village__villages', 'village__products.village_id', '=', 'village__villages.id')
         ;
 
@@ -28,5 +30,35 @@ class EloquentProductOrderChangeRepository extends VillageBaseRepository impleme
         }
 
         return $query->count();
+    }
+
+    /**
+     * @param int     $count
+     * @param Village $village
+     * @param User    $executor
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function latest($count, Village $village = null, User $executor = null)
+    {
+        $query = $this
+            ->model
+            ->select('village__product_order_changes.*')
+            ->leftJoin('village__product_orders', 'village__product_order_changes.order_id', '=', 'village__product_orders.id')
+            ->leftJoin('village__products', 'village__product_orders.product_id', '=', 'village__products.id')
+            ->leftJoin('village__villages', 'village__products.village_id', '=', 'village__villages.id')
+        ;
+
+        if ($village) {
+            $query->where('village__villages.id', $village->id);
+        }
+        if ($executor) {
+            $query->where('village__products.executor_id', $executor->id);
+        }
+
+        return $query
+            ->orderBy('id', 'DESC')
+            ->paginate($count)
+        ;
     }
 }

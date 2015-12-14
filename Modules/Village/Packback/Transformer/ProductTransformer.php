@@ -33,7 +33,7 @@ class ProductTransformer extends BaseTransformer
         return [
             'id' =>  $product->id,
             'title' => $product->title,
-            'price' => Margin::getFinalPrice($product->price),
+            'price' => Margin::getFinalPrice($product->village, $product->price),
             'unit_title' => $product->unit_title,
             'text' => $product->text,
             'comment_label' => $product->comment_label,

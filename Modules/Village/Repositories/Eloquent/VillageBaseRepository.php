@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
+use Modules\Village\Entities\Village;
 
 abstract class VillageBaseRepository extends EloquentBaseRepository
 {
@@ -74,14 +75,20 @@ abstract class VillageBaseRepository extends EloquentBaseRepository
     }
 
     /**
-     * @param int $count
+     * @param int     $count
+     * @param Village $village
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function latest($count)
+    public function latest($count, Village $village = null)
     {
-        return $this
-            ->model
+        $query = $this->model;
+
+        if ($village) {
+            $query->leftJoin('village_id', $village->id);
+        }
+
+        return $query
             ->orderBy('id', 'DESC')
             ->paginate($count)
         ;

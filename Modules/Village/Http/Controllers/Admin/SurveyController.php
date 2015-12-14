@@ -146,7 +146,7 @@ class SurveyController extends AdminController
      * @param Model $model
      * @return \Illuminate\View\View
      */
-    public function edit(Model $model)
+    public function edit($model)
     {
         $response = parent::edit($model);
 

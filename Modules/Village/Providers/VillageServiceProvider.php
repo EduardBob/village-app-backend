@@ -59,6 +59,7 @@ class VillageServiceProvider extends ServiceProvider
                 ]);
 
                 if ('processing' === $productOrder->status) {
+
                     $this->sendMailOnProcessingOrder($auth, $productOrder);
                     $this->sendSmsOnProcessingOrder($auth, $productOrder);
                 }
@@ -93,7 +94,8 @@ class VillageServiceProvider extends ServiceProvider
         $type = $order->product ? 'product' : 'service';
         $orderAdminUrl = route('admin.village.'.$type.'order.show', [$order->id]);
         $toEmails = [];
-        if ($order->village->mainAdmin && $user->village->mainAdmin->email) {
+
+        if ($order->village->mainAdmin && @$user->village->mainAdmin->email) {
             $toEmails[] = $user->village->mainAdmin->email;
         }
         /** @var User $executor */
@@ -183,9 +185,17 @@ class VillageServiceProvider extends ServiceProvider
         if ($user = $auth->check()) {
             return $user;
         }
-        elseif (\JWTAuth::parseToken()) {
-            return \JWTAuth::parseToken()->authenticate();
+        else {
+            try {
+
+                $auth = \JWTAuth::parseToken();
+                return $auth->authenticate();
+            }
+            catch (\Exception $ex) {
+            }
         }
+
+        return false;
     }
 
     private function registerBindings()

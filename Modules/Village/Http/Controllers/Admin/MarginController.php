@@ -33,7 +33,7 @@ class MarginController extends AdminController
      * @param Model $model
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Model $model)
+    public function destroy($model)
     {
         if (!$model->is_removable)
         {

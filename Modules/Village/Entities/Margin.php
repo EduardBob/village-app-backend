@@ -34,11 +34,11 @@ class Margin extends Model
      *
      * @return float
      */
-    static public function getFinalPrice($price)
+    static public function getFinalPrice(Village $village, $price)
     {
         if ($price <= 0) return 0;
 
-        $margins = Margin::api()->orderBy('order', 'ASC')->get();
+        $margins = Margin::where('village_id', $village->id)->orderBy('order', 'ASC')->get();
 
         foreach ($margins as $margin) {
             if (Margin::TYPE_PERCENT == $margin['type']) {

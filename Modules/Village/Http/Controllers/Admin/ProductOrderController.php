@@ -45,6 +45,7 @@ class ProductOrderController extends AdminController
      */
     public function store(Request $request)
     {
+//        $request->request->add(['status' => config('village.order.first_status')]);
         $request['status'] = config('village.order.first_status');
 
         return parent::store($request);

@@ -1,6 +1,7 @@
 <?php namespace Modules\Village\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Village\Entities\Village;
 
 interface BaseRepository extends \Modules\Core\Repositories\BaseRepository
 {
@@ -27,11 +28,12 @@ interface BaseRepository extends \Modules\Core\Repositories\BaseRepository
     public function findAllByAttributes(array $attributes, array $order = null);
 
     /**
-     * @param int $count
+     * @param int     $count
+     * @param Village $village
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function latest($count);
+    public function latest($count, Village $village = null);
 
     /**
      * @param int $onPage

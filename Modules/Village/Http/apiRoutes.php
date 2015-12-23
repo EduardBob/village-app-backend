@@ -47,12 +47,12 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
             $router->group(['prefix' => 'services'], function (Router $router) {
                 $router->group(['prefix' => 'orders'], function (Router $router) {
                     $router->get('',        ['uses' => 'V1\Security\ServiceOrderController@index', 'as' => 'village.security.api.service.order.list']);
-                    $router->post('',       ['uses' => 'V1\Security\ServiceOrderController@store', 'as' => 'village.security.api.service.order.store']);
+//                    $router->post('',       ['uses' => 'V1\Security\ServiceOrderController@store', 'as' => 'village.security.api.service.order.store']);
+                    $router->patch('{id}',  ['uses' => 'V1\Security\ServiceOrderController@update', 'as' => 'village.security.api.service.order.update']);
                 });
 
                 $router->get('',        ['uses' => 'V1\Security\ServiceController@index', 'as' => 'village.security.api.service.service.list']);
             });
-//            $router->get('{id}', 	['uses' => 'V1\ArticleController@show', 'as' => 'village.api.article.one']);
         });
 
         $router->group(['prefix' => 'me'], function (Router $router) {

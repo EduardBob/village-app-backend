@@ -45,6 +45,49 @@ class ServiceOrderController extends ApiController
     }
 
     /**
+     * Update a serviceOrder
+     *
+     * @param Request $request
+     * @param int     $id
+     *
+     * @return Response
+     */
+    public function update(Request $request, $id)
+    {
+        $data = $request::only('status', 'payment_status');
+
+        $validator = Validator::make($data, [
+            'payment_status' => 'required|in:'.implode(',', config('village.order.payment.status.values')),
+            'status'         => 'required|in:'.implode(',', config('village.order.statuses')),
+        ]);
+
+        if ($validator->fails()) {
+            return $this->response->errorWrongArgs($validator->errors());
+        }
+
+        $serviceOrder = ServiceOrder::find((int)$id);
+
+        if (!$serviceOrder) {
+            return $this->response->errorNotFound('');
+        }
+
+        $service = $serviceOrder->service;
+
+        if (!$service->executor_id || !(int)$service->executor_id !== (int)$this->user()->id) {
+            return $this->response->errorForbidden('no_rights');
+        }
+
+        if ('done' === $serviceOrder->status) {
+            return $this->response->errorForbidden('order_already_done');
+        }
+
+        $serviceOrder->fill($data);
+        $serviceOrder->save();
+
+        return $this->response->withItem($serviceOrder, new ServiceOrderTransformer);
+    }
+
+    /**
      * Store a serviceOrder
      *
      * @param Request $request

@@ -2,6 +2,92 @@
 	"version": 1,
 	"collections": [
 		{
+			"id": "ca280dee-47e2-b2f1-dd54-435296205445",
+			"name": "Village-security-app",
+			"description": "",
+			"order": [],
+			"folders": [
+				{
+					"id": "0244cb7c-57e7-273d-a265-7031c7bb1337",
+					"name": "services",
+					"description": "",
+					"write": true,
+					"order": [
+						"b2f36cd9-4c79-0ff0-8e2a-966ede60f6a2",
+						"e49ce460-a024-e64c-e8b6-018f057829fe"
+					],
+					"collection": "ca280dee-47e2-b2f1-dd54-435296205445",
+					"owner": "161799",
+					"collection_name": "Village-security-app",
+					"collection_owner": "161799",
+					"collection_id": "ca280dee-47e2-b2f1-dd54-435296205445"
+				}
+			],
+			"timestamp": 1450876821163,
+			"synced": false,
+			"remote_id": 0,
+			"owner": "161799",
+			"sharedWithTeam": false,
+			"subscribed": false,
+			"remoteLink": "",
+			"public": false,
+			"createdAt": 1450876821163,
+			"updatedAt": 1450876888561,
+			"write": true,
+			"requests": [
+				{
+					"id": "b2f36cd9-4c79-0ff0-8e2a-966ede60f6a2",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/security/services",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains category\"] = responseBody.has(\"category\");\n\n    postman.setEnvironmentVariable(\"service.id\", data.data[0].id);\n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1450879847587,
+					"name": "/api/v1/security/services ",
+					"description": "Get all services where user assigned as executor",
+					"collectionId": "ca280dee-47e2-b2f1-dd54-435296205445"
+				},
+				{
+					"id": "e49ce460-a024-e64c-e8b6-018f057829fe",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/security/services/orders?status=processing&date=2015-12-02&page={{page}}",
+					"preRequestScript": "postman.setEnvironmentVariable(\"page\", 1);",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "phone",
+							"value": "{{phone}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Count == 15 \"] = data.data.length;\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    $.each(data.data, function(index, order) {\n        if (order.status === 'rejected') {\n            tests[\"decline_reason not null, index = \" + index] = order.decline_reason !== null;\n        }\n        else {\n            tests[\"decline_reason is null, index = \" + index] = order.decline_reason === null;\n        }\n        tests[\"Body contains service, index = \" + index] = order.service && order.service.data;        \n    });\n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1450884924658,
+					"name": "/api/v1/security/services/orders",
+					"description": "Get all service orders",
+					"collectionId": "ca280dee-47e2-b2f1-dd54-435296205445",
+					"responses": []
+				}
+			]
+		},
+		{
 			"id": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
 			"name": "Village",
 			"description": "REST API in Postman",
@@ -230,7 +316,7 @@
 			"remoteLink": null,
 			"public": false,
 			"createdAt": "2015-10-14T09:09:02.000Z",
-			"updatedAt": 1447259047801,
+			"updatedAt": 1450876888545,
 			"write": true,
 			"requests": [
 				{
@@ -1460,6 +1546,181 @@
 	],
 	"environments": [
 		{
+			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
+			"name": "dev",
+			"values": [
+				{
+					"key": "debug",
+					"value": "true",
+					"type": "text",
+					"name": "debug",
+					"enabled": true
+				},
+				{
+					"key": "domain",
+					"value": "http://village.dev",
+					"type": "text",
+					"name": "domain",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE4NTEsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ1MDg4NDA1MSwiZXhwIjoxNDUwOTcwNDUxLCJuYmYiOjE0NTA4ODQwNTEsImp0aSI6IjQxMWJhYTQ1NDQxMWFhMWVmNTNjMDIyOGEyYmFjZDllIn0.rtr6gSH2JipB--sJIn-yEw50TL6oqnAZQ9BXakR2Nxw",
+					"type": "text",
+					"name": "token",
+					"enabled": true
+				},
+				{
+					"key": "phone",
+					"value": "+7(111)1111115",
+					"type": "text",
+					"name": "phone",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "yj3wev32R6eQJWV",
+					"type": "text",
+					"name": "password",
+					"enabled": true
+				},
+				{
+					"key": "token.code",
+					"value": "49844",
+					"type": "text",
+					"name": "token.code",
+					"enabled": true
+				},
+				{
+					"key": "token.session",
+					"value": "YBrj6CsSpQ",
+					"type": "text",
+					"name": "token.session",
+					"enabled": true
+				},
+				{
+					"key": "article.id",
+					"value": "551",
+					"type": "text",
+					"name": "article.id",
+					"enabled": true
+				},
+				{
+					"key": "me.first_name",
+					"value": "wzkqgjbyou",
+					"type": "text",
+					"name": "me.first_name",
+					"enabled": true
+				},
+				{
+					"key": "me.last_name",
+					"value": "hsxdxcflwj",
+					"type": "text",
+					"name": "me.last_name",
+					"enabled": true
+				},
+				{
+					"key": "product.id",
+					"value": "264",
+					"type": "text",
+					"name": "product.id",
+					"enabled": true
+				},
+				{
+					"key": "service.id",
+					"value": "291",
+					"type": "text",
+					"name": "service.id",
+					"enabled": true
+				},
+				{
+					"key": "page",
+					"value": "1",
+					"type": "text",
+					"name": "page",
+					"enabled": true
+				},
+				{
+					"key": "product.category.id",
+					"value": "156",
+					"type": "text",
+					"name": "product.category.id",
+					"enabled": true
+				},
+				{
+					"key": "service.category.id",
+					"value": "107",
+					"type": "text",
+					"name": "service.category.id",
+					"enabled": true
+				},
+				{
+					"key": "building.code",
+					"value": "test",
+					"type": "text",
+					"name": "building.code",
+					"enabled": true
+				},
+				{
+					"key": "building.id",
+					"value": "1",
+					"type": "text",
+					"name": "building.id",
+					"enabled": true
+				},
+				{
+					"key": "me.password",
+					"value": "1",
+					"type": "text",
+					"name": "me.password",
+					"enabled": true
+				},
+				{
+					"key": "survey.id",
+					"value": "447",
+					"type": "text",
+					"name": "survey.id",
+					"enabled": true
+				},
+				{
+					"key": "survey.my_vote.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.my_vote.choice",
+					"enabled": true
+				},
+				{
+					"key": "survey.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.choice",
+					"enabled": true
+				},
+				{
+					"key": "me.email",
+					"value": "test@test.test",
+					"type": "text",
+					"name": "me.email",
+					"enabled": true
+				},
+				{
+					"key": "me.id",
+					"value": "undefined",
+					"type": "text",
+					"name": "me.id",
+					"enabled": true
+				},
+				{
+					"key": "me.phone",
+					"value": "undefined",
+					"type": "text",
+					"name": "me.phone",
+					"enabled": true
+				}
+			],
+			"timestamp": 1450885006681
+		},
+		{
 			"id": "944b564f-d8be-2d62-87bd-0db2b3d440dc",
 			"name": "test amazon",
 			"values": [
@@ -1604,7 +1865,7 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1449070106761
+			"timestamp": 1450885006686
 		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
@@ -1626,7 +1887,7 @@
 				},
 				{
 					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODAzIiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoiMTQ0ODI4NTAyMCIsImV4cCI6IjE0NDgzNzE0MjAiLCJuYmYiOiIxNDQ4Mjg1MDIwIiwianRpIjoiZDUzNDgyMGYxMjQ5OGY1ODNkY2JlMzNmMzEwMWRhM2EifQ.uQ62olEr09bZDYXlEyNW2AWGz0fdwzEKQrRPAbRFmUg",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODAzIiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoxNDUwODY5NjgzLCJleHAiOjE0NTA5NTYwODMsIm5iZiI6MTQ1MDg2OTY4MywianRpIjoiNzVlNmI2NjUwZGRiYWU3YWI3NWFmODYwZjE1MjY3M2QifQ.KPDdb8X04M550kIRveSv3ufyWAWNi8lk7V8w85u_PPc",
 					"type": "text",
 					"name": "token",
 					"enabled": true
@@ -1751,178 +2012,7 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1449070106767
-		},
-		{
-			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
-			"name": "dev",
-			"values": [
-				{
-					"key": "debug",
-					"value": "true",
-					"type": "text",
-					"name": "debug",
-					"enabled": true
-				},
-				{
-					"key": "domain",
-					"value": "http://village.dev",
-					"type": "text",
-					"name": "domain",
-					"enabled": true
-				},
-				{
-					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjMsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ0OTA1NDA2NCwiZXhwIjoxNDQ5MTQwNDY0LCJuYmYiOjE0NDkwNTQwNjQsImp0aSI6IjBlZTZiMDIzYzg2Y2ZhOTZlOTMzOTUzNmI5YmNhNDQ2In0.2oUY55SQEiBh05ykwXb-r_Vd2eMB-rkaKk0-zl7VY2A",
-					"type": "text",
-					"name": "token",
-					"enabled": true
-				},
-				{
-					"key": "phone",
-					"value": "+7(111)1111112",
-					"type": "text",
-					"name": "phone",
-					"enabled": true
-				},
-				{
-					"key": "password",
-					"value": "yj3wev32R6eQJWV",
-					"type": "text",
-					"name": "password",
-					"enabled": true
-				},
-				{
-					"key": "token.code",
-					"value": "49844",
-					"type": "text",
-					"name": "token.code",
-					"enabled": true
-				},
-				{
-					"key": "token.session",
-					"value": "YBrj6CsSpQ",
-					"type": "text",
-					"name": "token.session",
-					"enabled": true
-				},
-				{
-					"key": "article.id",
-					"value": "551",
-					"type": "text",
-					"name": "article.id",
-					"enabled": true
-				},
-				{
-					"key": "me.first_name",
-					"value": "wzkqgjbyou",
-					"type": "text",
-					"name": "me.first_name",
-					"enabled": true
-				},
-				{
-					"key": "me.last_name",
-					"value": "hsxdxcflwj",
-					"type": "text",
-					"name": "me.last_name",
-					"enabled": true
-				},
-				{
-					"key": "product.id",
-					"value": "264",
-					"type": "text",
-					"name": "product.id",
-					"enabled": true
-				},
-				{
-					"key": "service.id",
-					"value": "291",
-					"type": "text",
-					"name": "service.id",
-					"enabled": true
-				},
-				{
-					"key": "page",
-					"value": "1",
-					"type": "text",
-					"name": "page",
-					"enabled": true
-				},
-				{
-					"key": "product.category.id",
-					"value": "156",
-					"type": "text",
-					"name": "product.category.id",
-					"enabled": true
-				},
-				{
-					"key": "service.category.id",
-					"value": "107",
-					"type": "text",
-					"name": "service.category.id",
-					"enabled": true
-				},
-				{
-					"key": "building.code",
-					"value": "test",
-					"type": "text",
-					"name": "building.code",
-					"enabled": true
-				},
-				{
-					"key": "building.id",
-					"value": "1",
-					"type": "text",
-					"name": "building.id",
-					"enabled": true
-				},
-				{
-					"key": "me.password",
-					"value": "1",
-					"type": "text",
-					"name": "me.password",
-					"enabled": true
-				},
-				{
-					"key": "survey.id",
-					"value": "447",
-					"type": "text",
-					"name": "survey.id",
-					"enabled": true
-				},
-				{
-					"key": "survey.my_vote.choice",
-					"value": "0",
-					"type": "text",
-					"name": "survey.my_vote.choice",
-					"enabled": true
-				},
-				{
-					"key": "survey.choice",
-					"value": "0",
-					"type": "text",
-					"name": "survey.choice",
-					"enabled": true
-				},
-				{
-					"key": "me.email",
-					"value": "test@test.test",
-					"type": "text",
-					"name": "me.email",
-					"enabled": true
-				},
-				{
-					"key": "me.id",
-					"type": "text",
-					"value": "undefined"
-				},
-				{
-					"key": "me.phone",
-					"type": "text",
-					"value": "undefined"
-				}
-			],
-			"timestamp": 1449070854304
+			"timestamp": 1450885006689
 		}
 	],
 	"headerPresets": [

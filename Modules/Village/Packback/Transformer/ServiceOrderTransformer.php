@@ -41,6 +41,7 @@ class ServiceOrderTransformer extends TransformerAbstract
             'decline_reason' => $serviceOrder->decline_reason,
             'payment_type' => $serviceOrder->payment_type,
             'payment_status' => $serviceOrder->payment_status,
+            'added_from' => $serviceOrder->added_from,
         ];
     }
 

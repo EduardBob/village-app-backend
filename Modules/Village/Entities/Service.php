@@ -13,11 +13,12 @@ class Service extends Model
     use VillageAdminScope;
     use SoftDeletes;
 
-    protected $table = 'village__services';
+    public $table = 'village__services';
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['base_id', 'village_id', 'category_id', 'executor_id', 'price', 'active', 'title', 'text', 'comment_label', 'order_button_label', 'show_perform_time'];
+    protected $fillable = [
+        'base_id', 'village_id', 'category_id', 'executor_id', 'price', 'active', 'title', 'text', 'comment_label', 'order_button_label', 'show_perform_time'];
 
     /**
      * @var string

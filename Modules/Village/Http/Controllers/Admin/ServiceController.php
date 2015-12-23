@@ -265,8 +265,16 @@ class ServiceController extends AdminController
      */
     public function getExecutors()
     {
-        $role = $this->roleRepository->findBySlug('executor');
         $userIds = [];
+
+        // исполнители
+        $role = $this->roleRepository->findBySlug('executor');
+        foreach($role->users as $user) {
+            $userIds[] = $user->id;
+        }
+
+        // охрана
+        $role = $this->roleRepository->findBySlug('security');
         foreach($role->users as $user) {
             $userIds[] = $user->id;
         }

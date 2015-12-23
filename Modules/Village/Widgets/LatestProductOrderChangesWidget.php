@@ -48,10 +48,11 @@ class LatestProductOrderChangesWidget extends BaseWidget
     protected function data()
     {
         $user = $this->auth->check();
-        $executor = $user->inRole('executor') ? $user : null;
+        $executor = null;
+        if ($user) $executor = $user->inRole('executor') ? $user : null;
 
         return [
-            'collection' => $this->changes->latest(10, $user->village, $executor),
+            'collection' => $user ? $this->changes->latest(10, $user->village, $executor) : [],
             'currentUser' => $user,
         ];
     }

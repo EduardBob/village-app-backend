@@ -41,6 +41,20 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
 
     // with token
     $router->group(['middleware' => ['jwt.auth']], function (Router $router) {
+
+        // апи для охранников
+        $router->group(['prefix' => 'security', 'middleware' => ['role:security']], function (Router $router) {
+            $router->group(['prefix' => 'services'], function (Router $router) {
+                $router->group(['prefix' => 'orders'], function (Router $router) {
+                    $router->get('',        ['uses' => 'V1\Security\ServiceOrderController@index', 'as' => 'village.security.api.service.order.list']);
+                    $router->post('',       ['uses' => 'V1\Security\ServiceOrderController@store', 'as' => 'village.security.api.service.order.store']);
+                });
+
+                $router->get('',        ['uses' => 'V1\Security\ServiceController@index', 'as' => 'village.security.api.service.service.list']);
+            });
+//            $router->get('{id}', 	['uses' => 'V1\ArticleController@show', 'as' => 'village.api.article.one']);
+        });
+
         $router->group(['prefix' => 'me'], function (Router $router) {
             $router->get('',            ['uses' => 'V1\MeController@me', 'as' => 'village.api.user.me.me']);
             $router->post('name', 		['uses' => 'V1\MeController@changeName', 'as' => 'village.api.user.me.name']);

@@ -11,7 +11,11 @@ class ServiceOrder extends Model
     use VillageAdminScope;
 
     protected $table = 'village__service_orders';
-    protected $fillable = ['user_id', 'service_id', 'status', 'perform_date', 'perform_time', 'comment', 'decline_reason', 'payment_type', 'payment_status'];
+    protected $fillable = [
+        'user_id', 'service_id', 'status', 'perform_date', 'perform_time', 'comment', 'decline_reason', 'payment_type', 'payment_status',
+        // используется для формы ордера у охранника
+        'added_from'
+    ];
     protected $dates = ['perform_date'];
 
     public function village()

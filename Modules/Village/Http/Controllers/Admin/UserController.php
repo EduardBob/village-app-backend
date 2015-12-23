@@ -272,7 +272,7 @@ class UserController extends AdminController
 
         if (!$this->getCurrentUser()->inRole('admin')) {
             foreach ($roles as $key => $role) {
-                if (!in_array($role->slug, ['user', 'village-admin', 'executor'])) {
+                if (!in_array($role->slug, ['user', 'village-admin', 'executor', 'security'])) {
                     unset($roles[$key]);
                 }
             }

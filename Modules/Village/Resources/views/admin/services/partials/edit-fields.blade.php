@@ -32,8 +32,8 @@
         <div class="col-sm-4">
             <div class="form-group{{ $errors->has('executor_id') ? ' has-error' : '' }}">
                 {!! Form::label('executor_id', $admin->trans('table.executor')) !!}
-                {!! Form::select('executor_id', $admin->getExecutors(),
-                @$model->executor->id?:Input::old('executor_id'), ['class' => 'form-control', 'placeholder' => $admin->trans('form.executor.placeholder')]) !!}
+                {!! Form::select('executors', $admin->getExecutors($model->village),
+                $model->executors->pluck('user_id')->all(), ['class' => 'form-control', 'multiple'=>'multiple', 'name'=>'executors[]']) !!}
                 {!! $errors->first('executor_id', '<span class="help-block">:message</span>') !!}
             </div>
         </div>

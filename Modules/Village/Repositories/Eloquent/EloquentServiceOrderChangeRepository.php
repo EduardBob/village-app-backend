@@ -25,7 +25,10 @@ class EloquentServiceOrderChangeRepository extends VillageBaseRepository impleme
             $query->where('village__villages.id', $village->id);
         }
         if ($executor) {
-            $query->where('village__services.executor_id', $executor->id);
+            $query
+                ->leftJoin('village__service_executors', 'village__service_executors.service_id', '=', 'village__services.id')
+                ->where('village__service_executors.user_id', $executor->id)
+            ;
         }
 
         return $query->count();
@@ -53,7 +56,10 @@ class EloquentServiceOrderChangeRepository extends VillageBaseRepository impleme
             $query->where('village__villages.id', $village->id);
         }
         if ($executor) {
-            $query->where('village__services.executor_id', $executor->id);
+            $query
+                ->leftJoin('village__service_executors', 'village__service_executors.service_id', '=', 'village__services.id')
+                ->where('village__service_executors.user_id', $executor->id)
+            ;
         }
 
         return $query

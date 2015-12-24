@@ -98,10 +98,23 @@ class VillageServiceProvider extends ServiceProvider
         if ($order->village->mainAdmin && @$user->village->mainAdmin->email) {
             $toEmails[] = $user->village->mainAdmin->email;
         }
-        /** @var User $executor */
-        $executor = $order->{$type}->executor;
-        if ($executor && $executor->email) {
-            $toEmails[] = $executor->email;
+
+        $executors = [];
+
+        // Для услуг
+        if (@$order->{$type}->executors) {
+            $executors = @$order->{$type}->executors->all();
+        }
+
+        // Для товаров
+        if (@$order->{$type}->executor) {
+            $executors[] = $order->{$type}->executor;
+        }
+
+        foreach ($executors as $executor) {
+            if ($executor && $executor->email) {
+                $toEmails[] = $executor->email;
+            }
         }
 
         $data = [
@@ -159,9 +172,20 @@ class VillageServiceProvider extends ServiceProvider
         }
 
         if ($order->village->send_sms_to_executor) {
+            $executors = [];
+
+            // Для услуг
+            if (@$order->{$type}->executors) {
+                $executors = @$order->{$type}->executors->all();
+            }
+
+            // Для товаров
+            if (@$order->{$type}->executor) {
+                $executors[] = $order->{$type}->executor;
+            }
+
             /** @var User $executor */
-            $executor = $order->{$type}->executor;
-            if ($executor) {
+            foreach ($executors as $executor) {
                 $sms = new Sms();
                 $sms->village()
                     ->associate($user->village)
@@ -310,6 +334,12 @@ class VillageServiceProvider extends ServiceProvider
             'Modules\Village\Repositories\ServiceOrderRepository',
             function () {
                 return new \Modules\Village\Repositories\Eloquent\EloquentServiceOrderRepository(new \Modules\Village\Entities\ServiceOrder());
+            }
+        );
+        $this->app->bind(
+            'Modules\Village\Repositories\ServiceExecutorRepository',
+            function () {
+                return new \Modules\Village\Repositories\Eloquent\EloquentServiceExecutorRepository(new \Modules\Village\Entities\ServiceExecutor());
             }
         );
         $this->app->bind(

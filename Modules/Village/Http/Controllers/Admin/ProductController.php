@@ -6,6 +6,7 @@ use Modules\User\Repositories\RoleRepository;
 use Modules\Village\Entities\BaseProduct;
 use Modules\Village\Entities\Product;
 use Modules\Village\Entities\User;
+use Modules\Village\Entities\Village;
 use Modules\Village\Repositories\ProductCategoryRepository;
 use Modules\Village\Repositories\ProductRepository;
 use Modules\Village\Entities\ProductCategory;
@@ -237,9 +238,11 @@ class ProductController extends AdminController
     }
 
     /**
+     * @param Village $village
+     *
      * @return \Illuminate\Support\Collection
      */
-    public function getExecutors()
+    public function getExecutors(Village $village)
     {
         $role = $this->roleRepository->findBySlug('executor');
         $userIds = [];
@@ -249,6 +252,7 @@ class ProductController extends AdminController
 
         $users = User
             ::select(['users.id', 'last_name', 'first_name'])
+            ->where('village_id', $village->id)
             ->whereIn('id', $userIds)
             ->get()
         ;

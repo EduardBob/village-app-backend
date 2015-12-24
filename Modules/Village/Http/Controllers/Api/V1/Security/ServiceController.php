@@ -18,7 +18,9 @@ class ServiceController extends ApiController
     public function index(Request $request)
     {
         $services = Service::api()
-            ->where('executor_id', $this->user()->id)
+            ->select('village__services.*')
+            ->leftJoin('village__service_executors', 'village__service_executors.service_id', '=', 'village__services.id')
+            ->where('village__service_executors.user_id', $this->user()->id)
             ->orderBy('title', 'asc')
         ;
 

@@ -5,7 +5,9 @@ use Illuminate\Http\Request;
 use Modules\User\Repositories\RoleRepository;
 use Modules\Village\Entities\BaseService;
 use Modules\Village\Entities\Service;
+use Modules\Village\Entities\ServiceExecutor;
 use Modules\Village\Entities\User;
+use Modules\Village\Entities\Village;
 use Modules\Village\Repositories\ServiceCategoryRepository;
 use Modules\Village\Repositories\ServiceRepository;
 use Modules\Village\Entities\ServiceCategory;
@@ -58,7 +60,6 @@ class ServiceController extends AdminController
             'village__services.base_id',
             'village__services.village_id',
             'village__services.category_id',
-            'village__services.executor_id',
             'village__services.title',
             'village__services.price',
             'village__services.active'
@@ -74,10 +75,9 @@ class ServiceController extends AdminController
             ->leftJoin('village__base__services', 'village__services.base_id', '=', 'village__base__services.id')
             ->leftJoin('village__villages', 'village__services.village_id', '=', 'village__villages.id')
             ->leftJoin('village__service_categories', 'village__services.category_id', '=', 'village__service_categories.id')
-            ->leftJoin('users', 'village__services.executor_id', '=', 'users.id')
             ->where('village__service_categories.deleted_at', null)
             ->where('village__villages.deleted_at', null)
-            ->with(['base', 'village', 'category', 'executor'])
+            ->with(['base', 'village', 'category'])
         ;
 
         if (!$this->getCurrentUser()->inRole('admin')) {
@@ -101,7 +101,6 @@ class ServiceController extends AdminController
         }
         $builder
             ->addColumn(['data' => 'category_title', 'name' => 'village__service_categories.title', 'title' => $this->trans('table.category')])
-            ->addColumn(['data' => 'executor_name', 'name' => 'users.last_name', 'title' => $this->trans('table.executor')])
             ->addColumn(['data' => 'title', 'name' => 'village__services.title', 'title' => $this->trans('table.title')])
             ->addColumn(['data' => 'price', 'name' => 'village__services.price', 'title' => $this->trans('table.price')])
             ->addColumn(['data' => 'active', 'name' => 'village__services.active', 'title' => $this->trans('table.active')])
@@ -133,20 +132,6 @@ class ServiceController extends AdminController
                 }
                 else {
                     return $service->category->title;
-                }
-            })
-            ->editColumn('executor_name', function (Service $service) {
-                if (!$service->executor) {
-                    return '';
-                }
-
-                $name = $service->executor->last_name. ' '.$service->executor->first_name;
-
-                if ($this->getCurrentUser()->hasAccess('user.users.edit')) {
-                    return '<a href="'.route('admin.user.user.edit', ['id' => $service->executor->id]).'">'.$name.'</a>';
-                }
-                else {
-                    return $name;
                 }
             })
             ->addColumn('active', function (Service $service) {
@@ -185,6 +170,8 @@ class ServiceController extends AdminController
      */
     public function preUpdate(Model $model, Request $request)
     {
+        /** @var Service $model */
+
         parent::preUpdate($model, $request);
 
         $baseModel = BaseService::find($model->base_id);
@@ -197,6 +184,20 @@ class ServiceController extends AdminController
                     $model->$copiedField = null;
                 }
             }
+        }
+
+        $executorIds = $request->get('executors');
+        $model->executors()->delete();
+        if (is_array($executorIds) && count($executorIds)) {
+            $executors = [];
+            foreach ($executorIds as $executorId) {
+                $executor = new ServiceExecutor();
+                $executor->service()->associate($model);
+                $executor->user()->associate($executorId);
+                $executors[] = $executor;
+            }
+
+            $model->executors()->saveMany($executors);
         }
     }
 
@@ -261,9 +262,11 @@ class ServiceController extends AdminController
     }
 
     /**
+     * @param Village $village
+     *
      * @return \Illuminate\Support\Collection
      */
-    public function getExecutors()
+    public function getExecutors(Village $village)
     {
         $userIds = [];
 
@@ -280,7 +283,8 @@ class ServiceController extends AdminController
         }
 
         $users = User
-            ::select(['users.id', 'last_name', 'first_name'])
+            ::select(['id', 'last_name', 'first_name'])
+            ->where('village_id', $village->id)
             ->whereIn('id', $userIds)
             ->get()
         ;

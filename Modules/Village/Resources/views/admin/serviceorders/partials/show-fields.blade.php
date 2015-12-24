@@ -1,14 +1,4 @@
 <div class="box-body">
-    @if(($currentUser->inRole('admin') || $currentUser->inRole('village-admin')) && $model->service->executor)
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                {!! Form::label('service_executor_id', trans('village::services.table.executor')) !!}
-                <div>{{ $model->service->executor->last_name }} {{ $model->service->executor->first_name }}</div>
-            </div>
-        </div>
-    </div>
-    @endif
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">

@@ -18,7 +18,7 @@ class Service extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'base_id', 'village_id', 'category_id', 'executor_id', 'price', 'active', 'title', 'text', 'comment_label', 'order_button_label', 'show_perform_time'];
+        'base_id', 'village_id', 'category_id', 'price', 'active', 'title', 'text', 'comment_label', 'order_button_label', 'show_perform_time'];
 
     /**
      * @var string
@@ -60,20 +60,12 @@ class Service extends Model
     	return $this->hasMany('Modules\Village\Entities\ServiceOrder', 'service_id');
     }
 
-    public function executor()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function executors()
     {
-        return $this->belongsTo('Modules\Village\Entities\User', 'executor_id');
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function(Service $service) {
-            if (!$service->executor_id) {
-                $service->executor_id = null;
-            }
-        });
+        return $this->hasMany('Modules\Village\Entities\ServiceExecutor');
     }
 
     static public function getRewriteFields()

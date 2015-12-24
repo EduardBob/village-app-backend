@@ -60,7 +60,8 @@ class ServiceOrderChangeController extends AdminController
             $query->where('village__service_orders.village_id', $this->getCurrentUser()->village->id);
         }
         if ($this->getCurrentUser()->inRole('executor')) {
-            $query->where('village__services.executor_id', $this->getCurrentUser()->id);
+            $query->leftJoin('village__service_executors', 'village__service_executors.service_id', '=', 'village__services.id');
+            $query->where('village__service_executors.user_id', $this->getCurrentUser()->id);
             $query->whereIn('village__service_order_changes.from_status', ['processing', 'running']);
             $query->whereIn('village__service_order_changes.to_status', ['processing', 'running']);
         }

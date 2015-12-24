@@ -24,7 +24,8 @@ class ServiceOrderController extends ApiController
         $query = ServiceOrder
             ::select('village__service_orders.*')
             ->leftJoin('village__services', 'village__service_orders.service_id', '=', 'village__services.id')
-            ->where('village__services.executor_id', $this->user()->id)
+            ->leftJoin('village__service_executors', 'village__service_executors.service_id', '=', 'village__services.id')
+            ->where('village__service_executors.user_id', $this->user()->id)
 //            ->orWhere('village__service_orders.user_id', $this->user()->id)
         ;
 
@@ -74,7 +75,7 @@ class ServiceOrderController extends ApiController
 
         $service = $serviceOrder->service;
 
-        if (!$service->executor_id || !(int)$service->executor_id !== (int)$this->user()->id) {
+        if (!in_array($this->user()->id, $service->executors->pluck('user_id')->all())) {
             return $this->response->errorForbidden('no_rights');
         }
 
@@ -117,7 +118,7 @@ class ServiceOrderController extends ApiController
             return $this->response->errorNotFound('service');
         }
 
-        if (!$service->executor_id || !(int)$service->executor_id !== (int)$this->user()->id) {
+        if (!in_array($this->user()->id, $service->executors->pluck('user_id')->all())) {
             return $this->response->errorForbidden('no_rights');
         }
 

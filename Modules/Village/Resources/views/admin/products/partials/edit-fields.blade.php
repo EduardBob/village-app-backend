@@ -32,7 +32,7 @@
         <div class="col-sm-4">
             <div class="form-group{{ $errors->has('executor_id') ? ' has-error' : '' }}">
                 {!! Form::label('executor_id', $admin->trans('table.executor')) !!}
-                {!! Form::select('executor_id', $admin->getExecutors(),
+                {!! Form::select('executor_id', $admin->getExecutors($model->village),
                 @$model->executor->id?:Input::old('executor_id'), ['class' => 'form-control', 'placeholder' => $admin->trans('form.executor.placeholder')]) !!}
                 {!! $errors->first('executor_id', '<span class="help-block">:message</span>') !!}
             </div>

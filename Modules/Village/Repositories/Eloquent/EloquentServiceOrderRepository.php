@@ -24,7 +24,10 @@ class EloquentServiceOrderRepository extends VillageBaseRepository implements Se
             $query->where('village__service_orders.village_id', $village->id);
         }
         if ($executor) {
-            $query->where('village__services.executor_id', $executor->id);
+            $query
+                ->leftJoin('village__service_executors', 'village__service_executors.service_id', '=', 'village__services.id')
+                ->where('village__service_executors.user_id', $executor->id)
+            ;
         }
 
         return $query->count();

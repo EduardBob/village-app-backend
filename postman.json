@@ -16,7 +16,8 @@
 						"b2f36cd9-4c79-0ff0-8e2a-966ede60f6a2",
 						"e49ce460-a024-e64c-e8b6-018f057829fe",
 						"e7a336b1-25c8-fafc-caac-62f4749a5165",
-						"573be19a-242b-8a8b-93ad-e8737c0a483f"
+						"573be19a-242b-8a8b-93ad-e8737c0a483f",
+						"d034de6b-0d41-b51f-50f7-85f6e9fa0a46"
 					],
 					"collection": "ca280dee-47e2-b2f1-dd54-435296205445",
 					"owner": "161799",
@@ -34,7 +35,7 @@
 			"remoteLink": "",
 			"public": false,
 			"createdAt": 1450876821163,
-			"updatedAt": 1450950393043,
+			"updatedAt": 1450971800345,
 			"write": true,
 			"requests": [
 				{
@@ -104,6 +105,56 @@
 					"name": "/api/v1/security/services ",
 					"description": "Get all services where user assigned as executor",
 					"collectionId": "ca280dee-47e2-b2f1-dd54-435296205445"
+				},
+				{
+					"id": "d034de6b-0d41-b51f-50f7-85f6e9fa0a46",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/security/services/orders/{{service.order.id}}",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "service_id",
+							"value": "{{service.id}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_date",
+							"value": "2015-10-11",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_time",
+							"value": "12:30",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "comment",
+							"value": "text",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "added_from",
+							"value": "text",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1450971875192,
+					"name": "/api/v1/security/services/orders/{id}",
+					"description": "Get ine service orders by id",
+					"collectionId": "ca280dee-47e2-b2f1-dd54-435296205445",
+					"responses": []
 				},
 				{
 					"id": "e49ce460-a024-e64c-e8b6-018f057829fe",
@@ -1630,6 +1681,300 @@
 	],
 	"environments": [
 		{
+			"id": "944b564f-d8be-2d62-87bd-0db2b3d440dc",
+			"name": "test amazon",
+			"values": [
+				{
+					"key": "debug",
+					"value": "true",
+					"type": "text",
+					"name": "debug",
+					"enabled": true
+				},
+				{
+					"key": "domain",
+					"value": "http://village.eprst.eu",
+					"type": "text",
+					"name": "domain",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODAzIiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5lcHJzdC5ldVwvYXBpXC92MVwvYXV0aFwvdG9rZW4iLCJpYXQiOiIxNDQ4MzIwODA0IiwiZXhwIjoiMTQ0ODQwNzIwNCIsIm5iZiI6IjE0NDgzMjA4MDQiLCJqdGkiOiIyNzBkZmIwY2E2YmQwZTFjZDgzZGQyMWY4Mzg4NjI1ZiJ9.OXE0Eed5SLIIDCr_nBDzZXDKt_rE1S3frJN9wdzYn-U",
+					"type": "text",
+					"name": "token",
+					"enabled": true
+				},
+				{
+					"key": "phone",
+					"value": "+7(960)6850046",
+					"type": "text",
+					"name": "phone",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "qwerty",
+					"type": "text",
+					"name": "password",
+					"enabled": true
+				},
+				{
+					"key": "token.session",
+					"value": "y3s6qzc112",
+					"type": "text",
+					"name": "token.session",
+					"enabled": true
+				},
+				{
+					"key": "token.code",
+					"value": "2937477",
+					"type": "text",
+					"name": "token.code",
+					"enabled": true
+				},
+				{
+					"key": "service.category.id",
+					"value": "1",
+					"type": "text",
+					"name": "service.category.id",
+					"enabled": true
+				},
+				{
+					"key": "building.code",
+					"value": "test",
+					"type": "text",
+					"name": "building.code",
+					"enabled": true
+				},
+				{
+					"key": "building.id",
+					"value": "1",
+					"type": "text",
+					"name": "building.id",
+					"enabled": true
+				},
+				{
+					"key": "article.id",
+					"value": "538",
+					"type": "text",
+					"name": "article.id",
+					"enabled": true
+				},
+				{
+					"key": "product.category.id",
+					"value": "154",
+					"type": "text",
+					"name": "product.category.id",
+					"enabled": true
+				},
+				{
+					"key": "page",
+					"value": "1",
+					"type": "text",
+					"name": "page",
+					"enabled": true
+				},
+				{
+					"key": "service.id",
+					"value": "142",
+					"type": "text",
+					"name": "service.id",
+					"enabled": true
+				},
+				{
+					"key": "survey.id",
+					"value": "507",
+					"type": "text",
+					"name": "survey.id",
+					"enabled": true
+				},
+				{
+					"key": "survey.my_vote.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.my_vote.choice",
+					"enabled": true
+				},
+				{
+					"key": "survey.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.choice",
+					"enabled": true
+				},
+				{
+					"key": "product.id",
+					"value": "260",
+					"type": "text",
+					"name": "product.id",
+					"enabled": true
+				},
+				{
+					"key": "me.id",
+					"value": "undefined",
+					"type": "text",
+					"name": "me.id",
+					"enabled": true
+				},
+				{
+					"key": "me.phone",
+					"value": "undefined",
+					"type": "text",
+					"name": "me.phone",
+					"enabled": true
+				}
+			],
+			"timestamp": 1450971006586
+		},
+		{
+			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
+			"name": "staging",
+			"values": [
+				{
+					"key": "debug",
+					"value": "true",
+					"type": "text",
+					"name": "debug",
+					"enabled": true
+				},
+				{
+					"key": "domain",
+					"value": "http://village.fruitware.ru",
+					"type": "text",
+					"name": "domain",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODc3IiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoxNDUwODg1NzUxLCJleHAiOjE0NTA5NzIxNTEsIm5iZiI6MTQ1MDg4NTc1MSwianRpIjoiZTdiMjI2MjI5ZDEwYjVlOGFiYTczMTVkMDM2YzhkNmYifQ.ICFVavSgCh00eTnWNpLy2ngoVqI6Za24IvJMJu4wkNY",
+					"type": "text",
+					"name": "token",
+					"enabled": true
+				},
+				{
+					"key": "phone",
+					"value": "+7(111)1111115",
+					"type": "text",
+					"name": "phone",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "yj3wev32R6eQJWV",
+					"type": "text",
+					"name": "password",
+					"enabled": true
+				},
+				{
+					"key": "token.session",
+					"value": "y3s6qzc112",
+					"type": "text",
+					"name": "token.session",
+					"enabled": true
+				},
+				{
+					"key": "token.code",
+					"value": "2937477",
+					"type": "text",
+					"name": "token.code",
+					"enabled": true
+				},
+				{
+					"key": "service.category.id",
+					"value": "1",
+					"type": "text",
+					"name": "service.category.id",
+					"enabled": true
+				},
+				{
+					"key": "building.code",
+					"value": "test",
+					"type": "text",
+					"name": "building.code",
+					"enabled": true
+				},
+				{
+					"key": "building.id",
+					"value": "1",
+					"type": "text",
+					"name": "building.id",
+					"enabled": true
+				},
+				{
+					"key": "article.id",
+					"value": "538",
+					"type": "text",
+					"name": "article.id",
+					"enabled": true
+				},
+				{
+					"key": "product.category.id",
+					"value": "154",
+					"type": "text",
+					"name": "product.category.id",
+					"enabled": true
+				},
+				{
+					"key": "page",
+					"value": "1",
+					"type": "text",
+					"name": "page",
+					"enabled": true
+				},
+				{
+					"key": "service.id",
+					"value": "306",
+					"type": "text",
+					"name": "service.id",
+					"enabled": true
+				},
+				{
+					"key": "survey.id",
+					"value": "507",
+					"type": "text",
+					"name": "survey.id",
+					"enabled": true
+				},
+				{
+					"key": "survey.my_vote.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.my_vote.choice",
+					"enabled": true
+				},
+				{
+					"key": "survey.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.choice",
+					"enabled": true
+				},
+				{
+					"key": "product.id",
+					"value": "260",
+					"type": "text",
+					"name": "product.id",
+					"enabled": true
+				},
+				{
+					"key": "me.id",
+					"value": "undefined",
+					"type": "text",
+					"name": "me.id",
+					"enabled": true
+				},
+				{
+					"key": "me.phone",
+					"value": "undefined",
+					"type": "text",
+					"name": "me.phone",
+					"enabled": true
+				}
+			],
+			"timestamp": 1450971006591
+		},
+		{
 			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
 			"name": "dev",
 			"values": [
@@ -1802,301 +2147,7 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1450950376586
-		},
-		{
-			"id": "944b564f-d8be-2d62-87bd-0db2b3d440dc",
-			"name": "test amazon",
-			"values": [
-				{
-					"key": "debug",
-					"value": "true",
-					"type": "text",
-					"name": "debug",
-					"enabled": true
-				},
-				{
-					"key": "domain",
-					"value": "http://village.eprst.eu",
-					"type": "text",
-					"name": "domain",
-					"enabled": true
-				},
-				{
-					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODAzIiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5lcHJzdC5ldVwvYXBpXC92MVwvYXV0aFwvdG9rZW4iLCJpYXQiOiIxNDQ4MzIwODA0IiwiZXhwIjoiMTQ0ODQwNzIwNCIsIm5iZiI6IjE0NDgzMjA4MDQiLCJqdGkiOiIyNzBkZmIwY2E2YmQwZTFjZDgzZGQyMWY4Mzg4NjI1ZiJ9.OXE0Eed5SLIIDCr_nBDzZXDKt_rE1S3frJN9wdzYn-U",
-					"type": "text",
-					"name": "token",
-					"enabled": true
-				},
-				{
-					"key": "phone",
-					"value": "+7(960)6850046",
-					"type": "text",
-					"name": "phone",
-					"enabled": true
-				},
-				{
-					"key": "password",
-					"value": "qwerty",
-					"type": "text",
-					"name": "password",
-					"enabled": true
-				},
-				{
-					"key": "token.session",
-					"value": "y3s6qzc112",
-					"type": "text",
-					"name": "token.session",
-					"enabled": true
-				},
-				{
-					"key": "token.code",
-					"value": "2937477",
-					"type": "text",
-					"name": "token.code",
-					"enabled": true
-				},
-				{
-					"key": "service.category.id",
-					"value": "1",
-					"type": "text",
-					"name": "service.category.id",
-					"enabled": true
-				},
-				{
-					"key": "building.code",
-					"value": "test",
-					"type": "text",
-					"name": "building.code",
-					"enabled": true
-				},
-				{
-					"key": "building.id",
-					"value": "1",
-					"type": "text",
-					"name": "building.id",
-					"enabled": true
-				},
-				{
-					"key": "article.id",
-					"value": "538",
-					"type": "text",
-					"name": "article.id",
-					"enabled": true
-				},
-				{
-					"key": "product.category.id",
-					"value": "154",
-					"type": "text",
-					"name": "product.category.id",
-					"enabled": true
-				},
-				{
-					"key": "page",
-					"value": "1",
-					"type": "text",
-					"name": "page",
-					"enabled": true
-				},
-				{
-					"key": "service.id",
-					"value": "142",
-					"type": "text",
-					"name": "service.id",
-					"enabled": true
-				},
-				{
-					"key": "survey.id",
-					"value": "507",
-					"type": "text",
-					"name": "survey.id",
-					"enabled": true
-				},
-				{
-					"key": "survey.my_vote.choice",
-					"value": "0",
-					"type": "text",
-					"name": "survey.my_vote.choice",
-					"enabled": true
-				},
-				{
-					"key": "survey.choice",
-					"value": "0",
-					"type": "text",
-					"name": "survey.choice",
-					"enabled": true
-				},
-				{
-					"key": "product.id",
-					"value": "260",
-					"type": "text",
-					"name": "product.id",
-					"enabled": true
-				},
-				{
-					"key": "me.id",
-					"value": "undefined",
-					"type": "text",
-					"name": "me.id",
-					"enabled": true
-				},
-				{
-					"key": "me.phone",
-					"value": "undefined",
-					"type": "text",
-					"name": "me.phone",
-					"enabled": true
-				}
-			],
-			"timestamp": 1450950376591
-		},
-		{
-			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
-			"name": "staging",
-			"values": [
-				{
-					"key": "debug",
-					"value": "true",
-					"type": "text",
-					"name": "debug",
-					"enabled": true
-				},
-				{
-					"key": "domain",
-					"value": "http://village.fruitware.ru",
-					"type": "text",
-					"name": "domain",
-					"enabled": true
-				},
-				{
-					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODc3IiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoxNDUwODg1NzUxLCJleHAiOjE0NTA5NzIxNTEsIm5iZiI6MTQ1MDg4NTc1MSwianRpIjoiZTdiMjI2MjI5ZDEwYjVlOGFiYTczMTVkMDM2YzhkNmYifQ.ICFVavSgCh00eTnWNpLy2ngoVqI6Za24IvJMJu4wkNY",
-					"type": "text",
-					"name": "token",
-					"enabled": true
-				},
-				{
-					"key": "phone",
-					"value": "+7(111)1111115",
-					"type": "text",
-					"name": "phone",
-					"enabled": true
-				},
-				{
-					"key": "password",
-					"value": "yj3wev32R6eQJWV",
-					"type": "text",
-					"name": "password",
-					"enabled": true
-				},
-				{
-					"key": "token.session",
-					"value": "y3s6qzc112",
-					"type": "text",
-					"name": "token.session",
-					"enabled": true
-				},
-				{
-					"key": "token.code",
-					"value": "2937477",
-					"type": "text",
-					"name": "token.code",
-					"enabled": true
-				},
-				{
-					"key": "service.category.id",
-					"value": "1",
-					"type": "text",
-					"name": "service.category.id",
-					"enabled": true
-				},
-				{
-					"key": "building.code",
-					"value": "test",
-					"type": "text",
-					"name": "building.code",
-					"enabled": true
-				},
-				{
-					"key": "building.id",
-					"value": "1",
-					"type": "text",
-					"name": "building.id",
-					"enabled": true
-				},
-				{
-					"key": "article.id",
-					"value": "538",
-					"type": "text",
-					"name": "article.id",
-					"enabled": true
-				},
-				{
-					"key": "product.category.id",
-					"value": "154",
-					"type": "text",
-					"name": "product.category.id",
-					"enabled": true
-				},
-				{
-					"key": "page",
-					"value": "1",
-					"type": "text",
-					"name": "page",
-					"enabled": true
-				},
-				{
-					"key": "service.id",
-					"value": "306",
-					"type": "text",
-					"name": "service.id",
-					"enabled": true
-				},
-				{
-					"key": "survey.id",
-					"value": "507",
-					"type": "text",
-					"name": "survey.id",
-					"enabled": true
-				},
-				{
-					"key": "survey.my_vote.choice",
-					"value": "0",
-					"type": "text",
-					"name": "survey.my_vote.choice",
-					"enabled": true
-				},
-				{
-					"key": "survey.choice",
-					"value": "0",
-					"type": "text",
-					"name": "survey.choice",
-					"enabled": true
-				},
-				{
-					"key": "product.id",
-					"value": "260",
-					"type": "text",
-					"name": "product.id",
-					"enabled": true
-				},
-				{
-					"key": "me.id",
-					"value": "undefined",
-					"type": "text",
-					"name": "me.id",
-					"enabled": true
-				},
-				{
-					"key": "me.phone",
-					"value": "undefined",
-					"type": "text",
-					"name": "me.phone",
-					"enabled": true
-				}
-			],
-			"timestamp": 1450950376595
+			"timestamp": 1450971862365
 		}
 	],
 	"headerPresets": [

@@ -47,6 +47,27 @@ class ServiceOrderController extends ApiController
     }
 
     /**
+     * Get a single service order
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function show($id)
+    {
+        $order = ServiceOrder::find((int)$id);
+        if(!$order){
+            return $this->response->errorNotFound('order');
+        }
+
+        $service = $order->service;
+        if (!in_array($this->user()->id, $service->executors->pluck('user_id')->all())) {
+            return $this->response->errorForbidden('no_rights');
+        }
+
+        return $this->response->withItem($order, new ServiceOrderTransformer);
+    }
+
+    /**
      * Update a serviceOrder
      *
      * @param Request $request

@@ -2,6 +2,7 @@
 
 namespace Modules\Village\Http\Controllers\Api\V1\Security;
 
+use Modules\Village\Entities\Service;
 use Modules\Village\Entities\ServiceOrder;
 use EllipseSynergie\ApiResponse\Contracts\Response;
 use Modules\Village\Http\Controllers\Api\V1\ApiController;
@@ -96,16 +97,28 @@ class ServiceOrderController extends ApiController
      */
     public function store(Request $request)
     {
-        $data = $request::only('service_id', 'perform_date', 'perform_time', 'payment_type', 'comment');
+        $data = $request::only('service_id', 'perform_date', 'perform_time', 'comment', 'added_from');
         $data = array_merge([
-            'status' => config('village.order.first_status'),
             'user_id' => $this->user()->id,
+            'status' => config('village.order.first_status'),
+            'payment_type' => config('village.order.payment.type.default'),
+            'payment_status' => config('village.order.payment.status.default'),
         ], $data);
 
         $validator = $this->validate($data);
 
         if ($validator->fails()) {
             return $this->response->errorWrongArgs($validator->errors());
+        }
+
+        $service = Service::find((int)$data['service_id']);
+
+        if (!$service) {
+            return $this->response->errorNotFound('service');
+        }
+
+        if (!$service->executor_id || !(int)$service->executor_id !== (int)$this->user()->id) {
+            return $this->response->errorForbidden('no_rights');
         }
 
         $serviceOrder = ServiceOrder::create($data);
@@ -121,14 +134,11 @@ class ServiceOrderController extends ApiController
     static function validate(array $data)
     {
         return Validator::make($data, [
-            'user_id'        => 'required|exists:users,id',
             'service_id'     => 'required|exists:village__services,id',
             'perform_date'   => 'required|date|date_format:Y-m-d',
             'perform_time'   => 'sometimes|date_format:H:i',
-            'payment_type'   => 'required|in:'.implode(',', config('village.order.payment.type.values')),
-            'status'         => 'required|in:'.implode(',', config('village.order.statuses')),
-//            'comment'        => 'sometimes|required|string',
-            'decline_reason' => 'sometimes|required_if:status,rejected|string',
+            'comment'        => 'required|string',
+            'added_from'     => 'required|string',
         ]);
     }
 }

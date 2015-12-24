@@ -1,5 +1,6 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Modules\Village\Entities\User;
 use Modules\User\Repositories\RoleRepository;
@@ -179,6 +180,12 @@ class UserController extends AdminController
      */
     public function store(Request $request)
     {
+        $validator = $this->validate($request->all());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         $data = $this->clearNotPermittedRoles($request->all());
 
         $this->user->createWithRoles($data, @$data['roles'], $data['activated']);
@@ -213,6 +220,14 @@ class UserController extends AdminController
      */
     public function update($id, Request $request)
     {
+        $model = $this->getRepository()->find($id);
+
+        $validator = $this->validate($request->all(), $model);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         $data = $this->clearNotPermittedRoles($request->all());
 
         $this->user->updateAndSyncRoles($id, $data, @$data['roles']);
@@ -225,17 +240,26 @@ class UserController extends AdminController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int      $id
+     * @param int|Model $model
      * @return Response
      */
-//    public function destroy($id)
-//    {
-//        $this->user->delete($id);
-//
-//        flash(trans('user::messages.user deleted'));
-//
-//        return redirect()->route('admin.user.user.index');
-//    }
+    public function destroy($model)
+    {
+        if (!$model instanceof Model) {
+            $model = $this->getRepository()->find($model);
+        }
+
+        $redirect = $this->checkPermissionDenied($model);
+        if ($redirect !== false) {
+            return $redirect;
+        }
+
+        $this->getRepository()->delete($model->id);
+
+        flash(trans('user::messages.user deleted'));
+
+        return redirect()->route($this->getRoute('index'));
+    }
 
     /**
      * @param array $data
@@ -245,7 +269,7 @@ class UserController extends AdminController
      */
     public function validate(array $data, User $user = null)
     {
-        $id = $user ? $user->id : '';
+        $id = $user ? $user->id : null;
 
         $rules = [
 //            'address' => "required|max:255|unique:village__buildings,address,{$id}",

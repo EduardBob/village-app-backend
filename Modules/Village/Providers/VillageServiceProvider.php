@@ -112,8 +112,8 @@ class VillageServiceProvider extends ServiceProvider
         }
 
         foreach ($executors as $executor) {
-            if ($executor && $executor->email) {
-                $toEmails[] = $executor->email;
+            if ($executor && $executor->user->email) {
+                $toEmails[] = $executor->user->email;
             }
         }
 
@@ -188,12 +188,12 @@ class VillageServiceProvider extends ServiceProvider
             foreach ($executors as $executor) {
                 $sms = new Sms();
                 $sms->village()
-                    ->associate($user->village)
+                    ->associate($executor->user->village)
                 ;
                 $sms
-                    ->setPhone($executor->phone)
+                    ->setPhone($executor->user->phone)
                     ->setText($text)
-//                ->setSender($user->village->name)
+//                ->setSender($executor->user->village->name)
                 ;
                 try {
                     smsGate()->send($sms);

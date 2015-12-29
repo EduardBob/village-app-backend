@@ -110,6 +110,15 @@ class ServiceOrderController extends ApiController
             return $this->response->errorForbidden('order_already_done');
         }
 
+        /** @link http://redmine.fruitware.ru/issues/27599 */
+        if ('done' === $data['status']) {
+            if ('paid' !== $data['payment_status']) {
+                return $this->response->errorWrongArgs('order_must_be_paid_if_status_done');
+            }
+
+            $data['payment_type'] = 'cash';
+        }
+
         $serviceOrder->fill($data);
         $serviceOrder->save();
 

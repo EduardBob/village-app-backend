@@ -43,7 +43,10 @@ class ServiceOrderController extends ApiController
             ->paginate(10)
         ;
 
-        return $this->response->withCollection($serviceOrders, new ServiceOrderTransformer);
+        $transformer = new ServiceOrderTransformer();
+        $transformer->setDefaultIncludes(array_merge($transformer->getDefaultIncludes(), ['user']));
+
+        return $this->response->withCollection($serviceOrders, $transformer);
     }
 
     /**
@@ -64,7 +67,10 @@ class ServiceOrderController extends ApiController
             return $this->response->errorForbidden('no_rights');
         }
 
-        return $this->response->withItem($order, new ServiceOrderTransformer);
+        $transformer = new ServiceOrderTransformer();
+        $transformer->setDefaultIncludes(array_merge($transformer->getDefaultIncludes(), ['user']));
+
+        return $this->response->withItem($order, $transformer);
     }
 
     /**

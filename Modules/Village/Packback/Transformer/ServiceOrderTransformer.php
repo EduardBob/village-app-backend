@@ -13,7 +13,7 @@ class ServiceOrderTransformer extends TransformerAbstract
      *
      * @var array
      */
-    protected $availableIncludes = ['service', 'pay'];
+    protected $availableIncludes = ['service', 'user', 'pay'];
 
     /**
      * List of resources to automatically include
@@ -54,6 +54,17 @@ class ServiceOrderTransformer extends TransformerAbstract
     public function includeService(ServiceOrder $serviceOrder)
     {
         return $this->item($serviceOrder->service, new ServiceTransformer);
+    }
+
+    /**
+     * Include user
+     *
+     * @param ServiceOrder $serviceOrder
+     * @return Item
+     */
+    public function includeUser(ServiceOrder $serviceOrder)
+    {
+        return $this->item($serviceOrder->user, new UserTransformer);
     }
 
     /**

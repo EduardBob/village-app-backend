@@ -8,6 +8,20 @@
 			"order": [],
 			"folders": [
 				{
+					"id": "49d67fa4-c4c8-610d-77b9-223137fe8c8c",
+					"name": "auth",
+					"description": "",
+					"write": true,
+					"order": [
+						"0eb21dc4-6643-4afa-af8e-57a4b0c4a454"
+					],
+					"collection": "ca280dee-47e2-b2f1-dd54-435296205445",
+					"owner": "161799",
+					"collection_name": "Village-security-app",
+					"collection_owner": "161799",
+					"collection_id": "ca280dee-47e2-b2f1-dd54-435296205445"
+				},
+				{
 					"id": "0244cb7c-57e7-273d-a265-7031c7bb1337",
 					"name": "services",
 					"description": "",
@@ -35,9 +49,41 @@
 			"remoteLink": "",
 			"public": false,
 			"createdAt": 1450876821163,
-			"updatedAt": 1450971800345,
+			"updatedAt": 1451386953950,
 			"write": true,
 			"requests": [
+				{
+					"id": "0eb21dc4-6643-4afa-af8e-57a4b0c4a454",
+					"headers": "",
+					"url": "{{domain}}/api/v1/security/auth/token",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "phone",
+							"value": "{{phone}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body contains data\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\ntests[\"Body contains token\"] = responseBody.has(\"token\");\n\nvar response = JSON.parse(responseBody);\nif (response.data && response.data.token) {\n    postman.setEnvironmentVariable(\"token\", response.data.token);   \n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1451386978374,
+					"name": "/api/v1/security/auth/token",
+					"description": "Get token by user credentials (phone and password)",
+					"collectionId": "ca280dee-47e2-b2f1-dd54-435296205445",
+					"responses": []
+				},
 				{
 					"id": "573be19a-242b-8a8b-93ad-e8737c0a483f",
 					"headers": "Authorization: Bearer  {{token}}\n",
@@ -451,7 +497,7 @@
 			"remoteLink": null,
 			"public": false,
 			"createdAt": "2015-10-14T09:09:02.000Z",
-			"updatedAt": 1450950393022,
+			"updatedAt": 1451386953930,
 			"write": true,
 			"requests": [
 				{
@@ -1825,7 +1871,7 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1450971006586
+			"timestamp": 1451386575429
 		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
@@ -1972,7 +2018,7 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1450971006591
+			"timestamp": 1451386575432
 		},
 		{
 			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
@@ -1994,14 +2040,14 @@
 				},
 				{
 					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE4NTEsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ1MDg4NTc1NCwiZXhwIjoxNDUwOTcyMTU0LCJuYmYiOjE0NTA4ODU3NTQsImp0aSI6ImEwNmJjYzc3OWQ5NzY4OTdlNWU0ZWY2NWQ0NzNjM2I1In0.y9Pcjil-bCk4lKxTW4x6FxMDZs7Bf6RZPq_2l3TphlM",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjIsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9zZWN1cml0eVwvYXV0aFwvdG9rZW4iLCJpYXQiOjE0NTEzODc2NDgsImV4cCI6MTQ1MTQ3NDA0OCwibmJmIjoxNDUxMzg3NjQ4LCJqdGkiOiI1ZTEwZmEzNjZhZmI1MTgyZTI4ZGE4NGEyZjA4ZGUyOCJ9.WyAHY2U9lA_kolg5iKGHLboXtzZxe3UH669NVH0CdO0",
 					"type": "text",
 					"name": "token",
 					"enabled": true
 				},
 				{
 					"key": "phone",
-					"value": "+7(111)1111115",
+					"value": "+7(111)1111111",
 					"type": "text",
 					"name": "phone",
 					"enabled": true
@@ -2147,7 +2193,7 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1450971862365
+			"timestamp": 1451387649146
 		}
 	],
 	"headerPresets": [

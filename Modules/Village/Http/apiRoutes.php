@@ -7,6 +7,14 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
 
     // without token
     $router->group([], function (Router $router) {
+
+        // апи для охранников
+        $router->group(['prefix' => 'security'], function (Router $router) {
+            $router->group(['prefix' => 'auth'], function (Router $router) {
+                $router->post('token',        ['uses' => 'V1\Security\AuthController@auth', 'as' => 'village.security.api.user.auth.auth']);
+            });
+        });
+
         $router->group(['prefix' => 'buildings'], function (Router $router) {
             $router->get('{code}',        ['uses' => 'V1\BuildingController@show', 'as' => 'village.api.building.building.one']);
         });

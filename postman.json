@@ -205,20 +205,38 @@
 				{
 					"id": "e49ce460-a024-e64c-e8b6-018f057829fe",
 					"headers": "Authorization: Bearer  {{token}}\n",
-					"url": "{{domain}}/api/v1/security/services/orders?status=processing&date=2015-12-02&page={{page}}",
+					"url": "{{domain}}/api/v1/security/services/orders?status=processing&from_perform_date=2015-12-02&to_perform_date=2016-12-31&page={{page}}",
 					"preRequestScript": "postman.setEnvironmentVariable(\"page\", 1);",
 					"pathVariables": {},
 					"method": "GET",
 					"data": [
 						{
-							"key": "status",
-							"value": "running|done",
+							"key": "service_id",
+							"value": "{{service.id}}",
 							"type": "text",
 							"enabled": true
 						},
 						{
-							"key": "payment_status",
-							"value": "not_paid|paid",
+							"key": "perform_date",
+							"value": "2015-10-11",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_time",
+							"value": "12:30",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "comment",
+							"value": "text",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "added_from",
+							"value": "text",
 							"type": "text",
 							"enabled": true
 						}
@@ -228,7 +246,7 @@
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Count == 15 \"] = data.data.length;\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    $.each(data.data, function(index, order) {\n        if (order.status === 'rejected') {\n            tests[\"decline_reason not null, index = \" + index] = order.decline_reason !== null;\n        }\n        else {\n            tests[\"decline_reason is null, index = \" + index] = order.decline_reason === null;\n        }\n        tests[\"Body contains service, index = \" + index] = order.service && order.service.data;        \n    });\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1450888878013,
+					"time": 1451474140072,
 					"name": "/api/v1/security/services/orders",
 					"description": "Get all service orders",
 					"collectionId": "ca280dee-47e2-b2f1-dd54-435296205445",
@@ -1727,6 +1745,181 @@
 	],
 	"environments": [
 		{
+			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
+			"name": "dev",
+			"values": [
+				{
+					"key": "debug",
+					"value": "true",
+					"type": "text",
+					"name": "debug",
+					"enabled": true
+				},
+				{
+					"key": "domain",
+					"value": "http://village.dev",
+					"type": "text",
+					"name": "domain",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE4NTEsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9zZWN1cml0eVwvYXV0aFwvdG9rZW4iLCJpYXQiOjE0NTEzOTA5MTcsImV4cCI6MTQ1MTQ3NzMxNywibmJmIjoxNDUxMzkwOTE3LCJqdGkiOiI3YmQ5MjBlNTIwNzExOGE4NDgxM2UxOWE5OWY1OGVlMCJ9.vRujgj-XqKQKFinBVCjieOWlrUyjgiJaTUuLHJmU7EY",
+					"type": "text",
+					"name": "token",
+					"enabled": true
+				},
+				{
+					"key": "phone",
+					"value": "+7(111)1111112",
+					"type": "text",
+					"name": "phone",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "yj3wev32R6eQJWV",
+					"type": "text",
+					"name": "password",
+					"enabled": true
+				},
+				{
+					"key": "token.code",
+					"value": "49844",
+					"type": "text",
+					"name": "token.code",
+					"enabled": true
+				},
+				{
+					"key": "token.session",
+					"value": "YBrj6CsSpQ",
+					"type": "text",
+					"name": "token.session",
+					"enabled": true
+				},
+				{
+					"key": "article.id",
+					"value": "551",
+					"type": "text",
+					"name": "article.id",
+					"enabled": true
+				},
+				{
+					"key": "me.first_name",
+					"value": "wzkqgjbyou",
+					"type": "text",
+					"name": "me.first_name",
+					"enabled": true
+				},
+				{
+					"key": "me.last_name",
+					"value": "hsxdxcflwj",
+					"type": "text",
+					"name": "me.last_name",
+					"enabled": true
+				},
+				{
+					"key": "product.id",
+					"value": "264",
+					"type": "text",
+					"name": "product.id",
+					"enabled": true
+				},
+				{
+					"key": "service.id",
+					"value": "280",
+					"type": "text",
+					"name": "service.id",
+					"enabled": true
+				},
+				{
+					"key": "page",
+					"value": "1",
+					"type": "text",
+					"name": "page",
+					"enabled": true
+				},
+				{
+					"key": "product.category.id",
+					"value": "156",
+					"type": "text",
+					"name": "product.category.id",
+					"enabled": true
+				},
+				{
+					"key": "service.category.id",
+					"value": "107",
+					"type": "text",
+					"name": "service.category.id",
+					"enabled": true
+				},
+				{
+					"key": "building.code",
+					"value": "test",
+					"type": "text",
+					"name": "building.code",
+					"enabled": true
+				},
+				{
+					"key": "building.id",
+					"value": "1",
+					"type": "text",
+					"name": "building.id",
+					"enabled": true
+				},
+				{
+					"key": "me.password",
+					"value": "1",
+					"type": "text",
+					"name": "me.password",
+					"enabled": true
+				},
+				{
+					"key": "survey.id",
+					"value": "447",
+					"type": "text",
+					"name": "survey.id",
+					"enabled": true
+				},
+				{
+					"key": "survey.my_vote.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.my_vote.choice",
+					"enabled": true
+				},
+				{
+					"key": "survey.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.choice",
+					"enabled": true
+				},
+				{
+					"key": "me.email",
+					"value": "test@test.test",
+					"type": "text",
+					"name": "me.email",
+					"enabled": true
+				},
+				{
+					"key": "me.id",
+					"value": "undefined",
+					"type": "text",
+					"name": "me.id",
+					"enabled": true
+				},
+				{
+					"key": "me.phone",
+					"value": "undefined",
+					"type": "text",
+					"name": "me.phone",
+					"enabled": true
+				}
+			],
+			"timestamp": 1451474287083
+		},
+		{
 			"id": "944b564f-d8be-2d62-87bd-0db2b3d440dc",
 			"name": "test amazon",
 			"values": [
@@ -1871,7 +2064,7 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1451386575429
+			"timestamp": 1451474287097
 		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
@@ -2018,182 +2211,7 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1451386575432
-		},
-		{
-			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
-			"name": "dev",
-			"values": [
-				{
-					"key": "debug",
-					"value": "true",
-					"type": "text",
-					"name": "debug",
-					"enabled": true
-				},
-				{
-					"key": "domain",
-					"value": "http://village.dev",
-					"type": "text",
-					"name": "domain",
-					"enabled": true
-				},
-				{
-					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjIsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9zZWN1cml0eVwvYXV0aFwvdG9rZW4iLCJpYXQiOjE0NTEzODc2NDgsImV4cCI6MTQ1MTQ3NDA0OCwibmJmIjoxNDUxMzg3NjQ4LCJqdGkiOiI1ZTEwZmEzNjZhZmI1MTgyZTI4ZGE4NGEyZjA4ZGUyOCJ9.WyAHY2U9lA_kolg5iKGHLboXtzZxe3UH669NVH0CdO0",
-					"type": "text",
-					"name": "token",
-					"enabled": true
-				},
-				{
-					"key": "phone",
-					"value": "+7(111)1111111",
-					"type": "text",
-					"name": "phone",
-					"enabled": true
-				},
-				{
-					"key": "password",
-					"value": "yj3wev32R6eQJWV",
-					"type": "text",
-					"name": "password",
-					"enabled": true
-				},
-				{
-					"key": "token.code",
-					"value": "49844",
-					"type": "text",
-					"name": "token.code",
-					"enabled": true
-				},
-				{
-					"key": "token.session",
-					"value": "YBrj6CsSpQ",
-					"type": "text",
-					"name": "token.session",
-					"enabled": true
-				},
-				{
-					"key": "article.id",
-					"value": "551",
-					"type": "text",
-					"name": "article.id",
-					"enabled": true
-				},
-				{
-					"key": "me.first_name",
-					"value": "wzkqgjbyou",
-					"type": "text",
-					"name": "me.first_name",
-					"enabled": true
-				},
-				{
-					"key": "me.last_name",
-					"value": "hsxdxcflwj",
-					"type": "text",
-					"name": "me.last_name",
-					"enabled": true
-				},
-				{
-					"key": "product.id",
-					"value": "264",
-					"type": "text",
-					"name": "product.id",
-					"enabled": true
-				},
-				{
-					"key": "service.id",
-					"value": "291",
-					"type": "text",
-					"name": "service.id",
-					"enabled": true
-				},
-				{
-					"key": "page",
-					"value": "1",
-					"type": "text",
-					"name": "page",
-					"enabled": true
-				},
-				{
-					"key": "product.category.id",
-					"value": "156",
-					"type": "text",
-					"name": "product.category.id",
-					"enabled": true
-				},
-				{
-					"key": "service.category.id",
-					"value": "107",
-					"type": "text",
-					"name": "service.category.id",
-					"enabled": true
-				},
-				{
-					"key": "building.code",
-					"value": "test",
-					"type": "text",
-					"name": "building.code",
-					"enabled": true
-				},
-				{
-					"key": "building.id",
-					"value": "1",
-					"type": "text",
-					"name": "building.id",
-					"enabled": true
-				},
-				{
-					"key": "me.password",
-					"value": "1",
-					"type": "text",
-					"name": "me.password",
-					"enabled": true
-				},
-				{
-					"key": "survey.id",
-					"value": "447",
-					"type": "text",
-					"name": "survey.id",
-					"enabled": true
-				},
-				{
-					"key": "survey.my_vote.choice",
-					"value": "0",
-					"type": "text",
-					"name": "survey.my_vote.choice",
-					"enabled": true
-				},
-				{
-					"key": "survey.choice",
-					"value": "0",
-					"type": "text",
-					"name": "survey.choice",
-					"enabled": true
-				},
-				{
-					"key": "me.email",
-					"value": "test@test.test",
-					"type": "text",
-					"name": "me.email",
-					"enabled": true
-				},
-				{
-					"key": "me.id",
-					"value": "undefined",
-					"type": "text",
-					"name": "me.id",
-					"enabled": true
-				},
-				{
-					"key": "me.phone",
-					"value": "undefined",
-					"type": "text",
-					"name": "me.phone",
-					"enabled": true
-				}
-			],
-			"timestamp": 1451387649146
+			"timestamp": 1451474287103
 		}
 	],
 	"headerPresets": [

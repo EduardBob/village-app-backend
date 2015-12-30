@@ -33,12 +33,16 @@ class ServiceOrderController extends ApiController
             $query->where(['village__service_orders.status' => $status]);
         }
 
-        if ($date = $request::query('date')) {
-            $query->where('village__service_orders.perform_date', $date);
+        if ($fromDate = $request::query('from_perform_date')) {
+            $query->where('village__service_orders.perform_date', '>=', $fromDate);
+        }
+
+        if ($toDate = $request::query('to_perform_date')) {
+            $query->where('village__service_orders.perform_date', '<=', $toDate);
         }
 
         $serviceOrders = $query
-            ->orderBy('village__service_orders.id', 'desc')
+            ->orderBy('village__service_orders.perform_date', 'asc')
             ->paginate(10)
         ;
 

@@ -34,8 +34,7 @@ class ServiceOrderController extends ApiController
         }
 
         if ($date = $request::query('date')) {
-            $query->where('village__service_orders.created_at', '>=', $date.' 00:00:00');
-            $query->where('village__service_orders.created_at', '<=', $date.' 23:59:59');
+            $query->where('village__service_orders.perform_date', $date);
         }
 
         $serviceOrders = $query

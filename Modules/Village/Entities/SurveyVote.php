@@ -60,4 +60,12 @@ class SurveyVote extends Model
 
         return $result;
     }
+
+    static public function countTotalVotesBySurvey(Survey $survey)
+    {
+        return static
+            ::where(['survey_id' => $survey->id])
+            ->count();
+        ;
+    }
 }

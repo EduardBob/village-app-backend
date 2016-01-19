@@ -1,6 +1,5 @@
 <?php namespace Modules\Village\Entities;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\User\Entities\Sentinel\User as BaseUser;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;

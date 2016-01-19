@@ -1,0 +1,24 @@
+{
+    "name": "Village",
+    "alias": "village",
+    "description": "",
+    "version": "v0.1",
+    "keywords": [],
+    "active": 1,
+    "order": 1,
+    "providers": [
+        "Modules\\Village\\Providers\\VillageServiceProvider",
+        "Modules\\Village\\Providers\\RouteServiceProvider"
+    ],
+    "aliases":{},
+    "files": [
+    ],
+    "widgets": [
+        "Modules\\Village\\Widgets\\LatestProductOrderChangesWidget",
+        "Modules\\Village\\Widgets\\LatestServiceOrderChangesWidget",
+        "Modules\\Village\\Widgets\\SendSmsWidget"
+    ],
+    "files": [
+        "helpers.php"
+    ]
+}

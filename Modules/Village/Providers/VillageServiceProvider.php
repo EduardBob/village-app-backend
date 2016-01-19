@@ -148,10 +148,19 @@ class VillageServiceProvider extends ServiceProvider
             return;
         }
 
-        $siteName = \Setting::get('core::site-name', \App::getLocale());
         $type = $order->product ? 'product' : 'service';
-        $orderAdminUrl = route('admin.village.'.$type.'order.show', [$order->id]);
-        $text = $siteName.'. Новый заказ '.$orderAdminUrl;
+        $format = 'village.name; order.perform_date; order.perform_time; service.name; order.comment; order.payment_type; user.full_name; user.building.address; user.phone';
+        $text = strtr($format, [
+            'village.name' => $order->village->name,
+            'order.perform_date' => $order->perform_date->format('Y-m-d'),
+            'order.perform_time' => $order->perform_time,
+            'service.name' => @$order->{$type}->title,
+            'order.comment' => @$order->comment,
+            'order.payment_type' => @$order->payment_type,
+            'user.full_name' => @$order->user->present()->fullname(),
+            'user.building.address' => @$order->user->building->address,
+            'user.phone' => @$order->user->phone,
+        ]);
 
         if ($order->village->send_sms_to_village_admin && $order->village->mainAdmin && $user->village->mainAdmin->phone) {
             $sms = new Sms();

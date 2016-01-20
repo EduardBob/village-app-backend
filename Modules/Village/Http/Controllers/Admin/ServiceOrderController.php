@@ -51,7 +51,6 @@ class ServiceOrderController extends AdminController
         if (!$serviceOrder || $serviceOrder->status !== 'processing') {
             return redirect()->back(302);
         }
-        $serviceOrder->payment_status = 'paid';
         $serviceOrder->status = 'running';
         $serviceOrder->save();
 

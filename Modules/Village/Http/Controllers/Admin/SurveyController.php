@@ -151,6 +151,7 @@ class SurveyController extends AdminController
         $response = parent::edit($model);
 
         view()->share('votesCount', SurveyVote::countVotesBySurvey($model));
+        view()->share('totalVotes', SurveyVote::countTotalVotesBySurvey($model));
 
         return $response;
     }

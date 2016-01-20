@@ -65,7 +65,7 @@ if (isset($model)) $options = json_decode($model->options, true);
                         <div class="row">
                             <div class="box box-default">
                                 <div class="box-header with-border">
-                                  <h3 class="box-title">Отданные голоса</h3>
+                                  <h3 class="box-title">Отданные голоса: всего ({{ $totalVotes }})</h3>
                                 </div>
                                 <!-- /.box-body -->
                                 <div class="box-footer no-padding">

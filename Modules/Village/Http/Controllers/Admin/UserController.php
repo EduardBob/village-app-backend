@@ -107,6 +107,7 @@ class UserController extends AdminController
         }
 
         $builder
+            ->addColumn(['data' => 'roles', 'title' => trans('user::users.tabs.roles')])
             ->addColumn(['data' => 'first_name', 'name' => 'users.first_name', 'title' => $this->trans('form.first-name')])
             ->addColumn(['data' => 'last_name', 'name' => 'users.last_name', 'title' => $this->trans('form.last-name')])
             ->addColumn(['data' => 'phone', 'name' => 'users.phone', 'title' => trans('village::users.form.phone')])
@@ -155,6 +156,13 @@ class UserController extends AdminController
                 else {
                     return '<span class="label label-danger">'.trans('village::admin.table.active.no').'</span>';
                 }
+            })
+            ->addColumn('roles', function (User $user) {
+                $inRoles = [];
+                foreach ($user->getRoles()->getIterator() as $role) {
+                    $inRoles[] = $role->name;
+                }
+                return implode(', ', $inRoles);
             })
         ;
     }

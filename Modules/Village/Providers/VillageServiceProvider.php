@@ -14,6 +14,7 @@ use Modules\Village\Entities\ServiceOrder;
 use Modules\Village\Entities\ServiceOrderChange;
 use Modules\Village\Entities\Sms;
 use Modules\Village\Entities\User;
+use Modules\Village\Services\SentryPaymentGateway;
 
 class VillageServiceProvider extends ServiceProvider
 {
@@ -51,6 +52,32 @@ class VillageServiceProvider extends ServiceProvider
      */
     public function boot(Authentication $auth)
     {
+        ProductOrder::created(function(ProductOrder $productOrder) {
+            if ('card' === $productOrder->payment_type) {
+                $reflection = new \ReflectionClass($productOrder);
+                $payment = new SentryPaymentGateway();
+                $orderId = $reflection->getShortName().'_'.$productOrder->id;
+
+                try {
+                    $transactionId = $payment
+                        ->generateTransaction(
+                            $orderId,
+                            $productOrder->price,
+                            route('sentry.payment.process', [], true)
+                        )
+                    ;
+
+                    $productOrder->transaction_id = $transactionId;
+                    $productOrder->save();
+                }
+                catch(\Exception $ex) {
+                    $productOrder->status = 'rejected';
+                    $productOrder->decline_reason = $ex->getMessage();
+                    $productOrder->save();
+                }
+            }
+        });
+
         ProductOrder::saved(function(ProductOrder $productOrder) use ($auth) {
             if ($productOrder->isDirty('status')) {
                 ProductOrderChange::create([
@@ -61,9 +88,34 @@ class VillageServiceProvider extends ServiceProvider
                 ]);
 
                 if ('processing' === $productOrder->status) {
-
                     $this->sendMailOnProcessingOrder($auth, $productOrder);
                     $this->sendSmsOnProcessingOrder($auth, $productOrder);
+                }
+            }
+        });
+
+        ServiceOrder::created(function(ServiceOrder $serviceOrder) {
+            if ('card' === $serviceOrder->payment_type) {
+                $reflection = new \ReflectionClass($serviceOrder);
+                $payment = new SentryPaymentGateway();
+                $orderId = $reflection->getShortName().'_'.$serviceOrder->id;
+
+                try {
+                    $transactionId = $payment
+                        ->generateTransaction(
+                            $orderId,
+                            $serviceOrder->price,
+                            route('sentry.payment.process', [], true)
+                        )
+                    ;
+
+                    $serviceOrder->transaction_id = $transactionId;
+                    $serviceOrder->save();
+                }
+                catch(\Exception $ex) {
+                    $serviceOrder->status = 'rejected';
+                    $serviceOrder->decline_reason = $ex->getMessage();
+                    $serviceOrder->save();
                 }
             }
         });

@@ -10,6 +10,6 @@ $router->group(['prefix' => '/payment', 'middleware' => ['secure']], function (R
 });
 
 // payment process
-$router->post('/', [
+$router->get('/payment/status', [
     'as' => 'sentry.payment.process', 'uses' => 'SentryPaymentController@process'
 ]);

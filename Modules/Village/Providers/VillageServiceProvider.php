@@ -6,8 +6,10 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Contracts\Authentication;
 use Modules\Media\Image\ThumbnailsManager;
+use Modules\Village\Entities\Product;
 use Modules\Village\Entities\ProductOrder;
 use Modules\Village\Entities\ProductOrderChange;
+use Modules\Village\Entities\Service;
 use Modules\Village\Entities\ServiceOrder;
 use Modules\Village\Entities\ServiceOrderChange;
 use Modules\Village\Entities\Sms;
@@ -101,36 +103,40 @@ class VillageServiceProvider extends ServiceProvider
 
         $executors = [];
 
+        $entity = $order->{$type};
         // Для услуг
-        if (@$order->{$type}->executors) {
-            $executors = @$order->{$type}->executors->all();
+        if ($entity instanceof Service && $entity->executors) {
+            foreach ($entity->executors->all() as $executor) {
+                $executors[] = $executor->user;
+            }
         }
 
         // Для товаров
-        if (@$order->{$type}->executor) {
-            $executors[] = $order->{$type}->executor;
+        if ($entity instanceof Product && $entity->executor) {
+            $executors[] = $entity->executor;
         }
 
         foreach ($executors as $executor) {
-            if ($executor && $executor->user->email) {
-                $toEmails[] = $executor->user->email;
+            if ($executor && $executor->email) {
+                $toEmails[] = $executor->email;
             }
         }
 
         $data = [
-            'adminUrl' => $orderAdminUrl,
-            'user'     => $user,
+            'adminUrl'  => $orderAdminUrl,
+            'user'      => $user,
             'order'     => $order,
             'type'      => $type,
-            'entity'     => $order->{$type},
+            'entity'    => $entity,
+            'executors' => $executors,
         ];
 
         Mail::queue('village::emails.new-order', ['data' => $data],
-            function (Message $m) use ($toEmails){
+            function (Message $m) use ($toEmails, $order){
                 $toEmails = array_map('trim', $toEmails);
-                $siteName = \Setting::get('core::site-name', \App::getLocale());
-                $m->to($toEmails)
-                  ->subject('Новый заказ в приложении '.$siteName.'.')
+                $m
+                    ->to($toEmails)
+                    ->subject('Новый заказ в поселке '.$order->village->name.' '.$order->created_at->format('Y-m-d H:i:s').'.')
                 ;
             }
         );

@@ -14,7 +14,7 @@ class ServiceOrder extends Model
     protected $fillable = [
         'user_id', 'service_id', 'status', 'perform_date', 'perform_time', 'comment', 'decline_reason', 'payment_type', 'payment_status',
         // используется для формы ордера у охранника
-        'added_from'
+        'added_from', 'transaction_id'
     ];
     protected $dates = ['perform_date'];
 

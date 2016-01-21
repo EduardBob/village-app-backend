@@ -2,186 +2,180 @@
 
 namespace Modules\Village\Services;
 
-/**
- * SENTRY Payment Gateway (SPG) processor.
- *
- * @link https://github.com/jawish/paymentgateway_mpg
- */
 class SentryPaymentGateway
 {
-    public $gatewayUrl;
-    public $purchaseCurrency = '643';   // RUB: 643, USD: 840
-    public $purchaseCurrencyExponent = '2';
-    public $acquirerId = '443222';
-    public $merchantId;
-    public $password;
-    public $version = '1.0.0';
-    public $signatureMethod = 'SHA1';
-    public $returnUrl;
-    public $orderId = 0;
-    public $amount = 0;
+    protected $debug;
+    protected $gatewayUrl;
+    /**
+     * Логин магазина, полученный при подключении
+     *
+     * @var string
+     */
+    protected $merchantId;
+    /**
+     * Пароль магазина, полученный при подключении
+     *
+     * @var string
+     */
+    protected $password;
+    /**
+     * Адрес, на который надо перенаправить пользователя в случае успешной оплаты
+     *
+     * @var string
+     */
+    protected $returnUrl;
+    /**
+     * Адрес, на который надо перенаправить пользователя в случае неуспешной оплаты
+     *
+     * @var string
+     */
+    protected $failUrl;
+    /**
+     * Сумма платежа в копейках (или центах)
+     *
+     * @var int
+     */
+    protected $amount = 0;
+    /**
+     * Код валюты платежа ISO 4217. Если не указан, считается равным коду валюты по умолчанию.
+     *
+     * @var int
+     */
+    protected $currency = 643; // RUB: 643, USD: 840
+
+    protected $formUrl = 'https://3dsec.sberbank.ru/payment/merchants/concierge/payment_ru.html';
 
     public function __construct()
     {
-        // debug
-        if (config('village.order.payment.sentry.debug')) {
-            $this->gatewayUrl = 'https://mpi.mkb.ru:9443/MPI_payment/';
-            $this->merchantId = config('village.order.payment.sentry.test.mid');
-            $this->password = config('village.order.payment.sentry.test.password');
-        }
-        // prod
-        else {
-            $this->gatewayUrl = 'https://mpi.mkb.ru:8443/MPI_payment/';
-            $this->merchantId = config('village.order.payment.sentry.prod.mid');
-            $this->password = config('village.order.payment.sentry.prod.password');
-        }
+        $this->debug = config('village.order.payment.sentry.debug', false);
+        $this->gatewayUrl = 'https://3dsec.sberbank.ru/payment/rest/';
+        $this->merchantId = config('village.order.payment.sentry.prod.mid');
+        $this->password = config('village.order.payment.sentry.prod.password');
     }
 
     /**
-     * Generate the form data and return as array
-     *
+     * @return bool
+     */
+    public function isDebug()
+    {
+        return (bool)$this->debug;
+    }
+
+    /**
      * @param string $orderId
      * @param float  $amount
      * @param string $returnUrl
      *
-     * @return array            Array form data to be POST'ed to MPG.
-     *                          Attributes:
-     *                          - Version
-     *                          - MerID
-     *                          - AcqID
-     *                          - MerRespURL
-     *                          - PurchaseCurrency
-     *                          - PurchaseCurrencyExponent
-     *                          - OrderID
-     *                          - SignatureMethod
-     *                          - PurchaseAmt
-     *                          - Url
-     *                          - Signature
+     * @throws \Exception
+     * @return string
      */
-    public function generateFormData($orderId, $amount, $returnUrl)
+    public function generateTransaction($orderId, $amount, $returnUrl)
     {
         $amount = (float)$amount;
         $this->returnUrl = $returnUrl;
 
-        // Create form fields for MPG
-        $mpgData = [
-            'mid'           => $this->merchantId,
-            'aid'           => $this->acquirerId,
-            'resp_url'      => $this->returnUrl,
-            'oid'           => $orderId,
+        $data = [
+            'userName'      => $this->merchantId,
+            'password'      => $this->password,
+            'orderNumber'   => $this->cryptOrderNumber($orderId),
             'amount'        => $this->getFormattedAmount($amount),
-            'signature'     => $this->generateSignature($orderId, $amount),
-            'site_link'     => route('homepage'),
-            'merchant_mail' => config('village.order.payment.sentry.merchant_mail'),
+            'currency'      => $this->currency,
+            'returnUrl'     => $returnUrl,
+//            'failUrl'       => $failUrl,
+            'pageView'      => 'MOBILE',
         ];
 
-        // Return final data
-        return $mpgData;
+        $url = $this->gatewayUrl.'register.do?'.http_build_query($data, null, '&', PHP_QUERY_RFC3986);
+        $client = new \GuzzleHttp\Client();
+        $response = $client->get($url);
+        /**
+         * @example success response
+         array (size=2)
+            'orderId' => string 'b645992d-186f-4a16-a5c2-6a009c2086c0' (length=36)
+            'formUrl' => string 'https://3dsec.sberbank.ru/payment/merchants/concierge/mobile_payment_ru.html?mdOrder=b645992d-186f-4a16-a5c2-6a009c2086c0&pageView=MOBILE' (length=137)
+         */
+        $answer = $response->json();
+        if (isset($answer['orderId'])) {
+            return $answer['orderId'];
+        }
+        else {
+            throw new \Exception($answer['errorMessage'], $answer['errorCode']);
+        }
     }
 
     /**
-     * @param string $orderId
-     * @param float  $amount
-     * @param string $returnUrl
+     * @param string $transactionId
+     * @param string  $pageView DESKTOP|MOBILE
      *
      * @return string
      */
-    public function generateRedirectUrl($orderId, $amount, $returnUrl)
+    public function generateTransactionUrl($transactionId, $pageView = 'DESKTOP')
     {
-        $data = $this->generateFormData($orderId, $amount, $returnUrl);
-
-        return $this->gatewayUrl.'?'.http_build_query($data, null, '&', PHP_QUERY_RFC3986);
-    }
-
-    /**
-     * Process response
-     *
-     * @param $response array Response from server, usually the $_POST variable.
-     *
-     * @throws \Exception
-     * @return array          Parsed response
-     */
-    public function processResponse(array $response)
-    {
-        $requiredFields = [
-            'Signature',
-            'ResponseCode',
-            'OrderID',
-            'ReasonCode',
-            'ReasonCodeDesc'
+        $data = [
+            'mdOrder' => $transactionId,
+            'pageView' => $pageView
         ];
 
-        // Check is response is an array and contains the required fields
-        if (is_array($response) && count(array_intersect_key(array_flip($requiredFields), $response)) != count($requiredFields)) {
-            throw new \Exception('Invalid response data: '.json_encode($response));
-        }
-
-        // Если что-то не так, то ничего не делаем
-        if (1 != $response['ResponseCode']) {
-            throw new \Exception('Invalid ResponseCode');
-        }
-
-        if (!$this->validateResponseSignature($response)) {
-            throw new \Exception('Signature validation failure');
-        }
-
-        return $response;
+        return $this->formUrl.'?'.http_build_query($data, null, '&', PHP_QUERY_RFC3986);
     }
 
     /**
-     * Check if response signature matches expected
-     *
-     * @param array $response
+     * @param string $transactionId
      *
      * @throws \Exception
-     * @return array Boolean true, if match, false otherwise.
+     * @return array
      */
-    public function validateResponseSignature(array $response)
+    public function getTransactionStatus($transactionId)
     {
-        // Signature method can only be SHA1
-        if ($this->signatureMethod != 'SHA1') {
-            throw new \Exception('Unsupported signature method');
-        }
+        $data = [
+            'userName'      => $this->merchantId,
+            'password'      => $this->password,
+            'orderId'       => $transactionId,
+        ];
 
-        $signatureText = $this->password .
-                         $this->merchantId .
-                         $this->acquirerId .
-                         $response['OrderID'] .
-                         $response['ResponseCode'] .
-                         $response['ReasonCode']
-        ;
-
-        return base64_encode(hex2bin(sha1($signatureText))) === $response['Signature'];
+        $url = $this->gatewayUrl.'getOrderStatus.do?'.http_build_query($data, null, '&', PHP_QUERY_RFC3986);
+        $client = new \GuzzleHttp\Client();
+        $response = $client->get($url);
+        /**
+         * @example success response
+         * {"expiration":"201512","cardholderName":"tr tr","depositAmount":789789,"currency":"810","approvalCode":"123456","authCode":2,"clientId":"666","bindingId":"07a 90a5d-cc60-4d1b-a9e6-ffd15974a74f","ErrorCode":"0","ErrorMessage":"Успешно","OrderStatus":2,"OrderNumber":"2 3asdafaf","Pan":"411111**1111","Amount":789789}
+         */
+        return $response->json();
+//
+//        if (isset($answer['OrderStatus']) && 2 == $answer['OrderStatus']) {
+//            return true;
+//        }
+//
+//        throw new \Exception($answer['ErrorMessage'], $answer['ErrorCode']);
     }
 
     /**
-     * Generate signature
-     *
      * @param string $orderId
-     * @param float  $amount
      *
-     * @throws \Exception
-     * @return string Signature string
+     * @return string
      */
-    public function generateSignature($orderId, $amount)
+    public function cryptOrderNumber($orderId)
     {
-        // Signature method can only be SHA1
-        if ($this->signatureMethod != 'SHA1') {
-            throw new \Exception('Unsupported signature method');
-        }
-
-        $signatureText = $this->password .
-                         $this->merchantId .
-                         $this->acquirerId .
-                         $orderId .
-                         $this->getFormattedAmount($amount) .
-                         $this->purchaseCurrency;
-
-        return base64_encode(hex2bin(sha1($signatureText)));
+        return $this->isDebug() ? 'test_'.$orderId : $orderId;
     }
 
+    /**
+     * @param string $cryptedOrderId
+     *
+     * @return string
+     */
+    public function decryptOrderNumber($cryptedOrderId)
+    {
+        return str_replace('test_', '', $cryptedOrderId);
+    }
+
+    /**
+     * @param float $amount
+     *
+     * @return int
+     */
     public function getFormattedAmount($amount)
     {
-        return str_pad(number_format($amount, 2, '', ''), 12, '0', STR_PAD_LEFT);
+        return intval($amount*100);
     }
 }

@@ -16,26 +16,15 @@ class PayLinkTransformer extends TransformerAbstract
      */
     public function transform($order)
     {
-        if ('card' !== $order->payment_type || 'not_paid' !== $order->payment_status) {
+        if ('card' !== $order->payment_type || 'not_paid' !== $order->payment_status || !$order->transaction_id) {
             return [];
         }
 
-        $reflection = new \ReflectionClass($order);
         $payment = new SentryPaymentGateway();
-
-        $orderId = 'test'.$reflection->getShortName().'_'.$order->id;
-
-        $link = $payment
-            ->generateRedirectUrl(
-                $orderId,
-                $order->price,
-                secure_url(route('sentry.payment.process', [], false)),
-                true
-            )
-        ;
+        $link = $payment->generateTransactionUrl($order->transaction_id, 'MOBILE');
 
         return [
-            'link' => secure_url(route('sentry.payment.redirect', ['link' => urlencode($link)], false))
+            'link' => $link
         ];
     }
 }

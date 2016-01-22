@@ -5,6 +5,11 @@
 
     RewriteEngine On
 
+    # prod rules
+    RewriteCond %{HTTP_HOST} ^1centr\.com$ [NC]
+    RewriteCond %{REQUEST_URI} ^/$
+    RewriteRule ^(.*)$ http://concierge--concierge.simplesite.com/$1 [R=301,L]
+
     # Redirect Trailing Slashes...
     RewriteRule ^(.*)/$ /$1 [L,R=301]
 

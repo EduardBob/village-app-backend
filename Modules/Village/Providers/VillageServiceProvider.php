@@ -207,7 +207,7 @@ class VillageServiceProvider extends ServiceProvider
         }
 
         $type = $order->product ? 'product' : 'service';
-        $format = 'village.name; order.perform_date; order.perform_time; service.name; order.comment; order.payment_type; user.full_name; user.building.address; user.phone';
+        $format = 'village.name;order.perform_date;order.perform_time;service.name;order.quantity;order.comment;order.payment_type;user.full_name;user.building.address;user.phone';
         $text = strtr($format, [
             'village.name' => $order->village->name,
             'order.perform_date' => $order->perform_date->format('Y-m-d'),
@@ -219,6 +219,17 @@ class VillageServiceProvider extends ServiceProvider
             'user.building.address' => @$order->user->building->address,
             'user.phone' => @$order->user->phone,
         ]);
+        if ('product' === $type) {
+            $text = strtr($text, [
+                'order.quantity' => $order->quantity,
+                'order.payment_type'
+            ]);
+        }
+        else {
+            $text = strtr($text, [
+                'order.quantity;' => '',
+            ]);
+        }
 
         if ($order->village->send_sms_to_village_admin && $order->village->mainAdmin && $user->village->mainAdmin->phone) {
             $sms = new Sms();

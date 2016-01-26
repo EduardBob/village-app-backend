@@ -2,6 +2,14 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
+                {!! Form::label('created_at', $admin->trans('table.created_at')) !!}
+                <div>{{ Carbon\Carbon::parse(@$model->created_at)->format('Y-m-d H:i:s') }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
                 {!! Form::label('user_id', $admin->trans('table.user')) !!}
                 <div>{{ $model->user->last_name }} {{ $model->user->first_name }}</div>
             </div>

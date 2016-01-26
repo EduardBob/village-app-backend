@@ -1,4 +1,12 @@
 <div class="box-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                {!! Form::label('created_at', $admin->trans('table.created_at')) !!}
+                <div>{{ Carbon\Carbon::parse(@$model->created_at)->format('Y-m-d H:i:s') }}</div>
+            </div>
+        </div>
+    </div>
     @if(($currentUser->inRole('admin') || $currentUser->inRole('village-admin')) && $model->product->executor)
     <div class="row">
         <div class="col-sm-12">

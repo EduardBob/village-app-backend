@@ -43,6 +43,7 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
         });
 
         $router->group(['prefix' => 'villages'], function (Router $router) {
+            $router->post('partner-request',    ['uses' => 'V1\VillageController@partnerRequest', 'as' => 'village.api.village.village.partner_request']);
             $router->post('request',        ['uses' => 'V1\VillageController@request', 'as' => 'village.api.village.village.request']);
         });
     });

@@ -497,7 +497,8 @@
 					"description": "",
 					"write": true,
 					"order": [
-						"18ba9198-261d-7684-0f34-e0f31e98f333"
+						"18ba9198-261d-7684-0f34-e0f31e98f333",
+						"b5b88db2-c07a-3767-2d36-4072e96ce622"
 					],
 					"collection": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
 					"owner": "161799",
@@ -515,7 +516,7 @@
 			"remoteLink": null,
 			"public": false,
 			"createdAt": "2015-10-14T09:09:02.000Z",
-			"updatedAt": 1451386953930,
+			"updatedAt": 1454343970349,
 			"write": true,
 			"requests": [
 				{
@@ -1234,6 +1235,44 @@
 					"responses": []
 				},
 				{
+					"id": "b5b88db2-c07a-3767-2d36-4072e96ce622",
+					"headers": "",
+					"url": "{{domain}}/api/v1/villages/partner-request",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "company_name",
+							"value": "company name",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "full_name",
+							"value": "test full_name",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "phone",
+							"value": "{{phone}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 201;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1454344021665,
+					"name": "/api/v1/villages/partner-request",
+					"description": "Add new village partner request",
+					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
+					"responses": []
+				},
+				{
 					"id": "bfd77d95-e8cd-38a2-e1a8-f5c4704c4c45",
 					"owner": "161799",
 					"headers": "Authorization: Bearer  {{token}}\n",
@@ -1764,7 +1803,7 @@
 				},
 				{
 					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE4NTEsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9zZWN1cml0eVwvYXV0aFwvdG9rZW4iLCJpYXQiOjE0NTEzOTA5MTcsImV4cCI6MTQ1MTQ3NzMxNywibmJmIjoxNDUxMzkwOTE3LCJqdGkiOiI3YmQ5MjBlNTIwNzExOGE4NDgxM2UxOWE5OWY1OGVlMCJ9.vRujgj-XqKQKFinBVCjieOWlrUyjgiJaTUuLHJmU7EY",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjMsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ1NDMyMDQ0MywiZXhwIjoxNDU0NDA2ODQzLCJuYmYiOjE0NTQzMjA0NDMsImp0aSI6IjRlYjU4MGZkZTQ2NWRhYmI3N2Y2ZjVmZDljM2Q1MjQ2In0.qKCU6MV6vZFLCcYAU3B6oYEzyqiF1Ep4yVJV0oyjrgs",
 					"type": "text",
 					"name": "token",
 					"enabled": true
@@ -1917,11 +1956,11 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1451474287083
+			"timestamp": 1454343962280
 		},
 		{
-			"id": "944b564f-d8be-2d62-87bd-0db2b3d440dc",
-			"name": "test amazon",
+			"id": "a004eb55-888b-ee78-6d20-e55b8d1f5c6b",
+			"name": "production",
 			"values": [
 				{
 					"key": "debug",
@@ -1932,28 +1971,28 @@
 				},
 				{
 					"key": "domain",
-					"value": "http://village.eprst.eu",
+					"value": "http://1centr.com",
 					"type": "text",
 					"name": "domain",
 					"enabled": true
 				},
 				{
 					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODAzIiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5lcHJzdC5ldVwvYXBpXC92MVwvYXV0aFwvdG9rZW4iLCJpYXQiOiIxNDQ4MzIwODA0IiwiZXhwIjoiMTQ0ODQwNzIwNCIsIm5iZiI6IjE0NDgzMjA4MDQiLCJqdGkiOiIyNzBkZmIwY2E2YmQwZTFjZDgzZGQyMWY4Mzg4NjI1ZiJ9.OXE0Eed5SLIIDCr_nBDzZXDKt_rE1S3frJN9wdzYn-U",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjQsImlzcyI6Imh0dHA6XC9cLzFjZW50ci5jb21cL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoxNDU0MzIwOTI1LCJleHAiOjE0NTQ0MDczMjUsIm5iZiI6MTQ1NDMyMDkyNSwianRpIjoiZTliNGU4ZDE0OWE3ZjBjMTY2ZTM4MDVlMjg0OTM5MDgifQ.YXnE0SnwH3W-nck_R_Gud7EB1ZMxMskZbUIM0h6HD-E",
 					"type": "text",
 					"name": "token",
 					"enabled": true
 				},
 				{
 					"key": "phone",
-					"value": "+7(960)6850046",
+					"value": "+7(111)1111113",
 					"type": "text",
 					"name": "phone",
 					"enabled": true
 				},
 				{
 					"key": "password",
-					"value": "qwerty",
+					"value": "yj3wev32R6eQJWV",
 					"type": "text",
 					"name": "password",
 					"enabled": true
@@ -2002,7 +2041,7 @@
 				},
 				{
 					"key": "product.category.id",
-					"value": "154",
+					"value": "156",
 					"type": "text",
 					"name": "product.category.id",
 					"enabled": true
@@ -2016,7 +2055,7 @@
 				},
 				{
 					"key": "service.id",
-					"value": "142",
+					"value": "306",
 					"type": "text",
 					"name": "service.id",
 					"enabled": true
@@ -2044,7 +2083,7 @@
 				},
 				{
 					"key": "product.id",
-					"value": "260",
+					"value": "264",
 					"type": "text",
 					"name": "product.id",
 					"enabled": true
@@ -2064,7 +2103,7 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1451474287097
+			"timestamp": 1454343962285
 		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
@@ -2211,7 +2250,7 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1451474287103
+			"timestamp": 1454343962293
 		}
 	],
 	"headerPresets": [

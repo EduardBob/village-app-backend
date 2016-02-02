@@ -60,7 +60,7 @@
         @if(isset($model))
         <div class="col-sm-6">
             @include('media::admin.fields.file-link', [
-                'entityClass' => 'Modules\\\\Village\\\\Entities\\\\Service',
+                'entityClass' => 'Modules\\\\Village\\\\Entities\\\\BaseService',
                 'entityId' => @$model->id,
                 'zone' => 'media',
                 'media' => isset($model) ? $model->files()->first() : null

@@ -483,11 +483,19 @@ abstract class AdminController extends AdminBaseController
             return $redirect;
         }
 
+        $this->preDestroy($model);
         $this->getRepository()->destroy($model);
 
         flash()->success(trans('core::core.messages.resource deleted', ['name' => $this->trans('title.model')]));
 
         return redirect()->route($this->getRoute('index'));
+    }
+
+    /**
+     * @param Model   $model
+     */
+    public function preDestroy(Model $model)
+    {
     }
 
     /**

@@ -202,6 +202,15 @@ class ServiceController extends AdminController
     }
 
     /**
+     * @param Model   $model
+     */
+    public function preDestroy(Model $model)
+    {
+        $model->base_id = null;
+        $model->save();
+    }
+
+    /**
      * @param int $baseId
      *
      * @return \BladeView|bool|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
@@ -266,8 +275,12 @@ class ServiceController extends AdminController
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getExecutors(Village $village)
+    public function getExecutors(Village $village = null)
     {
+        if (!$village) {
+            return [];
+        }
+
         $userIds = [];
 
         // исполнители

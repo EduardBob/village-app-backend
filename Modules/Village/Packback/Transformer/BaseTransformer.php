@@ -21,7 +21,8 @@ class BaseTransformer extends TransformerAbstract
         $imageWithFormats = [
             'formats' => []
         ];
-        $imageWithFormats['formats']['original'] = $image->path;
+
+        $imageWithFormats['formats']['original'] = (string)$image->path;
         foreach ($formats as $name => $format) {
             $imageWithFormats['formats'][$name] = \Imagy::getThumbnail($image->path, $name);
         }

@@ -242,8 +242,12 @@ class ProductController extends AdminController
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getExecutors(Village $village)
+    public function getExecutors(Village $village = null)
     {
+        if (!$village) {
+            return [];
+        }
+
         $role = $this->roleRepository->findBySlug('executor');
         $userIds = [];
         foreach($role->users as $user) {

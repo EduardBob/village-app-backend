@@ -62,6 +62,7 @@
       "php artisan clear-compiled",
       "php artisan stylist:publish",
       "php artisan module:publish",
+      "php artisan ide-helper:generate",
       "php artisan optimize"
     ],
     "post-update-cmd": [

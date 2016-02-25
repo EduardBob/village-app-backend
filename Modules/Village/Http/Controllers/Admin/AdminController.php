@@ -443,13 +443,14 @@ abstract class AdminController extends AdminBaseController
             return $redirect;
         }
 
-        $validator = $this->validate($request->all(), $model);
+        $data = $request->all();
+        $validator = $this->validate($data, $model);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        $model->fill($request->all());
+        $model->fill($data);
         $this->preUpdate($model, $request);
         $model->save();
 

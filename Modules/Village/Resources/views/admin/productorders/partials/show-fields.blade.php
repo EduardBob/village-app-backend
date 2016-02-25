@@ -44,6 +44,14 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                {!! Form::label('unit_price', $admin->trans('table.unit_price')) !!}
+                <div>{{ $model->unit_price }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-1">
         	<div class="form-group">
         	    <?php $unitTitles = array_combine(config('village.product.unit.values'), $admin->trans('form.unit_title.values')) ?>
@@ -56,7 +64,7 @@
         <div class="col-sm-12">
         	<div class="form-group">
         	    {!! Form::label('price', $admin->trans('table.price')) !!}
-        	    <div>{{ $model->price }}</div>
+        	    <div>{{ $model->unit_price }} x {{ $model->quantity }} = {{ $model->price }}</div>
         	</div>
         </div>
     </div>

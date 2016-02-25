@@ -36,20 +36,21 @@ class ProductOrder extends Model
         static::creating(function(ProductOrder $productOrder) {
             $productOrder->village()->associate($productOrder->product->village);
             if ($productOrder->product->price == 0) {
-                $productOrder->price = $productOrder->product->price;
+                $productOrder->unit_price = $productOrder->price = $productOrder->product->price;
                 $productOrder->payment_status = 'paid';
             }
             else {
-                $productOrder->price = Margin::getFinalPrice($productOrder->village, $productOrder->product->price) * $productOrder->quantity;
+                $productOrder->unit_price = Margin::getFinalPrice($productOrder->village, $productOrder->product->price);
+                $productOrder->price = $productOrder->unit_price * $productOrder->quantity;
                 $productOrder->payment_status = 'not_paid';
             }
             $productOrder->unit_title = $productOrder->product->unit_title;
-        });
+        }, 10);
 
         static::saving(function(ProductOrder $productOrder) {
             if ($productOrder->perform_time === '') {
                 $productOrder->perform_time = null;
             }
-        });
+        }, 10);
     }
 }

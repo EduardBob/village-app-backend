@@ -76,7 +76,7 @@ class VillageServiceProvider extends ServiceProvider
                     $productOrder->save();
                 }
             }
-        });
+        }, -1);
 
         ProductOrder::saved(function(ProductOrder $productOrder) use ($auth) {
             if ($productOrder->isDirty('status')) {
@@ -207,10 +207,10 @@ class VillageServiceProvider extends ServiceProvider
         }
 
         $type = $order->product ? 'product' : 'service';
-        $format = 'village.name;order.perform_date;order.perform_time;service.name;order.quantity;order.comment;order.payment_type;user.full_name;user.building.address;user.phone';
+        $format = 'village.name;order.perform_date;order.perform_time;service.name;order.price;order.comment;order.payment_type;user.full_name;user.building.address;user.phone';
         $text = strtr($format, [
             'village.name' => $order->village->name,
-            'order.perform_date' => $order->perform_date->format('Y-m-d'),
+            'order.perform_date' => $order->perform_date->format('d-m-Y'),
             'order.perform_time' => $order->perform_time,
             'service.name' => @$order->{$type}->title,
             'order.comment' => @$order->comment,
@@ -221,13 +221,12 @@ class VillageServiceProvider extends ServiceProvider
         ]);
         if ('product' === $type) {
             $text = strtr($text, [
-                'order.quantity' => $order->quantity,
-                'order.payment_type'
+                'order.price' => $order->unit_price.'x'.$order->quantity.'='.$order->price,
             ]);
         }
         else {
             $text = strtr($text, [
-                'order.quantity;' => '',
+                'order.price;' => '',
             ]);
         }
 

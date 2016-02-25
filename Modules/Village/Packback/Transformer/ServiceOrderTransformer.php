@@ -35,6 +35,7 @@ class ServiceOrderTransformer extends TransformerAbstract
             'created_at' => $serviceOrder->created_at->format('Y-m-d H:i:s'),
             'perform_date' => $serviceOrder->perform_date->format('Y-m-d'),
             'perform_time' => $serviceOrder->perform_time,
+            'unit_price' => $serviceOrder->unit_price,
             'price' => $serviceOrder->price,
             'comment' => $serviceOrder->comment,
             'status' => $serviceOrder->status,

@@ -41,20 +41,20 @@ class ServiceOrder extends Model
             $serviceOrder->village()->associate($serviceOrder->service->village);
 
             if ($serviceOrder->service->price == 0) {
-                $serviceOrder->price = $serviceOrder->service->price;
+                $serviceOrder->unit_price = $serviceOrder->price = $serviceOrder->service->price;
                 $serviceOrder->payment_status = 'paid';
             }
             else {
-                $serviceOrder->price = Margin::getFinalPrice($serviceOrder->village, $serviceOrder->service->price);
+                $serviceOrder->unit_price = $serviceOrder->price = Margin::getFinalPrice($serviceOrder->village, $serviceOrder->service->price);
                 $serviceOrder->payment_status = 'not_paid';
                 $serviceOrder->status = 'processing';
             }
-        });
+        }, 10);
 
         static::saving(function(ServiceOrder $serviceOrder) {
             if ($serviceOrder->perform_time === '') {
                 $serviceOrder->perform_time = null;
             }
-        });
+        }, 10);
     }
 }

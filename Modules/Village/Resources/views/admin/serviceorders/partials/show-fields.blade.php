@@ -20,7 +20,7 @@
         <div class="col-sm-12">
         	<div class="form-group">
         	    {!! Form::label('perform_date', $admin->trans('table.perform_date')) !!}
-        	    <div>{{ Carbon\Carbon::parse(@$model->perform_date)->format(config('village.date.format')) }}</div>
+                <div>{{ Carbon\Carbon::parse(@$model->perform_date)->format('Y-m-d') }} {{ $model->perform_time }}</div>
         	</div>
         </div>
     </div>

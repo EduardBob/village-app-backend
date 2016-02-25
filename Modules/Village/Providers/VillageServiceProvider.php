@@ -188,7 +188,7 @@ class VillageServiceProvider extends ServiceProvider
                 $toEmails = array_map('trim', $toEmails);
                 $m
                     ->to($toEmails)
-                    ->subject('Новый заказ в поселке '.$order->village->name.' '.$order->created_at->format('Y-m-d H:i:s').'.')
+                    ->subject('Новый заказ в поселке '.$order->village->name.' '.$order->created_at->format('d-m-Y H:i:s').'.')
                 ;
             }
         );

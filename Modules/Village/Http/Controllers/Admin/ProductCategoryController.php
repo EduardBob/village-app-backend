@@ -34,6 +34,7 @@ class ProductCategoryController extends AdminController
         return [
             'village__product_categories.id',
             'village__product_categories.title',
+            'village__product_categories.order',
             'village__product_categories.active',
         ];
     }
@@ -53,6 +54,7 @@ class ProductCategoryController extends AdminController
         $builder
             ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
             ->addColumn(['data' => 'title', 'name' => 'village__product_categories.title', 'title' => $this->trans('table.title')])
+            ->addColumn(['data' => 'order', 'name' => 'village__product_categories.order', 'title' => $this->trans('table.order')])
             ->addColumn(['data' => 'active', 'name' => 'village__product_categories.active', 'title' => $this->trans('table.active')])
         ;
     }

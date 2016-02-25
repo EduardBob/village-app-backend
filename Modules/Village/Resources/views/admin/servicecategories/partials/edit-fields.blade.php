@@ -7,7 +7,14 @@
                 {!! $errors->first('title', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
-        <div class="col-sm-7">
+        <div class="col-sm-12">
+            <div class="form-group{{ $errors->has('order') ? ' has-error' : '' }}">
+                {!! Form::label('order', $admin->trans('table.order')) !!}
+                {!! Form::text('order', Input::old('order', @$model->order), ['class' => 'form-control', 'placeholder' => $admin->trans('table.order')]) !!}
+                {!! $errors->first('order', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-12">
             <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
                 {!! Form::label('active', $admin->trans('table.active')) !!}
                 {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}
@@ -15,7 +22,7 @@
             </div>
         </div>
         @if(isset($model))
-        <div class="col-sm-7">
+        <div class="col-sm-12">
             @include('media::admin.fields.file-link', [
                 'entityClass' => 'Modules\\\\Village\\\\Entities\\\\ServiceCategory',
                 'entityId' => @$model->id,

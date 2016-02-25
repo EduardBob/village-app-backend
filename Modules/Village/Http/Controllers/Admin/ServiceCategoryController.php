@@ -34,6 +34,7 @@ class ServiceCategoryController extends AdminController
         return [
             'village__service_categories.id',
             'village__service_categories.title',
+            'village__service_categories.order',
             'village__service_categories.active',
         ];
     }
@@ -60,6 +61,7 @@ class ServiceCategoryController extends AdminController
         $builder
             ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
             ->addColumn(['data' => 'title', 'name' => 'village__service_categories.title', 'title' => $this->trans('table.title')])
+            ->addColumn(['data' => 'order', 'name' => 'village__service_categories.order', 'title' => $this->trans('table.order')])
         ;
 
         if ($this->getCurrentUser()->inRole('admin')) {

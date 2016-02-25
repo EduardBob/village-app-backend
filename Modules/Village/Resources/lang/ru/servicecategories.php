@@ -13,6 +13,7 @@ return [
     'table' => [
         'id' => 'ID',
         'title' => 'Название',
+        'order' => 'Порядок',
         'active' => 'Включена',
         'created_at' => 'Создана',
         'actions' => 'Действия',

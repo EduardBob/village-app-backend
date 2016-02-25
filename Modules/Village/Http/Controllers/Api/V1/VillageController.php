@@ -18,6 +18,8 @@ class VillageController extends ApiController
     public function request(Request $request)
     {
         $data = $request::only(['phone', 'full_name', 'position', 'address']);
+        $siteName = \Setting::get('core::site-name', \App::getLocale());
+        $data['site-name'] = $siteName;
 
         $validator = Validator::make($data, [
             'phone' => 'required|regex:'.config('village.user.phone.regex'),
@@ -31,10 +33,9 @@ class VillageController extends ApiController
         }
 
         Mail::queue('village::emails.request', ['data' => $data],
-            function (Message $m) {
+            function (Message $m) use ($siteName) {
                 $toEmails = explode(',', \Setting::get('village::village-request-send-to-emails'));
                 $toEmails = array_map('trim', $toEmails);
-                $siteName = \Setting::get('core::site-name', \App::getLocale());
                 $m->to($toEmails)
                     ->subject(trans('village::villages.emails.request.subject', ['site-name' => $siteName]))
                 ;
@@ -72,7 +73,7 @@ class VillageController extends ApiController
                 $toEmails = array_map('trim', $toEmails);
                 $siteName = \Setting::get('core::site-name', \App::getLocale());
                 $m->to($toEmails)
-                  ->subject(trans('village::villages.emails.request.subject', ['site-name' => $siteName]))
+                  ->subject(trans('village::villages.emails.partner_request.subject', ['site-name' => $siteName]))
                 ;
             }
         );

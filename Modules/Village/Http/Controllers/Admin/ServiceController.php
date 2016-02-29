@@ -15,8 +15,8 @@ use Modules\Village\Entities\ServiceCategory;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Modules\Village\Repositories\UserRoleRepository;
 use Validator;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
 
 class ServiceController extends AdminController
 {
@@ -199,6 +199,8 @@ class ServiceController extends AdminController
 
             $model->executors()->saveMany($executors);
         }
+
+        $this->calculateType($model);
     }
 
     /**
@@ -308,5 +310,20 @@ class ServiceController extends AdminController
         }
 
         return $list;
+    }
+
+    /**
+     * @param Service $service
+     */
+    private function calculateType(Service $service)
+    {
+        $type = 'default';
+        foreach ($service->executors as $executor) {
+            if ($executor->user->inRole('security')) {
+                $type = 'sc';
+            }
+        }
+
+        $service->type = $type;
     }
 }

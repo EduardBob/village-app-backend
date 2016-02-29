@@ -9,9 +9,9 @@ use Response;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Validator;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
-use yajra\Datatables\Datatables;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Datatables;
 
 class UserController extends AdminController
 {

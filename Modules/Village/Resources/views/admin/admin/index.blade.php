@@ -28,7 +28,9 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+                @section('grid')
                 {!! $html->table(['class' => 'table table-striped table-bordered']) !!}
+                @show
                 <!-- /.box-body -->
             </div>
             <!-- /.box -->
@@ -70,15 +72,15 @@
 @stop
 
 @section('scripts')
-    <link rel="stylesheet" href="//cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
-    <script src="https://cdn.datatables.net/select/1.1.0/js/dataTables.select.min.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css">
+    <script src="//cdn.datatables.net/select/1.1.2/js/dataTables.select.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
     <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
     <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.1.0/js/buttons.html5.min.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.1.0/js/buttons.print.min.js"></script>
-    <script src="//cdn.datatables.net/plug-ins/1.10.10/pagination/scrolling.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.1.2/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.1.2/js/buttons.print.min.js"></script>
+    <script src="//cdn.datatables.net/plug-ins/1.10.11/pagination/scrolling.js"></script>
     {{--<script src="//cdn.datatables.net/buttons/1.1.0/js/buttons.colVis.min.js"></script>--}}
     {{--<script src="/vendor/datatables/buttons.server-side.js"></script>--}}
 

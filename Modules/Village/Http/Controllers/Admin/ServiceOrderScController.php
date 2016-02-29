@@ -1,8 +1,7 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Carbon\Carbon;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
-use Jenssegers\Date\Date;
 use Modules\Village\Entities\ServiceOrder;
 use Modules\Village\Repositories\ServiceOrderRepository;
 use Modules\Village\Entities\Service;
@@ -13,7 +12,8 @@ use Validator;
 use Yajra\Datatables\Engines\EloquentEngine;
 use Yajra\Datatables\Html\Builder as TableBuilder;
 
-class ServiceOrderController extends AdminController
+// КПП - или Контрольно-пропускной пункт (security checkpoint)
+class ServiceOrderScController extends AdminController
 {
     /**
      * @var ServiceRepository
@@ -36,48 +36,7 @@ class ServiceOrderController extends AdminController
      */
     public function getViewName()
     {
-        return 'serviceorders';
-    }
-
-
-    /**
-     * @param int $id
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function setStatusRunning($id)
-    {
-        $serviceOrder = $this->repository->find((int)$id);
-        if (!$serviceOrder || $serviceOrder->status !== 'processing') {
-            return redirect()->back(302);
-        }
-        $serviceOrder->status = 'running';
-        $serviceOrder->save();
-
-        flash()->success($this->trans('messages.resource status-running'));
-
-        return redirect()->route($this->getRoute('index'));
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function setStatusDone($id)
-    {
-        $serviceOrder = $this->repository->find((int)$id);
-        if (!$serviceOrder || $serviceOrder->status !== 'running') {
-            return redirect()->back(302);
-        }
-
-        $serviceOrder->payment_status = 'paid';
-        $serviceOrder->status = 'done';
-        $serviceOrder->save();
-
-        flash()->success($this->trans('messages.resource status-done'));
-
-        return redirect()->route($this->getRoute('index'));
+        return 'serviceorderssc';
     }
 
     /**
@@ -86,17 +45,7 @@ class ServiceOrderController extends AdminController
     protected function configureDatagridColumns()
     {
         return [
-            'village__service_orders.id',
-            'village__service_orders.village_id',
-            'village__service_orders.service_id',
-            'village__service_orders.user_id',
-            'village__service_orders.perform_date',
-            'village__service_orders.perform_time',
-            'village__service_orders.created_at',
-            'village__service_orders.price',
-            'village__service_orders.payment_type',
-            'village__service_orders.payment_status',
-            'village__service_orders.status',
+            'village__service_orders.*',
         ];
     }
 
@@ -111,15 +60,15 @@ class ServiceOrderController extends AdminController
             ->leftJoin('users', 'village__service_orders.user_id', '=', 'users.id')
             ->leftJoin('village__buildings', 'users.building_id', '=', 'village__buildings.id')
             ->with(['village', 'service', 'user', 'user.building'])
+            ->where('village__service_orders.status', 'done')
+            ->where('village__services.type', 'sc')
         ;
 
         if (!$this->getCurrentUser()->inRole('admin')) {
             $query->where('village__service_orders.village_id', $this->getCurrentUser()->village->id);
         }
-        if ($this->getCurrentUser()->inRole('executor')) {
-            $query->leftJoin('village__service_executors', 'village__service_executors.service_id', '=', 'village__services.id');
+        elseif ($this->getCurrentUser()->inRole('executor')) {
             $query->where('village__service_executors.user_id', $this->getCurrentUser()->id);
-            $query->whereIn('village__service_orders.status', ['processing', 'running']);
         }
     }
 
@@ -139,16 +88,13 @@ class ServiceOrderController extends AdminController
         }
 
         $builder
-            ->addColumn(['data' => 'service_title', 'name' => 'village__services.title', 'title' => $this->trans('table.service')])
-            ->addColumn(['data' => 'building_address', 'name' => 'village__buildings.address', 'title' => $this->trans('table.address')])
             ->addColumn(['data' => 'perform_date', 'name' => 'village__service_orders.perform_date', 'title' => $this->trans('table.perform_date')])
-            ->addColumn(['data' => 'price', 'name' => 'village__service_orders.price', 'title' => $this->trans('table.price')])
+//            ->addColumn(['data' => 'service_title', 'name' => 'village__services.title', 'title' => $this->trans('table.service')])
             ->addColumn(['data' => 'user_name', 'name' => 'users.last_name', 'title' => $this->trans('table.name')])
-            ->addColumn(['data' => 'user_phone', 'name' => 'users.phone', 'title' => $this->trans('table.phone')])
-            ->addColumn(['data' => 'payment_type', 'name' => 'village__service_orders.payment_type', 'title' => $this->trans('table.payment_type')])
-            ->addColumn(['data' => 'payment_status', 'name' => 'village__service_orders.payment_status', 'title' => $this->trans('table.payment_status')])
-            ->addColumn(['data' => 'status', 'name' => 'village__service_orders.status', 'title' => $this->trans('table.status')])
-            ->addColumn(['data' => 'created_at', 'name' => 'village__service_orders.created_at', 'title' => $this->trans('table.created_at')])
+            ->addColumn(['data' => 'comment', 'name' => 'village__service_orders.comment', 'title' => $this->trans('table.comment')])
+            ->addColumn(['data' => 'building_address', 'name' => 'village__buildings.address', 'title' => $this->trans('table.address')])
+//            ->addColumn(['data' => 'user_phone', 'name' => 'users.phone', 'title' => $this->trans('table.phone')])
+//            ->addColumn(['data' => 'created_at', 'name' => 'village__service_orders.created_at', 'title' => $this->trans('table.created_at')])
         ;
     }
 
@@ -171,6 +117,14 @@ class ServiceOrderController extends AdminController
         }
 
         $dataTable
+            ->editColumn('id', function (ServiceOrder $serviceOrder) {
+                if ($this->getCurrentUser()->hasAccess('village.serviceorders.show')) {
+                    return '<a href="'.route('admin.village.serviceorder.show', ['id' => $serviceOrder->id]).'">'.$serviceOrder->id.'</a>';
+                }
+                else {
+                    return $serviceOrder->service->title;
+                }
+            })
             ->editColumn('service_title', function (ServiceOrder $serviceOrder) {
                 if ($this->getCurrentUser()->hasAccess('village.services.edit')) {
                     return '<a href="'.route('admin.village.service.edit', ['id' => $serviceOrder->service->id]).'">'.$serviceOrder->service->title.'</a>';
@@ -180,7 +134,7 @@ class ServiceOrderController extends AdminController
                 }
             })
             ->editColumn('building_address', function (ServiceOrder $serviceOrder) {
-                if (!$serviceOrder->user) {
+                if (!$serviceOrder->user || $serviceOrder->user->inRole('security')) {
                     return '';
                 }
                 if ($this->getCurrentUser()->hasAccess('village.buildings.edit') && $serviceOrder->user->building) {
@@ -197,6 +151,9 @@ class ServiceOrderController extends AdminController
                 return localizeddate($serviceOrder->created_at);
             })
             ->editColumn('user_name', function (ServiceOrder $serviceOrder) {
+                if ($serviceOrder->added_from) {
+                    return $serviceOrder->added_from;
+                }
                 if (!$serviceOrder->user) {
                     return '';
                 }
@@ -209,22 +166,21 @@ class ServiceOrderController extends AdminController
                     return $name;
                 }
             })
-            ->editColumn('user_phone', function (ServiceOrder $serviceOrder) {
-                if (!$serviceOrder->user) {
-                    return '';
-                }
-                return $serviceOrder->user->phone;
-            })
-            ->editColumn('payment_type', function (ServiceOrder $ServiceOrder) {
-                return $this->trans('form.payment.type.values.'.$ServiceOrder->payment_type);
-            })
-            ->editColumn('payment_status', function (ServiceOrder $ServiceOrder) {
-                return '<span class="label label-'.config('village.order.payment.status.label.'.$ServiceOrder->payment_status).'">'.$this->trans('form.payment.status.values.'.$ServiceOrder->payment_status).'</span>';
-            })
-            ->editColumn('status', function (ServiceOrder $serviceOrder) {
-                return '<span class="label label-'.config('village.order.label.'.$serviceOrder->status).'">'.$this->trans('form.status.values.'.$serviceOrder->status).'</span>';
-            })
+//            ->editColumn('user_phone', function (ServiceOrder $serviceOrder) {
+//                if (!$serviceOrder->user) {
+//                    return '';
+//                }
+//                return $serviceOrder->user->phone;
+//            })
         ;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function configureDatagridFilters(EloquentEngine $dataTable, Request $request)
+    {
+        $dataTable->filterColumn('village__service_orders.perform_date', 'where', '=', ["$1"]);
     }
 
     /**

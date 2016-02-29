@@ -195,6 +195,12 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         $router->put('{id}/running', ['uses' => 'ServiceOrderController@setStatusRunning', 'as' => 'admin.village.serviceorder.set_status_running']);
         $router->put('{id}/done', 	 ['uses' => 'ServiceOrderController@setStatusDone', 'as' => 'admin.village.serviceorder.set_status_done']);
     });
+    $router->bind('serviceorders', function ($id) {
+        return app('Modules\Village\Repositories\ServiceOrderRepository')->find($id);
+    });
+    $router->resource('serviceorderssc', 'ServiceOrderScController', ['except' => ['show', 'create', 'store', 'edit', 'update', 'destroy'], 'names' => [
+        'index' => 'admin.village.serviceordersc.index',
+    ]]);
     $router->resource('serviceorderchanges', 'ServiceOrderChangeController', ['except' => ['show', 'create', 'store', 'edit', 'update', 'destroy'], 'names' => [
         'index' => 'admin.village.serviceorderchange.index',
     ]]);

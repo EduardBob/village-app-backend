@@ -7,8 +7,8 @@ use Modules\Village\Repositories\ProductOrderChangeRepository;
 use Modules\Village\Entities\Product;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
 
 class ProductOrderChangeController extends AdminController
 {

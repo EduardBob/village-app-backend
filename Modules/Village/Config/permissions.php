@@ -121,6 +121,9 @@ return [
         'setStatusRunning',
         'setStatusDone',
     ],
+    'village.serviceorderssc' => [
+        'index',
+    ],
     'village.serviceorderchanges' => [
         'index',
     ],

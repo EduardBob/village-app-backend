@@ -168,7 +168,7 @@ return [
 
 		\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 		\EllipseSynergie\ApiResponse\Laravel\ResponseServiceProvider::class,
-		\yajra\Datatables\DatatablesServiceProvider::class,
+		\Yajra\Datatables\DatatablesServiceProvider::class,
 		\Jenssegers\Date\DateServiceProvider::class,
 //		\Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider::class,
 	],
@@ -224,7 +224,7 @@ return [
 //		custom
         'JWTAuth' => \Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => \Tymon\JWTAuth\Facades\JWTFactory::class,
-        'Datatables' => yajra\Datatables\Datatables::class,
+//        'Datatables' => Yajra\Datatables\Datatables::class,
         'Date' => \Jenssegers\Date\Date::class,
 	],
 

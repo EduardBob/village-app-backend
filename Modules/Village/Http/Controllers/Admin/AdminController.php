@@ -8,9 +8,9 @@ use Modules\Core\Repositories\BaseRepository;
 
 use Modules\Village\Entities\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use yajra\Datatables\Datatables;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Datatables;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
 
 abstract class AdminController extends AdminBaseController
 {
@@ -45,7 +45,7 @@ abstract class AdminController extends AdminBaseController
         $this->repository = $repository;
         $this->modelClass = $modelClass;
 
-        $this->builder = app('yajra\Datatables\Html\Builder');
+        $this->builder = app('Yajra\Datatables\Html\Builder');
         $this->auth = app('Modules\Core\Contracts\Authentication');
 
         view()->share('currentUser', $this->getCurrentUser());

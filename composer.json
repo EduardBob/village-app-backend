@@ -28,7 +28,7 @@
     "barryvdh/laravel-ide-helper": "~2.1",
     "tymon/jwt-auth": "~0.5",
     "ellipsesynergie/api-response": "^0.10.0",
-    "yajra/laravel-datatables-oracle": "~5.0",
+    "yajra/laravel-datatables-oracle": "~6.0",
     "jenssegers/date": "^3.0",
     "fruitware/prostor-sms-php-sdk": "^0.1.0"
   },

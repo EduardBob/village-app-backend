@@ -3,6 +3,7 @@
 namespace Modules\Village\Packback\Transformer;
 
 use League\Fractal\TransformerAbstract;
+use Modules\Village\Entities\OrderInterface;
 use Modules\Village\Entities\ProductOrder;
 use Modules\Village\Services\SentryPaymentGateway;
 
@@ -14,9 +15,9 @@ class PayLinkTransformer extends TransformerAbstract
      * @param $order
      * @return array
      */
-    public function transform($order)
+    public function transform(OrderInterface $order)
     {
-        if ('card' !== $order->payment_type || 'not_paid' !== $order->payment_status || !$order->transaction_id) {
+        if ($order::PAYMENT_TYPE_CARD !== $order->payment_type || $order::PAYMENT_STATUS_PAID === $order->payment_status || !$order->transaction_id) {
             return [];
         }
 

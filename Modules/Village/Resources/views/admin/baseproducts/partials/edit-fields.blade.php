@@ -52,6 +52,13 @@
             </div>
         </div>
         <div class="col-sm-12">
+            <div class="form-group{{ $errors->has('has_card_payment') ? ' has-error' : '' }}">
+                {!! Form::checkbox('has_card_payment', (int)Input::old('has_card_payment', @$model->has_card_payment), (bool)Input::old('has_card_payment', @$model->has_card_payment), ['class' => 'flat-blue']) !!}
+                {!! Form::label('has_card_payment', $admin->trans('table.has_card_payment')) !!}
+                {!! $errors->first('has_card_payment', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-12">
             <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
                 {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}
                 {!! Form::label('active', $admin->trans('table.active')) !!}

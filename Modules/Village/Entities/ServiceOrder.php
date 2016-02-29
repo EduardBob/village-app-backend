@@ -1,11 +1,9 @@
 <?php namespace Modules\Village\Entities;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Modules\Village\Entities\Scope\ApiScope;
 use Modules\Village\Entities\Scope\VillageAdminScope;
 
-class ServiceOrder extends Model
+class ServiceOrder extends AbstractOrder
 {
     use ApiScope;
     use VillageAdminScope;
@@ -17,6 +15,11 @@ class ServiceOrder extends Model
         'added_from', 'transaction_id'
     ];
     protected $dates = ['perform_date'];
+
+	public function getOrderType()
+	{
+		return 'service';
+	}
 
     public function village()
     {

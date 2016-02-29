@@ -22,6 +22,7 @@ return [
         'comment_label' => 'Текст заметки',
         'order_button_label' => 'Метка кнопки заказа',
         'active' => 'Доступен',
+        'has_card_payment' => 'Можно оплачить карточкой',
         'created_at' => 'Создан',
         'show_perform_time' => 'Возможность выбора удобного времени',
         'actions' => 'Действия',

@@ -18,7 +18,12 @@ class Service extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'base_id', 'village_id', 'category_id', 'price', 'active', 'title', 'text', 'comment_label', 'order_button_label', 'show_perform_time'];
+        'base_id', 'village_id', 'category_id', 'price', 'active', 'title', 'text',
+        'comment_label', 'order_button_label', 'show_perform_time', 'order',
+	    'has_card_payment'
+    ];
+
+	protected $attributes = ['has_card_payment' => true];
 
     /**
      * @var string

@@ -74,7 +74,7 @@
             </div>
         </div>
         @if(isset($model))
-        <div class="col-sm-6">
+        <div class="col-sm-12">
             @include('media::admin.fields.file-link', [
                 'entityClass' => 'Modules\\\\Village\\\\Entities\\\\Service',
                 'entityId' => @$model->id,
@@ -88,6 +88,13 @@
                 {!! Form::checkbox('show_perform_time', (int)Input::old('show_perform_time', @$model->show_perform_time), (bool)Input::old('show_perform_time', @$model->show_perform_time), ['class' => 'flat-blue']) !!}
                 {!! Form::label('show_perform_time', $admin->trans('table.show_perform_time')) !!}
                 {!! $errors->first('show_perform_time', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group{{ $errors->has('has_card_payment') ? ' has-error' : '' }}">
+                {!! Form::checkbox('has_card_payment', (int)Input::old('has_card_payment', @$model->has_card_payment), (bool)Input::old('has_card_payment', @$model->has_card_payment), ['class' => 'flat-blue']) !!}
+                {!! Form::label('has_card_payment', $admin->trans('table.has_card_payment')) !!}
+                {!! $errors->first('has_card_payment', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
         <div class="col-sm-12">

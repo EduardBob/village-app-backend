@@ -7,6 +7,7 @@ use Modules\Village\Entities\ProductOrder;
 use EllipseSynergie\ApiResponse\Contracts\Response;
 use Modules\Village\Entities\User;
 use Modules\Village\Packback\Transformer\ProductOrderTransformer;
+use Modules\Village\Services\SentryPaymentGateway;
 use Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Validator;
@@ -49,6 +50,47 @@ class ProductOrderController extends ApiController
 
         return $this->response->withItem($productOrder, new ProductOrderTransformer);
     }
+
+	/**
+	 * Check card payment for a single product order
+	 *
+	 * @param int $orderId
+	 * @return Response
+	 */
+	public function checkPayment($orderId)
+	{
+		/** @var ProductOrder $order */
+		$order = ProductOrder::find((int)$orderId);
+		if (!$order || !$order->transaction_id) {
+			return $this->response->errorNotFound('order_id');
+		}
+
+		$payment = new SentryPaymentGateway();
+
+		$paid = false;
+		try {
+			$answer = $payment->getTransactionStatus($order->transaction_id);
+
+			if (isset($answer['ErrorCode']) && $answer['ErrorCode'] > 0) {
+				$order->status = $order::STATUS_REJECTED;
+				$order->decline_reason = $answer['ErrorMessage'];
+				$order->save();
+			}
+			elseif (isset($answer['OrderStatus']) && 2 == $answer['OrderStatus']) {
+				$paid = true;
+				$order->payment_type = $order::PAYMENT_TYPE_CARD;
+				$order->payment_status = $order::PAYMENT_STATUS_PAID;
+				$order->save();
+			}
+		}
+		catch(\Exception $ex) {
+			return $this->response->errorInternalError('');
+		}
+
+		return $this->response->withArray(['data' => [
+			'paid' => $paid
+		]]);
+	}
 
     /**
      * @param array $data

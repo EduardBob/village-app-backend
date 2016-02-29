@@ -80,7 +80,7 @@ class BaseServiceController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+            ->addColumn(['data' => 'id', 'name' => 'village__base__services.id', 'title' => $this->trans('table.id')])
             ->addColumn(['data' => 'category_title', 'name' => 'village__service_categories.title', 'title' => $this->trans('table.category')])
             ->addColumn(['data' => 'title', 'name' => 'village__base__services.title', 'title' => $this->trans('table.title')])
             ->addColumn(['data' => 'price', 'name' => 'village__base__services.price', 'title' => $this->trans('table.price')])

@@ -62,6 +62,20 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                {!! Form::label('has_card_payment', $admin->trans('table.has_card_payment')) !!}
+                <div>
+                    @if($model->has_card_payment)
+                        <span class="label label-success">{{ trans('village::admin.table.active.yes') }}</span>
+                    @else
+                        <span class="label label-danger">{{ trans('village::admin.table.active.no') }}</span>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
     @if($currentUser && $currentUser->inRole('admin'))
     <div class="row">
         <div class="col-sm-12">

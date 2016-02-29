@@ -55,14 +55,7 @@ class ProductController extends AdminController
     protected function configureDatagridColumns()
     {
         return [
-            'village__products.id',
-            'village__products.village_id',
-            'village__products.category_id',
-            'village__products.executor_id',
-            'village__products.title',
-            'village__products.price',
-            'village__products.unit_title',
-            'village__products.active'
+            'village__products.*',
         ];
     }
 
@@ -91,7 +84,7 @@ class ProductController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+            ->addColumn(['data' => 'id', 'name' => 'village__products.id', 'title' => $this->trans('table.id')])
         ;
 
         if ($this->getCurrentUser()->inRole('admin')) {

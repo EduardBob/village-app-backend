@@ -53,28 +53,33 @@ class VillageServiceProvider extends ServiceProvider
     public function boot(Authentication $auth)
     {
         ProductOrder::created(function(ProductOrder $productOrder) {
-            if ('card' === $productOrder->payment_type) {
-                $reflection = new \ReflectionClass($productOrder);
-                $payment = new SentryPaymentGateway();
-                $orderId = $reflection->getShortName().'_'.$productOrder->id;
+            if ($productOrder::PAYMENT_TYPE_CARD === $productOrder->payment_type) {
+	            if ($productOrder->has_card_payment) {
+		            $payment = new SentryPaymentGateway();
+		            $orderId = $productOrder->getOrderNameForCardPayment();
 
-                try {
-                    $transactionId = $payment
-                        ->generateTransaction(
-                            $orderId,
-                            $productOrder->price,
-                            route('sentry.payment.process', [], true)
-                        )
-                    ;
+		            try {
+			            $transactionId = $payment
+				            ->generateTransaction(
+					            $orderId,
+					            $productOrder->price,
+					            route('sentry.payment.process', [], true)
+				            )
+			            ;
 
-                    $productOrder->transaction_id = $transactionId;
-                    $productOrder->save();
-                }
-                catch(\Exception $ex) {
-                    $productOrder->status = 'rejected';
-                    $productOrder->decline_reason = $ex->getMessage();
-                    $productOrder->save();
-                }
+			            $productOrder->transaction_id = $transactionId;
+			            $productOrder->save();
+		            }
+		            catch(\Exception $ex) {
+			            $productOrder->status = $productOrder::STATUS_REJECTED;
+			            $productOrder->decline_reason = $ex->getMessage();
+			            $productOrder->save();
+		            }
+	            }
+	            else {
+		            $productOrder->payment_type = $productOrder::PAYMENT_TYPE_CASH;
+		            $productOrder->save();
+	            }
             }
         }, -1);
 
@@ -95,28 +100,33 @@ class VillageServiceProvider extends ServiceProvider
         });
 
         ServiceOrder::created(function(ServiceOrder $serviceOrder) {
-            if ('card' === $serviceOrder->payment_type) {
-                $reflection = new \ReflectionClass($serviceOrder);
-                $payment = new SentryPaymentGateway();
-                $orderId = $reflection->getShortName().'_'.$serviceOrder->id;
+            if ($serviceOrder::PAYMENT_TYPE_CARD === $serviceOrder->payment_type) {
+	            if ($serviceOrder->has_card_payment) {
+		            $payment = new SentryPaymentGateway();
+		            $orderId = $serviceOrder->getOrderNameForCardPayment();
 
-                try {
-                    $transactionId = $payment
-                        ->generateTransaction(
-                            $orderId,
-                            $serviceOrder->price,
-                            route('sentry.payment.process', [], true)
-                        )
-                    ;
+		            try {
+			            $transactionId = $payment
+				            ->generateTransaction(
+					            $orderId,
+					            $serviceOrder->price,
+					            route('sentry.payment.process', [], true)
+				            )
+			            ;
 
-                    $serviceOrder->transaction_id = $transactionId;
-                    $serviceOrder->save();
-                }
-                catch(\Exception $ex) {
-                    $serviceOrder->status = 'rejected';
-                    $serviceOrder->decline_reason = $ex->getMessage();
-                    $serviceOrder->save();
-                }
+			            $serviceOrder->transaction_id = $transactionId;
+			            $serviceOrder->save();
+		            }
+		            catch(\Exception $ex) {
+			            $serviceOrder->status = $serviceOrder::STATUS_REJECTED;
+			            $serviceOrder->decline_reason = $ex->getMessage();
+			            $serviceOrder->save();
+		            }
+	            }
+	            else {
+		            $serviceOrder->payment_type = $serviceOrder::PAYMENT_TYPE_CASH;
+		            $serviceOrder->save();
+	            }
             }
         });
 

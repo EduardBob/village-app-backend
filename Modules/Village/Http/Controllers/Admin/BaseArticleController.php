@@ -55,7 +55,7 @@ class BaseArticleController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+            ->addColumn(['data' => 'id', 'name' => 'village__base__articles.id', 'title' => $this->trans('table.id')])
             ->addColumn(['data' => 'title', 'name' => 'village__base__articles.title', 'title' => $this->trans('table.title')])
         ;
 

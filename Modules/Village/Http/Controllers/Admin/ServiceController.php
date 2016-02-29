@@ -56,13 +56,7 @@ class ServiceController extends AdminController
     protected function configureDatagridColumns()
     {
         return [
-            'village__services.id',
-            'village__services.base_id',
-            'village__services.village_id',
-            'village__services.category_id',
-            'village__services.title',
-            'village__services.price',
-            'village__services.active'
+            'village__services.*',
         ];
     }
 
@@ -91,7 +85,7 @@ class ServiceController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+            ->addColumn(['data' => 'id', 'name' => 'village__services.id', 'title' => $this->trans('table.id')])
         ;
 
         if ($this->getCurrentUser()->inRole('admin')) {

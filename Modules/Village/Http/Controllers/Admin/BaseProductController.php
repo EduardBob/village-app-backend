@@ -81,7 +81,7 @@ class BaseProductController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+            ->addColumn(['data' => 'id', 'name' => 'village__base__products.id', 'title' => $this->trans('table.id')])
         ;
 
         $builder

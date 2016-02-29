@@ -19,7 +19,13 @@ class Product extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['base_id', 'village_id', 'category_id', 'executor_id', 'title', 'price', 'unit_title', 'active', 'comment_label', 'text', 'show_perform_time'];
+    protected $fillable = [
+        'base_id', 'village_id', 'category_id', 'executor_id', 'title', 'price', 'unit_title',
+        'active', 'comment_label', 'text', 'show_perform_time', 'order',
+	    'has_card_payment'
+    ];
+
+	protected $attributes = ['has_card_payment' => true];
 
     public function base()
     {

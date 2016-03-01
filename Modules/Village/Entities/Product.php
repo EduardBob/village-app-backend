@@ -29,7 +29,7 @@ class Product extends Model
 
     public function base()
     {
-        return $this->belongsTo('Modules\Village\Entities\BaseSurvey', 'base_id');
+        return $this->belongsTo('Modules\Village\Entities\BaseProduct', 'base_id');
     }
 
     public function village()

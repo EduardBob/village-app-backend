@@ -147,6 +147,8 @@ class ArticleController extends AdminController
             return redirect()->route($this->getRoute('index'));
         }
 
+	    view()->share('baseCopy', true);
+
         return view($this->getView('baseCopy'), $this->mergeViewData(compact('model')));
     }
 

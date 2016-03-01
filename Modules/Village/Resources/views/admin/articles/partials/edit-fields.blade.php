@@ -1,4 +1,8 @@
 <div class="box-body">
+    @if (isset($model) && $model instanceof \Modules\Village\Entities\BaseArticle)
+        {!! Form::hidden('base_id', Input::old('base_id', @$model->id)) !!}
+    @endif
+
     <div class="row">
         @if($currentUser && $currentUser->inRole('admin'))
         <div class="col-sm-6">

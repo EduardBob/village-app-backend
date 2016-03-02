@@ -233,12 +233,12 @@ abstract class AdminController extends AdminBaseController
         return $builder
             ->columns($this->configureDatagridColumns())
             ->parameters([
-                'dom' => 'Bfrtip',
-                'text' => 'Export',
-                'select' => true,
-                'buttons' => [
-                    'buttons' => ['csv', 'excel', 'pdf', 'print', 'reset', 'reload']
-                ],
+	                'dom' => 'Bfrtip',
+	                'text' => 'Export',
+	                'select' => true,
+	                'buttons' => [
+	                    'buttons' => ['csv', 'excel', 'pdf', 'print', 'reset', 'reload']
+	                ],
             ])
         ;
     }

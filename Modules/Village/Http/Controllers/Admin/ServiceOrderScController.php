@@ -88,8 +88,8 @@ class ServiceOrderScController extends AdminController
         }
 
         $builder
+	        ->addColumn(['data' => 'service_title', 'name' => 'village__services.title', 'title' => $this->trans('table.service')])
             ->addColumn(['data' => 'perform_date', 'name' => 'village__service_orders.perform_date', 'title' => $this->trans('table.perform_date')])
-//            ->addColumn(['data' => 'service_title', 'name' => 'village__services.title', 'title' => $this->trans('table.service')])
             ->addColumn(['data' => 'user_name', 'name' => 'users.last_name', 'title' => $this->trans('table.name')])
             ->addColumn(['data' => 'comment', 'name' => 'village__service_orders.comment', 'title' => $this->trans('table.comment')])
             ->addColumn(['data' => 'building_address', 'name' => 'village__buildings.address', 'title' => $this->trans('table.address')])
@@ -126,12 +126,14 @@ class ServiceOrderScController extends AdminController
                 }
             })
             ->editColumn('service_title', function (ServiceOrder $serviceOrder) {
-                if ($this->getCurrentUser()->hasAccess('village.services.edit')) {
-                    return '<a href="'.route('admin.village.service.edit', ['id' => $serviceOrder->service->id]).'">'.$serviceOrder->service->title.'</a>';
-                }
-                else {
-                    return $serviceOrder->service->title;
-                }
+	            return $serviceOrder->service->title;
+
+//                if ($this->getCurrentUser()->hasAccess('village.services.edit')) {
+//                    return '<a href="'.route('admin.village.service.edit', ['id' => $serviceOrder->service->id]).'">'.$serviceOrder->service->title.'</a>';
+//                }
+//                else {
+//                    return $serviceOrder->service->title;
+//                }
             })
             ->editColumn('building_address', function (ServiceOrder $serviceOrder) {
                 if (!$serviceOrder->user || $serviceOrder->user->inRole('security')) {
@@ -180,7 +182,7 @@ class ServiceOrderScController extends AdminController
      */
     protected function configureDatagridFilters(EloquentEngine $dataTable, Request $request)
     {
-        $dataTable->filterColumn('village__service_orders.perform_date', 'where', '=', ["$1"]);
+//        $dataTable->filterColumn('village__service_orders.perform_date', 'where', '=', ["$1"]);
     }
 
     /**

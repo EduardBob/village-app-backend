@@ -377,7 +377,7 @@ abstract class AdminController extends AdminBaseController
         $model->save();
 	    $this->postStore($model, $request);
 
-        flash()->success(trans('core::core.messages.resource created', ['name' => $this->trans('title.model')]));
+	    $this->successStoreMessage();
 
 	    return redirect()->route($this->getRoute('edit'), ['id'  => $model->id]);
     }
@@ -402,6 +402,11 @@ abstract class AdminController extends AdminBaseController
 	public function postStore(Model $model, Request $request)
 	{
 		$this->copyBaseImage($model, $request);
+	}
+
+	public function successStoreMessage()
+	{
+		flash()->success(trans('core::core.messages.resource created', ['name' => $this->trans('title.model')]));
 	}
 
     /**

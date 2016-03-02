@@ -76,6 +76,14 @@ class ProductCategoryController extends AdminController
         ;
     }
 
+	/**
+	 * @inheritdoc
+	 */
+	public function successStoreMessage()
+	{
+		flash()->success(trans('village::admin.messages.you_can_add_image'));
+	}
+
     /**
      * @param array           $data
      * @param ProductCategory $productCategory

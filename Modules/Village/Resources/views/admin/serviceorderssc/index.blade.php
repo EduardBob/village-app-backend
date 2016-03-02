@@ -17,11 +17,13 @@
 
             yadcf.init(window.LaravelDataTables.dataTableBuilder, [
                 {
-                    column_number: 2,
+                    column_number: 1,
+                    filter_type: "text",
+                    column_data_type: 'html',
                     filter_delay: 300
                 },
                 {
-                    column_number: 3,
+                    column_number: 2,
                     filter_type: "date",
                     datepicker_type: 'bootstrap-datetimepicker',
                     date_format: 'YYYY-MM-DD',

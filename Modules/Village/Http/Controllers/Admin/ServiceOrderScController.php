@@ -81,12 +81,6 @@ class ServiceOrderScController extends AdminController
             ->addColumn(['data' => 'id', 'name' => 'village__service_orders.id', 'title' => $this->trans('table.id')])
         ;
 
-        if ($this->getCurrentUser()->inRole('admin')) {
-            $builder
-                ->addColumn(['data' => 'village_name', 'name' => 'village__villages.name', 'title' => trans('village::villages.title.model')])
-            ;
-        }
-
         $builder
 	        ->addColumn(['data' => 'service_title', 'name' => 'village__services.title', 'title' => $this->trans('table.service')])
             ->addColumn(['data' => 'perform_date', 'name' => 'village__service_orders.perform_date', 'title' => $this->trans('table.perform_date')])
@@ -96,6 +90,12 @@ class ServiceOrderScController extends AdminController
 //            ->addColumn(['data' => 'user_phone', 'name' => 'users.phone', 'title' => $this->trans('table.phone')])
 //            ->addColumn(['data' => 'created_at', 'name' => 'village__service_orders.created_at', 'title' => $this->trans('table.created_at')])
         ;
+
+	    if ($this->getCurrentUser()->inRole('admin')) {
+		    $builder
+			    ->addColumn(['data' => 'village_name', 'name' => 'village__villages.name', 'title' => trans('village::villages.title.model')])
+		    ;
+	    }
     }
 
     /**
@@ -126,14 +126,14 @@ class ServiceOrderScController extends AdminController
                 }
             })
             ->editColumn('service_title', function (ServiceOrder $serviceOrder) {
-	            return $serviceOrder->service->title;
+//	            return $serviceOrder->service->title;
 
-//                if ($this->getCurrentUser()->hasAccess('village.services.edit')) {
-//                    return '<a href="'.route('admin.village.service.edit', ['id' => $serviceOrder->service->id]).'">'.$serviceOrder->service->title.'</a>';
-//                }
-//                else {
-//                    return $serviceOrder->service->title;
-//                }
+                if ($this->getCurrentUser()->hasAccess('village.services.edit')) {
+                    return '<a href="'.route('admin.village.service.edit', ['id' => $serviceOrder->service->id]).'">'.$serviceOrder->service->title.'</a>';
+                }
+                else {
+                    return $serviceOrder->service->title;
+                }
             })
             ->editColumn('building_address', function (ServiceOrder $serviceOrder) {
                 if (!$serviceOrder->user || $serviceOrder->user->inRole('security')) {

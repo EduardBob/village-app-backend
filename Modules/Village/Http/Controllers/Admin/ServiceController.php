@@ -98,6 +98,7 @@ class ServiceController extends AdminController
             ->addColumn(['data' => 'title', 'name' => 'village__services.title', 'title' => $this->trans('table.title')])
             ->addColumn(['data' => 'price', 'name' => 'village__services.price', 'title' => $this->trans('table.price')])
             ->addColumn(['data' => 'active', 'name' => 'village__services.active', 'title' => $this->trans('table.active')])
+	        ->addColumn(['data' => 'executor', 'name' => 'village__services.id', 'title' => $this->trans('table.executor'), 'orderable' => false, 'searchable' => false])
         ;
     }
 
@@ -136,6 +137,13 @@ class ServiceController extends AdminController
                     return '<span class="label label-danger">'.trans('village::admin.table.active.no').'</span>';
                 }
             })
+	        ->editColumn('executor', function (Service $service) {
+		        $executors = [];
+		        foreach ($service->executors as $executor) {
+			        $executors[] = $executor->user->present()->fullname();
+		        }
+		        return implode('<br>', $executors);
+	        })
         ;
     }
 

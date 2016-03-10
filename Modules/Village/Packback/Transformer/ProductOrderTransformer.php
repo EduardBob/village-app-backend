@@ -5,6 +5,7 @@ namespace Modules\Village\Packback\Transformer;
 use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 use Modules\Village\Entities\ProductOrder;
+use Modules\Village\Entities\ProductOrderChange;
 
 class ProductOrderTransformer extends TransformerAbstract
 {
@@ -30,7 +31,7 @@ class ProductOrderTransformer extends TransformerAbstract
      */
     public function transform(ProductOrder $productOrder)
     {
-        return [
+        $data = [
             'id' =>  $productOrder->id,
             'created_at' => $productOrder->created_at->format('Y-m-d H:i:s'),
             'perform_date' => $productOrder->perform_date->format('Y-m-d'),
@@ -45,6 +46,18 @@ class ProductOrderTransformer extends TransformerAbstract
             'payment_type' => $productOrder->payment_type,
             'payment_status' => $productOrder->payment_status,
         ];
+
+	    if ($productOrder::STATUS_DONE === $productOrder->status) {
+		    $orderChange = ProductOrderChange::where([
+			    'order_id' => $productOrder->id,
+			    'to_status' => $productOrder::STATUS_DONE
+		    ])->first();
+		    if ($orderChange) {
+			    $data['done_at'] = $orderChange->created_at->format('Y-m-d H:i:s');
+		    }
+	    }
+
+	    return $data;
     }
 
     /**

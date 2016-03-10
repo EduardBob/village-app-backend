@@ -36,6 +36,11 @@ class ServiceOrder extends AbstractOrder
         return $this->belongsTo('Modules\Village\Entities\User', 'user_id');
     }
 
+	public function changes()
+	{
+		return $this->hasMany('Modules\Village\Entities\ServiceOrderChange', 'order_id');
+	}
+
     protected static function boot()
     {
         parent::boot();

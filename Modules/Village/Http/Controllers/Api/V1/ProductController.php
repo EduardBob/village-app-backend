@@ -18,7 +18,7 @@ class ProductController extends ApiController
      */
     public function index(Request $request)
     {
-        $products = Product::api()->orderBy('order', 'desc');
+        $products = Product::api()->orderBy('order', 'asc');
         if ($categoryId = $request::query('category_id')) {
             $products->where(['category_id' => $categoryId]);
         }

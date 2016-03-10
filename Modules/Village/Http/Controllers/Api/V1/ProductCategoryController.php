@@ -19,7 +19,7 @@ class ProductCategoryController extends ApiController
             ->whereHas('products', function($query) {
                 $query->where(['village__products.active' => 1, 'village_id' => $this->user()->village->id]);
             })
-            ->orderBy('order', 'desc')->get();
+            ->orderBy('order', 'asc')->get();
 
         return $this->response->withCollection($productCategories, new ProductCategoryTransformer);
     }

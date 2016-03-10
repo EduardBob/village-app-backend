@@ -383,7 +383,8 @@
 						"f3fcc9cd-0735-ce4b-2835-fd87e511590d",
 						"680f0fcb-67db-8672-0d8e-cc01f228354f",
 						"c4ab66b9-ef99-e600-15ea-a5d3f8b16fac",
-						"c28baeb5-c54b-784a-2213-f74253bb6060"
+						"c28baeb5-c54b-784a-2213-f74253bb6060",
+						"81944e21-3306-17ae-eecd-9c9ec72d8e6c"
 					],
 					"createdAt": "2015-09-23T16:02:32.000Z",
 					"updatedAt": "2015-10-14T09:09:07.000Z",
@@ -405,6 +406,7 @@
 						"4507d136-bc31-7c9c-66ce-a2ccd7f095e9",
 						"6eeb2d40-1004-062b-6ce2-96ce3e78d10d",
 						"2c097638-282d-b1dc-9f95-80f44cbf578c",
+						"96fcff0a-763f-f19c-70c2-75cf52608012",
 						"583c9627-4708-debf-039c-7250ff5e8dd6"
 					],
 					"createdAt": "2015-10-14T09:09:03.000Z",
@@ -516,7 +518,7 @@
 			"remoteLink": null,
 			"public": false,
 			"createdAt": "2015-10-14T09:09:02.000Z",
-			"updatedAt": 1454343970349,
+			"updatedAt": 1456744747607,
 			"write": true,
 			"requests": [
 				{
@@ -620,7 +622,6 @@
 				},
 				{
 					"id": "2c097638-282d-b1dc-9f95-80f44cbf578c",
-					"owner": "161799",
 					"headers": "Authorization: Bearer  {{token}}\n",
 					"url": "{{domain}}/api/v1/services/orders?page={{page}}",
 					"preRequestScript": "postman.setEnvironmentVariable(\"page\", 1);",
@@ -628,41 +629,46 @@
 					"method": "GET",
 					"data": [
 						{
-							"key": "first_name",
-							"value": "{{me.first_name}}",
+							"key": "service_id",
+							"value": "{{service.id}}",
 							"type": "text",
 							"enabled": true
 						},
 						{
-							"key": "last_name",
-							"value": "{{me.last_name}}",
+							"key": "perform_date",
+							"value": "2015-10-11",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_time",
+							"value": "12:30",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "comment",
+							"value": "test",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "payment_type",
+							"value": "cash|card",
 							"type": "text",
 							"enabled": true
 						}
 					],
 					"dataMode": "params",
 					"version": 2,
-					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Count == 15 \"] = data.data.length;\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    $.each(data.data, function(index, order) {\n        if (order.status === 'rejected') {\n            tests[\"decline_reason not null, index = \" + index] = order.decline_reason !== null;\n        }\n        else {\n            tests[\"decline_reason is null, index = \" + index] = order.decline_reason === null;\n        }\n        tests[\"Body contains service, index = \" + index] = order.service && order.service.data;        \n    });\n}",
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Count == 15 \"] = data.data.length;\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    $.each(data.data, function(index, order) {\n        if (order.status === 'rejected') {\n            tests[\"decline_reason not null, index = \" + index] = order.decline_reason !== null;\n        }\n        else {\n            tests[\"decline_reason is null, index = \" + index] = order.decline_reason === null;\n        }\n        tests[\"Body contains service, index = \" + index] = order.service && order.service.data;        \n        \n        // order id для проверки оплаты через карточку\n        if (order.payment_type === 'card' && order.payment_status === 'not_paid') {\n            postman.setEnvironmentVariable(\"service.order.id.for_payment_check\", order.id);   \n        }\n    });\n}",
 					"currentHelper": "normal",
-					"helperAttributes": "{}",
-					"time": 1443129029390,
+					"helperAttributes": {},
+					"time": 1456743225297,
 					"name": "/api/v1/services/orders",
 					"description": "Get all my service orders",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
-					"responses": [],
-					"synced": true,
-					"rawModeData": null,
-					"descriptionFormat": null,
-					"createdAt": "2015-09-23T16:02:34.000Z",
-					"updatedAt": "2015-09-24T21:10:29.000Z",
-					"lastUpdatedBy": {
-						"id": "161799",
-						"username": "NEOKILLER King"
-					},
-					"lastRevision": 60495830,
-					"history": null,
-					"folder": "41fdced9-4965-604e-c9b5-444424b69cfc",
-					"write": true
+					"responses": []
 				},
 				{
 					"id": "2e606fe6-0596-893d-a7bf-73d3a4d0d13d",
@@ -744,7 +750,7 @@
 				{
 					"id": "4507d136-bc31-7c9c-66ce-a2ccd7f095e9",
 					"headers": "Authorization: Bearer  {{token}}\n",
-					"url": "{{domain}}/api/v1/services?category_id={{service.category.id}}&page={{page}}",
+					"url": "{{domain}}/api/v1/services?category_id={{service.category.id}}&page={{page}}&search=2131231",
 					"preRequestScript": "",
 					"pathVariables": {},
 					"method": "GET",
@@ -773,7 +779,7 @@
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains category\"] = responseBody.has(\"category\");\n\n    postman.setEnvironmentVariable(\"service.id\", data.data[0].id);\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1447939850569,
+					"time": 1457618569707,
 					"name": "/api/v1/services",
 					"description": "Get all services",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e"
@@ -1107,6 +1113,106 @@
 					"responses": []
 				},
 				{
+					"id": "81944e21-3306-17ae-eecd-9c9ec72d8e6c",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/products/orders/{{product.order.id.for_payment_check}}/payment",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "service_id",
+							"value": "{{service.id}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_date",
+							"value": "2015-10-11",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_time",
+							"value": "12:30",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "comment",
+							"value": "test",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "payment_type",
+							"value": "cash|card",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1456744836803,
+					"name": "/api/v1/services/orders/{id}/payment",
+					"description": "Check card payment for a single product order",
+					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
+					"responses": []
+				},
+				{
+					"id": "96fcff0a-763f-f19c-70c2-75cf52608012",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/services/orders/{{service.order.id.for_payment_check}}/payment",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "service_id",
+							"value": "{{service.id}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_date",
+							"value": "2015-10-11",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_time",
+							"value": "12:30",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "comment",
+							"value": "test",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "payment_type",
+							"value": "cash|card",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1456743131738,
+					"name": "/api/v1/services/orders/{id}/payment",
+					"description": "Check card payment for a single service order",
+					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
+					"responses": []
+				},
+				{
 					"id": "a106e70b-7506-2c24-efaa-8330c08ffb89",
 					"headers": "Authorization: Bearer  {{token}}\n",
 					"url": "{{domain}}/api/v1/me/name",
@@ -1425,20 +1531,20 @@
 					"method": "GET",
 					"data": [
 						{
-							"key": "product_id",
-							"value": "1",
+							"key": "service_id",
+							"value": "{{service.id}}",
 							"type": "text",
 							"enabled": true
 						},
 						{
-							"key": "perform_at",
-							"value": "2015-10-11 12:30",
+							"key": "perform_date",
+							"value": "2015-10-11",
 							"type": "text",
 							"enabled": true
 						},
 						{
-							"key": "quantity",
-							"value": "2",
+							"key": "perform_time",
+							"value": "12:30",
 							"type": "text",
 							"enabled": true
 						},
@@ -1447,14 +1553,20 @@
 							"value": "test",
 							"type": "text",
 							"enabled": true
+						},
+						{
+							"key": "payment_type",
+							"value": "cash|card",
+							"type": "text",
+							"enabled": true
 						}
 					],
 					"dataMode": "params",
 					"version": 2,
-					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Count > 0\"] = data.data.length;\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains quantity\"] = responseBody.has(\"quantity\");\n    tests[\"Body contains unit_title\"] = responseBody.has(\"unit_title\");    \n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    $.each(data.data, function(index, item) {\n        if (item.status === 'rejected') {\n            tests[\"decline_reason not null, index = \" + index] = item.decline_reason !== null;\n        }\n        else {\n            tests[\"decline_reason is null, index = \" + index] = item.decline_reason === null;\n        }\n        tests[\"Body contains product, index = \" + index] = item.product && item.product.data;        \n    });\n}",
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Count > 0\"] = data.data.length;\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains quantity\"] = responseBody.has(\"quantity\");\n    tests[\"Body contains unit_title\"] = responseBody.has(\"unit_title\");    \n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    $.each(data.data, function(index, order) {\n        if (order.status === 'rejected') {\n            tests[\"decline_reason not null, index = \" + index] = order.decline_reason !== null;\n        }\n        else {\n            tests[\"decline_reason is null, index = \" + index] = order.decline_reason === null;\n        }\n        tests[\"Body contains product, index = \" + index] = order.product && order.product.data;      \n        \n        // order id для проверки оплаты через карточку\n        if (order.payment_type === 'card' && order.payment_status === 'not_paid') {\n            postman.setEnvironmentVariable(\"product.order.id.for_payment_check\", order.id);   \n        }        \n    });\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1445431259431,
+					"time": 1456744831974,
 					"name": "/api/v1/products/orders",
 					"description": "Get all my product's orders",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
@@ -1681,7 +1793,7 @@
 				{
 					"id": "f3fcc9cd-0735-ce4b-2835-fd87e511590d",
 					"headers": "Authorization: Bearer  {{token}}\n",
-					"url": "{{domain}}/api/v1/products?category_id={{product.category.id}}&page={{page}}",
+					"url": "{{domain}}/api/v1/products?category_id={{product.category.id}}&page={{page}}&search=",
 					"preRequestScript": "",
 					"pathVariables": {},
 					"method": "GET",
@@ -1716,7 +1828,7 @@
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains unit_title\"] = responseBody.has(\"unit_title\");\n    tests[\"Body contains image\"] = responseBody.has(\"image\");\n    tests[\"Body contains category\"] = responseBody.has(\"category\");\n\n    postman.setEnvironmentVariable(\"product.id\", data.data[0].id);\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1447939061654,
+					"time": 1457619102464,
 					"name": "/api/v1/products",
 					"description": "Get all my product's orders",
 					"collectionId": "f63c5220-4d7e-d6bc-c219-77d1d734d14e",
@@ -1784,181 +1896,6 @@
 	],
 	"environments": [
 		{
-			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
-			"name": "dev",
-			"values": [
-				{
-					"key": "debug",
-					"value": "true",
-					"type": "text",
-					"name": "debug",
-					"enabled": true
-				},
-				{
-					"key": "domain",
-					"value": "http://village.dev",
-					"type": "text",
-					"name": "domain",
-					"enabled": true
-				},
-				{
-					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjMsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ1NDMyMDQ0MywiZXhwIjoxNDU0NDA2ODQzLCJuYmYiOjE0NTQzMjA0NDMsImp0aSI6IjRlYjU4MGZkZTQ2NWRhYmI3N2Y2ZjVmZDljM2Q1MjQ2In0.qKCU6MV6vZFLCcYAU3B6oYEzyqiF1Ep4yVJV0oyjrgs",
-					"type": "text",
-					"name": "token",
-					"enabled": true
-				},
-				{
-					"key": "phone",
-					"value": "+7(111)1111112",
-					"type": "text",
-					"name": "phone",
-					"enabled": true
-				},
-				{
-					"key": "password",
-					"value": "yj3wev32R6eQJWV",
-					"type": "text",
-					"name": "password",
-					"enabled": true
-				},
-				{
-					"key": "token.code",
-					"value": "49844",
-					"type": "text",
-					"name": "token.code",
-					"enabled": true
-				},
-				{
-					"key": "token.session",
-					"value": "YBrj6CsSpQ",
-					"type": "text",
-					"name": "token.session",
-					"enabled": true
-				},
-				{
-					"key": "article.id",
-					"value": "551",
-					"type": "text",
-					"name": "article.id",
-					"enabled": true
-				},
-				{
-					"key": "me.first_name",
-					"value": "wzkqgjbyou",
-					"type": "text",
-					"name": "me.first_name",
-					"enabled": true
-				},
-				{
-					"key": "me.last_name",
-					"value": "hsxdxcflwj",
-					"type": "text",
-					"name": "me.last_name",
-					"enabled": true
-				},
-				{
-					"key": "product.id",
-					"value": "264",
-					"type": "text",
-					"name": "product.id",
-					"enabled": true
-				},
-				{
-					"key": "service.id",
-					"value": "280",
-					"type": "text",
-					"name": "service.id",
-					"enabled": true
-				},
-				{
-					"key": "page",
-					"value": "1",
-					"type": "text",
-					"name": "page",
-					"enabled": true
-				},
-				{
-					"key": "product.category.id",
-					"value": "156",
-					"type": "text",
-					"name": "product.category.id",
-					"enabled": true
-				},
-				{
-					"key": "service.category.id",
-					"value": "107",
-					"type": "text",
-					"name": "service.category.id",
-					"enabled": true
-				},
-				{
-					"key": "building.code",
-					"value": "test",
-					"type": "text",
-					"name": "building.code",
-					"enabled": true
-				},
-				{
-					"key": "building.id",
-					"value": "1",
-					"type": "text",
-					"name": "building.id",
-					"enabled": true
-				},
-				{
-					"key": "me.password",
-					"value": "1",
-					"type": "text",
-					"name": "me.password",
-					"enabled": true
-				},
-				{
-					"key": "survey.id",
-					"value": "447",
-					"type": "text",
-					"name": "survey.id",
-					"enabled": true
-				},
-				{
-					"key": "survey.my_vote.choice",
-					"value": "0",
-					"type": "text",
-					"name": "survey.my_vote.choice",
-					"enabled": true
-				},
-				{
-					"key": "survey.choice",
-					"value": "0",
-					"type": "text",
-					"name": "survey.choice",
-					"enabled": true
-				},
-				{
-					"key": "me.email",
-					"value": "test@test.test",
-					"type": "text",
-					"name": "me.email",
-					"enabled": true
-				},
-				{
-					"key": "me.id",
-					"value": "undefined",
-					"type": "text",
-					"name": "me.id",
-					"enabled": true
-				},
-				{
-					"key": "me.phone",
-					"value": "undefined",
-					"type": "text",
-					"name": "me.phone",
-					"enabled": true
-				}
-			],
-			"timestamp": 1454343962280
-		},
-		{
 			"id": "a004eb55-888b-ee78-6d20-e55b8d1f5c6b",
 			"name": "production",
 			"values": [
@@ -1978,21 +1915,21 @@
 				},
 				{
 					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjQsImlzcyI6Imh0dHA6XC9cLzFjZW50ci5jb21cL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoxNDU0MzIwOTI1LCJleHAiOjE0NTQ0MDczMjUsIm5iZiI6MTQ1NDMyMDkyNSwianRpIjoiZTliNGU4ZDE0OWE3ZjBjMTY2ZTM4MDVlMjg0OTM5MDgifQ.YXnE0SnwH3W-nck_R_Gud7EB1ZMxMskZbUIM0h6HD-E",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE4OTksImlzcyI6Imh0dHA6XC9cLzFjZW50ci5jb21cL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoxNDU0NDk2MTI4LCJleHAiOjE0NTQ1ODI1MjgsIm5iZiI6MTQ1NDQ5NjEyOCwianRpIjoiNTc2YTdkNGRiN2IyMWJiMzdiYTZmOTVlODNmNWNiZmUifQ.cRbNwRIzQqNoBDk6SPM4lOWIERCNoCyQbPP4odVU7Ds",
 					"type": "text",
 					"name": "token",
 					"enabled": true
 				},
 				{
 					"key": "phone",
-					"value": "+7(111)1111113",
+					"value": "+7(916)1945862",
 					"type": "text",
 					"name": "phone",
 					"enabled": true
 				},
 				{
 					"key": "password",
-					"value": "yj3wev32R6eQJWV",
+					"value": "1234567",
 					"type": "text",
 					"name": "password",
 					"enabled": true
@@ -2013,7 +1950,7 @@
 				},
 				{
 					"key": "service.category.id",
-					"value": "1",
+					"value": "107",
 					"type": "text",
 					"name": "service.category.id",
 					"enabled": true
@@ -2055,7 +1992,7 @@
 				},
 				{
 					"key": "service.id",
-					"value": "306",
+					"value": "312",
 					"type": "text",
 					"name": "service.id",
 					"enabled": true
@@ -2103,7 +2040,8 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1454343962285
+			"team": null,
+			"timestamp": 1457617498236
 		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
@@ -2125,7 +2063,7 @@
 				},
 				{
 					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODc3IiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoxNDUwODg1NzUxLCJleHAiOjE0NTA5NzIxNTEsIm5iZiI6MTQ1MDg4NTc1MSwianRpIjoiZTdiMjI2MjI5ZDEwYjVlOGFiYTczMTVkMDM2YzhkNmYifQ.ICFVavSgCh00eTnWNpLy2ngoVqI6Za24IvJMJu4wkNY",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODc3IiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoxNDU0NDk2MjI0LCJleHAiOjE0NTQ1ODI2MjQsIm5iZiI6MTQ1NDQ5NjIyNCwianRpIjoiMTM2MTljNzQzNmZkNGEyYzhkODM3OWFmZjNlNjA2NGMifQ.5CFLnEDk2kAVsAROQuLVkDCg1M4LOLwp608JBmq-Jo8",
 					"type": "text",
 					"name": "token",
 					"enabled": true
@@ -2160,7 +2098,7 @@
 				},
 				{
 					"key": "service.category.id",
-					"value": "1",
+					"value": "107",
 					"type": "text",
 					"name": "service.category.id",
 					"enabled": true
@@ -2250,7 +2188,202 @@
 					"enabled": true
 				}
 			],
-			"timestamp": 1454343962293
+			"team": null,
+			"timestamp": 1457617498240
+		},
+		{
+			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
+			"name": "dev",
+			"values": [
+				{
+					"key": "debug",
+					"value": "true",
+					"type": "text",
+					"name": "debug",
+					"enabled": true
+				},
+				{
+					"key": "domain",
+					"value": "http://village.dev",
+					"type": "text",
+					"name": "domain",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjMsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ1NzYxNzUwOSwiZXhwIjoxNDU3NzAzOTA5LCJuYmYiOjE0NTc2MTc1MDksImp0aSI6ImM3MTlhYTA5NTQ4YWY1OTkwNDhhNDE2ZGY0NTZhYWNlIn0.m16kDC4yHtnWa7QpmvIJQFdCoyGkwnHVudBCO90TKow",
+					"type": "text",
+					"name": "token",
+					"enabled": true
+				},
+				{
+					"key": "phone",
+					"value": "+7(111)1111112",
+					"type": "text",
+					"name": "phone",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "yj3wev32R6eQJWV",
+					"type": "text",
+					"name": "password",
+					"enabled": true
+				},
+				{
+					"key": "token.code",
+					"value": "49844",
+					"type": "text",
+					"name": "token.code",
+					"enabled": true
+				},
+				{
+					"key": "token.session",
+					"value": "YBrj6CsSpQ",
+					"type": "text",
+					"name": "token.session",
+					"enabled": true
+				},
+				{
+					"key": "article.id",
+					"value": "583",
+					"type": "text",
+					"name": "article.id",
+					"enabled": true
+				},
+				{
+					"key": "me.first_name",
+					"value": "wzkqgjbyou",
+					"type": "text",
+					"name": "me.first_name",
+					"enabled": true
+				},
+				{
+					"key": "me.last_name",
+					"value": "hsxdxcflwj",
+					"type": "text",
+					"name": "me.last_name",
+					"enabled": true
+				},
+				{
+					"key": "product.id",
+					"value": "262",
+					"type": "text",
+					"name": "product.id",
+					"enabled": true
+				},
+				{
+					"key": "service.id",
+					"value": "302",
+					"type": "text",
+					"name": "service.id",
+					"enabled": true
+				},
+				{
+					"key": "page",
+					"value": "1",
+					"type": "text",
+					"name": "page",
+					"enabled": true
+				},
+				{
+					"key": "product.category.id",
+					"value": "156",
+					"type": "text",
+					"name": "product.category.id",
+					"enabled": true
+				},
+				{
+					"key": "service.category.id",
+					"value": "107",
+					"type": "text",
+					"name": "service.category.id",
+					"enabled": true
+				},
+				{
+					"key": "building.code",
+					"value": "test",
+					"type": "text",
+					"name": "building.code",
+					"enabled": true
+				},
+				{
+					"key": "building.id",
+					"value": "1",
+					"type": "text",
+					"name": "building.id",
+					"enabled": true
+				},
+				{
+					"key": "me.password",
+					"value": "1",
+					"type": "text",
+					"name": "me.password",
+					"enabled": true
+				},
+				{
+					"key": "survey.id",
+					"value": "447",
+					"type": "text",
+					"name": "survey.id",
+					"enabled": true
+				},
+				{
+					"key": "survey.my_vote.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.my_vote.choice",
+					"enabled": true
+				},
+				{
+					"key": "survey.choice",
+					"value": "0",
+					"type": "text",
+					"name": "survey.choice",
+					"enabled": true
+				},
+				{
+					"key": "me.email",
+					"value": "test@test.test",
+					"type": "text",
+					"name": "me.email",
+					"enabled": true
+				},
+				{
+					"key": "me.id",
+					"value": "undefined",
+					"type": "text",
+					"name": "me.id",
+					"enabled": true
+				},
+				{
+					"key": "me.phone",
+					"value": "undefined",
+					"type": "text",
+					"name": "me.phone",
+					"enabled": true
+				},
+				{
+					"key": "service.order.id",
+					"type": "text",
+					"value": "416",
+					"enabled": true
+				},
+				{
+					"key": "service.order.id.for_payment_check",
+					"type": "text",
+					"value": "427",
+					"enabled": true
+				},
+				{
+					"key": "product.order.id.for_payment_check",
+					"type": "text",
+					"value": "438",
+					"enabled": true
+				}
+			],
+			"team": null,
+			"timestamp": 1457619247232
 		}
 	],
 	"headerPresets": [

@@ -12,6 +12,8 @@ class ServiceController extends ApiController
     /**
      * Get all services
      *
+     * @param Request $request
+     *
      * @return Response
      */
     public function index(Request $request)
@@ -20,6 +22,13 @@ class ServiceController extends ApiController
         if ($categoryId = $request::query('category_id')) {
             $services->where(['category_id' => $categoryId]);
         }
+	    if ($search = $request::query('search')) {
+		    $services->where(function($query) use ($search){
+			    foreach(['title', 'comment_label', 'text'] as $field) {
+				    $query->orWhere($field, 'like', '%'.$search.'%');
+			    }
+		    });
+	    }
 
         return $this->response->withCollection($services->paginate(10), new ServiceTransformer);
     }

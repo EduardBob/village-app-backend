@@ -147,7 +147,7 @@ class ServiceOrderScController extends AdminController
                 }
             })
             ->addColumn('perform_date', function (ServiceOrder $serviceOrder) {
-                    return localizeddate($serviceOrder->perform_date, 'short').' '.@mb_strcut($serviceOrder->perform_time, 0, 5);
+                    return $serviceOrder->perform_date->format('d-m-Y').' '.@mb_strcut($serviceOrder->perform_time, 0, 5);
             })
             ->addColumn('created_at', function (ServiceOrder $serviceOrder) {
                 return localizeddate($serviceOrder->created_at);

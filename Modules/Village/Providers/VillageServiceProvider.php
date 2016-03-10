@@ -54,7 +54,7 @@ class VillageServiceProvider extends ServiceProvider
     {
         ProductOrder::created(function(ProductOrder $productOrder) {
             if ($productOrder::PAYMENT_TYPE_CARD === $productOrder->payment_type) {
-	            if ($productOrder->has_card_payment) {
+	            if ($productOrder->product->has_card_payment) {
 		            $payment = new SentryPaymentGateway();
 		            $orderId = $productOrder->getOrderNameForCardPayment();
 
@@ -101,7 +101,7 @@ class VillageServiceProvider extends ServiceProvider
 
         ServiceOrder::created(function(ServiceOrder $serviceOrder) {
             if ($serviceOrder::PAYMENT_TYPE_CARD === $serviceOrder->payment_type) {
-	            if ($serviceOrder->has_card_payment) {
+	            if ($serviceOrder->service->has_card_payment) {
 		            $payment = new SentryPaymentGateway();
 		            $orderId = $serviceOrder->getOrderNameForCardPayment();
 

@@ -21,7 +21,7 @@ return [
         'order_button_label' => 'Метка кнопки заказа',
         'active' => 'Доступен',
         'created_at' => 'Создан',
-        'has_card_payment' => 'Можно оплачить карточкой',
+        'has_card_payment' => 'Можно оплатить карточкой',
         'order' => 'Порядок',
         'show_perform_time' => 'Возможность выбора удобного времени',
         'actions' => 'Действия',

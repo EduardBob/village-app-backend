@@ -35,7 +35,7 @@ class SentryPaymentController extends BasePublicController
                 /** @var ProductOrder $order */
                 $order = $model::find((int)$id);
             }
-var_dump($type, $id, $order, $answer);die;
+
             if (!$order || $order->transaction_id !== $transactionId) {
                 return false;
             }
@@ -52,7 +52,6 @@ var_dump($type, $id, $order, $answer);die;
             }
         }
         catch(\Exception $ex) {
-	        var_dump($ex->getMessage());die;
         }
 
         return redirect()->away('village://profile/history');

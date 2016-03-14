@@ -15,7 +15,7 @@ abstract class AbstractOrder extends Model implements OrderInterface
 	 */
 	public function getOrderNameForCardPayment()
 	{
-		return $this->getOrderType().'_'.$this->id;
+		return $this->getOrderType().'Order_'.$this->id;
 	}
 
 	/**

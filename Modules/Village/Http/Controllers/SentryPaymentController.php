@@ -31,11 +31,11 @@ class SentryPaymentController extends BasePublicController
                 $orderNumber = $payment->decryptOrderNumber($answer['OrderNumber']);
                 list($type, $id) = explode('_', $orderNumber);
 
-                $model = '\\Modules\\Village\\Entities\\'.$type;
+                $model = '\\Modules\\Village\\Entities\\'.ucfirst($type);
                 /** @var ProductOrder $order */
                 $order = $model::find((int)$id);
             }
-
+var_dump($type, $id, $order, $answer);die;
             if (!$order || $order->transaction_id !== $transactionId) {
                 return false;
             }
@@ -52,6 +52,7 @@ class SentryPaymentController extends BasePublicController
             }
         }
         catch(\Exception $ex) {
+	        var_dump($ex->getMessage());die;
         }
 
         return redirect()->away('village://profile/history');

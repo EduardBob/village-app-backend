@@ -3,7 +3,7 @@
         <div class="col-sm-12">
             <div class="form-group">
                 {!! Form::label('created_at', $admin->trans('table.created_at')) !!}
-                <div>{{ Carbon\Carbon::parse(@$model->created_at)->format('Y-m-d H:i:s') }}</div>
+                <div>{{ Carbon\Carbon::parse(@$model->created_at)->format('d-m-Y H:i:s') }}</div>
             </div>
         </div>
     </div>
@@ -30,7 +30,7 @@
         <div class="col-sm-12">
         	<div class="form-group">
         	    {!! Form::label('perform_date', $admin->trans('table.perform_date')) !!}
-        	    <div>{{ Carbon\Carbon::parse(@$model->perform_date)->format('Y-m-d') }} {{ $model->perform_time }}</div>
+        	    <div>{{ Carbon\Carbon::parse(@$model->perform_date)->format('d-m-Y') }} {{ $model->perform_time }}</div>
         	</div>
         </div>
     </div>

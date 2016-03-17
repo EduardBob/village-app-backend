@@ -92,7 +92,7 @@ class VillageServiceProvider extends ServiceProvider
                     'to_status' => $productOrder->status,
                 ]);
 
-                if ('processing' === $productOrder->status) {
+                if ($productOrder::STATUS_PROCESSING === $productOrder->status) {
                     $this->sendMailOnProcessingOrder($auth, $productOrder);
                     $this->sendSmsOnProcessingOrder($auth, $productOrder);
                 }
@@ -139,7 +139,7 @@ class VillageServiceProvider extends ServiceProvider
                     'to_status' => $serviceOrder->status,
                 ]);
 
-                if ('processing' === $serviceOrder->status) {
+                if ($serviceOrder::STATUS_PROCESSING === $serviceOrder->status) {
                     $this->sendMailOnProcessingOrder($auth, $serviceOrder);
                     $this->sendSmsOnProcessingOrder($auth, $serviceOrder);
                 }

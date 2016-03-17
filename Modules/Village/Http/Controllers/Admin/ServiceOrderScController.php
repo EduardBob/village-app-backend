@@ -83,7 +83,7 @@ class ServiceOrderScController extends AdminController
 
         $builder
 	        ->addColumn(['data' => 'service_title', 'name' => 'village__services.title', 'title' => $this->trans('table.service')])
-            ->addColumn(['data' => 'perform_date', 'name' => 'village__service_orders.perform_date', 'title' => $this->trans('table.perform_date')])
+            ->addColumn(['data' => 'done_at', 'name' => 'village__service_orders.done_at', 'title' => $this->trans('table.done_at')])
             ->addColumn(['data' => 'user_name', 'name' => 'users.last_name', 'title' => $this->trans('table.name')])
             ->addColumn(['data' => 'comment', 'name' => 'village__service_orders.comment', 'title' => $this->trans('table.comment')])
             ->addColumn(['data' => 'building_address', 'name' => 'village__buildings.address', 'title' => $this->trans('table.address')])
@@ -146,8 +146,8 @@ class ServiceOrderScController extends AdminController
                     return $serviceOrder->user->building->address;
                 }
             })
-            ->addColumn('perform_date', function (ServiceOrder $serviceOrder) {
-                    return $serviceOrder->perform_date->format('d-m-Y').' '.@mb_strcut($serviceOrder->perform_time, 0, 5);
+            ->addColumn('done_at', function (ServiceOrder $serviceOrder) {
+                    return $serviceOrder->done_at ? $serviceOrder->done_at->format('d.m.Y H:i:s') : '';
             })
             ->addColumn('created_at', function (ServiceOrder $serviceOrder) {
                 return localizeddate($serviceOrder->created_at);

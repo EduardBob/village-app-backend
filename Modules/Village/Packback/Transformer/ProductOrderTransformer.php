@@ -45,17 +45,8 @@ class ProductOrderTransformer extends TransformerAbstract
             'decline_reason' => $productOrder->decline_reason,
             'payment_type' => $productOrder->payment_type,
             'payment_status' => $productOrder->payment_status,
+            'done_at' => $productOrder->done_at ? $productOrder->done_at->format('Y-m-d H:i:s') : null,
         ];
-
-	    if ($productOrder::STATUS_DONE === $productOrder->status) {
-		    $orderChange = ProductOrderChange::where([
-			    'order_id' => $productOrder->id,
-			    'to_status' => $productOrder::STATUS_DONE
-		    ])->first();
-		    if ($orderChange) {
-			    $data['done_at'] = $orderChange->created_at->format('Y-m-d H:i:s');
-		    }
-	    }
 
 	    return $data;
     }

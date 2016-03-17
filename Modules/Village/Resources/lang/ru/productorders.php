@@ -23,7 +23,7 @@ return [
         'unit_price' => 'Цена за ед.',
         'unit_title' => 'Ед. измерения',
         'address' => 'Адрес',
-        'perform_date' => 'Выполнен',
+        'perform_date' => 'На когда заказ',
         'perform_time' => 'Время исполнения',
         'price' => 'Итого',
         'user' => 'Пользователь',
@@ -35,6 +35,7 @@ return [
         'comment' => 'Заметка покупателя',
         'decline_reason' => 'Причина отказа',
         'created_at' => 'Создан',
+        'done_at' => 'Выполнен',
         'actions' => 'Действия',
     ],
     'form' => [

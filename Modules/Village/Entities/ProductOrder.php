@@ -9,8 +9,8 @@ class ProductOrder extends AbstractOrder
     use VillageAdminScope;
 
     protected $table = 'village__product_orders';
-    protected $fillable = ['user_id', 'product_id', 'quantity', 'comment', 'status', 'perform_date', 'perform_time', 'decline_reason', 'payment_type', 'payment_status'];
-    protected $dates = ['perform_date'];
+    protected $fillable = ['user_id', 'product_id', 'quantity', 'comment', 'status', 'perform_date', 'perform_time', 'decline_reason', 'payment_type', 'payment_status', 'done_at'];
+    protected $dates = ['perform_date', 'done_at'];
 
 	public function getOrderType()
 	{
@@ -54,6 +54,13 @@ class ProductOrder extends AbstractOrder
             if ($productOrder->perform_time === '') {
                 $productOrder->perform_time = null;
             }
+
+	        if ($productOrder::STATUS_DONE === $productOrder->status) {
+		        $productOrder->done_at = new \DateTime();
+	        }
+	        else {
+		        $productOrder->done_at = null;
+	        }
         }, 10);
     }
 }

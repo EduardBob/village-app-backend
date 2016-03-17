@@ -45,17 +45,8 @@ class ServiceOrderTransformer extends TransformerAbstract
             'payment_type' => $serviceOrder->payment_type,
             'payment_status' => $serviceOrder->payment_status,
             'added_from' => $serviceOrder->added_from,
+	        'done_at' => $serviceOrder->done_at ? $serviceOrder->done_at->format('Y-m-d H:i:s') : null,
         ];
-
-	    if ($serviceOrder::STATUS_DONE === $serviceOrder->status) {
-		    $orderChange = ServiceOrderChange::where([
-			    'order_id' => $serviceOrder->id,
-			    'to_status' => $serviceOrder::STATUS_DONE
-		    ])->first();
-		    if ($orderChange) {
-			    $data['done_at'] = $orderChange->created_at->format('Y-m-d H:i:s');
-		    }
-	    }
 
 	    return $data;
     }

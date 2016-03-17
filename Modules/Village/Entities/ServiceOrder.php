@@ -12,9 +12,10 @@ class ServiceOrder extends AbstractOrder
     protected $fillable = [
         'user_id', 'service_id', 'status', 'perform_date', 'perform_time', 'comment', 'decline_reason', 'payment_type', 'payment_status',
         // используется для формы ордера у охранника
-        'added_from', 'transaction_id'
+        'added_from', 'transaction_id',
+	    'done_at'
     ];
-    protected $dates = ['perform_date'];
+    protected $dates = ['perform_date', 'done_at'];
 
 	public function getOrderType()
 	{
@@ -63,6 +64,13 @@ class ServiceOrder extends AbstractOrder
             if ($serviceOrder->perform_time === '') {
                 $serviceOrder->perform_time = null;
             }
+
+	        if ($serviceOrder::STATUS_DONE === $serviceOrder->status) {
+		        $serviceOrder->done_at = new \DateTime();
+	        }
+	        else {
+		        $serviceOrder->done_at = null;
+	        }
         }, 10);
     }
 }

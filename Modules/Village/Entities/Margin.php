@@ -38,7 +38,10 @@ class Margin extends Model
     {
         if ($price <= 0) return 0;
 
-        $margins = Margin::where('village_id', $village->id)->orderBy('order', 'ASC')->get();
+        $margins = Margin::where('village_id', $village->id)
+	        ->where('active', 1)
+	        ->orderBy('order', 'ASC')
+	        ->get();
 
         foreach ($margins as $margin) {
             if (Margin::TYPE_PERCENT == $margin['type']) {

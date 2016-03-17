@@ -3,7 +3,7 @@
         <div class="col-sm-12">
             <div class="form-group">
                 {!! Form::label('created_at', $admin->trans('table.created_at')) !!}
-                <div>{{ Carbon\Carbon::parse(@$model->created_at)->format('d-m-Y H:i:s') }}</div>
+                <div>{{ Carbon\Carbon::parse(@$model->created_at)->format('d.m.Y H:i:s') }}</div>
             </div>
         </div>
     </div>
@@ -15,15 +15,25 @@
             </div>
         </div>
     </div>
-    @if(isset($model) && $model->perform_date)
+    @if($model->perform_date)
     <div class="row">
         <div class="col-sm-12">
         	<div class="form-group">
         	    {!! Form::label('perform_date', $admin->trans('table.perform_date')) !!}
-                <div>{{ Carbon\Carbon::parse(@$model->perform_date)->format('d-m-Y') }} {{ $model->perform_time }}</div>
+                <div>{{ Carbon\Carbon::parse(@$model->perform_date)->format('d.m.Y') }} {{ $model->perform_time }}</div>
         	</div>
         </div>
     </div>
+    @endif
+    @if($model->done_at)
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    {!! Form::label('done_at', $admin->trans('table.done_at')) !!}
+                    <div>{{ Carbon\Carbon::parse(@$model->done_at)->format('d.m.Y H:i:s') }}</div>
+                </div>
+            </div>
+        </div>
     @endif
     <div class="row">
         <div class="col-sm-12">

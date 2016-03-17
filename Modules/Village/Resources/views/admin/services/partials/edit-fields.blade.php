@@ -84,6 +84,13 @@
         </div>
         @endif
         <div class="col-sm-12">
+            <div class="form-group{{ $errors->has('order') ? ' has-error' : '' }}">
+                {!! Form::label('order', $admin->trans('table.order')) !!}
+                {!! Form::text('order', Input::old('order', @$model->order), ['class' => 'form-control', 'placeholder' => $admin->trans('table.order')]) !!}
+                {!! $errors->first('order', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-12">
             <div class="form-group{{ $errors->has('show_perform_time') ? ' has-error' : '' }}">
                 {!! Form::checkbox('show_perform_time', (int)Input::old('show_perform_time', @$model->show_perform_time), (bool)Input::old('show_perform_time', @$model->show_perform_time), ['class' => 'flat-blue']) !!}
                 {!! Form::label('show_perform_time', $admin->trans('table.show_perform_time')) !!}

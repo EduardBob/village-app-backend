@@ -47,10 +47,18 @@ class SentryPaymentGateway
 
     public function __construct()
     {
-        $this->debug = config('village.order.payment.sentry.debug', false);
-        $this->gatewayUrl = 'https://3dsec.sberbank.ru/payment/rest/';
-        $this->merchantId = config('village.order.payment.sentry.prod.mid');
-        $this->password = config('village.order.payment.sentry.prod.password');
+        $this->debug = config('village.order.payment.sentry.debug', true);
+
+	    if ($this->debug) {
+		    $this->gatewayUrl = 'https://3dsec.sberbank.ru/payment/rest/';
+		    $this->merchantId = config('village.order.payment.sentry.test.mid');
+		    $this->password = config('village.order.payment.sentry.test.password');
+	    }
+	    else {
+		    $this->gatewayUrl = 'https://securepayments.sberbank.ru/payment/rest/';
+		    $this->merchantId = config('village.order.payment.sentry.prod.mid');
+		    $this->password = config('village.order.payment.sentry.prod.password');
+	    }
     }
 
     /**

@@ -196,6 +196,8 @@ class Sms extends Model implements SmsInterface
         }
         catch (BadSmsStatusException $ex) {
             $this->save();
+
+	        \Log::warning($ex->getMessage(), $this->toArray());
             throw $ex;
         }
 

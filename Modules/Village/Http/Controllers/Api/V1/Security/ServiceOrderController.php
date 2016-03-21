@@ -25,8 +25,8 @@ class ServiceOrderController extends ApiController
             ::select('village__service_orders.*')
             ->leftJoin('village__services', 'village__service_orders.service_id', '=', 'village__services.id')
             ->leftJoin('village__service_executors', 'village__service_executors.service_id', '=', 'village__services.id')
+	        ->leftJoin('users', 'village__service_orders.user_id', '=', 'users.id')
             ->where('village__service_executors.user_id', $this->user()->id)
-//            ->orWhere('village__service_orders.user_id', $this->user()->id)
         ;
 
         if ($status = $request::query('status')) {
@@ -40,6 +40,23 @@ class ServiceOrderController extends ApiController
         if ($toDate = $request::query('to_perform_date')) {
             $query->where('village__service_orders.perform_date', '<=', $toDate);
         }
+
+	    if ($search = $request::query('search')) {
+		    $fields = ['comment', 'added_from'];
+		    $query->where(function($query) use ($search, $fields){
+			    foreach($fields as $field) {
+				    $query
+					    ->orWhere('village__service_orders.'.$field, 'like', '%'.$search.'%')
+				    ;
+			    }
+
+			    foreach(['first_name', 'last_name', 'phone', 'email'] as $field) {
+				    $query
+					    ->orWhere('users.'.$field, 'like', '%'.$search.'%')
+				    ;
+			    }
+		    });
+	    }
 
         $serviceOrders = $query
             ->orderBy('village__service_orders.perform_date', 'asc')

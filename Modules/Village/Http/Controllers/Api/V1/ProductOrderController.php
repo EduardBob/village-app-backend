@@ -19,9 +19,26 @@ class ProductOrderController extends ApiController
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $productOrders = ProductOrder::where(['user_id' => $this->user()->id])->orderBy('id', 'desc')->paginate(10);
+	    $query = ProductOrder::where(['user_id' => $this->user()->id]);
+
+	    if ($search = $request::query('search')) {
+		    $fields = ['comment'];
+		    $query->where(function($query) use ($search, $fields){
+			    foreach($fields as $field) {
+				    $query
+					    ->orWhere($field, 'like', '%'.$search.'%')
+				    ;
+			    }
+		    });
+	    }
+
+	    $productOrders = $query
+		    ->orderBy('id', 'desc')
+		    ->paginate(10)
+	    ;
+
 
         return $this->response->withCollection($productOrders, new ProductOrderTransformer);
     }

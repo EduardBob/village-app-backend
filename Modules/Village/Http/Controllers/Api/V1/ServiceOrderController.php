@@ -2,7 +2,6 @@
 
 namespace Modules\Village\Http\Controllers\Api\V1;
 
-use Modules\Village\Entities\User;
 use Modules\Village\Entities\ServiceOrder;
 use EllipseSynergie\ApiResponse\Contracts\Response;
 use Modules\Village\Packback\Transformer\ServiceOrderTransformer;
@@ -17,9 +16,25 @@ class ServiceOrderController extends ApiController
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $serviceCategories = ServiceOrder::where(['user_id' => $this->user()->id])->orderBy('id', 'desc')->paginate(10);
+        $query = ServiceOrder::where(['user_id' => $this->user()->id]);
+
+        if ($search = $request::query('search')) {
+	        $fields = ['comment', 'added_from'];
+	        $query->where(function($query) use ($search, $fields){
+		        foreach($fields as $field) {
+			        $query
+				        ->orWhere($field, 'like', '%'.$search.'%')
+			        ;
+		        }
+            });
+        }
+
+		$serviceCategories = $query
+	        ->orderBy('id', 'desc')
+	        ->paginate(10)
+		;
 
         return $this->response->withCollection($serviceCategories, new ServiceOrderTransformer);
     }

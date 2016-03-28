@@ -42,8 +42,12 @@ class SentryPaymentGateway
      * @var int
      */
     protected $currency = 643; // RUB: 643, USD: 840
-
-    protected $formUrl = 'https://3dsec.sberbank.ru/payment/merchants/concierge/payment_ru.html';
+	/**
+	 * Адрес формы на стороне банка
+	 *
+	 * @var string
+	 */
+    protected $formUrl;
 
     public function __construct()
     {
@@ -51,11 +55,13 @@ class SentryPaymentGateway
 
 	    if ($this->debug) {
 		    $this->gatewayUrl = 'https://3dsec.sberbank.ru/payment/rest/';
+		    $this->formUrl = 'https://3dsec.sberbank.ru/payment/merchants/concierge/payment_ru.html';
 		    $this->merchantId = config('village.order.payment.sentry.test.mid');
 		    $this->password = config('village.order.payment.sentry.test.password');
 	    }
 	    else {
 		    $this->gatewayUrl = 'https://securepayments.sberbank.ru/payment/rest/';
+		    $this->formUrl = 'https://securepayments.sberbank.ru/payment/merchants/concierge/payment_ru.html';
 		    $this->merchantId = config('village.order.payment.sentry.prod.mid');
 		    $this->password = config('village.order.payment.sentry.prod.password');
 	    }

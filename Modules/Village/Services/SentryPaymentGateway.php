@@ -61,7 +61,7 @@ class SentryPaymentGateway
 	    }
 	    else {
 		    $this->gatewayUrl = 'https://securepayments.sberbank.ru/payment/rest/';
-		    $this->formUrl = 'https://securepayments.sberbank.ru/payment/merchants/concierge/payment_ru.html';
+		    $this->formUrl = 'https://securepayments.sberbank.ru/payment/merchants/rbs/payment_ru.html';
 		    $this->merchantId = config('village.order.payment.sentry.prod.mid');
 		    $this->password = config('village.order.payment.sentry.prod.password');
 	    }

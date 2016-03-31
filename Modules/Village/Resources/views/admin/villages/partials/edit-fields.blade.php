@@ -4,7 +4,7 @@
         <div class="col-sm-12">
             <div class="form-group{{ $errors->has('main_admin_id') ? ' has-error' : '' }}">
                 {!! Form::label('main_admin_id', $admin->trans('table.main_admin_id')) !!}
-                {!! Form::select('main_admin_id', (new Modules\Village\Entities\User)->getList(),
+                {!! Form::select('main_admin_id', (new Modules\Village\Entities\User)->getVillageAdminList(),
                 Input::old('main_admin_id', @$model->main_admin_id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.main_admin.placeholder')]) !!}
                 <p class="help-block">{{ $admin->trans('form.main_admin.help') }}</p>
                 {!! $errors->first('main_admin_id', '<span class="help-block">:message</span>') !!}

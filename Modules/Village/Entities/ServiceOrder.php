@@ -13,7 +13,8 @@ class ServiceOrder extends AbstractOrder
         'user_id', 'service_id', 'status', 'perform_date', 'perform_time', 'comment', 'decline_reason', 'payment_type', 'payment_status',
         // используется для формы ордера у охранника
         'added_from', 'transaction_id',
-	    'done_at'
+	    'done_at',
+	    'phone', 'admin_comment'
     ];
     protected $dates = ['perform_date', 'done_at'];
 

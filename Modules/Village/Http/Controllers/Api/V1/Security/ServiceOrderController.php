@@ -42,7 +42,7 @@ class ServiceOrderController extends ApiController
         }
 
 	    if ($search = $request::query('search')) {
-		    $fields = ['comment', 'added_from'];
+		    $fields = ['comment', 'added_from', 'phone', 'admin_comment'];
 		    $query->where(function($query) use ($search, $fields){
 			    foreach($fields as $field) {
 				    $query
@@ -103,11 +103,13 @@ class ServiceOrderController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        $data = $request::only('status', 'payment_status');
+        $data = $request::only('status', 'payment_status', 'phone', 'admin_comment');
 
         $validator = Validator::make($data, [
             'payment_status' => 'required|in:'.implode(',', config('village.order.payment.status.values')),
             'status'         => 'required|in:'.implode(',', config('village.order.statuses')),
+            'phone'          => 'sometimes|string',
+            'admin_comment'  => 'sometimes|string', // заметка от охранника или админа
         ]);
 
         if ($validator->fails()) {
@@ -154,7 +156,7 @@ class ServiceOrderController extends ApiController
      */
     public function store(Request $request)
     {
-        $data = $request::only('service_id', 'perform_date', 'perform_time', 'comment', 'added_from');
+        $data = $request::only('service_id', 'perform_date', 'perform_time', 'comment', 'added_from', 'phone', 'admin_comment');
         $data = array_merge([
             'user_id' => $this->user()->id,
             'status' => config('village.order.first_status'),
@@ -194,8 +196,10 @@ class ServiceOrderController extends ApiController
             'service_id'     => 'required|exists:village__services,id',
             'perform_date'   => 'required|date|date_format:Y-m-d',
             'perform_time'   => 'sometimes|date_format:H:i',
-            'comment'        => 'required|string',
+            'comment'        => 'required|string', // коммент клиента
             'added_from'     => 'required|string',
+            'phone'          => 'sometimes|string',
+	        'admin_comment'  => 'sometimes|string', // заметка от охранника или админа
         ]);
     }
 }

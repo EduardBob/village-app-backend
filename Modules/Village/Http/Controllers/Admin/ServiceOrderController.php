@@ -86,17 +86,7 @@ class ServiceOrderController extends AdminController
     protected function configureDatagridColumns()
     {
         return [
-            'village__service_orders.id',
-            'village__service_orders.village_id',
-            'village__service_orders.service_id',
-            'village__service_orders.user_id',
-            'village__service_orders.perform_date',
-            'village__service_orders.perform_time',
-            'village__service_orders.created_at',
-            'village__service_orders.price',
-            'village__service_orders.payment_type',
-            'village__service_orders.payment_status',
-            'village__service_orders.status',
+            'village__service_orders.*',
         ];
     }
 

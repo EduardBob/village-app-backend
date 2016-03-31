@@ -46,6 +46,8 @@ class ServiceOrderTransformer extends TransformerAbstract
             'payment_status' => $serviceOrder->payment_status,
             'added_from' => $serviceOrder->added_from,
 	        'done_at' => $serviceOrder->done_at ? $serviceOrder->done_at->format('Y-m-d H:i:s') : null,
+	        'phone' => $serviceOrder->phone,
+	        'admin_comment' => $serviceOrder->admin_comment,
         ];
 
 	    return $data;

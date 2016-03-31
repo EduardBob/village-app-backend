@@ -96,4 +96,26 @@
         </div>
     </div>
     @endif
+
+    @if($model->phone)
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    {!! Form::label('phone', $admin->trans('table.phone')) !!}
+                    <div>{{ $model->phone }}</div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if($model->admin_comment)
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    {!! Form::label('admin_comment', $admin->trans('table.admin_comment')) !!}
+                    <div>{{ $model->admin_comment }}</div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>

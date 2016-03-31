@@ -85,9 +85,11 @@ class VillageServiceProvider extends ServiceProvider
 
         ProductOrder::saved(function(ProductOrder $productOrder) use ($auth) {
             if ($productOrder->isDirty('status')) {
+	            $user = $this->user($auth);
+
                 ProductOrderChange::create([
                     'order_id' => $productOrder->id,
-                    'user_id' => $this->user($auth)->id,
+                    'user_id' => $user? $user->id : null,
                     'from_status' => @$productOrder->getOriginal()['status'],
                     'to_status' => $productOrder->status,
                 ]);
@@ -132,9 +134,11 @@ class VillageServiceProvider extends ServiceProvider
 
         ServiceOrder::saved(function(ServiceOrder $serviceOrder) use ($auth) {
             if ($serviceOrder->isDirty('status')) {
+	            $user = $this->user($auth);
+
                 ServiceOrderChange::create([
                     'order_id' => $serviceOrder->id,
-                    'user_id' => $this->user($auth)->id,
+                    'user_id' => $user ? $user->id : null,
                     'from_status' => @$serviceOrder->getOriginal()['status'],
                     'to_status' => $serviceOrder->status,
                 ]);

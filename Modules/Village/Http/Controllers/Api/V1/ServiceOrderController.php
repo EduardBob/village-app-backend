@@ -31,9 +31,11 @@ class ServiceOrderController extends ApiController
             });
         }
 
+	    $limit = (int)$request::query('limit', 10);
+
 		$serviceCategories = $query
 	        ->orderBy('id', 'desc')
-	        ->paginate(10)
+	        ->paginate($limit)
 		;
 
         return $this->response->withCollection($serviceCategories, new ServiceOrderTransformer);

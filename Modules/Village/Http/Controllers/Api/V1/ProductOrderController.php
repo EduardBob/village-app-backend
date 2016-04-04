@@ -34,9 +34,11 @@ class ProductOrderController extends ApiController
 		    });
 	    }
 
+	    $limit = (int)$request::query('limit', 10);
+
 	    $productOrders = $query
 		    ->orderBy('id', 'desc')
-		    ->paginate(10)
+		    ->paginate($limit)
 	    ;
 
 

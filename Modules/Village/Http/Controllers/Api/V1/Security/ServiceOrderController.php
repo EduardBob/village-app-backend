@@ -58,9 +58,11 @@ class ServiceOrderController extends ApiController
 		    });
 	    }
 
+	    $limit = (int)$request::query('limit', 10);
+
         $serviceOrders = $query
             ->orderBy('village__service_orders.perform_date', 'asc')
-            ->paginate(10)
+            ->paginate($limit)
         ;
 
         $transformer = new ServiceOrderTransformer();

@@ -21,7 +21,7 @@ abstract class AbstractOrder extends Model implements OrderInterface
 	/**
 	 * @return array
 	 */
-	public function getStatuses()
+	public static function getStatuses()
 	{
 		return [
 			static::STATUS_PROCESSING,
@@ -32,9 +32,22 @@ abstract class AbstractOrder extends Model implements OrderInterface
 	}
 
 	/**
+	 * Статусы, в который ордера являются ещё открытыми
+	 *
 	 * @return array
 	 */
-	public function canPayInStatuses()
+	public static function getOpenedStatuses()
+	{
+		return [
+			static::STATUS_PROCESSING,
+			static::STATUS_RUNNING,
+		];
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function canPayInStatuses()
 	{
 		return [
 			static::STATUS_PROCESSING,

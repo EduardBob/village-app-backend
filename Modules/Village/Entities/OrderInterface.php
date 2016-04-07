@@ -20,6 +20,23 @@ interface OrderInterface
 	public function getOrderType();
 
 	/**
+	 * @return array
+	 */
+	public static function getStatuses();
+
+	/**
+	 * Статусы, в который ордера являются ещё открытыми
+	 *
+	 * @return array
+	 */
+	public static function getOpenedStatuses();
+
+	/**
+	 * @return array
+	 */
+	public static function canPayInStatuses();
+
+	/**
 	 * @return string
 	 */
 	public function getOrderNameForCardPayment();

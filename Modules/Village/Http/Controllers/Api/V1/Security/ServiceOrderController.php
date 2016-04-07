@@ -29,9 +29,14 @@ class ServiceOrderController extends ApiController
             ->where('village__service_executors.user_id', $this->user()->id)
         ;
 
+	    // @todo remove if
         if ($status = $request::query('status')) {
             $query->where(['village__service_orders.status' => $status]);
         }
+	    else if ((bool)$request::query('only_opened', false)) {
+		    $query->whereIn('village__service_orders.status', ServiceOrder::getOpenedStatuses());
+	    }
+
 
         if ($fromDate = $request::query('from_perform_date')) {
             $query->where('village__service_orders.perform_date', '>=', $fromDate);

@@ -217,7 +217,7 @@
 				{
 					"id": "e49ce460-a024-e64c-e8b6-018f057829fe",
 					"headers": "Authorization: Bearer  {{token}}\n",
-					"url": "{{domain}}/api/v1/security/services/orders?status=processing&from_perform_date=2014-12-02&to_perform_date=2017-12-31&page={{page}}&search=&limit=10",
+					"url": "{{domain}}/api/v1/security/services/orders?only_opened=1&from_perform_date=2014-12-02&to_perform_date=2017-12-31&page={{page}}&search=&limit=10",
 					"preRequestScript": "postman.setEnvironmentVariable(\"page\", 1);",
 					"pathVariables": {},
 					"method": "GET",
@@ -258,7 +258,7 @@
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json';\n\nvar data = JSON.parse(responseBody);\nif (data.data) {\n    tests[\"Count == 15 \"] = data.data.length;\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains price\"] = responseBody.has(\"price\");\n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains decline_reason\"] = responseBody.has(\"decline_reason\");\n    $.each(data.data, function(index, order) {\n        if (order.status === 'rejected') {\n            tests[\"decline_reason not null, index = \" + index] = order.decline_reason !== null;\n        }\n        else {\n            tests[\"decline_reason is null, index = \" + index] = order.decline_reason === null;\n        }\n        tests[\"Body contains service, index = \" + index] = order.service && order.service.data;        \n    });\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1459779514119,
+					"time": 1460028508032,
 					"name": "/api/v1/security/services/orders",
 					"description": "Get all service orders",
 					"collectionId": "ca280dee-47e2-b2f1-dd54-435296205445",
@@ -2077,7 +2077,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1459779410835
+			"timestamp": 1460028381723
 		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
@@ -2225,7 +2225,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1459779410843
+			"timestamp": 1460028381731
 		},
 		{
 			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
@@ -2247,7 +2247,7 @@
 				},
 				{
 					"key": "token",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjMsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9zZWN1cml0eVwvYXV0aFwvdG9rZW4iLCJpYXQiOjE0NTk3Nzk0MTMsImV4cCI6MTQ2MjM3MTQxMywibmJmIjoxNDU5Nzc5NDEzLCJqdGkiOiI5OWNiYzJjNDQ2NWIyMDY1NDEwZjZlZTM2ZGMzNTFhOCJ9.fqBv8FBHk2eAPQ36vFAA7wRGecSlJ9npzcFNHb9B3Jg",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjMsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9zZWN1cml0eVwvYXV0aFwvdG9rZW4iLCJpYXQiOjE0NjAwMjg1MzEsImV4cCI6MTQ2MjYyMDUzMSwibmJmIjoxNDYwMDI4NTMxLCJqdGkiOiJlZDU4NDhmODBkZmU3NDhkZTQ4NmQyMThhMzJhOWU5ZCJ9.j9IL9uwrNfRAgArYp1u9vE8DDoxKB89GPPQDjNWMFMk",
 					"type": "text",
 					"name": "token",
 					"enabled": true
@@ -2419,7 +2419,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1459779538332
+			"timestamp": 1460028545443
 		}
 	],
 	"headerPresets": [

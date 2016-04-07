@@ -50,9 +50,10 @@ class LatestServiceOrderChangesWidget extends BaseWidget
         $user = $this->auth->check();
         $executor = null;
         if ($user) $executor = $user->inRole('executor') ? $user : null;
+	    $village = $user->inRole('admin') ? null : $user->village;
 
         return [
-            'collection' => $user ? $this->changes->latest(10, $user->village, $executor) : [],
+            'collection' => $user ? $this->changes->latest(10, $village, $executor) : [],
             'currentUser' => $user,
         ];
     }

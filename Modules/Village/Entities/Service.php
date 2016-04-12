@@ -13,6 +13,9 @@ class Service extends Model
     use VillageAdminScope;
     use SoftDeletes;
 
+	const TYPE_DEFAULT = 'default';
+	const TYPE_SC = 'sc';
+
     public $table = 'village__services';
 
     protected $dates = ['deleted_at'];

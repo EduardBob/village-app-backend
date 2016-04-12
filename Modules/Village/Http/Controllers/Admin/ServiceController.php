@@ -327,10 +327,10 @@ class ServiceController extends AdminController
      */
     private function calculateType(Service $service)
     {
-        $type = 'default';
+        $type = Service::TYPE_DEFAULT;
         foreach ($service->executors as $executor) {
             if ($executor->user->inRole('security')) {
-                $type = 'sc';
+                $type = Service::TYPE_SC;
             }
         }
 

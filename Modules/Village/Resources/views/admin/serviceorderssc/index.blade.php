@@ -20,7 +20,8 @@
                     column_number: 1,
                     filter_type: "text",
                     column_data_type: 'html',
-                    filter_delay: 300
+                    filter_delay: 300,
+                    filter_reset_button_text: "&nbsp;"
                 },
                 {
                     column_number: 2,
@@ -28,7 +29,8 @@
                     datepicker_type: 'bootstrap-datetimepicker',
                     date_format: 'YYYY-MM-DD',
                     filter_delay: 300,
-                    filter_plugin_options: datepickerDefaults
+                    filter_plugin_options: datepickerDefaults,
+                    filter_reset_button_text: "&nbsp;"
                 }
             ]);
         });

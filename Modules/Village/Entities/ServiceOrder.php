@@ -14,7 +14,9 @@ class ServiceOrder extends AbstractOrder
         // используется для формы ордера у охранника
         'added_from', 'transaction_id',
 	    'done_at',
-	    'phone', 'admin_comment'
+	    'phone',
+	    // коммент охранника в привратнике
+	    'admin_comment'
     ];
     protected $dates = ['perform_date', 'done_at'];
 

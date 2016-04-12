@@ -98,17 +98,19 @@
 
     <!-- Destroy dialog show event handler -->
     <script type="text/javascript">
-        var $modal = $('#confirm-destroy')
-        $modal.on('show.bs.modal', function (e) {
-            // Pass form reference to modal for submission on yes/ok
-            var form = $(e.relatedTarget).closest('form');
-            $(this).find('.modal-footer .confirm').data('form', form);
-        });
+        $( document ).ready(function() {
+            var $modal = $('#confirm-destroy');
+            $modal.on('show.bs.modal', function (e) {
+                // Pass form reference to modal for submission on yes/ok
+                var form = $(e.relatedTarget).closest('form');
+                $(this).find('.modal-footer .confirm').data('form', form);
+            });
 
-        <!-- Form confirm (yes/ok) handler, submits form -->
-        $modal.on('click', '.confirm', function(e){
-            e.preventDefault();
-            $(this).data('form').submit();
+            <!-- Form confirm (yes/ok) handler, submits form -->
+            $modal.on('click', '.confirm', function(e){
+                e.preventDefault();
+                $(this).data('form').submit();
+            });
         });
     </script>
 

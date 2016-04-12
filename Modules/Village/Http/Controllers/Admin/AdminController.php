@@ -217,7 +217,15 @@ abstract class AdminController extends AdminBaseController
                     'extend' => 'collection',
                     'text' => 'Экспорт',
                     'select' => true,
-                    'buttons' => ['copy','csv', 'excel', 'pdf', 'print']
+                    'buttons' => [
+	                    'copy','csv', 'excel', 'pdf',
+	                    [
+	                        'extend' => 'print',
+		                    'stripHtml' => false,
+		                    'decodeEntities' => true,
+	                        'autoPrint' => false
+                        ]
+                    ]
                 ]
             ],
         ];

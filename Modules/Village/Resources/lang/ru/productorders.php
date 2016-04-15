@@ -32,7 +32,7 @@ return [
         'status' => 'Статус',
         'name' => 'ФИО',
         'phone' => 'Телефон',
-        'comment' => 'Заметка покупателя',
+        'comment' => 'Заметка',
         'decline_reason' => 'Причина отказа',
         'created_at' => 'Создан',
         'done_at' => 'Выполнен',

@@ -29,6 +29,10 @@
             <!-- /.box-header -->
             <div class="box-body">
                 @section('grid')
+                <style type="text/css">
+                    #dataTableBuilder_wrapper {overflow-x: auto;}
+                </style>
+
                 {!! $html->table(['class' => 'table table-striped table-bordered']) !!}
                 @show
                 <!-- /.box-body -->

@@ -40,6 +40,7 @@ class ServiceTransformer extends BaseTransformer
             'has_card_payment' => $service->has_card_payment,
             'text' => $service->text,
             'image' => $this->getImage($service->files()->first()),
+            'type' => $service->type,
         ];
     }
 

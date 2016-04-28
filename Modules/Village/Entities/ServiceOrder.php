@@ -16,7 +16,7 @@ class ServiceOrder extends AbstractOrder
 	    'done_at',
 	    'phone',
 	    // коммент охранника в привратнике
-	    'admin_comment'
+	    'admin_comment',
     ];
     protected $dates = ['perform_date', 'done_at'];
 

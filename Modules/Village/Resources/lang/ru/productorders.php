@@ -14,6 +14,7 @@ return [
         'create' => 'Создать заказ товаров',
         'status_running' => 'Начать выполнять',
         'status_done' => 'Выполнен',
+        'payment_done' => 'Оплачен',
         'status_paid_and_done' => 'Выполнен и оплачен'
     ],
     'table' => [
@@ -83,7 +84,9 @@ return [
     ],
     'messages' => [
         'resource status-running' => 'Заказ выполняется',
-        'resource status-done' => 'Заказ выполнен'
+        'resource status-done' => 'Заказ выполнен',
+        'resource payment-done' => 'Заказ оплачен',
+	    'resource payment-and-status-done' => 'Заказ оплачен и выполнен',
     ],
     'validation' => [
     ],

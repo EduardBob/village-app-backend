@@ -14,7 +14,7 @@ use Validator;
 use Yajra\Datatables\Engines\EloquentEngine;
 use Yajra\Datatables\Html\Builder as TableBuilder;
 
-class ProductOrderController extends AdminController
+class ProductOrderController extends AbstractOrderController
 {
     /**
      * @var ProductRepository
@@ -50,46 +50,90 @@ class ProductOrderController extends AdminController
 
         return parent::store($request);
     }
-
-    /**
-     * @param int $id
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function setStatusRunning($id)
-    {
-        $productOrder = $this->repository->find((int)$id);
-        if (!$productOrder || $productOrder->status !== 'processing') {
-            return redirect()->back(302);
-        }
-        $productOrder->status = 'running';
-        $productOrder->save();
-
-        flash()->success($this->trans('messages.resource status-running'));
-
-        return redirect()->route($this->getRoute('index'));
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function setStatusDone($id)
-    {
-        $productOrder = $this->repository->find((int)$id);
-        if (!$productOrder || $productOrder->status !== 'running') {
-            return redirect()->back(302);
-        }
-
-        $productOrder->payment_status = 'paid';
-        $productOrder->status = 'done';
-        $productOrder->save();
-
-        flash()->success($this->trans('messages.resource status-done'));
-
-        return redirect()->route($this->getRoute('index'));
-    }
+//
+//	/**
+//	 * @param int $id
+//	 *
+//	 * @return \Illuminate\Http\RedirectResponse
+//	 */
+//	public function setStatusRunning($id)
+//	{
+//		/** @var ProductOrder $productOrder */
+//		$productOrder = $this->repository->find((int)$id);
+//		if (!$productOrder || $productOrder->status !== $productOrder::STATUS_PROCESSING) {
+//			return redirect()->back(302);
+//		}
+//		$productOrder->status = $productOrder::STATUS_RUNNING;
+//		$productOrder->save();
+//
+//		flash()->success($this->trans('messages.resource status-running'));
+//
+//		return redirect()->route($this->getRoute('index'));
+//	}
+//
+//	/**
+//	 * @param int $id
+//	 *
+//	 * @return \Illuminate\Http\RedirectResponse
+//	 */
+//	public function setStatusDone($id)
+//	{
+//		/** @var ProductOrder $productOrder */
+//		$productOrder = $this->repository->find((int)$id);
+//		if (!$productOrder || $productOrder->status !== $productOrder::STATUS_RUNNING) {
+//			return redirect()->back(302);
+//		}
+//
+//		$productOrder->status = $productOrder::STATUS_DONE;
+//		$productOrder->save();
+//
+//		flash()->success($this->trans('messages.resource status-done'));
+//
+//		return redirect()->route($this->getRoute('index'));
+//	}
+//
+//	/**
+//	 * @param int $id
+//	 *
+//	 * @return \Illuminate\Http\RedirectResponse
+//	 */
+//	public function setPaymentDone($id)
+//	{
+//		/** @var ProductOrder $productOrder */
+//		$productOrder = $this->repository->find((int)$id);
+//		if (!$productOrder || $productOrder->payment_status === $productOrder::PAYMENT_STATUS_PAID) {
+//			return redirect()->back(302);
+//		}
+//
+//		$productOrder->payment_status = $productOrder::PAYMENT_STATUS_PAID;
+//		$productOrder->save();
+//
+//		flash()->success($this->trans('messages.resource payment-done'));
+//
+//		return redirect()->route($this->getRoute('index'));
+//	}
+//
+//	/**
+//	 * @param int $id
+//	 *
+//	 * @return \Illuminate\Http\RedirectResponse
+//	 */
+//	public function setPaymentAndStatusDone($id)
+//	{
+//		/** @var ProductOrder $productOrder */
+//		$productOrder = $this->repository->find((int)$id);
+//		if (!$productOrder || $productOrder->status !== $productOrder::STATUS_RUNNING || $productOrder->status !== $productOrder::STATUS_RUNNING) {
+//			return redirect()->back(302);
+//		}
+//
+//		$productOrder->payment_status = $productOrder::PAYMENT_STATUS_PAID;
+//		$productOrder->status = $productOrder::STATUS_DONE;
+//		$productOrder->save();
+//
+//		flash()->success($this->trans('messages.resource payment-and-status-done'));
+//
+//		return redirect()->route($this->getRoute('index'));
+//	}
 
     /**
      * @inheritdoc

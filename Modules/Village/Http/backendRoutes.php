@@ -128,8 +128,13 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'destroy' => 'admin.village.productorder.destroy',
     ]]);
     $router->group(['prefix' => 'productorders'], function (Router $router) {
-        $router->put('{id}/running', ['uses' => 'ProductOrderController@setStatusRunning', 'as' => 'admin.village.productorder.set_status_running']);
-        $router->put('{id}/done', 	 ['uses' => 'ProductOrderController@setStatusDone', 'as' => 'admin.village.productorder.set_status_done']);
+//        $router->put('{id}/running', ['uses' => 'ProductOrderController@setStatusRunning', 'as' => 'admin.village.productorder.set_status_running']);
+//        $router->put('{id}/done', 	 ['uses' => 'ProductOrderController@setStatusDone', 'as' => 'admin.village.productorder.set_status_done']);
+
+	    $router->put('{id}/status-running', ['uses' => 'ProductOrderController@setStatusRunning', 'as' => 'admin.village.productorder.set_status_running']);
+	    $router->put('{id}/status-done', 	 ['uses' => 'ProductOrderController@setStatusDone', 'as' => 'admin.village.productorder.set_status_done']);
+	    $router->put('{id}/payment-done', 	 ['uses' => 'ProductOrderController@setPaymentDone', 'as' => 'admin.village.productorder.set_payment_done']);
+	    $router->put('{id}/payment-and-status-done', ['uses' => 'ProductOrderController@setPaymentAndStatusDone', 'as' => 'admin.village.productorder.set_payment_and_status_done']);
     });
     $router->resource('productorderchanges', 'ProductOrderChangeController', ['except' => ['show', 'create', 'store', 'edit', 'update', 'destroy'], 'names' => [
         'index' => 'admin.village.productorderchange.index',
@@ -192,8 +197,10 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         'destroy' => 'admin.village.serviceorder.destroy',
     ]]);
     $router->group(['prefix' => 'serviceorders'], function (Router $router) {
-        $router->put('{id}/running', ['uses' => 'ServiceOrderController@setStatusRunning', 'as' => 'admin.village.serviceorder.set_status_running']);
-        $router->put('{id}/done', 	 ['uses' => 'ServiceOrderController@setStatusDone', 'as' => 'admin.village.serviceorder.set_status_done']);
+	    $router->put('{id}/status-running', ['uses' => 'ServiceOrderController@setStatusRunning', 'as' => 'admin.village.serviceorder.set_status_running']);
+        $router->put('{id}/status-done', 	 ['uses' => 'ServiceOrderController@setStatusDone', 'as' => 'admin.village.serviceorder.set_status_done']);
+	    $router->put('{id}/payment-done', 	 ['uses' => 'ServiceOrderController@setPaymentDone', 'as' => 'admin.village.serviceorder.set_payment_done']);
+	    $router->put('{id}/payment-and-status-done', ['uses' => 'ServiceOrderController@setPaymentAndStatusDone', 'as' => 'admin.village.serviceorder.set_payment_and_status_done']);
     });
     $router->bind('serviceorders', function ($id) {
         return app('Modules\Village\Repositories\ServiceOrderRepository')->find($id);

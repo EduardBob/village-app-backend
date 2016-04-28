@@ -1,8 +1,6 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Jenssegers\Date\Date;
 use Modules\Village\Entities\ServiceOrder;
 use Modules\Village\Repositories\ServiceOrderRepository;
 use Modules\Village\Entities\Service;
@@ -13,7 +11,7 @@ use Validator;
 use Yajra\Datatables\Engines\EloquentEngine;
 use Yajra\Datatables\Html\Builder as TableBuilder;
 
-class ServiceOrderController extends AdminController
+class ServiceOrderController extends AbstractOrderController
 {
     /**
      * @var ServiceRepository
@@ -38,47 +36,90 @@ class ServiceOrderController extends AdminController
     {
         return 'serviceorders';
     }
-
-
-    /**
-     * @param int $id
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function setStatusRunning($id)
-    {
-        $serviceOrder = $this->repository->find((int)$id);
-        if (!$serviceOrder || $serviceOrder->status !== 'processing') {
-            return redirect()->back(302);
-        }
-        $serviceOrder->status = 'running';
-        $serviceOrder->save();
-
-        flash()->success($this->trans('messages.resource status-running'));
-
-        return redirect()->route($this->getRoute('index'));
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function setStatusDone($id)
-    {
-        $serviceOrder = $this->repository->find((int)$id);
-        if (!$serviceOrder || $serviceOrder->status !== 'running') {
-            return redirect()->back(302);
-        }
-
-        $serviceOrder->payment_status = 'paid';
-        $serviceOrder->status = 'done';
-        $serviceOrder->save();
-
-        flash()->success($this->trans('messages.resource status-done'));
-
-        return redirect()->route($this->getRoute('index'));
-    }
+//
+//    /**
+//     * @param int $id
+//     *
+//     * @return \Illuminate\Http\RedirectResponse
+//     */
+//    public function setStatusRunning($id)
+//    {
+//	    /** @var ServiceOrder $serviceOrder */
+//        $serviceOrder = $this->repository->find((int)$id);
+//        if (!$serviceOrder || $serviceOrder->status !== $serviceOrder::STATUS_PROCESSING) {
+//            return redirect()->back(302);
+//        }
+//        $serviceOrder->status = $serviceOrder::STATUS_RUNNING;
+//        $serviceOrder->save();
+//
+//        flash()->success($this->trans('messages.resource status-running'));
+//
+//        return redirect()->route($this->getRoute('index'));
+//    }
+//
+//    /**
+//     * @param int $id
+//     *
+//     * @return \Illuminate\Http\RedirectResponse
+//     */
+//    public function setStatusDone($id)
+//    {
+//	    /** @var ServiceOrder $serviceOrder */
+//        $serviceOrder = $this->repository->find((int)$id);
+//        if (!$serviceOrder || $serviceOrder->status !== $serviceOrder::STATUS_RUNNING) {
+//            return redirect()->back(302);
+//        }
+//
+//        $serviceOrder->status = $serviceOrder::STATUS_DONE;
+//        $serviceOrder->save();
+//
+//        flash()->success($this->trans('messages.resource status-done'));
+//
+//        return redirect()->route($this->getRoute('index'));
+//    }
+//
+//	/**
+//	 * @param int $id
+//	 *
+//	 * @return \Illuminate\Http\RedirectResponse
+//	 */
+//	public function setPaymentDone($id)
+//	{
+//		/** @var ServiceOrder $serviceOrder */
+//		$serviceOrder = $this->repository->find((int)$id);
+//		if (!$serviceOrder || $serviceOrder->payment_status === $serviceOrder::PAYMENT_STATUS_PAID) {
+//			return redirect()->back(302);
+//		}
+//
+//		$serviceOrder->payment_status = $serviceOrder::PAYMENT_STATUS_PAID;
+//		$serviceOrder->save();
+//
+//		flash()->success($this->trans('messages.resource payment-done'));
+//
+//		return redirect()->route($this->getRoute('index'));
+//	}
+//
+//	/**
+//	 * @param int $id
+//	 *
+//	 * @return \Illuminate\Http\RedirectResponse
+//	 */
+//	public function setPaymentAndStatusDone($id)
+//	{
+//		/** @var ServiceOrder $serviceOrder */
+//		$serviceOrder = $this->repository->find((int)$id);
+//		if (!$serviceOrder || $serviceOrder->status !== $serviceOrder::STATUS_RUNNING || $serviceOrder->status !== $serviceOrder::STATUS_RUNNING) {
+//			return redirect()->back(302);
+//		}
+//
+//		$serviceOrder->payment_status = $serviceOrder::PAYMENT_STATUS_PAID;
+//		$serviceOrder->status = $serviceOrder::STATUS_DONE;
+//		$serviceOrder->save();
+//
+//		flash()->success($this->trans('messages.resource payment-and-status-done'));
+//
+//		return redirect()->route($this->getRoute('index'));
+//	}
 
     /**
      * @inheritdoc

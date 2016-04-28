@@ -83,6 +83,7 @@ class UserController extends AdminController
             ->where('village__villages.deleted_at', null)
             ->leftJoin('village__buildings', 'users.building_id', '=', 'village__buildings.id')
             ->leftJoin('activations', 'users.id', '=', 'activations.user_id')
+	        ->groupBy('users.id')
             ->with(['village', 'building', 'activation'])
         ;
 

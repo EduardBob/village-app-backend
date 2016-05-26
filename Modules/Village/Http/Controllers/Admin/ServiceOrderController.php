@@ -203,11 +203,11 @@ class ServiceOrderController extends AbstractOrderController
 
         $dataTable
             ->editColumn('service_title', function (ServiceOrder $serviceOrder) {
-                if ($this->getCurrentUser()->hasAccess('village.services.edit')) {
+                if ($this->getCurrentUser()->hasAccess('village.services.edit') && !$serviceOrder->service->trashed()) {
                     return '<a href="'.route('admin.village.service.edit', ['id' => $serviceOrder->service->id]).'">'.$serviceOrder->service->title.'</a>';
                 }
                 else {
-                    return $serviceOrder->service->title;
+                    return $serviceOrder->service->title.($serviceOrder->service->trashed() ? ' (удалена)' : '');
                 }
             })
             ->editColumn('building_address', function (ServiceOrder $serviceOrder) {

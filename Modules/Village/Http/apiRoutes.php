@@ -81,9 +81,18 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
 //        $router->delete('{id}', ['uses' => 'UserController@destroy', 'as' => 'village.api.user.user.destroy']);
 //        });
 
+
+
         $router->group(['prefix' => 'articles'], function (Router $router) {
+            $router->group(['prefix' => 'categories'], function (Router $router) {
+                $router->get('',        ['uses' => 'V1\ArticleCategoryController@index', 'as' => 'village.api.article.category.list']);
+            });
+
+
             $router->get('',        ['uses' => 'V1\ArticleController@index', 'as' => 'village.api.article.list']);
             $router->get('{id}', 	['uses' => 'V1\ArticleController@show', 'as' => 'village.api.article.one']);
+
+
         });
 
         $router->group(['prefix' => 'services'], function (Router $router) {

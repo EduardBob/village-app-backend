@@ -386,6 +386,13 @@ class VillageServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
+          'Modules\Village\Repositories\ArticleCategoryRepository',
+          function () {
+              return new \Modules\Village\Repositories\Eloquent\EloquentArticleCategoryRepository(new \Modules\Village\Entities\ArticleCategory());
+          }
+        );
+
+        $this->app->bind(
             'Modules\Village\Repositories\ProductOrderRepository',
             function () {
                 return new \Modules\Village\Repositories\Eloquent\EloquentProductOrderRepository(new \Modules\Village\Entities\ProductOrder());

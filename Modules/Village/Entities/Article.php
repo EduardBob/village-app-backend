@@ -1,6 +1,9 @@
 <?php namespace Modules\Village\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+
+use DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Media\Support\Traits\MediaRelation;
 use Modules\Village\Entities\Scope\ApiScope;
 use Modules\Village\Entities\Scope\VillageAdminScope;
@@ -13,11 +16,16 @@ class Article extends Model
 
     protected $table = 'village__articles';
 
-    protected $fillable = ['village_id', 'title', 'text', 'active', 'base_id'];
+    protected $fillable = ['village_id', 'title', 'text', 'active', 'base_id', 'category_id', 'published_at'];
 
     public function base()
     {
         return $this->belongsTo('Modules\Village\Entities\BaseArticle', 'base_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo('Modules\Village\Entities\ArticleCategory', 'category_id');
     }
 
     public function village()

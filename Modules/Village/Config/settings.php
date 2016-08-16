@@ -11,4 +11,5 @@ return [
         'view' => 'wysiwyg',
         'translatable' => false,
     ],
+
 ];

@@ -48,14 +48,16 @@ class LatestServiceOrderChangesWidget extends BaseWidget
     protected function data()
     {
         $user = $this->auth->check();
-        $executor = null;
-        if ($user) $executor = $user->inRole('executor') ? $user : null;
-	    $village = $user->inRole('admin') ? null : $user->village;
+        if(!is_bool($user)){
+            $executor = null;
+            if ($user) $executor = $user->inRole('executor') ? $user : null;
+            $village = $user->inRole('admin') ? null : $user->village;
 
-        return [
-            'collection' => $user ? $this->changes->latest(10, $village, $executor) : [],
-            'currentUser' => $user,
-        ];
+            return [
+                'collection' => $user ? $this->changes->latest(10, $village, $executor) : [],
+                'currentUser' => $user,
+            ];
+        }
     }
     /**
      * Get the widget type

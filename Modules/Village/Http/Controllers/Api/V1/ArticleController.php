@@ -15,8 +15,9 @@ class ArticleController extends ApiController
      */
     public function index()
     {
-        $articles = Article::api()->orderBy('id', 'desc')->paginate(10);
-
+        $articles = Article::api()
+          ->where('village__articles.published_at',  '<=', date('Y-m-d H:i:s'))
+          ->orderBy('village__articles.published_at', 'desc')->paginate(10);
         return $this->response->withCollection($articles, new ArticleTransformer);
     }
 

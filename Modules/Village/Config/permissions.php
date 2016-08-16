@@ -36,6 +36,14 @@ return [
         'destroy',
         'baseCopy'
     ],
+    'village.articlecategories' => [
+      'index',
+      'create',
+      'store',
+      'edit',
+      'update',
+      'destroy',
+    ],
     'village.margins' => [
         'index',
         'create',

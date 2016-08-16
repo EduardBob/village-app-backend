@@ -22,6 +22,11 @@ class BaseArticle extends Model
         });
     }
 
+    public function category()
+    {
+        return $this->belongsTo('Modules\Village\Entities\ArticleCategory', 'category_id')->withTrashed();
+    }
+
     /**
      * @param string $text
      * @param int    $limit

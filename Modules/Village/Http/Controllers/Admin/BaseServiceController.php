@@ -9,8 +9,8 @@ use Modules\Village\Entities\ServiceCategory;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Modules\Village\Repositories\UserRoleRepository;
 use Validator;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
 
 class BaseServiceController extends AdminController
 {
@@ -80,7 +80,7 @@ class BaseServiceController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+            ->addColumn(['data' => 'id', 'name' => 'village__base__services.id', 'title' => $this->trans('table.id')])
             ->addColumn(['data' => 'category_title', 'name' => 'village__service_categories.title', 'title' => $this->trans('table.category')])
             ->addColumn(['data' => 'title', 'name' => 'village__base__services.title', 'title' => $this->trans('table.title')])
             ->addColumn(['data' => 'price', 'name' => 'village__base__services.price', 'title' => $this->trans('table.price')])
@@ -122,6 +122,14 @@ class BaseServiceController extends AdminController
             ;
         }
     }
+
+	/**
+	 * @inheritdoc
+	 */
+	public function successStoreMessage()
+	{
+		flash()->success(trans('village::admin.messages.you_can_add_image'));
+	}
 
     /**
      * @param array       $data

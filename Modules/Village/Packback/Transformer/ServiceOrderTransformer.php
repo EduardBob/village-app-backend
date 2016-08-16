@@ -5,6 +5,8 @@ namespace Modules\Village\Packback\Transformer;
 use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 use Modules\Village\Entities\ServiceOrder;
+use Modules\Village\Entities\ServiceOrderChange;
+use Modules\Village\Http\Controllers\Admin\ServiceOrderScController;
 
 class ServiceOrderTransformer extends TransformerAbstract
 {
@@ -30,11 +32,12 @@ class ServiceOrderTransformer extends TransformerAbstract
      */
     public function transform(ServiceOrder $serviceOrder)
     {
-        return [
+        $data = [
             'id' =>  $serviceOrder->id,
             'created_at' => $serviceOrder->created_at->format('Y-m-d H:i:s'),
             'perform_date' => $serviceOrder->perform_date->format('Y-m-d'),
             'perform_time' => $serviceOrder->perform_time,
+            'unit_price' => $serviceOrder->unit_price,
             'price' => $serviceOrder->price,
             'comment' => $serviceOrder->comment,
             'status' => $serviceOrder->status,
@@ -42,7 +45,12 @@ class ServiceOrderTransformer extends TransformerAbstract
             'payment_type' => $serviceOrder->payment_type,
             'payment_status' => $serviceOrder->payment_status,
             'added_from' => $serviceOrder->added_from,
+	        'done_at' => $serviceOrder->done_at ? $serviceOrder->done_at->format('Y-m-d H:i:s') : null,
+	        'phone' => $serviceOrder->phone,
+	        'admin_comment' => $serviceOrder->admin_comment,
         ];
+
+	    return $data;
     }
 
     /**

@@ -2,38 +2,41 @@
 
 return [
     'title' => [
-        'model' => 'Заказ продуктов',
-        'module' => 'Заказы продуктов',
-        'create' => 'Создать заказ продуктов',
-        'edit' => 'Редактировать заказ продуктов',
-        'show' => 'Просмотр заказа продуктов',
+        'model' => 'Заказ товаров',
+        'module' => 'Заказы товаров',
+        'create' => 'Создать заказ товаров',
+        'edit' => 'Редактировать заказ товаров',
+        'show' => 'Просмотр заказа товаров',
     ],
     'button' => [
         'index' => 'Вернуться к списку',
         'edit' => 'Редактировать',
-        'create' => 'Создать заказ продуктов',
+        'create' => 'Создать заказ товаров',
         'status_running' => 'Начать выполнять',
         'status_done' => 'Выполнен',
+        'payment_done' => 'Оплачен',
         'status_paid_and_done' => 'Выполнен и оплачен'
     ],
     'table' => [
         'id' => 'ID заказа',
-        'product' => 'Продукт',
+        'product' => 'Товар',
         'quantity' => 'Кол-во',
+        'unit_price' => 'Цена за ед.',
         'unit_title' => 'Ед. измерения',
         'address' => 'Адрес',
-        'perform_date' => 'Дата исполнения',
+        'perform_date' => 'На когда заказ',
         'perform_time' => 'Время исполнения',
-        'price' => 'Цена',
+        'price' => 'Итого',
         'user' => 'Пользователь',
         'payment_type' => 'Тип оплаты',
         'payment_status' => 'Статус оплаты',
         'status' => 'Статус',
         'name' => 'ФИО',
         'phone' => 'Телефон',
-        'comment' => 'Заметка покупателя',
+        'comment' => 'Заметка',
         'decline_reason' => 'Причина отказа',
         'created_at' => 'Создан',
+        'done_at' => 'Выполнен',
         'actions' => 'Действия',
     ],
     'form' => [
@@ -81,7 +84,9 @@ return [
     ],
     'messages' => [
         'resource status-running' => 'Заказ выполняется',
-        'resource status-done' => 'Заказ выполнен'
+        'resource status-done' => 'Заказ выполнен',
+        'resource payment-done' => 'Заказ оплачен',
+	    'resource payment-and-status-done' => 'Заказ оплачен и выполнен',
     ],
     'validation' => [
     ],

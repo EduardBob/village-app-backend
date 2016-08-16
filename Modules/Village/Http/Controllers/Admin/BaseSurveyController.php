@@ -5,8 +5,8 @@ use Modules\Village\Repositories\BaseSurveyRepository;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Validator;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
 
 class BaseSurveyController extends AdminController
 {
@@ -54,7 +54,7 @@ class BaseSurveyController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+            ->addColumn(['data' => 'id', 'name' => 'village__base__surveys.id', 'title' => $this->trans('table.id')])
             ->addColumn(['data' => 'title', 'name' => 'village__base__surveys.title', 'title' => $this->trans('table.title')])
         ;
 

@@ -6,8 +6,8 @@ use Modules\Village\Repositories\MarginRepository;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Validator;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
 
 class MarginController extends AdminController
 {

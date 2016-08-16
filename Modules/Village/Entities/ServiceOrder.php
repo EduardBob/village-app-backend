@@ -1,11 +1,9 @@
 <?php namespace Modules\Village\Entities;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Modules\Village\Entities\Scope\ApiScope;
 use Modules\Village\Entities\Scope\VillageAdminScope;
 
-class ServiceOrder extends Model
+class ServiceOrder extends AbstractOrder
 {
     use ApiScope;
     use VillageAdminScope;
@@ -14,9 +12,18 @@ class ServiceOrder extends Model
     protected $fillable = [
         'user_id', 'service_id', 'status', 'perform_date', 'perform_time', 'comment', 'decline_reason', 'payment_type', 'payment_status',
         // используется для формы ордера у охранника
-        'added_from', 'transaction_id'
+        'added_from', 'transaction_id',
+	    'done_at',
+	    'phone',
+	    // коммент охранника в привратнике
+	    'admin_comment',
     ];
-    protected $dates = ['perform_date'];
+    protected $dates = ['perform_date', 'done_at'];
+
+	public function getOrderType()
+	{
+		return 'service';
+	}
 
     public function village()
     {
@@ -33,6 +40,11 @@ class ServiceOrder extends Model
         return $this->belongsTo('Modules\Village\Entities\User', 'user_id');
     }
 
+	public function changes()
+	{
+		return $this->hasMany('Modules\Village\Entities\ServiceOrderChange', 'order_id');
+	}
+
     protected static function boot()
     {
         parent::boot();
@@ -41,20 +53,27 @@ class ServiceOrder extends Model
             $serviceOrder->village()->associate($serviceOrder->service->village);
 
             if ($serviceOrder->service->price == 0) {
-                $serviceOrder->price = $serviceOrder->service->price;
+                $serviceOrder->unit_price = $serviceOrder->price = $serviceOrder->service->price;
                 $serviceOrder->payment_status = 'paid';
             }
             else {
-                $serviceOrder->price = Margin::getFinalPrice($serviceOrder->village, $serviceOrder->service->price);
+                $serviceOrder->unit_price = $serviceOrder->price = Margin::getFinalPrice($serviceOrder->village, $serviceOrder->service->price);
                 $serviceOrder->payment_status = 'not_paid';
                 $serviceOrder->status = 'processing';
             }
-        });
+        }, 10);
 
         static::saving(function(ServiceOrder $serviceOrder) {
             if ($serviceOrder->perform_time === '') {
                 $serviceOrder->perform_time = null;
             }
-        });
+
+	        if ($serviceOrder::STATUS_DONE === $serviceOrder->status) {
+		        $serviceOrder->done_at = new \DateTime();
+	        }
+	        else {
+		        $serviceOrder->done_at = null;
+	        }
+        }, 10);
     }
 }

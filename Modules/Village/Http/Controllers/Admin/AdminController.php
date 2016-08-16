@@ -8,9 +8,9 @@ use Modules\Core\Repositories\BaseRepository;
 
 use Modules\Village\Entities\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use yajra\Datatables\Datatables;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Datatables;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
 
 abstract class AdminController extends AdminBaseController
 {
@@ -45,7 +45,7 @@ abstract class AdminController extends AdminBaseController
         $this->repository = $repository;
         $this->modelClass = $modelClass;
 
-        $this->builder = app('yajra\Datatables\Html\Builder');
+        $this->builder = app('Yajra\Datatables\Html\Builder');
         $this->auth = app('Modules\Core\Contracts\Authentication');
 
         view()->share('currentUser', $this->getCurrentUser());
@@ -217,7 +217,15 @@ abstract class AdminController extends AdminBaseController
                     'extend' => 'collection',
                     'text' => 'Экспорт',
                     'select' => true,
-                    'buttons' => ['copy','csv', 'excel', 'pdf', 'print']
+                    'buttons' => [
+	                    'copy','csv', 'excel', 'pdf',
+	                    [
+	                        'extend' => 'print',
+		                    'stripHtml' => false,
+		                    'decodeEntities' => true,
+	                        'autoPrint' => false
+                        ]
+                    ]
                 ]
             ],
         ];
@@ -233,12 +241,12 @@ abstract class AdminController extends AdminBaseController
         return $builder
             ->columns($this->configureDatagridColumns())
             ->parameters([
-                'dom' => 'Bfrtip',
-                'text' => 'Export',
-                'select' => true,
-                'buttons' => [
-                    'buttons' => ['csv', 'excel', 'pdf', 'print', 'reset', 'reload']
-                ],
+	                'dom' => 'Bfrtip',
+	                'text' => 'Export',
+	                'select' => true,
+	                'buttons' => [
+	                    'buttons' => ['csv', 'excel', 'pdf', 'print', 'reset', 'reload']
+	                ],
             ])
         ;
     }
@@ -375,10 +383,11 @@ abstract class AdminController extends AdminBaseController
         $model->fill($data);
         $this->preStore($model, $request);
         $model->save();
+	    $this->postStore($model, $request);
 
-        flash()->success(trans('core::core.messages.resource created', ['name' => $this->trans('title.model')]));
+	    $this->successStoreMessage();
 
-        return redirect()->route($this->getRoute('index'));
+	    return redirect()->route($this->getRoute('edit'), ['id'  => $model->id]);
     }
 
     /**
@@ -393,6 +402,20 @@ abstract class AdminController extends AdminBaseController
             $model->village()->associate($currentUser->village);
         }
     }
+
+	/**
+	 * @param Model   $model
+	 * @param Request $request
+	 */
+	public function postStore(Model $model, Request $request)
+	{
+		$this->copyBaseImage($model, $request);
+	}
+
+	public function successStoreMessage()
+	{
+		flash()->success(trans('core::core.messages.resource created', ['name' => $this->trans('title.model')]));
+	}
 
     /**
      * Show the form for editing the specified resource.
@@ -443,19 +466,36 @@ abstract class AdminController extends AdminBaseController
             return $redirect;
         }
 
-        $validator = $this->validate($request->all(), $model);
+        $data = $request->all();
+        $validator = $this->validate($data, $model);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        $model->fill($request->all());
+	    if (isset($data['imageable'])) {
+		    $mediaId = $data['imageable']['mediaId'];
+		    $entityClass = $data['imageable']['entityClass'];
+		    $entityId = $data['imageable']['entityId'];
+
+		    $entity = $entityClass::find($entityId);
+		    $zone = $request->get('zone');
+		    $entity->files()->attach($mediaId, ['imageable_type' => $entityClass, 'zone' => $zone]);
+		    $imageable = DB::table('media__imageables')->whereFileId($mediaId)->whereZone($zone)->whereImageableType($entityClass)->first();
+		    $file = $this->file->find($imageable->file_id);
+
+		    $thumbnailPath = $this->imagy->getThumbnail($file->path, 'mediumThumb');
+
+		    event(new FileWasLinked($file, $entity));
+	    }
+
+        $model->fill($data);
         $this->preUpdate($model, $request);
         $model->save();
 
         flash()->success(trans('core::core.messages.resource updated', ['name' => $this->trans('title.model')]));
 
-        return redirect()->route($this->getRoute('index'));
+        return redirect()->route($this->getRoute('edit'), ['id'  => $model->id]);
     }
 
     /**
@@ -483,11 +523,19 @@ abstract class AdminController extends AdminBaseController
             return $redirect;
         }
 
+        $this->preDestroy($model);
         $this->getRepository()->destroy($model);
 
         flash()->success(trans('core::core.messages.resource deleted', ['name' => $this->trans('title.model')]));
 
         return redirect()->route($this->getRoute('index'));
+    }
+
+    /**
+     * @param Model   $model
+     */
+    public function preDestroy(Model $model)
+    {
     }
 
     /**
@@ -515,4 +563,18 @@ abstract class AdminController extends AdminBaseController
 
         return false;
     }
+
+	/**
+	 * @param Model   $model
+	 * @param Request $request
+	 * @param string  $zone
+	 */
+	protected function copyBaseImage(Model $model, Request $request, $zone = 'media')
+	{
+		if (isset($model->base_id) && $model->base->files) {
+			$mediaId = $model->base->files->first();
+			$model->files()->attach($mediaId, ['imageable_type' => get_class($model), 'zone' => $zone]);
+		}
+	}
+
 }

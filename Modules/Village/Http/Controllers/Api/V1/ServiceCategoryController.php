@@ -19,7 +19,7 @@ class ServiceCategoryController extends ApiController
             ->whereHas('services', function($query) {
                 $query->where(['village__services.active' => 1, 'village_id' => $this->user()->village->id]);
             })
-            ->orderBy('order', 'desc')->get();
+            ->orderBy('order', 'asc')->get();
 
         return $this->response->withCollection($serviceCategories, new ServiceCategoryTransformer);
     }

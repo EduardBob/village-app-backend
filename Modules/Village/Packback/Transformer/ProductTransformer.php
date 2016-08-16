@@ -38,6 +38,7 @@ class ProductTransformer extends BaseTransformer
             'text' => $product->text,
             'comment_label' => $product->comment_label,
             'show_perform_time' => $product->show_perform_time,
+            'has_card_payment' => $product->has_card_payment,
             'image' => $this->getImage($product->files()->first()),
         ];
     }

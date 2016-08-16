@@ -80,6 +80,8 @@ return [
         'destroy',
         'setStatusRunning',
         'setStatusDone',
+	    'setPaymentDone',
+	    'setPaymentAndStatusDone',
     ],
     'village.productorderchanges' => [
         'index',
@@ -120,6 +122,11 @@ return [
         'destroy',
         'setStatusRunning',
         'setStatusDone',
+	    'setPaymentDone',
+	    'setPaymentAndStatusDone',
+    ],
+    'village.serviceorderssc' => [
+        'index',
     ],
     'village.serviceorderchanges' => [
         'index',

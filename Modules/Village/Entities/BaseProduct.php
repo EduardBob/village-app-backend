@@ -15,7 +15,12 @@ class BaseProduct extends Model
 
     protected $table = 'village__base__products';
 
-    protected $fillable = ['category_id', 'title', 'price', 'unit_title', 'active', 'comment_label', 'text', 'show_perform_time'];
+    protected $fillable = [
+	    'category_id', 'title', 'price', 'unit_title', 'active', 'comment_label', 'text', 'show_perform_time',
+	    'has_card_payment'
+    ];
+
+	protected $attributes = ['has_card_payment' => true];
 
     public function category()
     {

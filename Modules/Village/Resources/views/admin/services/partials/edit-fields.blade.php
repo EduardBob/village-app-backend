@@ -33,7 +33,7 @@
             <div class="form-group{{ $errors->has('executor_id') ? ' has-error' : '' }}">
                 {!! Form::label('executor_id', $admin->trans('table.executor')) !!}
                 {!! Form::select('executors', $admin->getExecutors($model->village),
-                $model->executors->pluck('user_id')->all(), ['class' => 'form-control', 'multiple'=>'multiple', 'name'=>'executors[]']) !!}
+                $model->executors ? $model->executors->pluck('user_id')->all() : [], ['class' => 'form-control', 'multiple'=>'multiple', 'name'=>'executors[]']) !!}
                 {!! $errors->first('executor_id', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
@@ -74,7 +74,7 @@
             </div>
         </div>
         @if(isset($model))
-        <div class="col-sm-6">
+        <div class="col-sm-12">
             @include('media::admin.fields.file-link', [
                 'entityClass' => 'Modules\\\\Village\\\\Entities\\\\Service',
                 'entityId' => @$model->id,
@@ -84,10 +84,24 @@
         </div>
         @endif
         <div class="col-sm-12">
+            <div class="form-group{{ $errors->has('order') ? ' has-error' : '' }}">
+                {!! Form::label('order', $admin->trans('table.order')) !!}
+                {!! Form::text('order', Input::old('order', @$model->order), ['class' => 'form-control', 'placeholder' => $admin->trans('table.order')]) !!}
+                {!! $errors->first('order', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-12">
             <div class="form-group{{ $errors->has('show_perform_time') ? ' has-error' : '' }}">
                 {!! Form::checkbox('show_perform_time', (int)Input::old('show_perform_time', @$model->show_perform_time), (bool)Input::old('show_perform_time', @$model->show_perform_time), ['class' => 'flat-blue']) !!}
                 {!! Form::label('show_perform_time', $admin->trans('table.show_perform_time')) !!}
                 {!! $errors->first('show_perform_time', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group{{ $errors->has('has_card_payment') ? ' has-error' : '' }}">
+                {!! Form::checkbox('has_card_payment', (int)Input::old('has_card_payment', @$model->has_card_payment), (bool)Input::old('has_card_payment', @$model->has_card_payment), ['class' => 'flat-blue']) !!}
+                {!! Form::label('has_card_payment', $admin->trans('table.has_card_payment')) !!}
+                {!! $errors->first('has_card_payment', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
         <div class="col-sm-12">

@@ -39,6 +39,15 @@ return [
 
 	/*
 	|--------------------------------------------------------------------------
+	| Allow static translations to be editable via GUI
+	|--------------------------------------------------------------------------
+	| Enabling this will have slight performance hit,
+	| about 20 to 50ms page load time increase.
+	*/
+	'translations-gui' => true,
+
+	/*
+	|--------------------------------------------------------------------------
 	| Application Timezone
 	|--------------------------------------------------------------------------
 	|
@@ -159,7 +168,7 @@ return [
 
 		\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 		\EllipseSynergie\ApiResponse\Laravel\ResponseServiceProvider::class,
-		\yajra\Datatables\DatatablesServiceProvider::class,
+		\Yajra\Datatables\DatatablesServiceProvider::class,
 		\Jenssegers\Date\DateServiceProvider::class,
 //		\Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider::class,
 	],
@@ -215,7 +224,7 @@ return [
 //		custom
         'JWTAuth' => \Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => \Tymon\JWTAuth\Facades\JWTFactory::class,
-        'Datatables' => yajra\Datatables\Datatables::class,
+//        'Datatables' => Yajra\Datatables\Datatables::class,
         'Date' => \Jenssegers\Date\Date::class,
 	],
 

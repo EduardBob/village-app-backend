@@ -43,6 +43,7 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
         });
 
         $router->group(['prefix' => 'villages'], function (Router $router) {
+            $router->post('partner-request',    ['uses' => 'V1\VillageController@partnerRequest', 'as' => 'village.api.village.village.partner_request']);
             $router->post('request',        ['uses' => 'V1\VillageController@request', 'as' => 'village.api.village.village.request']);
         });
     });
@@ -91,6 +92,7 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
             });
 
             $router->group(['prefix' => 'orders'], function (Router $router) {
+	            $router->get('{id}/payment',       ['uses' => 'V1\ServiceOrderController@checkPayment', 'as' => 'village.api.service.order.payment.check']);
                 $router->get('',        ['uses' => 'V1\ServiceOrderController@index', 'as' => 'village.api.service.order.list']);
                 $router->post('',       ['uses' => 'V1\ServiceOrderController@store', 'as' => 'village.api.service.order.store']);
             });
@@ -105,6 +107,7 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
             });
 
             $router->group(['prefix' => 'orders'], function (Router $router) {
+	            $router->get('{id}/payment',       ['uses' => 'V1\ProductOrderController@checkPayment', 'as' => 'village.api.product.order.payment.check']);
                 $router->get('',        ['uses' => 'V1\ProductOrderController@index', 'as' => 'village.api.product.order.list']);
                 $router->post('',       ['uses' => 'V1\ProductOrderController@store', 'as' => 'village.api.product.order.store']);
             });

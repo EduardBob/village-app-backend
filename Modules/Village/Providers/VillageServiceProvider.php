@@ -53,41 +53,48 @@ class VillageServiceProvider extends ServiceProvider
     public function boot(Authentication $auth)
     {
         ProductOrder::created(function(ProductOrder $productOrder) {
-            if ('card' === $productOrder->payment_type) {
-                $reflection = new \ReflectionClass($productOrder);
-                $payment = new SentryPaymentGateway();
-                $orderId = $reflection->getShortName().'_'.$productOrder->id;
+            if ($productOrder::PAYMENT_TYPE_CARD === $productOrder->payment_type) {
+	            if ($productOrder->product->has_card_payment) {
+		            $payment = new SentryPaymentGateway();
+		            $orderId = $productOrder->getOrderNameForCardPayment();
 
-                try {
-                    $transactionId = $payment
-                        ->generateTransaction(
-                            $orderId,
-                            $productOrder->price,
-                            route('sentry.payment.process', [], true)
-                        )
-                    ;
+		            try {
+			            $transactionId = $payment
+				            ->generateTransaction(
+					            $orderId,
+					            $productOrder->price,
+					            route('sentry.payment.process', [], true)
+				            )
+			            ;
 
-                    $productOrder->transaction_id = $transactionId;
-                    $productOrder->save();
-                }
-                catch(\Exception $ex) {
-                    $productOrder->status = 'rejected';
-                    $productOrder->decline_reason = $ex->getMessage();
-                    $productOrder->save();
-                }
+			            $productOrder->transaction_id = $transactionId;
+			            $productOrder->save();
+		            }
+		            catch(\Exception $ex) {
+			            $productOrder->status = $productOrder::STATUS_REJECTED;
+			            $productOrder->decline_reason = $ex->getMessage();
+			            $productOrder->save();
+		            }
+	            }
+	            else {
+		            $productOrder->payment_type = $productOrder::PAYMENT_TYPE_CASH;
+		            $productOrder->save();
+	            }
             }
-        });
+        }, -1);
 
         ProductOrder::saved(function(ProductOrder $productOrder) use ($auth) {
             if ($productOrder->isDirty('status')) {
+	            $user = $this->user($auth);
+
                 ProductOrderChange::create([
                     'order_id' => $productOrder->id,
-                    'user_id' => $this->user($auth)->id,
+                    'user_id' => $user? $user->id : null,
                     'from_status' => @$productOrder->getOriginal()['status'],
                     'to_status' => $productOrder->status,
                 ]);
 
-                if ('processing' === $productOrder->status) {
+                if ($productOrder::STATUS_PROCESSING === $productOrder->status) {
                     $this->sendMailOnProcessingOrder($auth, $productOrder);
                     $this->sendSmsOnProcessingOrder($auth, $productOrder);
                 }
@@ -95,41 +102,48 @@ class VillageServiceProvider extends ServiceProvider
         });
 
         ServiceOrder::created(function(ServiceOrder $serviceOrder) {
-            if ('card' === $serviceOrder->payment_type) {
-                $reflection = new \ReflectionClass($serviceOrder);
-                $payment = new SentryPaymentGateway();
-                $orderId = $reflection->getShortName().'_'.$serviceOrder->id;
+            if ($serviceOrder::PAYMENT_TYPE_CARD === $serviceOrder->payment_type) {
+	            if ($serviceOrder->service->has_card_payment) {
+		            $payment = new SentryPaymentGateway();
+		            $orderId = $serviceOrder->getOrderNameForCardPayment();
 
-                try {
-                    $transactionId = $payment
-                        ->generateTransaction(
-                            $orderId,
-                            $serviceOrder->price,
-                            route('sentry.payment.process', [], true)
-                        )
-                    ;
+		            try {
+			            $transactionId = $payment
+				            ->generateTransaction(
+					            $orderId,
+					            $serviceOrder->price,
+					            route('sentry.payment.process', [], true)
+				            )
+			            ;
 
-                    $serviceOrder->transaction_id = $transactionId;
-                    $serviceOrder->save();
-                }
-                catch(\Exception $ex) {
-                    $serviceOrder->status = 'rejected';
-                    $serviceOrder->decline_reason = $ex->getMessage();
-                    $serviceOrder->save();
-                }
+			            $serviceOrder->transaction_id = $transactionId;
+			            $serviceOrder->save();
+		            }
+		            catch(\Exception $ex) {
+			            $serviceOrder->status = $serviceOrder::STATUS_REJECTED;
+			            $serviceOrder->decline_reason = $ex->getMessage();
+			            $serviceOrder->save();
+		            }
+	            }
+	            else {
+		            $serviceOrder->payment_type = $serviceOrder::PAYMENT_TYPE_CASH;
+		            $serviceOrder->save();
+	            }
             }
         });
 
         ServiceOrder::saved(function(ServiceOrder $serviceOrder) use ($auth) {
             if ($serviceOrder->isDirty('status')) {
+	            $user = $this->user($auth);
+
                 ServiceOrderChange::create([
                     'order_id' => $serviceOrder->id,
-                    'user_id' => $this->user($auth)->id,
+                    'user_id' => $user ? $user->id : null,
                     'from_status' => @$serviceOrder->getOriginal()['status'],
                     'to_status' => $serviceOrder->status,
                 ]);
 
-                if ('processing' === $serviceOrder->status) {
+                if ($serviceOrder::STATUS_PROCESSING === $serviceOrder->status) {
                     $this->sendMailOnProcessingOrder($auth, $serviceOrder);
                     $this->sendSmsOnProcessingOrder($auth, $serviceOrder);
                 }
@@ -188,7 +202,7 @@ class VillageServiceProvider extends ServiceProvider
                 $toEmails = array_map('trim', $toEmails);
                 $m
                     ->to($toEmails)
-                    ->subject('Новый заказ в поселке '.$order->village->name.' '.$order->created_at->format('Y-m-d H:i:s').'.')
+                    ->subject('Новый заказ в поселке '.$order->village->name.' '.$order->created_at->format('d-m-Y H:i:s').'.')
                 ;
             }
         );
@@ -207,10 +221,10 @@ class VillageServiceProvider extends ServiceProvider
         }
 
         $type = $order->product ? 'product' : 'service';
-        $format = 'village.name; order.perform_date; order.perform_time; service.name; order.comment; order.payment_type; user.full_name; user.building.address; user.phone';
+        $format = 'village.name;order.perform_date;order.perform_time;service.name;order.price;order.comment;order.payment_type;user.full_name;user.building.address;user.phone';
         $text = strtr($format, [
             'village.name' => $order->village->name,
-            'order.perform_date' => $order->perform_date->format('Y-m-d'),
+            'order.perform_date' => $order->perform_date->format('d-m-Y'),
             'order.perform_time' => $order->perform_time,
             'service.name' => @$order->{$type}->title,
             'order.comment' => @$order->comment,
@@ -219,6 +233,16 @@ class VillageServiceProvider extends ServiceProvider
             'user.building.address' => @$order->user->building->address,
             'user.phone' => @$order->user->phone,
         ]);
+        if ('product' === $type) {
+            $text = strtr($text, [
+                'order.price' => $order->unit_price.'x'.$order->quantity.'='.$order->price,
+            ]);
+        }
+        else {
+            $text = strtr($text, [
+                'order.price;' => '',
+            ]);
+        }
 
         if ($order->village->send_sms_to_village_admin && $order->village->mainAdmin && $user->village->mainAdmin->phone) {
             $sms = new Sms();

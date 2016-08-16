@@ -31,7 +31,7 @@ class SentryPaymentController extends BasePublicController
                 $orderNumber = $payment->decryptOrderNumber($answer['OrderNumber']);
                 list($type, $id) = explode('_', $orderNumber);
 
-                $model = '\\Modules\\Village\\Entities\\'.$type;
+                $model = '\\Modules\\Village\\Entities\\'.ucfirst($type);
                 /** @var ProductOrder $order */
                 $order = $model::find((int)$id);
             }
@@ -41,7 +41,6 @@ class SentryPaymentController extends BasePublicController
             }
 
             if (isset($answer['ErrorCode']) && $answer['ErrorCode'] > 0) {
-                die('1');
                 $order->status = 'rejected';
                 $order->decline_reason = $answer['ErrorMessage'];
                 $order->save();
@@ -55,6 +54,6 @@ class SentryPaymentController extends BasePublicController
         catch(\Exception $ex) {
         }
 
-//        return redirect()->route('homepage');
+        return redirect()->away('village://profile/history');
     }
 }

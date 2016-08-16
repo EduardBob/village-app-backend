@@ -1,8 +1,6 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Jenssegers\Date\Date;
 use Modules\Village\Entities\ServiceOrder;
 use Modules\Village\Repositories\ServiceOrderRepository;
 use Modules\Village\Entities\Service;
@@ -10,10 +8,10 @@ use Modules\Village\Repositories\ServiceRepository;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Validator;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
 
-class ServiceOrderController extends AdminController
+class ServiceOrderController extends AbstractOrderController
 {
     /**
      * @var ServiceRepository
@@ -38,47 +36,90 @@ class ServiceOrderController extends AdminController
     {
         return 'serviceorders';
     }
-
-
-    /**
-     * @param int $id
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function setStatusRunning($id)
-    {
-        $serviceOrder = $this->repository->find((int)$id);
-        if (!$serviceOrder || $serviceOrder->status !== 'processing') {
-            return redirect()->back(302);
-        }
-        $serviceOrder->status = 'running';
-        $serviceOrder->save();
-
-        flash()->success($this->trans('messages.resource status-running'));
-
-        return redirect()->route($this->getRoute('index'));
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function setStatusDone($id)
-    {
-        $serviceOrder = $this->repository->find((int)$id);
-        if (!$serviceOrder || $serviceOrder->status !== 'running') {
-            return redirect()->back(302);
-        }
-
-        $serviceOrder->payment_status = 'paid';
-        $serviceOrder->status = 'done';
-        $serviceOrder->save();
-
-        flash()->success($this->trans('messages.resource status-done'));
-
-        return redirect()->route($this->getRoute('index'));
-    }
+//
+//    /**
+//     * @param int $id
+//     *
+//     * @return \Illuminate\Http\RedirectResponse
+//     */
+//    public function setStatusRunning($id)
+//    {
+//	    /** @var ServiceOrder $serviceOrder */
+//        $serviceOrder = $this->repository->find((int)$id);
+//        if (!$serviceOrder || $serviceOrder->status !== $serviceOrder::STATUS_PROCESSING) {
+//            return redirect()->back(302);
+//        }
+//        $serviceOrder->status = $serviceOrder::STATUS_RUNNING;
+//        $serviceOrder->save();
+//
+//        flash()->success($this->trans('messages.resource status-running'));
+//
+//        return redirect()->route($this->getRoute('index'));
+//    }
+//
+//    /**
+//     * @param int $id
+//     *
+//     * @return \Illuminate\Http\RedirectResponse
+//     */
+//    public function setStatusDone($id)
+//    {
+//	    /** @var ServiceOrder $serviceOrder */
+//        $serviceOrder = $this->repository->find((int)$id);
+//        if (!$serviceOrder || $serviceOrder->status !== $serviceOrder::STATUS_RUNNING) {
+//            return redirect()->back(302);
+//        }
+//
+//        $serviceOrder->status = $serviceOrder::STATUS_DONE;
+//        $serviceOrder->save();
+//
+//        flash()->success($this->trans('messages.resource status-done'));
+//
+//        return redirect()->route($this->getRoute('index'));
+//    }
+//
+//	/**
+//	 * @param int $id
+//	 *
+//	 * @return \Illuminate\Http\RedirectResponse
+//	 */
+//	public function setPaymentDone($id)
+//	{
+//		/** @var ServiceOrder $serviceOrder */
+//		$serviceOrder = $this->repository->find((int)$id);
+//		if (!$serviceOrder || $serviceOrder->payment_status === $serviceOrder::PAYMENT_STATUS_PAID) {
+//			return redirect()->back(302);
+//		}
+//
+//		$serviceOrder->payment_status = $serviceOrder::PAYMENT_STATUS_PAID;
+//		$serviceOrder->save();
+//
+//		flash()->success($this->trans('messages.resource payment-done'));
+//
+//		return redirect()->route($this->getRoute('index'));
+//	}
+//
+//	/**
+//	 * @param int $id
+//	 *
+//	 * @return \Illuminate\Http\RedirectResponse
+//	 */
+//	public function setPaymentAndStatusDone($id)
+//	{
+//		/** @var ServiceOrder $serviceOrder */
+//		$serviceOrder = $this->repository->find((int)$id);
+//		if (!$serviceOrder || $serviceOrder->status !== $serviceOrder::STATUS_RUNNING || $serviceOrder->status !== $serviceOrder::STATUS_RUNNING) {
+//			return redirect()->back(302);
+//		}
+//
+//		$serviceOrder->payment_status = $serviceOrder::PAYMENT_STATUS_PAID;
+//		$serviceOrder->status = $serviceOrder::STATUS_DONE;
+//		$serviceOrder->save();
+//
+//		flash()->success($this->trans('messages.resource payment-and-status-done'));
+//
+//		return redirect()->route($this->getRoute('index'));
+//	}
 
     /**
      * @inheritdoc
@@ -86,17 +127,7 @@ class ServiceOrderController extends AdminController
     protected function configureDatagridColumns()
     {
         return [
-            'village__service_orders.id',
-            'village__service_orders.village_id',
-            'village__service_orders.service_id',
-            'village__service_orders.user_id',
-            'village__service_orders.perform_date',
-            'village__service_orders.perform_time',
-            'village__service_orders.created_at',
-            'village__service_orders.price',
-            'village__service_orders.payment_type',
-            'village__service_orders.payment_status',
-            'village__service_orders.status',
+            'village__service_orders.*',
         ];
     }
 
@@ -129,7 +160,7 @@ class ServiceOrderController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+            ->addColumn(['data' => 'id', 'name' => 'village__service_orders.id', 'title' => $this->trans('table.id')])
         ;
 
         if ($this->getCurrentUser()->inRole('admin')) {
@@ -172,11 +203,11 @@ class ServiceOrderController extends AdminController
 
         $dataTable
             ->editColumn('service_title', function (ServiceOrder $serviceOrder) {
-                if ($this->getCurrentUser()->hasAccess('village.services.edit')) {
+                if ($this->getCurrentUser()->hasAccess('village.services.edit') && !$serviceOrder->service->trashed()) {
                     return '<a href="'.route('admin.village.service.edit', ['id' => $serviceOrder->service->id]).'">'.$serviceOrder->service->title.'</a>';
                 }
                 else {
-                    return $serviceOrder->service->title;
+                    return $serviceOrder->service->title.($serviceOrder->service->trashed() ? ' (удалена)' : '');
                 }
             })
             ->editColumn('building_address', function (ServiceOrder $serviceOrder) {

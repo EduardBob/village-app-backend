@@ -25,13 +25,18 @@ class ServiceOrderController extends ApiController
             ::select('village__service_orders.*')
             ->leftJoin('village__services', 'village__service_orders.service_id', '=', 'village__services.id')
             ->leftJoin('village__service_executors', 'village__service_executors.service_id', '=', 'village__services.id')
+	        ->leftJoin('users', 'village__service_orders.user_id', '=', 'users.id')
             ->where('village__service_executors.user_id', $this->user()->id)
-//            ->orWhere('village__service_orders.user_id', $this->user()->id)
         ;
 
+	    // @todo remove if
         if ($status = $request::query('status')) {
             $query->where(['village__service_orders.status' => $status]);
         }
+	    else if ((bool)$request::query('only_opened', false)) {
+		    $query->whereIn('village__service_orders.status', ServiceOrder::getOpenedStatuses());
+	    }
+
 
         if ($fromDate = $request::query('from_perform_date')) {
             $query->where('village__service_orders.perform_date', '>=', $fromDate);
@@ -41,9 +46,28 @@ class ServiceOrderController extends ApiController
             $query->where('village__service_orders.perform_date', '<=', $toDate);
         }
 
+	    if ($search = $request::query('search')) {
+		    $fields = ['comment', 'added_from', 'phone', 'admin_comment'];
+		    $query->where(function($query) use ($search, $fields){
+			    foreach($fields as $field) {
+				    $query
+					    ->orWhere('village__service_orders.'.$field, 'like', '%'.$search.'%')
+				    ;
+			    }
+
+			    foreach(['first_name', 'last_name', 'phone', 'email'] as $field) {
+				    $query
+					    ->orWhere('users.'.$field, 'like', '%'.$search.'%')
+				    ;
+			    }
+		    });
+	    }
+
+	    $limit = (int)$request::query('limit', 10);
+
         $serviceOrders = $query
-            ->orderBy('village__service_orders.perform_date', 'asc')
-            ->paginate(10)
+            ->orderBy('village__service_orders.id', 'desc')
+            ->paginate($limit)
         ;
 
         $transformer = new ServiceOrderTransformer();
@@ -86,11 +110,13 @@ class ServiceOrderController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        $data = $request::only('status', 'payment_status');
+        $data = $request::only('status', 'payment_status', 'phone', 'admin_comment');
 
         $validator = Validator::make($data, [
             'payment_status' => 'required|in:'.implode(',', config('village.order.payment.status.values')),
             'status'         => 'required|in:'.implode(',', config('village.order.statuses')),
+            'phone'          => 'sometimes|string',
+            'admin_comment'  => 'sometimes|string', // заметка от охранника или админа
         ]);
 
         if ($validator->fails()) {
@@ -137,7 +163,7 @@ class ServiceOrderController extends ApiController
      */
     public function store(Request $request)
     {
-        $data = $request::only('service_id', 'perform_date', 'perform_time', 'comment', 'added_from');
+        $data = $request::only('service_id', 'perform_date', 'perform_time', 'comment', 'added_from', 'phone', 'admin_comment');
         $data = array_merge([
             'user_id' => $this->user()->id,
             'status' => config('village.order.first_status'),
@@ -177,8 +203,10 @@ class ServiceOrderController extends ApiController
             'service_id'     => 'required|exists:village__services,id',
             'perform_date'   => 'required|date|date_format:Y-m-d',
             'perform_time'   => 'sometimes|date_format:H:i',
-            'comment'        => 'required|string',
+            'comment'        => 'required|string', // коммент клиента
             'added_from'     => 'required|string',
+            'phone'          => 'sometimes|string',
+	        'admin_comment'  => 'sometimes|string', // заметка от охранника или админа
         ]);
     }
 }

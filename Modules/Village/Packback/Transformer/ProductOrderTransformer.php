@@ -5,6 +5,7 @@ namespace Modules\Village\Packback\Transformer;
 use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 use Modules\Village\Entities\ProductOrder;
+use Modules\Village\Entities\ProductOrderChange;
 
 class ProductOrderTransformer extends TransformerAbstract
 {
@@ -30,11 +31,12 @@ class ProductOrderTransformer extends TransformerAbstract
      */
     public function transform(ProductOrder $productOrder)
     {
-        return [
+        $data = [
             'id' =>  $productOrder->id,
             'created_at' => $productOrder->created_at->format('Y-m-d H:i:s'),
             'perform_date' => $productOrder->perform_date->format('Y-m-d'),
             'perform_time' => $productOrder->perform_time,
+            'unit_price' => $productOrder->unit_price,
             'price' => $productOrder->price,
             'unit_title' => $productOrder->unit_title,
             'quantity' => $productOrder->quantity,
@@ -43,7 +45,10 @@ class ProductOrderTransformer extends TransformerAbstract
             'decline_reason' => $productOrder->decline_reason,
             'payment_type' => $productOrder->payment_type,
             'payment_status' => $productOrder->payment_status,
+            'done_at' => $productOrder->done_at ? $productOrder->done_at->format('Y-m-d H:i:s') : null,
         ];
+
+	    return $data;
     }
 
     /**

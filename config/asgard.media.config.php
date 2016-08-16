@@ -1,6 +1,15 @@
 <?php
 
 return [
+	/*
+	|--------------------------------------------------------------------------
+	| Choose which filesystem you wish to use to store the media
+	|--------------------------------------------------------------------------
+	| Choose one or more of the filesystems you configured
+	| in app/config/filesystems.php
+	| Supported: "local", "s3"
+	*/
+	'filesystem' => 'local',
     /*
     |--------------------------------------------------------------------------
     | The path where the media files will be uploaded
@@ -28,4 +37,14 @@ return [
     | Expressed in bytes
     */
     'max-total-size' => 1000000000,
+
+	/*
+	|--------------------------------------------------------------------------
+	| false - dropdown menu with thumbs choice (default)
+	| true - use simple choose for adding original image
+	|
+	|--------------------------------------------------------------------------
+	| Expressed boolean
+	*/
+	'media-grid-simple-action' => true,
 ];

@@ -17,8 +17,8 @@ class ArticleTransformer extends BaseTransformer
         return [
             'id' =>  $article->id,
             'title' => $article->title,
-            'short' => $article->short,
-            'text' => $article->text,
+            'short' => str_replace(array("\r\n", "\r", "\n"), "<br />", strip_tags($article->short)),
+            'text' => str_replace(array("\r\n", "\r", "\n"), "<br />", strip_tags($article->text)),
             'created_at' => $article->created_at->format('Y-m-d H:i:s'),
             'image' => $this->getImage($article->files()->first()),
         ];

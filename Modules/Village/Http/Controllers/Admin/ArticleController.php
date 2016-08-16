@@ -8,8 +8,8 @@ use Modules\Village\Repositories\ArticleRepository;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Validator;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
 
 class ArticleController extends AdminController
 {
@@ -65,7 +65,7 @@ class ArticleController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+            ->addColumn(['data' => 'id', 'name' => 'village__articles.id', 'title' => $this->trans('table.id')])
         ;
 
         if ($this->getCurrentUser()->inRole('admin')) {
@@ -134,6 +134,14 @@ class ArticleController extends AdminController
         }
     }
 
+	/**
+	 * @inheritdoc
+	 */
+	public function successStoreMessage()
+	{
+		flash()->success(trans('village::admin.messages.you_can_add_image'));
+	}
+
     /**
      * @param int $baseId
      *
@@ -146,6 +154,8 @@ class ArticleController extends AdminController
         if (!$this->getCurrentUser()->inRole('admin') && !$model->active) {
             return redirect()->route($this->getRoute('index'));
         }
+
+	    view()->share('baseCopy', true);
 
         return view($this->getView('baseCopy'), $this->mergeViewData(compact('model')));
     }

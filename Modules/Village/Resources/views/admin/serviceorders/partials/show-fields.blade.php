@@ -2,20 +2,38 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
+                {!! Form::label('created_at', $admin->trans('table.created_at')) !!}
+                <div>{{ Carbon\Carbon::parse(@$model->created_at)->format('d.m.Y H:i:s') }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
                 {!! Form::label('user_id', $admin->trans('table.user')) !!}
                 <div>{{ $model->user->last_name }} {{ $model->user->first_name }}</div>
             </div>
         </div>
     </div>
-    @if(isset($model) && $model->perform_date)
+    @if($model->perform_date)
     <div class="row">
         <div class="col-sm-12">
         	<div class="form-group">
         	    {!! Form::label('perform_date', $admin->trans('table.perform_date')) !!}
-        	    <div>{{ Carbon\Carbon::parse(@$model->perform_date)->format(config('village.date.format')) }}</div>
+                <div>{{ Carbon\Carbon::parse(@$model->perform_date)->format('d.m.Y') }} {{ $model->perform_time }}</div>
         	</div>
         </div>
     </div>
+    @endif
+    @if($model->done_at)
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    {!! Form::label('done_at', $admin->trans('table.done_at')) !!}
+                    <div>{{ Carbon\Carbon::parse(@$model->done_at)->format('d.m.Y H:i:s') }}</div>
+                </div>
+            </div>
+        </div>
     @endif
     <div class="row">
         <div class="col-sm-12">
@@ -77,5 +95,27 @@
             </div>
         </div>
     </div>
+    @endif
+
+    @if($model->phone)
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    {!! Form::label('phone', $admin->trans('table.phone')) !!}
+                    <div>{{ $model->phone }}</div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if($model->admin_comment)
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    {!! Form::label('admin_comment', $admin->trans('table.admin_comment')) !!}
+                    <div>{{ $model->admin_comment }}</div>
+                </div>
+            </div>
+        </div>
     @endif
 </div>

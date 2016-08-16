@@ -14,8 +14,8 @@ use Modules\Village\Entities\ProductCategory;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Modules\Village\Repositories\UserRoleRepository;
 use Validator;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
 
 class ProductController extends AdminController
 {
@@ -55,14 +55,7 @@ class ProductController extends AdminController
     protected function configureDatagridColumns()
     {
         return [
-            'village__products.id',
-            'village__products.village_id',
-            'village__products.category_id',
-            'village__products.executor_id',
-            'village__products.title',
-            'village__products.price',
-            'village__products.unit_title',
-            'village__products.active'
+            'village__products.*',
         ];
     }
 
@@ -91,7 +84,7 @@ class ProductController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+            ->addColumn(['data' => 'id', 'name' => 'village__products.id', 'title' => $this->trans('table.id')])
         ;
 
         if ($this->getCurrentUser()->inRole('admin')) {
@@ -199,6 +192,14 @@ class ProductController extends AdminController
         return view($this->getView('baseCopy'), $this->mergeViewData(compact('model')));
     }
 
+	/**
+	 * @inheritdoc
+	 */
+	public function successStoreMessage()
+	{
+		flash()->success(trans('village::admin.messages.you_can_add_image'));
+	}
+
     /**
      * @param array   $data
      * @param Product $product
@@ -242,8 +243,12 @@ class ProductController extends AdminController
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getExecutors(Village $village)
+    public function getExecutors(Village $village = null)
     {
+        if (!$village) {
+            return [];
+        }
+
         $role = $this->roleRepository->findBySlug('executor');
         $userIds = [];
         foreach($role->users as $user) {

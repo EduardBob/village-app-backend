@@ -13,12 +13,20 @@ class Service extends Model
     use VillageAdminScope;
     use SoftDeletes;
 
+	const TYPE_DEFAULT = 'default';
+	const TYPE_SC = 'sc';
+
     public $table = 'village__services';
 
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'base_id', 'village_id', 'category_id', 'price', 'active', 'title', 'text', 'comment_label', 'order_button_label', 'show_perform_time'];
+        'base_id', 'village_id', 'category_id', 'price', 'active', 'title', 'text',
+        'comment_label', 'order_button_label', 'show_perform_time', 'order',
+	    'has_card_payment'
+    ];
+
+	protected $attributes = ['has_card_payment' => true];
 
     /**
      * @var string

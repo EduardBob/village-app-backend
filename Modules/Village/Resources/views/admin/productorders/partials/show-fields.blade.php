@@ -1,4 +1,12 @@
 <div class="box-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                {!! Form::label('created_at', $admin->trans('table.created_at')) !!}
+                <div>{{ Carbon\Carbon::parse(@$model->created_at)->format('d.m.Y H:i:s') }}</div>
+            </div>
+        </div>
+    </div>
     @if(($currentUser->inRole('admin') || $currentUser->inRole('village-admin')) && $model->product->executor)
     <div class="row">
         <div class="col-sm-12">
@@ -17,21 +25,39 @@
             </div>
         </div>
     </div>
-    @if(isset($model) && $model->perform_date)
+    @if($model->perform_date)
     <div class="row">
         <div class="col-sm-12">
         	<div class="form-group">
         	    {!! Form::label('perform_date', $admin->trans('table.perform_date')) !!}
-        	    <div>{{ Carbon\Carbon::parse(@$model->perform_date)->format('Y-m-d') }} {{ $model->perform_time }}</div>
+        	    <div>{{ Carbon\Carbon::parse(@$model->perform_date)->format('d.m.Y') }} {{ $model->perform_time }}</div>
         	</div>
         </div>
     </div>
+    @endif
+    @if($model->done_at)
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    {!! Form::label('done_at', $admin->trans('table.done_at')) !!}
+                    <div>{{ Carbon\Carbon::parse(@$model->done_at)->format('d.m.Y H:i:s') }}</div>
+                </div>
+            </div>
+        </div>
     @endif
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
                 {!! Form::label('product_id', $admin->trans('table.product')) !!}
                 <div>{{ $model->product->title }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                {!! Form::label('unit_price', $admin->trans('table.unit_price')) !!}
+                <div>{{ $model->unit_price }}</div>
             </div>
         </div>
     </div>
@@ -48,7 +74,7 @@
         <div class="col-sm-12">
         	<div class="form-group">
         	    {!! Form::label('price', $admin->trans('table.price')) !!}
-        	    <div>{{ $model->price }}</div>
+        	    <div>{{ $model->unit_price }} x {{ $model->quantity }} = {{ $model->price }}</div>
         	</div>
         </div>
     </div>

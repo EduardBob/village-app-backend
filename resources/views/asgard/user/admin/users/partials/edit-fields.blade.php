@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     @else
-                        {!! Form::hidden('village_id', @$model->village_id, ['id' => 'village_id']) !!}
+                        {!! Form::hidden('village_id', isset($model) ? $model->village_id : $currentUser->village_id, ['id' => 'village_id']) !!}
                     @endif
                     @if($currentUser->hasAccess('village.buildings.getChoicesByVillage'))
                     <div class="col-sm-6">

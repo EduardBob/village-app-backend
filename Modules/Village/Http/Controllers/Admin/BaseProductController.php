@@ -9,8 +9,8 @@ use Modules\Village\Entities\ProductCategory;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Modules\Village\Repositories\UserRoleRepository;
 use Validator;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
 
 class BaseProductController extends AdminController
 {
@@ -81,7 +81,7 @@ class BaseProductController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+            ->addColumn(['data' => 'id', 'name' => 'village__base__products.id', 'title' => $this->trans('table.id')])
         ;
 
         $builder
@@ -129,6 +129,14 @@ class BaseProductController extends AdminController
             ;
         }
     }
+
+	/**
+	 * @inheritdoc
+	 */
+	public function successStoreMessage()
+	{
+		flash()->success(trans('village::admin.messages.you_can_add_image'));
+	}
 
     /**
      * @param array   $data

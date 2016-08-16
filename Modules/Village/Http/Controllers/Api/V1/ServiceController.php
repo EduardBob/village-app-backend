@@ -12,14 +12,33 @@ class ServiceController extends ApiController
     /**
      * Get all services
      *
+     * @param Request $request
+     *
      * @return Response
      */
     public function index(Request $request)
     {
-        $services = Service::api()->orderBy('price', 'desc');
+        $services = Service::api()
+	        ->select('village__services.*')
+	        ->orderBy('village__services.order', 'asc')
+        ;
+
         if ($categoryId = $request::query('category_id')) {
-            $services->where(['category_id' => $categoryId]);
+            $services->where(['village__services.category_id' => $categoryId]);
         }
+
+	    if ($search = $request::query('search')) {
+		    $fields = ['title', 'comment_label', 'text'];
+		    $services
+                ->join('village__base__services', 'village__services.base_id', '=', 'village__base__services.id')
+			    ->where(function($query) use ($search, $fields){
+			    foreach($fields as $field) {
+				    $query
+					    ->orWhere(\DB::raw('(IFNULL(village__services.'.$field.', village__base__services.'.$field.'))'), 'like', '%'.$search.'%')
+				    ;
+			    }
+		    });
+	    }
 
         return $this->response->withCollection($services->paginate(10), new ServiceTransformer);
     }

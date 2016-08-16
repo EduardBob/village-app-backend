@@ -5,8 +5,8 @@ use Modules\Village\Repositories\BaseArticleRepository;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Validator;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
 
 class BaseArticleController extends AdminController
 {
@@ -55,7 +55,7 @@ class BaseArticleController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+            ->addColumn(['data' => 'id', 'name' => 'village__base__articles.id', 'title' => $this->trans('table.id')])
             ->addColumn(['data' => 'title', 'name' => 'village__base__articles.title', 'title' => $this->trans('table.title')])
         ;
 
@@ -92,6 +92,14 @@ class BaseArticleController extends AdminController
             })
         ;
     }
+
+	/**
+	 * @inheritdoc
+	 */
+	public function successStoreMessage()
+	{
+		flash()->success(trans('village::admin.messages.you_can_add_image'));
+	}
 
     /**
      * @param array   $data

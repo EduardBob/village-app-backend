@@ -9,9 +9,9 @@ use Response;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Validator;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
-use yajra\Datatables\Datatables;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Datatables;
 
 class UserController extends AdminController
 {
@@ -83,6 +83,7 @@ class UserController extends AdminController
             ->where('village__villages.deleted_at', null)
             ->leftJoin('village__buildings', 'users.building_id', '=', 'village__buildings.id')
             ->leftJoin('activations', 'users.id', '=', 'activations.user_id')
+	        ->groupBy('users.id')
             ->with(['village', 'building', 'activation'])
         ;
 
@@ -97,7 +98,7 @@ class UserController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'title' => 'ID'])
+            ->addColumn(['data' => 'id', 'name' => 'users.id', 'title' => 'ID'])
         ;
 
         if ($this->getCurrentUser()->inRole('admin')) {
@@ -107,7 +108,7 @@ class UserController extends AdminController
         }
 
         $builder
-            ->addColumn(['data' => 'roles', 'title' => trans('user::users.tabs.roles')])
+            ->addColumn(['data' => 'roles', 'title' => trans('user::users.tabs.roles'), 'searchable' => false, 'orderable' => false])
             ->addColumn(['data' => 'first_name', 'name' => 'users.first_name', 'title' => $this->trans('form.first-name')])
             ->addColumn(['data' => 'last_name', 'name' => 'users.last_name', 'title' => $this->trans('form.last-name')])
             ->addColumn(['data' => 'phone', 'name' => 'users.phone', 'title' => trans('village::users.form.phone')])

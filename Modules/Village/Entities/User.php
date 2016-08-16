@@ -84,4 +84,21 @@ class User extends BaseUser implements AuthenticatableContract
 
         return $list;
     }
+
+	/**
+	 * @return array
+	 */
+	public function getVillageAdminList()
+	{
+		$users = $this->all(['last_name', 'first_name', 'id']);
+
+		$list = [];
+		foreach ($users as $key => $user) {
+			if ($user->inRole('village-admin')) {
+				$list[$user->id] = $user->last_name . ' ' . $user->first_name;
+			}
+		}
+
+		return $list;
+	}
 }

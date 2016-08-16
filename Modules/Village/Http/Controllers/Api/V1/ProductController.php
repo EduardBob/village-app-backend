@@ -18,10 +18,17 @@ class ProductController extends ApiController
      */
     public function index(Request $request)
     {
-        $products = Product::api()->orderBy('price', 'desc');
+        $products = Product::api()->orderBy('order', 'asc');
         if ($categoryId = $request::query('category_id')) {
             $products->where(['category_id' => $categoryId]);
         }
+	    if ($search = $request::query('search')) {
+		    $products->where(function($query) use ($search){
+			    foreach(['title', 'comment_label', 'text'] as $field) {
+				    $query->orWhere($field, 'like', '%'.$search.'%');
+			    }
+		    });
+	    }
 
         return $this->response->withCollection($products->paginate(10), new ProductTransformer);
     }

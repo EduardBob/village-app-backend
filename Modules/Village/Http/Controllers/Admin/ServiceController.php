@@ -15,8 +15,8 @@ use Modules\Village\Entities\ServiceCategory;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Modules\Village\Repositories\UserRoleRepository;
 use Validator;
-use yajra\Datatables\Engines\EloquentEngine;
-use yajra\Datatables\Html\Builder as TableBuilder;
+use Yajra\Datatables\Engines\EloquentEngine;
+use Yajra\Datatables\Html\Builder as TableBuilder;
 
 class ServiceController extends AdminController
 {
@@ -56,13 +56,7 @@ class ServiceController extends AdminController
     protected function configureDatagridColumns()
     {
         return [
-            'village__services.id',
-            'village__services.base_id',
-            'village__services.village_id',
-            'village__services.category_id',
-            'village__services.title',
-            'village__services.price',
-            'village__services.active'
+            'village__services.*',
         ];
     }
 
@@ -91,7 +85,7 @@ class ServiceController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'title' => $this->trans('table.id')])
+            ->addColumn(['data' => 'id', 'name' => 'village__services.id', 'title' => $this->trans('table.id')])
         ;
 
         if ($this->getCurrentUser()->inRole('admin')) {
@@ -104,6 +98,7 @@ class ServiceController extends AdminController
             ->addColumn(['data' => 'title', 'name' => 'village__services.title', 'title' => $this->trans('table.title')])
             ->addColumn(['data' => 'price', 'name' => 'village__services.price', 'title' => $this->trans('table.price')])
             ->addColumn(['data' => 'active', 'name' => 'village__services.active', 'title' => $this->trans('table.active')])
+	        ->addColumn(['data' => 'executor', 'name' => 'village__services.id', 'title' => $this->trans('table.executor'), 'orderable' => false, 'searchable' => false])
         ;
     }
 
@@ -142,6 +137,13 @@ class ServiceController extends AdminController
                     return '<span class="label label-danger">'.trans('village::admin.table.active.no').'</span>';
                 }
             })
+	        ->editColumn('executor', function (Service $service) {
+		        $executors = [];
+		        foreach ($service->executors as $executor) {
+			        $executors[] = $executor->user->present()->fullname();
+		        }
+		        return implode('<br>', $executors);
+	        })
         ;
     }
 
@@ -199,6 +201,17 @@ class ServiceController extends AdminController
 
             $model->executors()->saveMany($executors);
         }
+
+        $this->calculateType($model);
+    }
+
+    /**
+     * @param Model   $model
+     */
+    public function preDestroy(Model $model)
+    {
+        $model->base_id = null;
+        $model->save();
     }
 
     /**
@@ -216,6 +229,14 @@ class ServiceController extends AdminController
 
         return view($this->getView('baseCopy'), $this->mergeViewData(compact('model')));
     }
+
+	/**
+	 * @inheritdoc
+	 */
+	public function successStoreMessage()
+	{
+		flash()->success(trans('village::admin.messages.you_can_add_image'));
+	}
 
     /**
      * @param array   $data
@@ -266,8 +287,12 @@ class ServiceController extends AdminController
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getExecutors(Village $village)
+    public function getExecutors(Village $village = null)
     {
+        if (!$village) {
+            return [];
+        }
+
         $userIds = [];
 
         // исполнители
@@ -295,5 +320,20 @@ class ServiceController extends AdminController
         }
 
         return $list;
+    }
+
+    /**
+     * @param Service $service
+     */
+    private function calculateType(Service $service)
+    {
+        $type = Service::TYPE_DEFAULT;
+        foreach ($service->executors as $executor) {
+            if ($executor->user->inRole('security')) {
+                $type = Service::TYPE_SC;
+            }
+        }
+
+        $service->type = $type;
     }
 }

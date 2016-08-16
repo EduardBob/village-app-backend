@@ -19,6 +19,8 @@ class CreateArticleCategoriesTable extends Migration
             $table->string('title');
             $table->boolean('active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
+            
         });
 
         DB::statement("INSERT INTO `village__article_categories` (`title`, `order`) VALUES ('Общая категория', '1')");

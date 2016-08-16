@@ -15,8 +15,6 @@ class AddArticleCatidAndPublicationDate extends Migration
         Schema::table('village__articles', function (Blueprint $table) {
             $table->integer('category_id')->default(1);
             $table->timestamp('published_at');
-
-
         });
         DB::statement("UPDATE `village__articles` SET `published_at` = `created_at`");
 

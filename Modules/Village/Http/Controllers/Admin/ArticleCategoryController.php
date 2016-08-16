@@ -11,11 +11,11 @@ use Yajra\Datatables\Html\Builder as TableBuilder;
 class ArticleCategoryController extends AdminController
 {
     /**
-     * @param ArticleCategoryRepository $ArticleCategory
+     * @param ArticleCategoryRepository $articleCategory
      */
-    public function __construct(ArticleCategoryRepository $ArticleCategory)
+    public function __construct(ArticleCategoryRepository $articleCategory)
     {
-        parent::__construct($ArticleCategory, ArticleCategory::class);
+        parent::__construct($articleCategory, ArticleCategory::class);
     }
 
     /**
@@ -65,8 +65,8 @@ class ArticleCategoryController extends AdminController
     protected function configureDatagridValues(EloquentEngine $dataTable)
     {
         $dataTable
-            ->addColumn('active', function (ArticleCategory $ArticleCategory) {
-                if($ArticleCategory->active) {
+            ->addColumn('active', function (ArticleCategory $articleCategory) {
+                if($articleCategory->active) {
                     return '<span class="label label-success">'.trans('village::admin.table.active.yes').'</span>';
                 }
                 else {
@@ -86,11 +86,11 @@ class ArticleCategoryController extends AdminController
 
     /**
      * @param array           $data
-     * @param ArticleCategory $ArticleCategory
+     * @param ArticleCategory $articleCategory
      *
      * @return mixed
      */
-    public function validate(array $data, ArticleCategory $ArticleCategory = null)
+    public function validate(array $data, ArticleCategory $articleCategory = null)
     {
         $rules = [
             'title' => "required|max:255",

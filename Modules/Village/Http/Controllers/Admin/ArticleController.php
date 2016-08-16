@@ -20,7 +20,7 @@ class ArticleController extends AdminController
 
 
     /**
-     * @var ProductCategoryRepository
+     * @var ArticleCategoryRepository
      */
     protected $categoryRepository;
 

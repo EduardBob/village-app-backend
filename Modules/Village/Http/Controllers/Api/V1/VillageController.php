@@ -8,11 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Request;
 use Validator;
 use Modules\Village\Packback\Transformer\VillageTransformer;
-
 use Modules\Village\Entities\Village;
-
-
-
 
 class VillageController extends ApiController
 {
@@ -93,7 +89,4 @@ class VillageController extends ApiController
         $villageContacts = Village::api()->orderBy('id', 'desc')->get();
         return $this->response->withCollection($villageContacts, new VillageTransformer);
     }
-
-
-
 }

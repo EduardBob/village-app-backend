@@ -142,8 +142,6 @@
                             </div>
                         </div>
                     </div>
-                    {!! Form::textarea('important_contacts', Input::old('text', @$model->text), ['class' => 'form-control', 'placeholder' => $admin->trans('table.text')]) !!}
-                    {!! $errors->first('important_contacts', '<span class="help-block">:message</span>') !!}
                 </div>
             </div>
         <div class="col-sm-12">

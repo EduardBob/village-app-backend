@@ -2,23 +2,15 @@
 
 use Modules\Village\Entities\Village;
 use Modules\Village\Repositories\VillageRepository;
-
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Validator;
 use Yajra\Datatables\Engines\EloquentEngine;
 use Yajra\Datatables\Html\Builder as TableBuilder;
-
-
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-
-
-
 class VillageController extends AdminController
 {
-
     /**
      * @param VillageRepository $village
      */
@@ -40,14 +32,7 @@ class VillageController extends AdminController
      */
     protected function configureDatagridColumns()
     {
-        return [
-          'village__villages.id',
-          'village__villages.name',
-          'village__villages.shop_name',
-          'village__villages.shop_address',
-          'village__villages.active',
-          'village__villages.created_at',
-        ];
+        return ['village__villages.*'];
     }
 
     /**
@@ -121,17 +106,14 @@ class VillageController extends AdminController
         return $importantContacts;
     }
 
-
     public function preUpdate(Model $model, Request $request)
     {
         if( $importantContacts = $this->getImportantContacts( $request))
         {
             $model->important_contacts = $importantContacts;
         }
-
         parent::preUpdate($model, $request);
     }
-
 
     public function preStore(Model $model, Request $request)
     {
@@ -140,8 +122,8 @@ class VillageController extends AdminController
             $model->important_contacts = $importantContacts;
         }
         parent::preStore($model, $request);
-
     }
+
     /**
      * @param array    $data
      * @param Village $village

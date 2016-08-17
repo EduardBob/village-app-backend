@@ -37,6 +37,12 @@ class Village extends Model
         });
     }
 
+    static public function getImportantContactsAttribute($value)
+    {
+        return unserialize($value);
+
+    }
+
     static public function getUnitStepByVillage(Village $village, $unitTitle)
     {
         $field = 'product_unit_step_'.$unitTitle;

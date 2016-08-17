@@ -98,9 +98,9 @@ class VillageServiceProvider extends ServiceProvider
                     $this->sendMailOnProcessingOrder($auth, $productOrder);
                     $this->sendSmsOnProcessingOrder($auth, $productOrder);
                 }
-                if ($productOrder::STATUS_DONE === $productOrder->status) {
+                if ($productOrder::STATUS_DONE === $productOrder->status || $productOrder::STATUS_RUNNING === $productOrder->status) {
                     $this->sendMailOnProcessingOrder($auth, $productOrder);
-                    $this->sendSmsOnProcessingOrder($auth, $productOrder);
+                    $this->sendUserSmsStatusChange($auth, $productOrder);
                 }
 
             }
@@ -152,13 +152,89 @@ class VillageServiceProvider extends ServiceProvider
                     $this->sendMailOnProcessingOrder($auth, $serviceOrder);
                     $this->sendSmsOnProcessingOrder($auth, $serviceOrder);
                 }
-                if ($serviceOrder::STATUS_DONE === $serviceOrder->status) {
-                    $this->sendMailOnProcessingOrder($auth, $serviceOrder);
-                    $this->sendSmsOnProcessingOrder($auth, $serviceOrder);
+                //  Send notification to user on certain status changes.
+                if ($serviceOrder::STATUS_DONE === $serviceOrder->status || $serviceOrder::STATUS_RUNNING === $serviceOrder->status) {
+                    $this->sendUserMailOnStatusChange($auth, $serviceOrder);
+                    $this->sendUserSmsStatusChange($auth, $serviceOrder);
+                    //  TODO send push notification.
                 }
 
             }
         });
+    }
+
+    /**
+     * @param Authentication $auth
+     * @param                $order
+     */
+    private function sendUserSmsStatusChange(Authentication $auth, $order)
+    {
+        $user = $this->user($auth);
+        if (!config('village.sms.enabled.on_order_processing')) {
+            return;
+        }
+        if($userMail = $order->user->phone) {
+            $type   = $order->product ? 'product' : 'service';
+            // TODO get format.
+            //$format = 'user.full_name;order.completed;village.name;service.name;';
+            $format = 'order.completed;village.name;service.name;';
+            $statusTexts = array('done' => ' был выполен', 'running' => ' выполняется');
+            $statusText = $statusTexts[$order->status];
+
+            $text   = strtr($format, [
+             // 'user.full_name'        => 'Уважаемый, '.@$order->user->present()->fullname(),
+              'order.completed'       => 'Ваш заказ №'.@$order->id . $statusText,
+              'village.name'          => @$order->village->name,
+              'service.name'          => @$order->{$type}->title
+            ]);
+            $sms = new Sms();
+            $sms->village()
+                ->associate($order->user->village);
+            $sms
+              ->setPhone($order->user->phone)
+              ->setText($text)
+            ;
+
+            try {
+                smsGate()->send($sms);
+            }
+            catch (\Exception $ex) {
+            }
+        }
+    }
+
+    /**
+     * @param Authentication $auth
+     * @param                $order
+     */
+    private function sendUserMailOnStatusChange(Authentication $auth, $order)
+    {
+        $user = $this->user($auth);
+        $type = $order->product ? 'product' : 'service';
+        $toEmails = [];
+        $statusTexts = array('done' => ' был выполен', 'running' => ' выполняется');
+        $statusText = $statusTexts[$order->status];
+        if($userMail = $order->user->email){
+            $toEmails[] =$userMail;
+            $executors = [];
+            $entity = $order->{$type};
+            $data = [
+              'user'      => $user,
+              'order'     => $order,
+              'type'      => $type,
+              'status'    => $statusText,
+              'entity'    => $entity,
+              'executors' => $executors,
+            ];
+            Mail::queue('village::emails.user-order', ['data' => $data],
+              function (Message $m) use ($toEmails, $order){
+                  $toEmails = array_map('trim', $toEmails);
+                  $m
+                    ->to($toEmails)
+                    ->subject('Ваш заказ №'.$order->id.' был обновлен.');
+              }
+            );
+        }
     }
 
     /**

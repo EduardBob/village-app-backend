@@ -114,11 +114,10 @@
             <div class="col-sm-12">
                 <div class="form-group{{ $errors->has('important_contacts') ? ' has-error' : '' }}">
                     {!! Form::label('important_contacts', $admin->trans('table.important_contacts')) !!}
-                    @if($currentUser && $currentUser->inRole('admin'))
+
                     <div class="multiRowInput">
 
                         <div class="inputRow">
-
                             <div class="sideBySide  multirow-input">
                                 <label for="telephone_title">{{$admin->trans('form.important_contacts.label')}}</label>
                                 <input type="text" id="telephone_title" name="telephone_title[]" value="">

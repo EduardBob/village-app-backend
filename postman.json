@@ -558,7 +558,7 @@
 			"remoteLinkUpdatedAt": null,
 			"public": false,
 			"createdAt": 1471255836118,
-			"updatedAt": 1471355608812,
+			"updatedAt": 1471441341009,
 			"write": true,
 			"published": false,
 			"favorite": false,
@@ -1282,7 +1282,7 @@
 				{
 					"id": "945b236d-d59f-b8e0-468a-cdf3e51a7336",
 					"headers": "Authorization: Bearer  {{token}}\n",
-					"url": "{{domain}}/api/v1/articles?page={{page}}",
+					"url": "{{domain}}/api/v1/articles?page={{page}&category_id={{category_id}}",
 					"preRequestScript": "postman.setEnvironmentVariable(\"page\", 1);",
 					"pathVariables": {},
 					"method": "GET",
@@ -1305,13 +1305,11 @@
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\nif (response.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains short\"] = responseBody.has(\"short\");\n    tests[\"Body contains text\"] = responseBody.has(\"text\");    \n    postman.setEnvironmentVariable(\"article.id\", response.data[0].id);\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1446760904566,
+					"time": 1471444129003,
 					"name": "/api/v1/articles",
 					"description": "<p>Get articles list</p>",
 					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
-					"responses": [],
-					"owner": "161799",
-					"folder": "b9d65d56-38c6-46af-a8b2-74e1acb8a1d4"
+					"responses": []
 				},
 				{
 					"id": "9e52af98-884a-2104-1652-d3d9c8416694",
@@ -2149,7 +2147,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1471355391213
+			"timestamp": 1471443413257
 		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
@@ -2277,7 +2275,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1471355391447
+			"timestamp": 1471443413270
 		},
 		{
 			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
@@ -2298,7 +2296,7 @@
 				{
 					"key": "token",
 					"type": "text",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjMsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ3MTI1NjUyNywiZXhwIjoxNDczODQ4NTI3LCJuYmYiOjE0NzEyNTY1MjcsImp0aSI6IjY5Y2E5ZTc0MGJhZWVlNWViYWI1MDA0ODlmNTEyY2UzIn0._mSOyM2teiqp2RNyHUtfH8o5zOpaLmH9P1BynUnLRGc",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjMsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ3MTQyMzI5MiwiZXhwIjoxNDc0MDE1MjkyLCJuYmYiOjE0NzE0MjMyOTIsImp0aSI6Ijg2NDJlYTE4NTkzOTE0YjJkMmVkYThhMzU2ZGFlNGQ0In0.SVzQhnMZMgnc8OVJzB10qiC44r2kLkgxhZYzrMdh0co",
 					"enabled": true
 				},
 				{
@@ -2346,7 +2344,7 @@
 				{
 					"key": "product.id",
 					"type": "text",
-					"value": "267",
+					"value": "262",
 					"enabled": true
 				},
 				{
@@ -2447,7 +2445,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1471355623649
+			"timestamp": 1471443907761
 		}
 	],
 	"headerPresets": [

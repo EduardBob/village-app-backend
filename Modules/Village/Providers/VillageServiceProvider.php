@@ -98,6 +98,11 @@ class VillageServiceProvider extends ServiceProvider
                     $this->sendMailOnProcessingOrder($auth, $productOrder);
                     $this->sendSmsOnProcessingOrder($auth, $productOrder);
                 }
+                if ($productOrder::STATUS_DONE === $productOrder->status) {
+                    $this->sendMailOnProcessingOrder($auth, $productOrder);
+                    $this->sendSmsOnProcessingOrder($auth, $productOrder);
+                }
+
             }
         });
 
@@ -147,6 +152,11 @@ class VillageServiceProvider extends ServiceProvider
                     $this->sendMailOnProcessingOrder($auth, $serviceOrder);
                     $this->sendSmsOnProcessingOrder($auth, $serviceOrder);
                 }
+                if ($serviceOrder::STATUS_DONE === $serviceOrder->status) {
+                    $this->sendMailOnProcessingOrder($auth, $serviceOrder);
+                    $this->sendSmsOnProcessingOrder($auth, $serviceOrder);
+                }
+
             }
         });
     }

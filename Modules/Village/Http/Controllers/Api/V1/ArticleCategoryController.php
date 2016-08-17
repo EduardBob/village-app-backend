@@ -15,7 +15,7 @@ class ArticleCategoryController extends ApiController
      */
     public function index()
     {
-        $articleCategories = ArticleCategory::api()->orderBy('order', 'desc')->get();
+        $articleCategories = ArticleCategory::api()->orderBy('order', 'asc')->get();
         return $this->response->withCollection($articleCategories, new ArticleCategoryTransformer);
     }
 

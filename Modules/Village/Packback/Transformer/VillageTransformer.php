@@ -16,15 +16,13 @@ class VillageTransformer extends TransformerAbstract
     public function transform(Village $village)
     {
         $importantContacts = array();
-        if(unserialize($village->important_contacts))
+        if($village->important_contacts)
         {
-            // Prepare array of objets for PhoneGap.
-            $importantContactsPrepare = unserialize($village->important_contacts);
-            foreach($importantContactsPrepare as $contactItem)
+            foreach($village->important_contacts as $contactItem)
             {
                 $contact = new \stdClass();
                 $contact->title =  $contactItem[0];
-                $contact->phone = $contactItem[1];
+                $contact->phone = intval($contactItem[1]);
                 $importantContacts[] = $contact;
             }
         }

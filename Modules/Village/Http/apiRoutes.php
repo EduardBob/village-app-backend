@@ -81,7 +81,7 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
 
         $router->group(['prefix' => 'articles'], function (Router $router) {
             $router->group(['prefix' => 'categories'], function (Router $router) {
-                $router->get('',        ['uses' => 'V1\ArticleCategoryController@index', 'as' => 'village.api.article.category.list']);
+                $router->get('',    ['uses' => 'V1\ArticleCategoryController@index', 'as' => 'village.api.article.category.list']);
             });
 
 

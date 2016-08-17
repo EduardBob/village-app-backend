@@ -62,7 +62,7 @@
 			applyEvents(multiRowContainer);
 		
 			function applyEvents(scope) {
-		
+
 				//This is due to stupid tipTip not being able to apply itself to dynamically added elements.
 				$('a.add',scope).attr('title',addTitle);
 				$('a.delete',scope).attr('title',removeTitle);

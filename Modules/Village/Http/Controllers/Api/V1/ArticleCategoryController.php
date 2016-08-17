@@ -9,7 +9,7 @@ use Modules\Village\Packback\Transformer\ArticleCategoryTransformer;
 class ArticleCategoryController extends ApiController
 {
     /**
-     * Get all productCategories
+     * Get all ArticleCategories
      *
      * @return Response
      */

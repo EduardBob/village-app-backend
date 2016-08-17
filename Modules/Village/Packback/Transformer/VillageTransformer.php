@@ -24,7 +24,7 @@ class VillageTransformer extends TransformerAbstract
             {
                 $contact = new \stdClass();
                 $contact->title =  $contactItem[0];
-                $contact->phone = intval($contactItem[1]);
+                $contact->phone = $contactItem[1];
                 $importantContacts[] = $contact;
             }
         }

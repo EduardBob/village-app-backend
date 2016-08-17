@@ -84,9 +84,4 @@ class VillageController extends ApiController
         return $this->response->withArray([]);
     }
 
-    public function index()
-    {
-        $villageContacts = Village::api()->orderBy('id', 'desc')->get();
-        return $this->response->withCollection($villageContacts, new VillageTransformer);
-    }
 }

@@ -10,6 +10,8 @@ return [
     ],
     'button' => [
         'create' => 'Добавить объект',
+        'add_phone' => 'Добавить телефон',
+        'delete_phone' => 'Удалить телефон',
     ],
     'table' => [
         'id' => 'ID',
@@ -28,6 +30,7 @@ return [
         'send_sms_to_executor' => 'Отпрвлять SMS исполнителю о новых заказах',
         'active' => 'Включен',
         'created_at' => 'Создана',
+        'important_contacts' => 'Важные телефоны',
         'actions' => 'Действия',
     ],
     'form' => [
@@ -38,6 +41,11 @@ return [
         'main_admin' => [
             'placeholder' => 'Не выбран',
             'help' => 'Получает sms при оплате заказа'
+        ],
+       'important_contacts' => [
+           'label' => 'Контакт',
+           'name' => 'Телефон'
+
         ]
     ],
     'messages' => [

@@ -15,7 +15,22 @@ class VillageTransformer extends TransformerAbstract
      */
     public function transform(Village $village)
     {
+        $importantContacts = array();
+        if(unserialize($village->important_contacts))
+        {
+            // Prepare array of objets for PhoneGap.
+            $importantContactsPrepare = unserialize($village->important_contacts);
+            foreach($importantContactsPrepare as $contactItem)
+            {
+                $contact = new \stdClass();
+                $contact->title =  $contactItem[0];
+                $contact->phone = intval($contactItem[1]);
+                $importantContacts[] = $contact;
+            }
+        }
+
         return [
+            'id' => $village->id,
             'name' => $village->name,
             'shop_name' => $village->shop_name,
             'shop_address' => $village->shop_address,
@@ -27,6 +42,7 @@ class VillageTransformer extends TransformerAbstract
             'product_unit_step_bottle' => $village->product_unit_step_bottle,
             'product_unit_step_piece' => $village->product_unit_step_piece,
             'active' => (bool)$village->active,
+            'important_contacts' => $importantContacts,
         ];
     }
 }

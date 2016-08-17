@@ -12,9 +12,9 @@ class AddContactPhoneToVillageTable extends Migration
      */
     public function up()
     {
-//        Schema::table('village__villages', function (Blueprint $table) {
-//            $table->text('important_contacts');
-//        });
+        Schema::table('village__villages', function (Blueprint $table) {
+            $table->text('important_contacts');
+        });
     }
 
     /**
@@ -24,8 +24,8 @@ class AddContactPhoneToVillageTable extends Migration
      */
     public function down()
     {
-//        Schema::table('village__villages', function (Blueprint $table) {
-//            $table->dropColumn('important_contacts');
-//        });
+        Schema::table('village__villages', function (Blueprint $table) {
+            $table->dropColumn('important_contacts');
+        });
     }
 }

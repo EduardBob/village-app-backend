@@ -129,5 +129,11 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
             $router->get('/current',    ['uses' => 'V1\SurveyController@current', 'as' => 'village.api.survey.current']);
             $router->post('{id}', 	    ['uses' => 'V1\SurveyController@vote', 'as' => 'village.api.survey.vote']);
         });
+
+        $router->group(['prefix' => 'villages'], function (Router $router) {
+           $router->get('contacts',        ['uses' => 'V1\VillageController@contacts', 'as' => 'village.api.village.village.contacts']);
+        });
+
+
     });
 });

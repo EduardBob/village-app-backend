@@ -1,0 +1,41 @@
+
+a.add img {
+	border: 0;
+	margin: 0 0 0 10px;
+}
+
+div.sideBySide {
+	float: left;
+}
+
+div.inputRow {
+	clear: left;
+	float: left;
+	margin: 0 0 10px 0;
+	width: 100%;
+}
+
+div.inputRow select {
+	margin: 0 10px 0 0;
+}
+
+.btn-multirow{
+	border-radius: 0;
+	margin-left: 10px;
+}
+.btn-multirow .fa{
+	line-height: 20px;
+	letter-spacing: 2px;
+}
+.form-control-multirow{
+	width: 100%;
+}
+.sideBySide label{
+	margin-right: 5px;
+}
+.sideBySide input{
+	width: 75%;
+}
+.multirow-input{
+	width: 29%;
+}

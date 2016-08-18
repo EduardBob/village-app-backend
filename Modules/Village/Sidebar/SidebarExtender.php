@@ -340,13 +340,15 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
 
         $village = null;
         $executor = null;
-        if ($user->inRole('village-admin')) {
+        if ($user->inRole('village-admin') || $user->inRole('nouser')) {
             $village = $user->village;
         }
         elseif ($user->inRole('executor')) {
             $village = $user->village;
             $executor = $user;
         }
+
+
 
         return $productOrderRepository->count($village, $executor);
     }
@@ -363,7 +365,7 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
 
         $village = null;
         $executor = null;
-        if ($user->inRole('village-admin')) {
+        if ($user->inRole('village-admin') || $user->inRole('nouser')) {
             $village = $user->village;
         }
         elseif ($user->inRole('executor')) {

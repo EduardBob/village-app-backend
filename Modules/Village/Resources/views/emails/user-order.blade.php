@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Ваш заказ был выполнен.</title>
+<title>Ваш заказ {{$data['status']}}.</title>
 
 
 <style type="text/css">
@@ -68,17 +68,12 @@ background-color: #f6f6f6;
                                   <tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
                                     <td class="content-block" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 20px; font-weight:bold; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
                                         Уважаемый {{ $data['order']->user->present()->fullname() }}, <br/>
-                                        {{ $data['order']->village->name }} - выполнен Ваш заказ:
+                                        {{ $data['order']->village->name }} - Ваш заказ {{$data['status']}}:
                                     </td>
                                 </tr>
                                 <tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
                                     <td class="content-block" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
                                         <strong>{{ trans('village::'.$data['type'].'orders.table.'.$data['type']) }}:</strong> {{ $data['entity']->title }}
-                                    </td>
-                                </tr>
-                                <tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
-                                    <td class="content-block" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                                        Дата исполнения: {{ Carbon\Carbon::parse($data['order']->updated_at)->format('d-m-Y') }} {{ $data['order']->updated_at }}
                                     </td>
                                 </tr>
                             </table>

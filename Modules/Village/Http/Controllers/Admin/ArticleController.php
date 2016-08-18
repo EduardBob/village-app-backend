@@ -43,14 +43,7 @@ class ArticleController extends AdminController
      */
     protected function configureDatagridColumns()
     {
-        return [
-            'village__articles.id',
-            'village__articles.village_id',
-            'village__articles.title',
-            'village__articles.active',
-            'village__articles.created_at',
-            'village__articles.published_at'
-        ];
+        return ['village__articles.*'];
     }
 
     /**
@@ -103,9 +96,7 @@ class ArticleController extends AdminController
             $dataTable
               ->editColumn('category_title', function (Article $article) {
                   if ($this->getCurrentUser()->hasAccess('village.articlecategories.edit')) {
-
-                      return '<a href="'.route('admin.village.articlecategory.edit', ['id' => 3]).'">xxx</a>';
-                      return 'zzz';
+                      return '<a href="'.route('admin.village.articlecategory.edit', ['id' => $article->category->id]).'">'.$article->category->title.'</a>';
                   }
                   else {
                       return $article->category->title;

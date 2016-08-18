@@ -32,6 +32,20 @@ interface OrderInterface
 	public static function getOpenedStatuses();
 
 	/**
+	 * Статусы в которых оповещаются исполнители и администраторы.
+	 *
+	 * @return array
+	 */
+	public static function getManagerNotifyStatuses();
+
+	/**
+	 * Статусы в которых оповещаются клиенты.
+	 *
+	 * @return array
+	 */
+	public static function getClientNotifyStatuses();
+
+	/**
 	 * @return array
 	 */
 	public static function canPayInStatuses();

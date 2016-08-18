@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Contracts\Authentication;
 use Modules\Media\Image\ThumbnailsManager;
+use Modules\Village\Entities\OrderInterface;
 use Modules\Village\Entities\Product;
 use Modules\Village\Entities\ProductOrder;
 use Modules\Village\Entities\ProductOrderChange;
@@ -94,15 +95,20 @@ class VillageServiceProvider extends ServiceProvider
                     'to_status' => $productOrder->status,
                 ]);
 
-                if ($productOrder::STATUS_PROCESSING === $productOrder->status) {
+                //  Send notification to admins, manages and executors
+                //  on certain status changes.
+                $managerNotifyStatuses = $productOrder::getManagerNotifyStatuses();
+                if (in_array($productOrder->status, $managerNotifyStatuses)) {
                     $this->sendMailOnProcessingOrder($auth, $productOrder);
                     $this->sendSmsOnProcessingOrder($auth, $productOrder);
                 }
-                if ($productOrder::STATUS_DONE === $productOrder->status || $productOrder::STATUS_RUNNING === $productOrder->status) {
-                    $this->sendMailOnProcessingOrder($auth, $productOrder);
-                    $this->sendUserSmsStatusChange($auth, $productOrder);
+                //  Send notification to client on certain status changes.
+                $clientNotifyStatuses = $productOrder::getClientNotifyStatuses();
+                if (in_array($productOrder->status, $clientNotifyStatuses)) {
+                    $this->sendClientMailOnStatusChange($auth, $productOrder);
+                    $this->sendClientSmsOnStatusChange($auth, $productOrder);
+                    //  TODO send push notification.
                 }
-
             }
         });
 
@@ -148,14 +154,19 @@ class VillageServiceProvider extends ServiceProvider
                     'to_status' => $serviceOrder->status,
                 ]);
 
-                if ($serviceOrder::STATUS_PROCESSING === $serviceOrder->status) {
+                //  Send notification to admins and executors
+                //  on certain status changes.
+                $managerNotifyStatuses = $serviceOrder::getManagerNotifyStatuses();
+                if (in_array($serviceOrder->status, $managerNotifyStatuses)) {
                     $this->sendMailOnProcessingOrder($auth, $serviceOrder);
                     $this->sendSmsOnProcessingOrder($auth, $serviceOrder);
                 }
-                //  Send notification to user on certain status changes.
-                if ($serviceOrder::STATUS_DONE === $serviceOrder->status || $serviceOrder::STATUS_RUNNING === $serviceOrder->status) {
-                    $this->sendUserMailOnStatusChange($auth, $serviceOrder);
-                    $this->sendUserSmsStatusChange($auth, $serviceOrder);
+                //  Send notification to client on certain status changes.
+
+                $clientNotifyStatuses = $serviceOrder::getClientNotifyStatuses();
+                if (in_array($serviceOrder->status, $clientNotifyStatuses)) {
+                    $this->sendClientMailOnStatusChange($auth, $serviceOrder);
+                    $this->sendClientSmsOnStatusChange($auth, $serviceOrder);
                     //  TODO send push notification.
                 }
 
@@ -163,11 +174,23 @@ class VillageServiceProvider extends ServiceProvider
         });
     }
 
+    private function getStatusText($status)
+    {
+        $statusTexts = array(
+          'done' => ' был выполен',
+          'running' => ' выполняется',
+          'processing' => ' принят',
+          'rejected' => ' отклонен',
+        );
+        $statusText = $statusTexts[$status];
+        return $statusText;
+    }
+
     /**
      * @param Authentication $auth
-     * @param                $order
+     * @param OrderInterface $order
      */
-    private function sendUserSmsStatusChange(Authentication $auth, $order)
+    private function sendClientSmsOnStatusChange(Authentication $auth, OrderInterface $order)
     {
         $user = $this->user($auth);
         if (!config('village.sms.enabled.on_order_processing')) {
@@ -178,9 +201,7 @@ class VillageServiceProvider extends ServiceProvider
             // TODO get format.
             //$format = 'user.full_name;order.completed;village.name;service.name;';
             $format = 'order.completed;village.name;service.name;';
-            $statusTexts = array('done' => ' был выполен', 'running' => ' выполняется');
-            $statusText = $statusTexts[$order->status];
-
+            $statusText = ' '.$this->getStatusText($order->status);
             $text   = strtr($format, [
              // 'user.full_name'        => 'Уважаемый, '.@$order->user->present()->fullname(),
               'order.completed'       => 'Ваш заказ №'.@$order->id . $statusText,
@@ -205,15 +226,14 @@ class VillageServiceProvider extends ServiceProvider
 
     /**
      * @param Authentication $auth
-     * @param                $order
+     * @param OrderInterface $order
      */
-    private function sendUserMailOnStatusChange(Authentication $auth, $order)
+    private function sendClientMailOnStatusChange(Authentication $auth,OrderInterface $order)
     {
         $user = $this->user($auth);
         $type = $order->product ? 'product' : 'service';
         $toEmails = [];
-        $statusTexts = array('done' => ' был выполен', 'running' => ' выполняется');
-        $statusText = $statusTexts[$order->status];
+        $statusText = $this->getStatusText($order->status);
         if($userMail = $order->user->email){
             $toEmails[] =$userMail;
             $executors = [];
@@ -239,9 +259,9 @@ class VillageServiceProvider extends ServiceProvider
 
     /**
      * @param Authentication $auth
-     * @param                $order
+     * @param OrderInterface $order
      */
-    private function sendMailOnProcessingOrder(Authentication $auth, $order)
+    private function sendMailOnProcessingOrder(Authentication $auth, OrderInterface $order)
     {
         $user = $this->user($auth);
 
@@ -288,7 +308,7 @@ class VillageServiceProvider extends ServiceProvider
                 $toEmails = array_map('trim', $toEmails);
                 $m
                     ->to($toEmails)
-                    ->subject('Новый заказ в поселке '.$order->village->name.' '.$order->created_at->format('d-m-Y H:i:s').'.')
+                    ->subject('Новый заказ - '.$order->village->name.' '.$order->created_at->format('d-m-Y H:i:s').'.')
                 ;
             }
         );
@@ -296,9 +316,9 @@ class VillageServiceProvider extends ServiceProvider
 
     /**
      * @param Authentication $auth
-     * @param                $order
+     * @param OrderInterface $order
      */
-    private function sendSmsOnProcessingOrder(Authentication $auth, $order)
+    private function sendSmsOnProcessingOrder(Authentication $auth, OrderInterface $order)
     {
         $user = $this->user($auth);
 

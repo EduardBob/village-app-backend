@@ -14,6 +14,15 @@ class ArticleTransformer extends BaseTransformer
      */
     public function transform(Article $article)
     {
+        $categoryID = '';
+        $categoryTitle = '';
+        if(is_object($article->category))
+        {
+            $categoryID = $article->category->id;
+            $categoryTitle = $article->category->title;
+        }
+
+
         return [
             'id' =>  $article->id,
             'title' => $article->title,
@@ -21,8 +30,8 @@ class ArticleTransformer extends BaseTransformer
             'text' => str_replace(array("\r\n", "\r", "\n"), "<br />", strip_tags($article->text)),
             'created_at' => $article->created_at->format('Y-m-d H:i:s'),
             'published_at' =>  $article->published_at,
-            'category_id' => $article->category->id,
-            'category_title' => $article->category->title,
+            'category_id' => $categoryID,
+            'category_title' => $categoryTitle,
             'image' => $this->getImage($article->files()->first()),
         ];
     }

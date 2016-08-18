@@ -91,15 +91,15 @@ class VillageController extends AdminController
     {
         $data = $request->all();
         $importantContacts = false;
-        $phones = array();
+        $phones = [];
         if(count($data['telephone_title']))
         {
             foreach($data['telephone_title'] as $key => $phoneTitle)
             {
                 $phoneTitle = trim($phoneTitle);
                 $phoneNumber = trim($data['telephone_number'][$key]);
-                if(strlen($phoneTitle) && strlen($phoneNumber))
-                   $phones[$key] = array($phoneTitle, $phoneNumber);
+                if(mb_strlen($phoneTitle) && mb_strlen($phoneNumber))
+                   $phones[$key] = [$phoneTitle, $phoneNumber];
             }
             if(count($phones)) {
                 $importantContacts = serialize($phones);

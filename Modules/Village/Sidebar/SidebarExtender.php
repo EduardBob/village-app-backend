@@ -265,6 +265,19 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                         $this->auth->hasAccess('village.articles.index')
                     );
                 });
+
+                $item->item(trans('village::articlecategories.title.module'), function (Item $item) {
+                    $item->icon('fa fa-list');
+                    $item->weight(3);
+                    if ($this->auth->hasAccess('village.articlecategories.create')) {
+                        $item->append('admin.village.articlecategory.create');
+                    }
+                    $item->route('admin.village.articlecategory.index');
+                    $item->authorize(
+                      $this->auth->hasAccess('village.articlecategories.index')
+                    );
+                });
+
             });
 
             $group->item(trans('village::surveys.title.module'), function (Item $item) {
@@ -327,13 +340,15 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
 
         $village = null;
         $executor = null;
-        if ($user->inRole('village-admin')) {
+        if ($user->inRole('village-admin') || $user->inRole('nouser')) {
             $village = $user->village;
         }
         elseif ($user->inRole('executor')) {
             $village = $user->village;
             $executor = $user;
         }
+
+
 
         return $productOrderRepository->count($village, $executor);
     }
@@ -350,7 +365,7 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
 
         $village = null;
         $executor = null;
-        if ($user->inRole('village-admin')) {
+        if ($user->inRole('village-admin') || $user->inRole('nouser')) {
             $village = $user->village;
         }
         elseif ($user->inRole('executor')) {

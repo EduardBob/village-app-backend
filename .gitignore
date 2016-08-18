@@ -12,6 +12,7 @@ composer.phar
 /public/app
 /public/modules
 /public/themes
+/public/.htaccess
 
 /.phpstorm.meta.php
 /_ide_helper.php

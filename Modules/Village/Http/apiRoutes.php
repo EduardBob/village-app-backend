@@ -50,7 +50,6 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
 
     // with token
     $router->group(['middleware' => ['jwt.auth']], function (Router $router) {
-
         // апи для охранников
         $router->group(['prefix' => 'security', 'middleware' => ['role:security']], function (Router $router) {
             $router->group(['prefix' => 'services'], function (Router $router) {
@@ -64,7 +63,6 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
                 $router->get('',        ['uses' => 'V1\Security\ServiceController@index', 'as' => 'village.security.api.service.service.list']);
             });
         });
-
         $router->group(['prefix' => 'me'], function (Router $router) {
             $router->get('',            ['uses' => 'V1\MeController@me', 'as' => 'village.api.user.me.me']);
             $router->post('name', 		['uses' => 'V1\MeController@changeName', 'as' => 'village.api.user.me.name']);
@@ -82,10 +80,16 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
 //        });
 
         $router->group(['prefix' => 'articles'], function (Router $router) {
+            $router->group(['prefix' => 'categories'], function (Router $router) {
+                $router->get('',    ['uses' => 'V1\ArticleCategoryController@index', 'as' => 'village.api.article.category.list']);
+            });
+
+
             $router->get('',        ['uses' => 'V1\ArticleController@index', 'as' => 'village.api.article.list']);
             $router->get('{id}', 	['uses' => 'V1\ArticleController@show', 'as' => 'village.api.article.one']);
-        });
 
+
+        });
         $router->group(['prefix' => 'services'], function (Router $router) {
             $router->group(['prefix' => 'categories'], function (Router $router) {
                 $router->get('',        ['uses' => 'V1\ServiceCategoryController@index', 'as' => 'village.api.service.category.list']);
@@ -120,5 +124,6 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
             $router->get('/current',    ['uses' => 'V1\SurveyController@current', 'as' => 'village.api.survey.current']);
             $router->post('{id}', 	    ['uses' => 'V1\SurveyController@vote', 'as' => 'village.api.survey.vote']);
         });
+
     });
 });

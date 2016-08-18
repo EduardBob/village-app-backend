@@ -45,6 +45,31 @@ abstract class AbstractOrder extends Model implements OrderInterface
 	}
 
 	/**
+	 * Статусы в которых оповещаются исполнители и администраторы.
+	 *
+	 * @return array
+	 */
+	public static function getManagerNotifyStatuses()
+	{
+		return [
+		static::STATUS_PROCESSING
+		];
+	}
+
+	/**
+	 * Статусы в которых оповещаются клиенты.
+	 *
+	 * @return array
+	 */
+	public static function getClientNotifyStatuses()
+	{
+		return [
+		static::STATUS_DONE,
+		static::STATUS_RUNNING,
+		];
+	}
+
+	/**
 	 * @return array
 	 */
 	public static function canPayInStatuses()

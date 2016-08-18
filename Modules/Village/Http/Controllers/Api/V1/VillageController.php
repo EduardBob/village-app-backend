@@ -7,6 +7,8 @@ use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
 use Request;
 use Validator;
+use Modules\Village\Packback\Transformer\VillageTransformer;
+use Modules\Village\Entities\Village;
 
 class VillageController extends ApiController
 {
@@ -81,4 +83,5 @@ class VillageController extends ApiController
         $this->response->setStatusCode(201);
         return $this->response->withArray([]);
     }
+
 }

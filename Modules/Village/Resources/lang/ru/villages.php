@@ -1,19 +1,21 @@
 <?php
 
 return [
-    'name' => 'Посёлки',
+    'name' => 'Объекты',
     'title' => [
-        'model' => 'Посёлок',
-        'module' => 'Посёлки',
-        'create' => 'Добавить посёлок',
-        'edit' => 'Редактировать посёлок',
+        'model' => 'Объект',
+        'module' => 'Объекты',
+        'create' => 'Добавить объект',
+        'edit' => 'Редактировать объект',
     ],
     'button' => [
-        'create' => 'Добавить посёлок',
+        'create' => 'Добавить объект',
+        'add_phone' => 'Добавить телефон',
+        'delete_phone' => 'Удалить телефон',
     ],
     'table' => [
         'id' => 'ID',
-        'main_admin_id' => 'Главный администратор посёлка',
+        'main_admin_id' => 'Главный администратор объекта',
         'name' => 'Название',
         'shop_name' => 'Название магазина',
         'shop_address' => 'Адрес магазина',
@@ -24,20 +26,26 @@ return [
         'product_unit_step_kg' => 'Шаг изменения для киллограммов',
         'product_unit_step_bottle' => 'Шаг изменения для бутылок',
         'product_unit_step_piece' => 'Шаг изменения для штук',
-        'send_sms_to_village_admin' => 'Отпрвлять SMS администратору поселка о новых заказах',
+        'send_sms_to_village_admin' => 'Отпрвлять SMS администратору объекта о новых заказах',
         'send_sms_to_executor' => 'Отпрвлять SMS исполнителю о новых заказах',
         'active' => 'Включен',
         'created_at' => 'Создана',
+        'important_contacts' => 'Важные телефоны',
         'actions' => 'Действия',
     ],
     'form' => [
-        'village_id' => 'Поселок',
+        'village_id' => 'Объект',
         'village' => [
             'placeholder' => 'Не выбран'
         ],
         'main_admin' => [
             'placeholder' => 'Не выбран',
             'help' => 'Получает sms при оплате заказа'
+        ],
+       'important_contacts' => [
+           'label' => 'Контакт',
+           'name' => 'Телефон'
+
         ]
     ],
     'messages' => [

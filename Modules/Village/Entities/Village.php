@@ -2,11 +2,12 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Village\Entities\Scope\ApiScope;
 
 class Village extends Model
 {
     use SoftDeletes;
-
+    use ApiScope;
     protected $table = 'village__villages';
 
     protected $dates = ['deleted_at'];
@@ -16,7 +17,7 @@ class Village extends Model
         'service_payment_info', 'service_bottom_text',
         'product_payment_info', 'product_bottom_text',
         'product_unit_step_kg', 'product_unit_step_bottle', 'product_unit_step_piece',
-        'send_sms_to_village_admin', 'send_sms_to_executor',
+        'send_sms_to_village_admin', 'send_sms_to_executor', 'important_contacts',
         'active'
     ];
 
@@ -34,6 +35,12 @@ class Village extends Model
                 $village->main_admin_id = null;
             }
         });
+    }
+
+    static public function getImportantContactsAttribute($value)
+    {
+        return unserialize($value);
+
     }
 
     static public function getUnitStepByVillage(Village $village, $unitTitle)

@@ -60,6 +60,34 @@ $router->group(['prefix' =>'/village'], function (Router $router) {
         $router->get('{id}/base-copy', ['uses' => 'ArticleController@baseCopy', 'as' => 'admin.village.article.baseCopy']);
     });
 
+
+
+
+    $router->bind('articlecategories', function ($id) {
+        return \Modules\Village\Entities\ArticleCategory::withTrashed()->find($id);
+    });
+    $router->resource('articlecategories', 'ArticleCategoryController', ['except' => ['show'], 'names' => [
+      'index' => 'admin.village.articlecategory.index',
+      'create' => 'admin.village.articlecategory.create',
+      'store' => 'admin.village.articlecategory.store',
+      'edit' => 'admin.village.articlecategory.edit',
+      'update' => 'admin.village.articlecategory.update',
+      'destroy' => 'admin.village.articlecategory.destroy',
+    ]]);
+
+  $router->bind('articlecategories', function ($id) {
+    return \Modules\Village\Entities\ArticleCategory::withTrashed()->find($id);
+  });
+
+
+//    $router->group(['prefix' => 'articlecategories'], function (Router $router) {
+//        $router->get('get-choices-by-village/{byVillageId}', ['uses' => 'ArticleCategoryController@getChoicesByVillage', 'as' => 'admin.village.productcategory.get_choices_by_village']);
+//        $router->get('get-choices-by-village/{byVillageId}/{selectedId}', ['uses' => 'ProductCategoryController@getChoicesByVillage', 'as' => 'admin.village.productcategory.get_choices_by_village']);
+//    });
+//
+
+
+
     $router->bind('margins', function ($id) {
         return app('Modules\Village\Repositories\MarginRepository')->find($id);
     });

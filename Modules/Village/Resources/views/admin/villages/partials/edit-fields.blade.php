@@ -114,7 +114,7 @@
             <div class="col-sm-12">
                 <div class="form-group{{ $errors->has('important_contacts') ? ' has-error' : '' }}">
                     {!! Form::label('important_contacts', $admin->trans('table.important_contacts')) !!}
-                    @if(count(@$model->important_contacts))
+                    @if(is_array(@$model->important_contacts))
                         @foreach ($model->important_contacts as $key => $contact)
                         <div class="multiRowInput">
                             <div class="inputRow">
@@ -149,7 +149,6 @@
                         @endforeach
                     @else
                     <div class="multiRowInput">
-
                         <div class="inputRow">
                             <div class="sideBySide  multirow-input">
                                 <label for="telephone_title">{{$admin->trans('form.important_contacts.label')}}</label>

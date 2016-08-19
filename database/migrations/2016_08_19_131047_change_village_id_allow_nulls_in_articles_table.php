@@ -13,7 +13,7 @@ class ChangeVillageIdAllowNullsInArticlesTable extends Migration
     public function up()
     {
         Schema::table('village__articles', function (Blueprint $table) {
-            DB::statement("ALTER TABLE `village`.`village__articles` CHANGE COLUMN `village_id` `village_id` int(10) UNSIGNED ZEROFILL;");
+            DB::statement("ALTER TABLE `village__articles` CHANGE COLUMN `village_id` `village_id` int(10) UNSIGNED ZEROFILL;");
         });
     }
 
@@ -25,7 +25,7 @@ class ChangeVillageIdAllowNullsInArticlesTable extends Migration
     public function down()
     {
         Schema::table('village__articles', function (Blueprint $table) {
-            DB::statement("ALTER TABLE `village`.`village__articles` CHANGE COLUMN `village_id` `village_id` int(10) UNSIGNED ZEROFILL NOT NULL;");
+            DB::statement("ALTER TABLE `village__articles` CHANGE COLUMN `village_id` `village_id` int(10) UNSIGNED ZEROFILL NOT NULL;");
         });
     }
 }

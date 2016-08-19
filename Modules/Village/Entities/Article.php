@@ -40,8 +40,7 @@ class Article extends Model
             $this->attributes['village_id'] = NULL;
         }
     }
-
-
+    
     protected static function boot()
     {
         parent::boot();

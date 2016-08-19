@@ -21,8 +21,8 @@ class ArticleController extends ApiController
                             ->where('village__articles.published_at',  '<=', date('Y-m-d H:i:s'))
                             ->orWhere(function($query)
                             {
-                            $query->where('village__articles.village_id', '=', null)
-                                ->where('village__articles.published_at',  '<=', date('Y-m-d H:i:s'));
+                                $query->where('village__articles.village_id', '=', null)
+                                      ->where('village__articles.published_at',  '<=', date('Y-m-d H:i:s'));
                             })
                             ->orderBy('village__articles.published_at', 'desc')->paginate(10);
 

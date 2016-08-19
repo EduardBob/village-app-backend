@@ -37,10 +37,10 @@ class Article extends Model
     public function setVillageIdAttribute($value)
     {
         if($value == ''){
-            $this->attributes['village_id'] = NULL;
+            $this->attributes['village_id'] = null;
         }
     }
-    
+
     protected static function boot()
     {
         parent::boot();

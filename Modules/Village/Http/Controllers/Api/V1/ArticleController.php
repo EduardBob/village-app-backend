@@ -19,9 +19,8 @@ class ArticleController extends ApiController
 
         $articles = Article::api()
                             ->where('village__articles.published_at',  '<=', date('Y-m-d H:i:s'))
-                            ->orWhere(function($query)
-                            {
-                                $query->where('village__articles.village_id', '=', null)
+                            ->orWhere(function($query){
+                                $query->whereNull('village__articles.village_id')
                                       ->where('village__articles.published_at',  '<=', date('Y-m-d H:i:s'));
                             })
                             ->orderBy('village__articles.published_at', 'desc')->paginate(10);
@@ -30,9 +29,8 @@ class ArticleController extends ApiController
             $articles = Article::api()
                             ->where('village__articles.published_at',  '<=', date('Y-m-d H:i:s'))
                             ->where('category_id', '=', (int)$categoryId)
-                            ->orWhere(function($query, $categoryId)
-                            {
-                              $query->where('village__articles.village_id', '=', null)
+                            ->orWhere(function($query) use($categoryId){
+                              $query->whereNull('village__articles.village_id')
                                     ->where('category_id', '=', (int)$categoryId)
                                     ->where('village__articles.published_at',  '<=', date('Y-m-d H:i:s'));
                             })

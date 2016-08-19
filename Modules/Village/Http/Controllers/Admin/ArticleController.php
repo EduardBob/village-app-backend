@@ -95,7 +95,7 @@ class ArticleController extends AdminController
         if ($this->getCurrentUser()->inRole('admin')) {
             $dataTable
                 ->editColumn('village_name', function (Article $article) {
-                    if ($this->getCurrentUser()->hasAccess('village.villages.edit') && !is_null($article->village)) {
+                    if (!is_null($article->village) &&$this->getCurrentUser()->hasAccess('village.villages.edit')) {
                         return '<a href="'.route('admin.village.village.edit', ['id' => $article->village->id]).'">'.$article->village->name.'</a>';
                     }
                     elseif (!is_null($article->village)) {

@@ -95,6 +95,7 @@ class ArticleCategoryController extends AdminController
         $rules = [
             'title' => "required|max:255",
             'active' => "boolean",
+            'is_global' => "boolean",
         ];
 
         return Validator::make($data, $rules);

@@ -52,7 +52,7 @@ class ArticleController extends AdminController
     protected function configureQuery(QueryBuilder $query)
     {
         $query
-            ->join('village__villages', 'village__articles.village_id', '=', 'village__villages.id')
+            ->leftJoin('village__villages', 'village__articles.village_id', '=', 'village__villages.id')
             ->leftJoin('village__article_categories', 'village__articles.category_id', '=', 'village__article_categories.id')
             ->where('village__villages.deleted_at', null)
             ->with(['village'])
@@ -94,24 +94,28 @@ class ArticleController extends AdminController
     {
         if ($this->getCurrentUser()->inRole('admin')) {
             $dataTable
-              ->editColumn('category_title', function (Article $article) {
-                  if ($this->getCurrentUser()->hasAccess('village.articlecategories.edit')) {
-                      return '<a href="' . route('admin.village.articlecategory.edit', ['id' => $article->category->id]) . '">' . $article->category->title . '</a>';
-                  }
-                  else {
-                      return $article->category->title;
-                  }
-              })
                 ->editColumn('village_name', function (Article $article) {
-                    if ($this->getCurrentUser()->hasAccess('village.villages.edit')) {
+                    if ($this->getCurrentUser()->hasAccess('village.villages.edit') && !is_null($article->village)) {
                         return '<a href="'.route('admin.village.village.edit', ['id' => $article->village->id]).'">'.$article->village->name.'</a>';
                     }
-                    else {
+                    elseif (!is_null($article->village)) {
                         return $article->village->name;
                     }
                 })
             ;
         }
+
+        $dataTable
+          ->editColumn('category_title', function (Article $article) {
+
+              if ($this->getCurrentUser()->hasAccess('village.articlecategories.edit')) {
+                  return '<a href="' . route('admin.village.articlecategory.edit', ['id' => $article->category->id]) . '">' . $article->category->title . '</a>';
+              }
+              else {
+                  return $article->category->title;
+              }
+          });
+
 
         $dataTable
             ->addColumn('created_at', function (Article $article) {
@@ -190,7 +194,7 @@ class ArticleController extends AdminController
         ];
 
         if ($this->getCurrentUser()->inRole('admin')) {
-            $rules['village_id'] = 'required|exists:village__villages,id';
+            // $rules['village_id'] = 'required|exists:village__villages,id';
         }
 
         return Validator::make($data, $rules);
@@ -204,7 +208,7 @@ class ArticleController extends AdminController
         $attributes = [];
         if (!$this->getCurrentUser()->inRole('admin')){
             if ($this->getCurrentUser()->village) {
-                $attributes = ['active' => 1];
+                $attributes = ['is_global' => 1, 'active' => 1];
             }
         }
 

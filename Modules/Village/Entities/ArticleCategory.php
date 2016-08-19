@@ -16,7 +16,7 @@ class ArticleCategory extends Model
     protected $table = 'village__article_categories';
 
 
-    protected $fillable = ['title', 'order', 'active'];
+    protected $fillable = ['title', 'order', 'active', 'is_global'];
 
     public function category()
     {

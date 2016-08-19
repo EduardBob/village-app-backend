@@ -15,6 +15,14 @@
             </div>
         </div>
         <div class="col-sm-12">
+            <div class="form-group{{ $errors->has('is_global') ? ' has-error' : '' }}">
+                {!! Form::label('is_global', $admin->trans('table.is_global')) !!}
+                {!! Form::checkbox('is_global', (int)Input::old('is_global', @$model->is_global), (bool)Input::old('is_global', @$model->is_global), ['class' => 'flat-blue']) !!}
+                {!! $errors->first('is_global', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+
+        <div class="col-sm-12">
             <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
                 {!! Form::label('active', $admin->trans('table.active')) !!}
                 {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}

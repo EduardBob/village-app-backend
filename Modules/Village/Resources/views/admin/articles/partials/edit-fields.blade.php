@@ -11,7 +11,7 @@
                 {!! Form::select(
                         'village_id', Input::old('id', (new Modules\Village\Entities\Village)->lists('name', 'id')),
                         Input::old('village_id', @$model->village_id),
-                        ['class' => 'form-control', 'placeholder' => trans('village::villages.form.village.placeholder')]
+                        ['class' => 'form-control', 'placeholder' => $admin->trans('table.village_id')]
                     )
                 !!}
                 {!! $errors->first('village_id', '<span class="help-block">:message</span>') !!}

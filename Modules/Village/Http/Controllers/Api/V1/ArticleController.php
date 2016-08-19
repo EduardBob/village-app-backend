@@ -18,14 +18,23 @@ class ArticleController extends ApiController
     {
 
         $articles = Article::api()
-                           ->where('village__articles.published_at',  '<=', date('Y-m-d H:i:s'))
-                           ->orderBy('village__articles.published_at', 'desc')->paginate(10);
+                            ->where('village__articles.published_at',  '<=', date('Y-m-d H:i:s'))
+                            ->orWhere(function($query){
+                                $query->whereNull('village__articles.village_id')
+                                      ->where('village__articles.published_at',  '<=', date('Y-m-d H:i:s'));
+                            })
+                            ->orderBy('village__articles.published_at', 'desc')->paginate(10);
 
         if ($categoryId = $request::query('category_id')) {
             $articles = Article::api()
-                           ->where('village__articles.published_at',  '<=', date('Y-m-d H:i:s'))
-                           ->where('category_id', '=', (int)$categoryId)
-                           ->orderBy('village__articles.published_at', 'desc')->paginate(10);
+                            ->where('village__articles.published_at',  '<=', date('Y-m-d H:i:s'))
+                            ->where('category_id', '=', (int)$categoryId)
+                            ->orWhere(function($query) use($categoryId){
+                              $query->whereNull('village__articles.village_id')
+                                    ->where('category_id', '=', (int)$categoryId)
+                                    ->where('village__articles.published_at',  '<=', date('Y-m-d H:i:s'));
+                            })
+                            ->orderBy('village__articles.published_at', 'desc')->paginate(10);
         }
         return $this->response->withCollection($articles, new ArticleTransformer);
     }

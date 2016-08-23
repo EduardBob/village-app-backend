@@ -2,7 +2,6 @@
 
 use Crypt;
 use Illuminate\Database\Eloquent\Model;
-use Log;
 use Modules\Village\Entities\Scope\ApiScope;
 
 class SmartHome extends Model
@@ -24,12 +23,6 @@ class SmartHome extends Model
 
     public function getPasswordAttribute($value)
     {
-        try {
-            return Crypt::decrypt($value);
-        } catch (DecryptException $e) {
-            Log::critical('Getting user password exception: ' . $e->getMessage());
-            die('FATAL ERROR: '.$e->getMessage());
-        }
+        return Crypt::decrypt($value);
     }
-
 }

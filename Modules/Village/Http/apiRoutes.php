@@ -133,10 +133,6 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
             $router->group(['prefix' => 'add'], function (Router $router) {
                 $router->post('',       ['uses' => 'V1\SmartHomeController@add', 'as' => 'village.api.smarthome.add']);
             });
-            $router->group(['prefix' => 'delete'], function (Router $router) {
-                $router->get('',       ['uses' => 'V1\SmartHomeController@delete', 'as' => 'village.api.smarthome.delete']);
-            });
-
         });
     });
 });

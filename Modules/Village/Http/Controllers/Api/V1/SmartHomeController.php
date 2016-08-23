@@ -76,12 +76,4 @@ class SmartHomeController extends ApiController
         }
         return $this->index();
     }
-
-    public function delete()
-    {
-        if ($smartHome = $this->getSmartHome()) {
-            $smartHome->delete();
-        }
-        return $this->index();
-    }
 }

@@ -484,9 +484,8 @@
 					"description": "Smart home integration",
 					"order": [
 						"94902848-144e-42d2-b8b7-86dcc1888b53",
-						"5c06bf37-51ad-a3f2-6ab4-ef0985f7e9d8",
 						"c89e9d04-06cd-7661-410d-9205d78582a7",
-						"f0680230-492b-e3d8-db57-876b47e28976"
+						"5c06bf37-51ad-a3f2-6ab4-ef0985f7e9d8"
 					],
 					"createdAt": "2015-10-14T09:09:02.000Z",
 					"updatedAt": "2015-10-14T09:09:07.000Z",
@@ -580,7 +579,7 @@
 			"remoteLinkUpdatedAt": null,
 			"public": false,
 			"createdAt": 1471255836118,
-			"updatedAt": 1471948194998,
+			"updatedAt": 1471963884437,
 			"write": true,
 			"published": false,
 			"favorite": false,
@@ -2043,38 +2042,6 @@
 					"folder": "75527181-d0e3-5fad-010f-9d3c2cf14ad1"
 				},
 				{
-					"id": "f0680230-492b-e3d8-db57-876b47e28976",
-					"headers": "Authorization: Bearer  {{token}}\n",
-					"url": "{{domain}}/api/v1/smarthome/delete",
-					"preRequestScript": "",
-					"pathVariables": {},
-					"method": "GET",
-					"data": [
-						{
-							"key": "first_name",
-							"value": "{{me.first_name}}",
-							"type": "text",
-							"enabled": true
-						},
-						{
-							"key": "last_name",
-							"value": "{{me.last_name}}",
-							"type": "text",
-							"enabled": true
-						}
-					],
-					"dataMode": "params",
-					"version": 2,
-					"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n",
-					"currentHelper": "normal",
-					"helperAttributes": {},
-					"time": 1471947798293,
-					"name": "/api/v1/smarthome/delete",
-					"description": "Delete Smart Home related to current user",
-					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
-					"responses": []
-				},
-				{
 					"id": "f3343142-2304-7acd-e413-e22044afad78",
 					"headers": "Authorization: Bearer  {{token}}\n",
 					"url": "{{domain}}/api/v1/me/email",
@@ -2152,6 +2119,176 @@
 		}
 	],
 	"environments": [
+		{
+			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
+			"name": "dev",
+			"values": [
+				{
+					"key": "debug",
+					"type": "text",
+					"value": "true",
+					"enabled": true
+				},
+				{
+					"key": "domain",
+					"type": "text",
+					"value": "http://village.dev",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"type": "text",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjMsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ3MTQyMzI5MiwiZXhwIjoxNDc0MDE1MjkyLCJuYmYiOjE0NzE0MjMyOTIsImp0aSI6Ijg2NDJlYTE4NTkzOTE0YjJkMmVkYThhMzU2ZGFlNGQ0In0.SVzQhnMZMgnc8OVJzB10qiC44r2kLkgxhZYzrMdh0co",
+					"enabled": true
+				},
+				{
+					"key": "phone",
+					"type": "text",
+					"value": "+7(111)1111112",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"type": "text",
+					"value": "yj3wev32R6eQJWV",
+					"enabled": true
+				},
+				{
+					"key": "token.code",
+					"type": "text",
+					"value": "49844",
+					"enabled": true
+				},
+				{
+					"key": "token.session",
+					"type": "text",
+					"value": "YBrj6CsSpQ",
+					"enabled": true
+				},
+				{
+					"key": "article.id",
+					"type": "text",
+					"value": "766",
+					"enabled": true
+				},
+				{
+					"key": "me.first_name",
+					"type": "text",
+					"value": "hpccccerre",
+					"enabled": true
+				},
+				{
+					"key": "me.last_name",
+					"type": "text",
+					"value": "fmtolqgeca",
+					"enabled": true
+				},
+				{
+					"key": "product.id",
+					"type": "text",
+					"value": "262",
+					"enabled": true
+				},
+				{
+					"key": "service.id",
+					"type": "text",
+					"value": "306",
+					"enabled": true
+				},
+				{
+					"key": "page",
+					"type": "text",
+					"value": "1",
+					"enabled": true
+				},
+				{
+					"key": "product.category.id",
+					"type": "text",
+					"value": "156",
+					"enabled": true
+				},
+				{
+					"key": "service.category.id",
+					"type": "text",
+					"value": "107",
+					"enabled": true
+				},
+				{
+					"key": "building.code",
+					"type": "text",
+					"value": "test",
+					"enabled": true
+				},
+				{
+					"key": "building.id",
+					"type": "text",
+					"value": "1",
+					"enabled": true
+				},
+				{
+					"key": "me.password",
+					"type": "text",
+					"value": "1",
+					"enabled": true
+				},
+				{
+					"key": "survey.id",
+					"type": "text",
+					"value": "447",
+					"enabled": true
+				},
+				{
+					"key": "survey.my_vote.choice",
+					"type": "text",
+					"value": "0",
+					"enabled": true
+				},
+				{
+					"key": "survey.choice",
+					"type": "text",
+					"value": "0",
+					"enabled": true
+				},
+				{
+					"key": "me.email",
+					"type": "text",
+					"value": "test@test.test",
+					"enabled": true
+				},
+				{
+					"key": "me.id",
+					"type": "text",
+					"value": "undefined",
+					"enabled": true
+				},
+				{
+					"key": "me.phone",
+					"type": "text",
+					"value": "undefined",
+					"enabled": true
+				},
+				{
+					"key": "service.order.id",
+					"type": "text",
+					"value": "416",
+					"enabled": true
+				},
+				{
+					"key": "service.order.id.for_payment_check",
+					"type": "text",
+					"value": "4",
+					"enabled": true
+				},
+				{
+					"key": "product.order.id.for_payment_check",
+					"type": "text",
+					"value": "438",
+					"enabled": true
+				}
+			],
+			"team": null,
+			"timestamp": 1471962637510
+		},
 		{
 			"id": "a004eb55-888b-ee78-6d20-e55b8d1f5c6b",
 			"name": "production",
@@ -2302,7 +2439,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1471941562433
+			"timestamp": 1471962637524
 		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
@@ -2430,177 +2567,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1471941562464
-		},
-		{
-			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
-			"name": "dev",
-			"values": [
-				{
-					"key": "debug",
-					"type": "text",
-					"value": "true",
-					"enabled": true
-				},
-				{
-					"key": "domain",
-					"type": "text",
-					"value": "http://village.dev",
-					"enabled": true
-				},
-				{
-					"key": "token",
-					"type": "text",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjMsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ3MTQyMzI5MiwiZXhwIjoxNDc0MDE1MjkyLCJuYmYiOjE0NzE0MjMyOTIsImp0aSI6Ijg2NDJlYTE4NTkzOTE0YjJkMmVkYThhMzU2ZGFlNGQ0In0.SVzQhnMZMgnc8OVJzB10qiC44r2kLkgxhZYzrMdh0co",
-					"enabled": true
-				},
-				{
-					"key": "phone",
-					"type": "text",
-					"value": "+7(111)1111112",
-					"enabled": true
-				},
-				{
-					"key": "password",
-					"type": "text",
-					"value": "yj3wev32R6eQJWV",
-					"enabled": true
-				},
-				{
-					"key": "token.code",
-					"type": "text",
-					"value": "49844",
-					"enabled": true
-				},
-				{
-					"key": "token.session",
-					"type": "text",
-					"value": "YBrj6CsSpQ",
-					"enabled": true
-				},
-				{
-					"key": "article.id",
-					"type": "text",
-					"value": "766",
-					"enabled": true
-				},
-				{
-					"key": "me.first_name",
-					"type": "text",
-					"value": "npvwzctgyg",
-					"enabled": true
-				},
-				{
-					"key": "me.last_name",
-					"type": "text",
-					"value": "iyzccrzmyx",
-					"enabled": true
-				},
-				{
-					"key": "product.id",
-					"type": "text",
-					"value": "262",
-					"enabled": true
-				},
-				{
-					"key": "service.id",
-					"type": "text",
-					"value": "306",
-					"enabled": true
-				},
-				{
-					"key": "page",
-					"type": "text",
-					"value": "1",
-					"enabled": true
-				},
-				{
-					"key": "product.category.id",
-					"type": "text",
-					"value": "156",
-					"enabled": true
-				},
-				{
-					"key": "service.category.id",
-					"type": "text",
-					"value": "107",
-					"enabled": true
-				},
-				{
-					"key": "building.code",
-					"type": "text",
-					"value": "test",
-					"enabled": true
-				},
-				{
-					"key": "building.id",
-					"type": "text",
-					"value": "1",
-					"enabled": true
-				},
-				{
-					"key": "me.password",
-					"type": "text",
-					"value": "1",
-					"enabled": true
-				},
-				{
-					"key": "survey.id",
-					"type": "text",
-					"value": "447",
-					"enabled": true
-				},
-				{
-					"key": "survey.my_vote.choice",
-					"type": "text",
-					"value": "0",
-					"enabled": true
-				},
-				{
-					"key": "survey.choice",
-					"type": "text",
-					"value": "0",
-					"enabled": true
-				},
-				{
-					"key": "me.email",
-					"type": "text",
-					"value": "test@test.test",
-					"enabled": true
-				},
-				{
-					"key": "me.id",
-					"type": "text",
-					"value": "undefined",
-					"enabled": true
-				},
-				{
-					"key": "me.phone",
-					"type": "text",
-					"value": "undefined",
-					"enabled": true
-				},
-				{
-					"key": "service.order.id",
-					"type": "text",
-					"value": "416",
-					"enabled": true
-				},
-				{
-					"key": "service.order.id.for_payment_check",
-					"type": "text",
-					"value": "4",
-					"enabled": true
-				},
-				{
-					"key": "product.order.id.for_payment_check",
-					"type": "text",
-					"value": "438",
-					"enabled": true
-				}
-			],
-			"team": null,
-			"timestamp": 1471948198189
+			"timestamp": 1471962637530
 		}
 	],
 	"headerPresets": [

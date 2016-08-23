@@ -66,9 +66,13 @@ class SmartHomeController extends ApiController
             if ($validator->fails()) {
                 return $this->response->errorWrongArgs($validator->errors());
             }
-            $user            = $this->user()->load('building');
-            $data['user_id'] = $user->id;
-            SmartHome::create($data);
+            $smartHome = new SmartHome;
+            $smartHome->name = $data['name'];
+            $smartHome->api = $data['api'];
+            $smartHome->password = $data['password'];
+            $user = $this->user()->load('building');
+            $user->smartHome()->save($smartHome);
+
         }
         return $this->index();
     }

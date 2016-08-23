@@ -2,23 +2,19 @@
 
 use Crypt;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Log;
 use Modules\Village\Entities\Scope\ApiScope;
-
 
 class SmartHome extends Model
 {
 
-    use SoftDeletes;
     use ApiScope;
-    protected $table = 'village__smart_houses';
-    protected $fillable = ['name', 'api', 'password', 'user_id'];
-    protected $dates = ['deleted_at'];
-
+    protected $table = 'village__smarthouses';
+    protected $fillable = ['name', 'api', 'password'];
 
     public function smartHome()
     {
-        return $this->belongsTo('Modules\SmartHome\Entities\User', 'smarthouse_id');
+        return $this->belongsTo('Modules\SmartHome\Entities\User');
     }
 
     public function setPasswordAttribute($value)
@@ -31,7 +27,8 @@ class SmartHome extends Model
         try {
             return Crypt::decrypt($value);
         } catch (DecryptException $e) {
-            return $e->getMessage();
+            Log::critical('Getting user password exception: ' . $e->getMessage());
+            die('FATAL ERROR: '.$e->getMessage());
         }
     }
 

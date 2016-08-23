@@ -13,18 +13,16 @@ class CreateSmarthouesesTable extends Migration
      */
     public function up()
     {
-        Schema::create('village__smart_houses', function (Blueprint $table) {
+        Schema::create('village__smarthouses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('password');
             $table->string('name');
             $table->string('api');
             $table->boolean('active')->default(true);
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
-            $table->softDeletes();
         });
-
-
     }
 
     /**
@@ -34,6 +32,9 @@ class CreateSmarthouesesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('village__smart_houses');
+        Schema::table('village__smarthouses', function (Blueprint $table) {
+           // $table->dropForeign('village__smarthouses_user_id_foreign');
+        });
+        Schema::dropIfExists('village__smarthouses');
     }
 }

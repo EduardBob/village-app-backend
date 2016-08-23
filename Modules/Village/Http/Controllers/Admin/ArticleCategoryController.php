@@ -30,12 +30,7 @@ class ArticleCategoryController extends AdminController
      */
     protected function configureDatagridColumns()
     {
-        return [
-          'village__article_categories.id',
-          'village__article_categories.title',
-          'village__article_categories.order',
-          'village__article_categories.active',
-        ];
+        return ['village__article_categories.*'];
     }
 
     /**

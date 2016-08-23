@@ -24,6 +24,11 @@ class User extends BaseUser implements AuthenticatableContract
     {
         return $this->hasOne('Cartalyst\Sentinel\Activations\EloquentActivation');
     }
+    public function smartHome()
+    {
+        return $this->hasOne('Modules\Village\Entities\SmartHome', 'user_id', 'id');
+    }
+
 
     public function village()
     {

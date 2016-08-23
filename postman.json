@@ -477,6 +477,28 @@
 				{
 					"owner": "161799",
 					"lastUpdatedBy": "161799",
+					"lastRevision": 66685547,
+					"collection": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"id": "0503a04a-9b61-b867-9345-1e207f387d5c",
+					"name": "smarthome",
+					"description": "Smart home integration",
+					"order": [
+						"94902848-144e-42d2-b8b7-86dcc1888b53",
+						"5c06bf37-51ad-a3f2-6ab4-ef0985f7e9d8",
+						"c89e9d04-06cd-7661-410d-9205d78582a7",
+						"f0680230-492b-e3d8-db57-876b47e28976"
+					],
+					"createdAt": "2015-10-14T09:09:02.000Z",
+					"updatedAt": "2015-10-14T09:09:07.000Z",
+					"write": true,
+					"collection_name": "Village",
+					"collection_owner": "161799",
+					"collection_id": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e"
+				},
+				{
+					"owner": "161799",
+					"lastUpdatedBy": "161799",
 					"lastRevision": 66685554,
 					"collection": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
 					"id": "4af15e53-cdba-10b3-3df1-ae39ca683153",
@@ -558,7 +580,7 @@
 			"remoteLinkUpdatedAt": null,
 			"public": false,
 			"createdAt": 1471255836118,
-			"updatedAt": 1471441341009,
+			"updatedAt": 1471948194998,
 			"write": true,
 			"published": false,
 			"favorite": false,
@@ -952,6 +974,25 @@
 					"folder": "2fbfddf6-5fc2-4b65-cfe9-32f280db00db"
 				},
 				{
+					"id": "5c06bf37-51ad-a3f2-6ab4-ef0985f7e9d8",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/smarthome/statuses/",
+					"preRequestScript": "first_name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);\nlast_name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);\npostman.setEnvironmentVariable(\"me.first_name\", first_name);\npostman.setEnvironmentVariable(\"me.last_name\", last_name);",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\nif (response.data) {\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains status_label\"] = responseBody.has(\"status_label\");\n    tests[\"Body contains status\"] = responseBody.has(\"status\");\n    tests[\"Body contains name\"] = responseBody.has(\"name\");\n    tests[\"Body contains image\"] = responseBody.has(\"image\");\n    \n   \n}\nelse {\n    tests[\"has data\"] = false;\n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1471948194962,
+					"name": "/api/v1/me/smarthome/statuses",
+					"description": "Get all smart devices statuses",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"responses": []
+				},
+				{
 					"id": "5c22ade9-5738-07b7-fdcd-3daa121c4a70",
 					"owner": "161799",
 					"headers": "Authorization: Bearer  {{token}}\n",
@@ -1312,6 +1353,38 @@
 					"responses": []
 				},
 				{
+					"id": "94902848-144e-42d2-b8b7-86dcc1888b53",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/smarthome/",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "first_name",
+							"value": "{{me.first_name}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "{{me.last_name}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\nresponse.data = 1;\nif (response.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains first_name\"] = responseBody.has(\"first_name\");\n    tests[\"Body contains last_name\"] = responseBody.has(\"last_name\");\n    tests[\"Body contains phone\"] = responseBody.has(\"phone\");\n    tests[\"Body contains activated\"] = responseBody.has(\"activated\");\n    tests[\"Body contains building\"] = responseBody.has(\"building\");\n\n    postman.setEnvironmentVariable(\"me.id\", response.data.id);\n    postman.setEnvironmentVariable(\"me.phone\", response.data.id);\n}\nelse {\n    tests[\"no data\"] = false;\n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1471866631815,
+					"name": "/api/v1/smarthome/",
+					"description": "Get me info",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"responses": []
+				},
+				{
 					"id": "9e52af98-884a-2104-1652-d3d9c8416694",
 					"headers": "Authorization: Bearer  {{token}}\n",
 					"url": "{{domain}}/api/v1/services/orders",
@@ -1602,6 +1675,44 @@
 					"responses": [],
 					"owner": "161799",
 					"folder": "2fbfddf6-5fc2-4b65-cfe9-32f280db00db"
+				},
+				{
+					"id": "c89e9d04-06cd-7661-410d-9205d78582a7",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/smarthome/add",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "name",
+							"value": "SomeName",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "SomePassword",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "api",
+							"value": "http://zzzz.ss:8083/",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1471947817282,
+					"name": "/api/v1/me/smarthome/add",
+					"description": "Add Smart Home settings",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"responses": []
 				},
 				{
 					"id": "d293a708-4d45-bf50-494b-b933c4d98209",
@@ -1932,6 +2043,38 @@
 					"folder": "75527181-d0e3-5fad-010f-9d3c2cf14ad1"
 				},
 				{
+					"id": "f0680230-492b-e3d8-db57-876b47e28976",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/smarthome/delete",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "first_name",
+							"value": "{{me.first_name}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "last_name",
+							"value": "{{me.last_name}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1471947798293,
+					"name": "/api/v1/smarthome/delete",
+					"description": "Delete Smart Home related to current user",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"responses": []
+				},
+				{
 					"id": "f3343142-2304-7acd-e413-e22044afad78",
 					"headers": "Authorization: Bearer  {{token}}\n",
 					"url": "{{domain}}/api/v1/me/email",
@@ -2144,10 +2287,22 @@
 					"type": "text",
 					"value": "114",
 					"enabled": true
+				},
+				{
+					"key": "me.first_name",
+					"type": "text",
+					"value": "akmnyyaqwp",
+					"enabled": true
+				},
+				{
+					"key": "me.last_name",
+					"type": "text",
+					"value": "tjzomtienw",
+					"enabled": true
 				}
 			],
 			"team": null,
-			"timestamp": 1471443413257
+			"timestamp": 1471941562433
 		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
@@ -2275,7 +2430,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1471443413270
+			"timestamp": 1471941562464
 		},
 		{
 			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
@@ -2326,19 +2481,19 @@
 				{
 					"key": "article.id",
 					"type": "text",
-					"value": "554",
+					"value": "766",
 					"enabled": true
 				},
 				{
 					"key": "me.first_name",
 					"type": "text",
-					"value": "wzkqgjbyou",
+					"value": "npvwzctgyg",
 					"enabled": true
 				},
 				{
 					"key": "me.last_name",
 					"type": "text",
-					"value": "hsxdxcflwj",
+					"value": "iyzccrzmyx",
 					"enabled": true
 				},
 				{
@@ -2445,7 +2600,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1471443907761
+			"timestamp": 1471948198189
 		}
 	],
 	"headerPresets": [

@@ -19,7 +19,6 @@ class SmartHomeTransformer extends BaseTransformer
           'id'      => $smartHome->id,
           'name'    => $smartHome->name,
           'api'     => $smartHome->api,
-          'user_id' => $smartHome->user_id
         ];
     }
 }

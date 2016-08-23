@@ -61,9 +61,6 @@ class User extends BaseUser implements AuthenticatableContract
             if (!$user->building_id) {
                 $user->building_id = null;
             }
-            if (!$user->smarthome_id) {
-                $user->smarthome_id = null;
-            }
         });
     }
 

@@ -1,15 +1,13 @@
 <?php namespace Modules\Village\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-
-use DB;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Media\Support\Traits\MediaRelation;
 use Modules\Village\Entities\Scope\ApiScope;
 use Modules\Village\Entities\Scope\VillageAdminScope;
 
 class Article extends Model
 {
+
     use MediaRelation;
     use ApiScope;
     use VillageAdminScope;
@@ -25,7 +23,7 @@ class Article extends Model
 
     public function category()
     {
-        return $this->belongsTo('Modules\Village\Entities\ArticleCategory', 'category_id')->withTrashed();
+        return $this->belongsTo('Modules\Village\Entities\ArticleCategory', 'category_id');
     }
 
     public function village()
@@ -34,30 +32,33 @@ class Article extends Model
 
     }
 
+    /**
+     * Null value setter for DB query (by default empty sting is passed).
+     *
+     * @param $value
+     */
     public function setVillageIdAttribute($value)
     {
-        if($value == ''){
-            $this->attributes['village_id'] = null;
-        }
+        $this->attributes['village_id'] = ($value == '') ? null : $value;
     }
 
     protected static function boot()
     {
         parent::boot();
 
-        static::saving(function(Article $article) {
+        static::saving(function (Article $article) {
             $article->short = static::generateShort($article->text);
         });
     }
 
     /**
      * @param string $text
-     * @param int    $limit
+     * @param int $limit
      *
      * @return string
      */
     static public function generateShort($text, $limit = 200)
     {
-        return (mb_strlen($text) <= $limit) ? $text : substr($text, 0, $limit - 3).'...';
+        return (mb_strlen($text) <= $limit) ? $text : substr($text, 0, $limit - 3) . '...';
     }
 }

@@ -1,20 +1,19 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Modules\Village\Entities\User;
 use Modules\User\Repositories\RoleRepository;
 use Modules\User\Repositories\UserRepository;
+use Modules\Village\Entities\User;
 use Response;
-
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Validator;
 use Yajra\Datatables\Engines\EloquentEngine;
 use Yajra\Datatables\Html\Builder as TableBuilder;
-use Yajra\Datatables\Datatables;
 
 class UserController extends AdminController
 {
+
     /**
      * @var UserRepository
      */
@@ -25,8 +24,8 @@ class UserController extends AdminController
     private $role;
 
     /**
-     * @param UserRepository    $user
-     * @param RoleRepository    $role
+     * @param UserRepository $user
+     * @param RoleRepository $role
      */
     public function __construct(UserRepository $user, RoleRepository $role)
     {
@@ -63,14 +62,14 @@ class UserController extends AdminController
     protected function configureDatagridColumns()
     {
         return [
-            'users.id',
-            'users.village_id',
-            'users.building_id',
-            'users.first_name',
-            'users.last_name',
-            'users.phone',
-            'users.email',
-            'activations.completed'
+          'users.id',
+          'users.village_id',
+          'users.building_id',
+          'users.first_name',
+          'users.last_name',
+          'users.phone',
+          'users.email',
+          'activations.completed'
         ];
     }
 
@@ -80,13 +79,12 @@ class UserController extends AdminController
     protected function configureQuery(QueryBuilder $query)
     {
         $query
-            ->leftJoin('village__villages', 'users.village_id', '=', 'village__villages.id')
-            ->where('village__villages.deleted_at', null)
-            ->leftJoin('village__buildings', 'users.building_id', '=', 'village__buildings.id')
-            ->leftJoin('activations', 'users.id', '=', 'activations.user_id')
-	        ->groupBy('users.id')
-            ->with(['village', 'building', 'activation'])
-        ;
+          ->leftJoin('village__villages', 'users.village_id', '=', 'village__villages.id')
+          ->where('village__villages.deleted_at', null)
+          ->leftJoin('village__buildings', 'users.building_id', '=', 'village__buildings.id')
+          ->leftJoin('activations', 'users.id', '=', 'activations.user_id')
+          ->groupBy('users.id')
+          ->with(['village', 'building', 'activation']);
 
         if (!$this->getCurrentUser()->inRole('admin')) {
             $query->where('users.village_id', $this->getCurrentUser()->village->id);
@@ -99,24 +97,21 @@ class UserController extends AdminController
     protected function configureDatagridFields(TableBuilder $builder)
     {
         $builder
-            ->addColumn(['data' => 'id', 'name' => 'users.id', 'title' => 'ID'])
-        ;
+          ->addColumn(['data' => 'id', 'name' => 'users.id', 'title' => 'ID']);
 
         if ($this->getCurrentUser()->inRole('admin')) {
             $builder
-                ->addColumn(['data' => 'village_name', 'name' => 'village__villages.name', 'title' => trans('village::villages.title.model')])
-            ;
+              ->addColumn(['data' => 'village_name', 'name' => 'village__villages.name', 'title' => trans('village::villages.title.model')]);
         }
 
         $builder
-            ->addColumn(['data' => 'roles', 'title' => trans('user::users.tabs.roles'), 'searchable' => false, 'orderable' => false])
-            ->addColumn(['data' => 'first_name', 'name' => 'users.first_name', 'title' => $this->trans('form.first-name')])
-            ->addColumn(['data' => 'last_name', 'name' => 'users.last_name', 'title' => $this->trans('form.last-name')])
-            ->addColumn(['data' => 'phone', 'name' => 'users.phone', 'title' => trans('village::users.form.phone')])
-            ->addColumn(['data' => 'email', 'name' => 'users.email', 'title' =>  $this->trans('form.email')])
-            ->addColumn(['data' => 'building_address', 'name' => 'village__buildings.address', 'title' => trans('village::users.form.building_id')])
-            ->addColumn(['data' => 'activation_completed', 'name' => 'activations.completed', 'title' => $this->trans('form.status')])
-        ;
+          ->addColumn(['data' => 'roles', 'title' => trans('user::users.tabs.roles'), 'searchable' => false, 'orderable' => false])
+          ->addColumn(['data' => 'first_name', 'name' => 'users.first_name', 'title' => $this->trans('form.first-name')])
+          ->addColumn(['data' => 'last_name', 'name' => 'users.last_name', 'title' => $this->trans('form.last-name')])
+          ->addColumn(['data' => 'phone', 'name' => 'users.phone', 'title' => trans('village::users.form.phone')])
+          ->addColumn(['data' => 'email', 'name' => 'users.email', 'title' => $this->trans('form.email')])
+          ->addColumn(['data' => 'building_address', 'name' => 'village__buildings.address', 'title' => trans('village::users.form.building_id')])
+          ->addColumn(['data' => 'activation_completed', 'name' => 'activations.completed', 'title' => $this->trans('form.status')]);
     }
 
     /**
@@ -126,48 +121,43 @@ class UserController extends AdminController
     {
         if ($this->getCurrentUser()->inRole('admin')) {
             $dataTable
-                ->editColumn('village_name', function (User $user) {
-                    if (!$user->village) {
-                        return '';
-                    }
-                    if ($this->getCurrentUser()->hasAccess('village.villages.edit')) {
-                        return '<a href="'.route('admin.village.village.edit', ['id' => $user->village->id]).'">'.$user->village->name.'</a>';
-                    }
-                    else {
-                        return $user->village->name;
-                    }
-                })
-            ;
+              ->editColumn('village_name', function (User $user) {
+                  if (!$user->village) {
+                      return '';
+                  }
+                  if ($this->getCurrentUser()->hasAccess('village.villages.edit')) {
+                      return '<a href="' . route('admin.village.village.edit', ['id' => $user->village->id]) . '">' . $user->village->name . '</a>';
+                  } else {
+                      return $user->village->name;
+                  }
+              });
         }
 
         $dataTable
-            ->editColumn('building_address', function (User $user) {
-                if (!$user->building) {
-                    return '';
-                }
-                if ($this->getCurrentUser()->hasAccess('village.buildings.edit')) {
-                    return '<a href="'.route('admin.village.building.edit', ['id' => $user->building->id]).'">'.$user->building->address.'</a>';
-                }
-                else {
-                    return $user->building->address;
-                }
-            })
-            ->editColumn('activation_completed', function (User $user) {
-                if($user->isActivated()) {
-                    return '<span class="label label-success">'.trans('village::admin.table.active.yes').'</span>';
-                }
-                else {
-                    return '<span class="label label-danger">'.trans('village::admin.table.active.no').'</span>';
-                }
-            })
-            ->addColumn('roles', function (User $user) {
-                $inRoles = [];
-                foreach ($user->getRoles()->getIterator() as $role) {
-                    $inRoles[] = $role->name;
-                }
-                return implode(', ', $inRoles);
-            })
-        ;
+          ->editColumn('building_address', function (User $user) {
+              if (!$user->building) {
+                  return '';
+              }
+              if ($this->getCurrentUser()->hasAccess('village.buildings.edit')) {
+                  return '<a href="' . route('admin.village.building.edit', ['id' => $user->building->id]) . '">' . $user->building->address . '</a>';
+              } else {
+                  return $user->building->address;
+              }
+          })
+          ->editColumn('activation_completed', function (User $user) {
+              if ($user->isActivated()) {
+                  return '<span class="label label-success">' . trans('village::admin.table.active.yes') . '</span>';
+              } else {
+                  return '<span class="label label-danger">' . trans('village::admin.table.active.no') . '</span>';
+              }
+          })
+          ->addColumn('roles', function (User $user) {
+              $inRoles = [];
+              foreach ($user->getRoles()->getIterator() as $role) {
+                  $inRoles[] = $role->name;
+              }
+              return implode(', ', $inRoles);
+          });
     }
 
     /**
@@ -187,6 +177,7 @@ class UserController extends AdminController
      * Store a newly created resource in storage.
      *
      * @param  Request $request
+     *
      * @return Response
      */
     public function store(Request $request)
@@ -209,7 +200,8 @@ class UserController extends AdminController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int      $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -225,8 +217,9 @@ class UserController extends AdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param  int     $id
+     * @param  int $id
      * @param  Request $request
+     *
      * @return Response
      */
     public function update($id, Request $request)
@@ -252,6 +245,7 @@ class UserController extends AdminController
      * Remove the specified resource from storage.
      *
      * @param int|Model $model
+     *
      * @return Response
      */
     public function destroy($model)
@@ -274,7 +268,7 @@ class UserController extends AdminController
 
     /**
      * @param array $data
-     * @param User  $user
+     * @param User $user
      *
      * @return Validator
      */
@@ -284,11 +278,11 @@ class UserController extends AdminController
 
         $rules = [
 //            'address' => "required|max:255|unique:village__buildings,address,{$id}",
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => "email|unique:users,email,{$id}",
+          'first_name' => 'required',
+          'last_name'  => 'required',
+          'email'      => "email|unique:users,email,{$id}",
 //            'password' => 'min:3|confirmed',
-            'phone' => 'required|regex:'.config('village.user.phone.regex'),
+          'phone'      => 'required|regex:' . config('village.user.phone.regex'),
         ];
 
         if (!$this->getCurrentUser()->inRole('admin')) {
@@ -306,8 +300,9 @@ class UserController extends AdminController
         $roles = $this->role->all();
 
         if (!$this->getCurrentUser()->inRole('admin')) {
+            $adminRoles = ['user', 'village-admin', 'executor', 'security', 'creatorservices', 'viewsurveys', 'creatorsurvey', 'creatornews', 'nouser'];
             foreach ($roles as $key => $role) {
-                if (!in_array($role->slug, ['user', 'village-admin', 'executor', 'security'])) {
+                if (!in_array($role->slug, $adminRoles)) {
                     unset($roles[$key]);
                 }
             }
@@ -334,8 +329,7 @@ class UserController extends AdminController
             }
 
             $data['roles'] = $roles;
-        }
-        else {
+        } else {
             $data['roles'] = ['']; // need for delete role relations
         }
 

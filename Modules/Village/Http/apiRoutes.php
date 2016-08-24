@@ -54,7 +54,7 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
         $router->group(['prefix' => 'security', 'middleware' => ['role:security']], function (Router $router) {
             $router->group(['prefix' => 'services'], function (Router $router) {
                 $router->group(['prefix' => 'orders'], function (Router $router) {
-                    $router->get('',        ['uses' => 'V1\Security\ServiceOrderController@index', 'as' => 'village.security.api.service.order.list']);
+                    $router->get('', ['uses' => 'V1\Security\ServiceOrderController@index', 'as' => 'village.security.api.service.order.list']);
                     $router->get('{id}',    ['uses' => 'V1\Security\ServiceOrderController@show', 'as' => 'village.security.api.service.order.show']);
                     $router->post('',       ['uses' => 'V1\Security\ServiceOrderController@store', 'as' => 'village.security.api.service.order.store']);
                     $router->patch('{id}',  ['uses' => 'V1\Security\ServiceOrderController@update', 'as' => 'village.security.api.service.order.update']);
@@ -101,7 +101,7 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
                 $router->post('',       ['uses' => 'V1\ServiceOrderController@store', 'as' => 'village.api.service.order.store']);
             });
 
-            $router->get('',        ['uses' => 'V1\ServiceController@index', 'as' => 'village.api.service.service.list']);
+            $router->get('',            ['uses' => 'V1\ServiceController@index', 'as' => 'village.api.service.service.list']);
             $router->get('{id}',        ['uses' => 'V1\ServiceController@show', 'as' => 'village.api.service.service.one']);
         });
 
@@ -116,7 +116,7 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
                 $router->post('',       ['uses' => 'V1\ProductOrderController@store', 'as' => 'village.api.product.order.store']);
             });
 
-            $router->get('',        ['uses' => 'V1\ProductController@index', 'as' => 'village.api.product.product.list']);
+            $router->get('',            ['uses' => 'V1\ProductController@index', 'as' => 'village.api.product.product.list']);
             $router->get('{id}',        ['uses' => 'V1\ProductController@show', 'as' => 'village.api.product.product.one']);
         });
 
@@ -124,6 +124,15 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
             $router->get('/current',    ['uses' => 'V1\SurveyController@current', 'as' => 'village.api.survey.current']);
             $router->post('{id}', 	    ['uses' => 'V1\SurveyController@vote', 'as' => 'village.api.survey.vote']);
         });
-
+        // Smart home methods.
+        $router->group(['prefix' => 'smarthome'], function (Router $router) {
+            $router->get('',            ['uses' => 'V1\SmartHomeController@index', 'as' => 'village.api.smarthome.index']);
+            $router->group(['prefix' => 'statuses'], function (Router $router) {
+                $router->get('',        ['uses' => 'V1\SmartHomeController@statuses', 'as' => 'village.api.smarthome.statuses']);
+            });
+            $router->group(['prefix' => 'add'], function (Router $router) {
+                $router->post('',       ['uses' => 'V1\SmartHomeController@add', 'as' => 'village.api.smarthome.add']);
+            });
+        });
     });
 });

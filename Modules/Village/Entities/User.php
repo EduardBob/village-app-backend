@@ -24,6 +24,11 @@ class User extends BaseUser implements AuthenticatableContract
     {
         return $this->hasOne('Cartalyst\Sentinel\Activations\EloquentActivation');
     }
+    public function smartHome()
+    {
+        return $this->hasOne('Modules\Village\Entities\SmartHome');
+    }
+
 
     public function village()
     {
@@ -39,13 +44,13 @@ class User extends BaseUser implements AuthenticatableContract
     {
         parent::boot();
 
-        static::creating(function(User $user) {
+        static::creating(function (User $user) {
             if ($user->building) {
                 $user->village()->associate($user->building->village);
             }
         });
 
-        static::saving(function(User $user) {
+        static::saving(function (User $user) {
             if (!$user->email) {
                 $user->email = null;
             }

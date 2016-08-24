@@ -185,10 +185,12 @@ class VillageServiceProvider extends ServiceProvider
      */
     private function sendClientSmsOnStatusChange(Authentication $auth, OrderInterface $order)
     {
+
         $user = $this->user($auth);
-        if (!config('village.sms.enabled.on_order_processing')) {
+        if (!config('village.sms.enabled.on_order_processing_user')) {
             return;
         }
+
         if ($userMail = $order->user->phone) {
             $type = $order->product ? 'product' : 'service';
             // TODO get format.
@@ -224,7 +226,7 @@ class VillageServiceProvider extends ServiceProvider
         $user       = $this->user($auth);
         $type       = $order->product ? 'product' : 'service';
         $toEmails   = [];
-        $statusText = ' '.$this->getStatusText($order);
+        $statusText = ' ' . $this->getStatusText($order);
         if ($userMail = $order->user->email) {
             $toEmails[] = $userMail;
             $executors  = [];

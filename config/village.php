@@ -19,6 +19,7 @@ return [
         'enabled'  => [
             'mass'                => env('VILLAGE_SMS_MASS_SEND_ENABLED', false),
             'on_order_processing' => env('VILLAGE_SMS_SEND_ON_ORDER_PROCESSING', false),
+            'on_order_processing_user' => env('CLIENT_SMS_SEND_ENABLED', false)
         ],
     ],
     'user' => [

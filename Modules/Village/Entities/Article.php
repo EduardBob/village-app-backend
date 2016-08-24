@@ -23,7 +23,7 @@ class Article extends Model
 
     public function category()
     {
-        return $this->belongsTo('Modules\Village\Entities\ArticleCategory', 'category_id')->withTrashed();
+        return $this->belongsTo('Modules\Village\Entities\ArticleCategory', 'category_id');
     }
 
     public function village()

@@ -55,6 +55,7 @@ return [
         ]
     ],
     'order' => [
+        'on_order_processing_send_client_mail' => env('CLIENT_EMAIL_SEND_ENABLED', false),
         'first_status' => 'processing',
         'statuses' => ['processing', 'running', 'done', 'rejected'], // cancelled
         'label' => [

@@ -118,6 +118,14 @@ class MeController extends ApiController
         return $this->response->withItem($this->user()->load('building'), new UserTransformer);
     }
 
+    public function mailSubscribe(Request $request)
+    {
+        $data = $request::only(['has_mail_notifications']);
+        $data['has_mail_notifications'] = boolval($data['has_mail_notifications']);
+        $this->user()->update($data);
+        return $this->response->withItem($this->user()->load('building'), new UserTransformer);
+    }
+
     /**
      * @param Request $request
      *

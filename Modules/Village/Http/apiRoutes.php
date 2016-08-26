@@ -69,6 +69,7 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
             $router->post('email', 		['uses' => 'V1\MeController@changeEmail', 'as' => 'village.api.user.me.email']);
             $router->post('password', 	['uses' => 'V1\MeController@changePassword', 'as' => 'village.api.user.me.password']);
             $router->post('phone', 	    ['uses' => 'V1\MeController@changePhone', 'as' => 'village.api.user.me.phone']);
+            $router->post('has_mail_notifications',    ['uses' => 'V1\MeController@mailSubscribe', 'as' => 'village.api.user.me.subscribe']);
         });
 
 //        $router->group(['prefix' => 'users'], function (Router $router) {

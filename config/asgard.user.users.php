@@ -39,6 +39,7 @@ return [
         'phone',
         'village_id',
         'building_id',
+        'has_mail_notifications'
     ],
 //
 //    'dates' => ['deleted_at']

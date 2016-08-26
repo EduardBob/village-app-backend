@@ -36,6 +36,7 @@ class UserTransformer extends TransformerAbstract
             'last_name' => $user->last_name,
             'email' => $user->email,
             'phone' => $user->phone,
+            'has_mail_notifications' => (bool) $user->has_mail_notifications,
             'activated' => \Activation::completed($user) ? true : false
         ];
     }

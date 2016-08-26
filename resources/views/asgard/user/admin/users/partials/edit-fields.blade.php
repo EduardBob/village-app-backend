@@ -83,7 +83,7 @@
                     @endif
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="checkbox{{ $errors->has('activated') ? ' has-error' : '' }}">
                             <input type="hidden" value="{{ @$model->id === $currentUser->id ? '1' : '0' }}" name="activated"/>
                             <?php $oldValue = !isset($model) || (bool)$model->isActivated() ? 'checked' : ''; ?>
@@ -98,6 +98,13 @@
                                 {{ trans('user::users.form.status') }}
                                 {!! $errors->first('activated', '<span class="help-block">:message</span>') !!}
                             </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="checkbox{{ $errors->has('has_mail_notifications') ? ' has-error' : '' }}">
+                            {!! Form::checkbox('has_mail_notifications', (int)Input::old('has_mail_notifications', @$model->has_mail_notifications), (bool)Input::old('has_mail_notifications', @$model->has_mail_notifications), ['class' => 'flat-blue']) !!}
+                            {!! Form::label('has_mail_notifications', $admin->trans('table.has_mail_notifications')) !!}
+                            {!! $errors->first('has_mail_notifications', '<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
                 </div>

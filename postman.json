@@ -400,7 +400,8 @@
 						"58c69a78-8c04-067a-2731-cab30e1ef294",
 						"f3343142-2304-7acd-e413-e22044afad78",
 						"a4b1623b-6a6b-0ff0-f305-87cae717b7d8",
-						"1e6ec529-cc57-9065-f28e-05936f67d2d0"
+						"1e6ec529-cc57-9065-f28e-05936f67d2d0",
+						"03bc70b4-9759-328c-89b5-2813413da88a"
 					],
 					"createdAt": "2015-10-14T09:09:02.000Z",
 					"updatedAt": "2015-10-14T09:09:07.000Z",
@@ -579,13 +580,39 @@
 			"remoteLinkUpdatedAt": null,
 			"public": false,
 			"createdAt": 1471255836118,
-			"updatedAt": 1471963884437,
+			"updatedAt": 1472210747242,
 			"write": true,
 			"published": false,
 			"favorite": false,
 			"permissions": {},
 			"syncedPermissions": {},
 			"requests": [
+				{
+					"id": "03bc70b4-9759-328c-89b5-2813413da88a",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/me/has_mail_notifications",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "has_mail_notifications",
+							"value": "true",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\nresponse.data = 1;\nif (response.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains first_name\"] = responseBody.has(\"first_name\");\n    tests[\"Body contains last_name\"] = responseBody.has(\"last_name\");\n    tests[\"Body contains phone\"] = responseBody.has(\"phone\");\n    tests[\"Body contains activated\"] = responseBody.has(\"activated\");\n    tests[\"Body contains building\"] = responseBody.has(\"building\");\n\n    postman.setEnvironmentVariable(\"me.id\", response.data.id);\n    postman.setEnvironmentVariable(\"me.phone\", response.data.id);\n}\nelse {\n    tests[\"no data\"] = false;\n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1472212245424,
+					"name": "/api/v1/me/has_mail_notifications",
+					"description": "Subscribe/Unsubsribe to email notifications",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"responses": []
+				},
 				{
 					"id": "1abfe89c-9d5c-4c95-e2d2-e774199c784e",
 					"headers": "",
@@ -1381,7 +1408,8 @@
 					"name": "/api/v1/smarthome/",
 					"description": "Get me info",
 					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
-					"responses": []
+					"responses": [],
+					"folder": "0503a04a-9b61-b867-9345-1e207f387d5c"
 				},
 				{
 					"id": "9e52af98-884a-2104-1652-d3d9c8416694",
@@ -1921,13 +1949,11 @@
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\nresponse.data = 1;\nif (response.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains first_name\"] = responseBody.has(\"first_name\");\n    tests[\"Body contains last_name\"] = responseBody.has(\"last_name\");\n    tests[\"Body contains phone\"] = responseBody.has(\"phone\");\n    tests[\"Body contains activated\"] = responseBody.has(\"activated\");\n    tests[\"Body contains building\"] = responseBody.has(\"building\");\n\n    postman.setEnvironmentVariable(\"me.id\", response.data.id);\n    postman.setEnvironmentVariable(\"me.phone\", response.data.id);\n}\nelse {\n    tests[\"no data\"] = false;\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1446761288346,
+					"time": 1472210095740,
 					"name": "/api/v1/me",
 					"description": "Get me info",
 					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
-					"responses": [],
-					"owner": "161799",
-					"folder": "0f31ed68-0b02-7920-4849-0d828ee51b66"
+					"responses": []
 				},
 				{
 					"id": "e34acc44-2ca1-3385-df36-7ed418202ca8",
@@ -2174,13 +2200,13 @@
 				{
 					"key": "me.first_name",
 					"type": "text",
-					"value": "hpccccerre",
+					"value": "xftiqftkii",
 					"enabled": true
 				},
 				{
 					"key": "me.last_name",
 					"type": "text",
-					"value": "fmtolqgeca",
+					"value": "kfxavzvwse",
 					"enabled": true
 				},
 				{
@@ -2287,7 +2313,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1471962637510
+			"timestamp": 1472214330788
 		},
 		{
 			"id": "a004eb55-888b-ee78-6d20-e55b8d1f5c6b",
@@ -2439,7 +2465,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1471962637524
+			"timestamp": 1472214330797
 		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
@@ -2567,7 +2593,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1471962637530
+			"timestamp": 1472214330804
 		}
 	],
 	"headerPresets": [

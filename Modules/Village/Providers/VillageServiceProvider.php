@@ -223,7 +223,7 @@ class VillageServiceProvider extends ServiceProvider
      */
     private function sendClientMailOnStatusChange(Authentication $auth, OrderInterface $order)
     {
-        if (!config('village.order.on_order_processing_send_client_mail')) {
+        if (!config('village.order.on_order_processing_send_client_mail') || !$order->user->has_mail_notifications) {
             return;
         }
 

@@ -32,6 +32,11 @@ class User extends BaseUser implements AuthenticatableContract
         return $this->hasOne('Modules\Village\Entities\SmartHome');
     }
 
+    public function devices()
+    {
+        return $this->hasMany('Modules\Village\Entities\UserDevice');
+    }
+
     public function village()
     {
         return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');

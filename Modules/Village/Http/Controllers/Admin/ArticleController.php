@@ -97,12 +97,10 @@ class ArticleController extends AdminController
 
         $dataTable
           ->editColumn('category_title', function (Article $article) {
-              if (!is_null($article->category) && $this->getCurrentUser()->hasAccess('village.articlecategories.edit')) {
+              if ($this->getCurrentUser()->hasAccess('village.articlecategories.edit')) {
                   return '<a href="' . route('admin.village.articlecategory.edit', ['id' => $article->category->id]) . '">' . $article->category->title . '</a>';
               }
-              elseif (!is_null($article->category)) {
-                  return $article->category->title;
-              }
+              return $article->category->title;
           });
 
         $dataTable

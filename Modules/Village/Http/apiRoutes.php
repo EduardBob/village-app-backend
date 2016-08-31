@@ -69,15 +69,20 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
             $router->post('name', 		['uses' => 'V1\MeController@changeName', 'as' => 'village.api.user.me.name']);
             $router->post('email', 		['uses' => 'V1\MeController@changeEmail', 'as' => 'village.api.user.me.email']);
             $router->post('password', 	['uses' => 'V1\MeController@changePassword', 'as' => 'village.api.user.me.password']);
-            // Subscribe/Unsubsribe user from mail notifications.
+
             $router->post('phone', 	    ['uses' => 'V1\MeController@changePhone', 'as' => 'village.api.user.me.phone']);
-            $router->group(['prefix' => 'mail-notifications'], function (Router $router) {
-                $router->post('',       ['uses' => 'V1\MeController@mailSubscribe', 'as' => 'village.api.user.me.subscribe']);
-            });
+
+            // Device token operations.
+            $router->post('device',       ['uses' => 'V1\MeController@changeDevice', 'as' => 'village.api.user.me.change_device']);
+            $router->post('device-delete', ['uses' => 'V1\MeController@deleteDevice', 'as' => 'village.api.user.me.delete_device']);
+            // Subscribe/Unsubsribe user from mail notifications.
+            $router->post('mail-notifications',       ['uses' => 'V1\MeController@mailSubscribe', 'as' => 'village.api.user.me.mail_subscribe']);
+
+
             // Update device information.
-            $router->group(['prefix' => 'device'], function (Router $router) {
-                $router->post('',       ['uses' => 'V1\MeController@changeDevice', 'as' => 'village.api.user.me.device']);
-            });
+//            $router->group(['prefix' => 'device'], function (Router $router) {
+//
+//            });
         });
 
 //        $router->group(['prefix' => 'users'], function (Router $router) {

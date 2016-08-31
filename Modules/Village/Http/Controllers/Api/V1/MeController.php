@@ -6,6 +6,7 @@ use DB;
 use Hash;
 use JWTAuth;
 use Modules\Village\Entities\Token;
+use Modules\Village\Entities\UserDevice;
 use Modules\Village\Packback\Transformer\UserTransformer;
 use Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -75,19 +76,45 @@ class MeController extends ApiController
      */
     public function changeDevice(Request $request)
     {
-        $data = $request::only(['device_token', 'device_os']);
 
+        $data = $request::only(['token', 'type']);
         $user = $this->user()->load('building');
-        // Update only if needed.
-        if ($data['device_token'] != $user->device_token || $data['device_os'] != $user->device_os) {
-            $validator = Validator::make($data, [
-              'device_token' => 'required|max:64',
-              'device_os'    => 'required|max:8',
-            ]);
-            if ($validator->fails()) {
-                return $this->response->errorWrongArgs($validator->errors());
-            }
-            $this->user()->update($data);
+        $existingDevice = new UserDevice();
+        $existingDevice = $existingDevice->getByToken($data['token']);
+        // Device token is assigned to another user.
+        if (is_object($existingDevice) && $existingDevice->user_id != $user->id) {
+            $existingDevice->delete();
+        }
+        // Device exists and assignee to user.
+        if (is_object($existingDevice) && $existingDevice->user_id === $user->id) {
+            return $this->response->withItem($this->user()->load('building'), new UserTransformer);
+        }
+
+
+        $deviceTypes = UserDevice::DEVICE_TYPES;
+        $validator   = Validator::make($data, [
+          'type'  => 'required|in:' . $deviceTypes,
+          'token' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->response->errorWrongArgs($validator->errors());
+        }
+
+        $userDevice = new UserDevice;
+        $userDevice->token = $data['token'];
+        $userDevice->type = $data['type'];
+        $user->devices()->save($userDevice);
+        return $this->response->withItem($this->user()->load('building'), new UserTransformer);
+    }
+
+    public function deleteDevice(Request $request)
+    {
+        $data = $request::only(['token', 'type']);
+        $existingDevice = new UserDevice();
+        $existingDevice = $existingDevice->getByToken($data['token']);
+        if ($existingDevice->exists) {
+            $existingDevice->delete();
         }
         return $this->response->withItem($this->user()->load('building'), new UserTransformer);
     }

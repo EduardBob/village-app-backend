@@ -20,7 +20,7 @@
                useCurrent: false,
                sideBySide: true,
                format: 'DD-MM-YYYY HH:mm',
-               locale: 'ru',
+               locale: '{{App::getLocale()}}',
            });
        });
    </script>

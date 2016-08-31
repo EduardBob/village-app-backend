@@ -402,7 +402,8 @@
 						"a4b1623b-6a6b-0ff0-f305-87cae717b7d8",
 						"1e6ec529-cc57-9065-f28e-05936f67d2d0",
 						"03bc70b4-9759-328c-89b5-2813413da88a",
-						"0006d958-4954-b211-1482-707b94742aa5"
+						"0006d958-4954-b211-1482-707b94742aa5",
+						"909a3564-17ff-2ee2-abab-cd17f1179f51"
 					],
 					"createdAt": "2015-10-14T09:09:02.000Z",
 					"updatedAt": "2015-10-14T09:09:07.000Z",
@@ -581,7 +582,7 @@
 			"remoteLinkUpdatedAt": null,
 			"public": false,
 			"createdAt": 1471255836118,
-			"updatedAt": 1472633403522,
+			"updatedAt": 1472658452280,
 			"write": true,
 			"published": false,
 			"favorite": false,
@@ -597,14 +598,20 @@
 					"method": "POST",
 					"data": [
 						{
-							"key": "device_token",
-							"value": "test_token",
+							"key": "token",
+							"value": "TEST_UNIQUE_TOKEN",
 							"type": "text",
 							"enabled": true
 						},
 						{
-							"key": "device_os",
-							"value": "test_IOS",
+							"key": "type",
+							"value": "ios",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "",
+							"value": "",
 							"type": "text",
 							"enabled": true
 						}
@@ -614,7 +621,7 @@
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\n",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1472645136152,
+					"time": 1472658827220,
 					"name": "/api/v1/me/device",
 					"description": "Update user device information if needed",
 					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
@@ -1321,6 +1328,38 @@
 					"responses": [],
 					"owner": "161799",
 					"folder": "d8501dab-2e9a-da30-da8b-e373e1b0a98f"
+				},
+				{
+					"id": "909a3564-17ff-2ee2-abab-cd17f1179f51",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/me/device-delete",
+					"preRequestScript": "first_name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);\nlast_name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);\npostman.setEnvironmentVariable(\"me.first_name\", first_name);\npostman.setEnvironmentVariable(\"me.last_name\", last_name);",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "token",
+							"value": "TEST_UNIQUE_TOKEN",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\n",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1472658831112,
+					"name": "/api/v1/me/device-delete",
+					"description": "Delete device by token",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"responses": []
 				},
 				{
 					"id": "936f5a93-d141-6402-8410-316ab4d7053a",
@@ -2179,134 +2218,6 @@
 	],
 	"environments": [
 		{
-			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
-			"name": "staging",
-			"values": [
-				{
-					"key": "debug",
-					"type": "text",
-					"value": "true",
-					"enabled": true
-				},
-				{
-					"key": "domain",
-					"type": "text",
-					"value": "http://village.fruitware.ru",
-					"enabled": true
-				},
-				{
-					"key": "token",
-					"type": "text",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODc3IiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoxNDcxMjU2MTk4LCJleHAiOjE0NzM4NDgxOTgsIm5iZiI6MTQ3MTI1NjE5OCwianRpIjoiOTMyMTE0ZmMyZmE2MzU1Y2Q3ZGU4OGQ2MjI1YjcxOTIifQ.piSi1lZt3v6QJHLsMJTy85dqXX7GLkDY0C7GJrkQZnY",
-					"enabled": true
-				},
-				{
-					"key": "phone",
-					"type": "text",
-					"value": "+7(111)1111115",
-					"enabled": true
-				},
-				{
-					"key": "password",
-					"type": "text",
-					"value": "yj3wev32R6eQJWV",
-					"enabled": true
-				},
-				{
-					"key": "token.session",
-					"type": "text",
-					"value": "y3s6qzc112",
-					"enabled": true
-				},
-				{
-					"key": "token.code",
-					"type": "text",
-					"value": "2937477",
-					"enabled": true
-				},
-				{
-					"key": "service.category.id",
-					"type": "text",
-					"value": "107",
-					"enabled": true
-				},
-				{
-					"key": "building.code",
-					"type": "text",
-					"value": "test",
-					"enabled": true
-				},
-				{
-					"key": "building.id",
-					"type": "text",
-					"value": "1",
-					"enabled": true
-				},
-				{
-					"key": "article.id",
-					"type": "text",
-					"value": "566",
-					"enabled": true
-				},
-				{
-					"key": "product.category.id",
-					"type": "text",
-					"value": "154",
-					"enabled": true
-				},
-				{
-					"key": "page",
-					"type": "text",
-					"value": "1",
-					"enabled": true
-				},
-				{
-					"key": "service.id",
-					"type": "text",
-					"value": "306",
-					"enabled": true
-				},
-				{
-					"key": "survey.id",
-					"type": "text",
-					"value": "507",
-					"enabled": true
-				},
-				{
-					"key": "survey.my_vote.choice",
-					"type": "text",
-					"value": "0",
-					"enabled": true
-				},
-				{
-					"key": "survey.choice",
-					"type": "text",
-					"value": "0",
-					"enabled": true
-				},
-				{
-					"key": "product.id",
-					"type": "text",
-					"value": "260",
-					"enabled": true
-				},
-				{
-					"key": "me.id",
-					"type": "text",
-					"value": "undefined",
-					"enabled": true
-				},
-				{
-					"key": "me.phone",
-					"type": "text",
-					"value": "undefined",
-					"enabled": true
-				}
-			],
-			"team": null,
-			"timestamp": 1472642456637
-		},
-		{
 			"id": "a004eb55-888b-ee78-6d20-e55b8d1f5c6b",
 			"name": "production",
 			"values": [
@@ -2468,7 +2379,135 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1472643414739
+			"timestamp": 1472654637295
+		},
+		{
+			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
+			"name": "staging",
+			"values": [
+				{
+					"key": "debug",
+					"type": "text",
+					"value": "true",
+					"enabled": true
+				},
+				{
+					"key": "domain",
+					"type": "text",
+					"value": "http://village.fruitware.ru",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"type": "text",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODc3IiwiaXNzIjoiaHR0cDpcL1wvdmlsbGFnZS5mcnVpdHdhcmUucnVcL2FwaVwvdjFcL2F1dGhcL3Rva2VuIiwiaWF0IjoxNDcxMjU2MTk4LCJleHAiOjE0NzM4NDgxOTgsIm5iZiI6MTQ3MTI1NjE5OCwianRpIjoiOTMyMTE0ZmMyZmE2MzU1Y2Q3ZGU4OGQ2MjI1YjcxOTIifQ.piSi1lZt3v6QJHLsMJTy85dqXX7GLkDY0C7GJrkQZnY",
+					"enabled": true
+				},
+				{
+					"key": "phone",
+					"type": "text",
+					"value": "+7(111)1111115",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"type": "text",
+					"value": "yj3wev32R6eQJWV",
+					"enabled": true
+				},
+				{
+					"key": "token.session",
+					"type": "text",
+					"value": "y3s6qzc112",
+					"enabled": true
+				},
+				{
+					"key": "token.code",
+					"type": "text",
+					"value": "2937477",
+					"enabled": true
+				},
+				{
+					"key": "service.category.id",
+					"type": "text",
+					"value": "107",
+					"enabled": true
+				},
+				{
+					"key": "building.code",
+					"type": "text",
+					"value": "test",
+					"enabled": true
+				},
+				{
+					"key": "building.id",
+					"type": "text",
+					"value": "1",
+					"enabled": true
+				},
+				{
+					"key": "article.id",
+					"type": "text",
+					"value": "566",
+					"enabled": true
+				},
+				{
+					"key": "product.category.id",
+					"type": "text",
+					"value": "154",
+					"enabled": true
+				},
+				{
+					"key": "page",
+					"type": "text",
+					"value": "1",
+					"enabled": true
+				},
+				{
+					"key": "service.id",
+					"type": "text",
+					"value": "306",
+					"enabled": true
+				},
+				{
+					"key": "survey.id",
+					"type": "text",
+					"value": "507",
+					"enabled": true
+				},
+				{
+					"key": "survey.my_vote.choice",
+					"type": "text",
+					"value": "0",
+					"enabled": true
+				},
+				{
+					"key": "survey.choice",
+					"type": "text",
+					"value": "0",
+					"enabled": true
+				},
+				{
+					"key": "product.id",
+					"type": "text",
+					"value": "260",
+					"enabled": true
+				},
+				{
+					"key": "me.id",
+					"type": "text",
+					"value": "undefined",
+					"enabled": true
+				},
+				{
+					"key": "me.phone",
+					"type": "text",
+					"value": "undefined",
+					"enabled": true
+				}
+			],
+			"team": null,
+			"timestamp": 1472654637304
 		},
 		{
 			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
@@ -2525,13 +2564,13 @@
 				{
 					"key": "me.first_name",
 					"type": "text",
-					"value": "wpnbmjvwwg",
+					"value": "ogkaaesorf",
 					"enabled": true
 				},
 				{
 					"key": "me.last_name",
 					"type": "text",
-					"value": "pnrmasgzau",
+					"value": "uafojkdqbu",
 					"enabled": true
 				},
 				{
@@ -2638,7 +2677,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1472645123394
+			"timestamp": 1472658850482
 		}
 	],
 	"headerPresets": [

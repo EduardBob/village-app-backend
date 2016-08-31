@@ -18,7 +18,8 @@ class User extends BaseUser implements AuthenticatableContract
         'last_name',
         'phone',
         'building_id',
-        'has_mail_notifications'
+        'has_mail_notifications',
+        'has_sms_notifications'
     ];
 
     public function activation()

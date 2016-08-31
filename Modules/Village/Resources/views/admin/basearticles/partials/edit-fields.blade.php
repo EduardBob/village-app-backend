@@ -10,7 +10,7 @@
         <div class="col-sm-12">
             <div class="form-group{{ $errors->has('text') ? ' has-error' : '' }}">
                 {!! Form::label('text', $admin->trans('table.text')) !!}
-                {!! Form::textarea('text', Input::old('text', @$model->text), ['class' => 'form-control', 'placeholder' => $admin->trans('table.text')]) !!}
+                {!! Form::textarea('text', Input::old('text', @$model->text), ['class' => 'form-control ckeditor', 'placeholder' => $admin->trans('table.text')]) !!}
                 {!! $errors->first('text', '<span class="help-block">:message</span>') !!}
             </div>
         </div>

@@ -170,6 +170,7 @@ return [
 		\EllipseSynergie\ApiResponse\Laravel\ResponseServiceProvider::class,
 		\Yajra\Datatables\DatatablesServiceProvider::class,
 		\Jenssegers\Date\DateServiceProvider::class,
+		\Davibennun\LaravelPushNotification\LaravelPushNotificationServiceProvider::class,
 //		\Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider::class,
 	],
 
@@ -218,14 +219,14 @@ return [
 		'URL'       => \Illuminate\Support\Facades\URL::class,
 		'Validator' => \Illuminate\Support\Facades\Validator::class,
 		'View'      => \Illuminate\Support\Facades\View::class,
-
-//        'Sentry' => \Cartalyst\Sentry\Facades\Laravel\Sentry::class,
+//      'Sentry' => \Cartalyst\Sentry\Facades\Laravel\Sentry::class,
 
 //		custom
         'JWTAuth' => \Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => \Tymon\JWTAuth\Facades\JWTFactory::class,
-//        'Datatables' => Yajra\Datatables\Datatables::class,
+//      'Datatables' => Yajra\Datatables\Datatables::class,
         'Date' => \Jenssegers\Date\Date::class,
+		'PushNotification' => \Davibennun\LaravelPushNotification\Facades\PushNotification::class,
 	],
 
 ];

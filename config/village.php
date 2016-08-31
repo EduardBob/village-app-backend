@@ -98,6 +98,7 @@ return [
         'format' => 'Y-m-d H:i:s',
         'human' => [
             'short' => 'd M Y',
+            'medium_short' => 'd-m-Y H:i',
             'medium' => 'd M Y H:i',
             'standard' => 'd M Y H:i:s',
         ]

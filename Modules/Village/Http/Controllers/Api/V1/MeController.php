@@ -4,13 +4,13 @@ namespace Modules\Village\Http\Controllers\Api\V1;
 
 use DB;
 use Hash;
+use JWTAuth;
 use Modules\Village\Entities\Token;
 use Modules\Village\Packback\Transformer\UserTransformer;
+use Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
-use JWTAuth;
-use Request;
 use Validator;
 
 class MeController extends ApiController
@@ -73,6 +73,32 @@ class MeController extends ApiController
      *
      * @return mixed
      */
+    public function changeDevice(Request $request)
+    {
+        $data = $request::only(['device_token', 'device_os']);
+
+        $user = $this->user()->load('building');
+        // Update only if needed.
+        if ($data['device_token'] != $user->device_token || $data['device_os'] != $user->device_os) {
+            $validator = Validator::make($data, [
+              'device_token' => 'required|max:64',
+              'device_os'    => 'required|max:8',
+            ]);
+            if ($validator->fails()) {
+                return $this->response->errorWrongArgs($validator->errors());
+            }
+            $this->user()->update($data);
+        }
+        return $this->response->withItem($this->user()->load('building'), new UserTransformer);
+    }
+
+
+
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
     public function changeEmail(Request $request)
     {
         $data = $request::only(['email']);
@@ -121,7 +147,7 @@ class MeController extends ApiController
     public function mailSubscribe(Request $request)
     {
         $data = $request::only(['has_mail_notifications']);
-        $data['has_mail_notifications'] = boolval($data['has_mail_notifications']);
+        $data['has_mail_notifications'] = (bool) $data['has_mail_notifications'];
         $this->user()->update($data);
         return $this->response->withItem($this->user()->load('building'), new UserTransformer);
     }

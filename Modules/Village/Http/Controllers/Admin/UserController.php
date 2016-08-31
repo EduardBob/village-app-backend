@@ -103,6 +103,7 @@ class UserController extends AdminController
           ->addColumn(['data' => 'email', 'name' => 'users.email', 'title' => $this->trans('form.email')])
           ->addColumn(['data' => 'building_address', 'name' => 'village__buildings.address', 'title' => trans('village::users.form.building_id')])
           ->addColumn(['data' => 'has_mail_notifications', 'name' => 'users.has_mail_notifications', 'title' => $this->trans('form.has_mail_notifications')])
+          ->addColumn(['data' => 'has_sms_notifications', 'name' => 'users.has_mail_notifications', 'title' => $this->trans('form.has_sms_notifications')])
           ->addColumn(['data' => 'activation_completed', 'name' => 'activations.completed', 'title' => $this->trans('form.status')]);
     }
 
@@ -141,7 +142,12 @@ class UserController extends AdminController
                   return '<span class="label label-success">' . trans('village::admin.table.active.yes') . '</span>';
               }
               return '<span class="label label-danger">' . trans('village::admin.table.active.no') . '</span>';
-
+          })
+          ->editColumn('has_sms_notifications', function (User $user) {
+              if ($user->has_sms_notifications) {
+                  return '<span class="label label-success">' . trans('village::admin.table.active.yes') . '</span>';
+              }
+              return '<span class="label label-danger">' . trans('village::admin.table.active.no') . '</span>';
           })
           ->editColumn('activation_completed', function (User $user) {
               if ($user->isActivated()) {

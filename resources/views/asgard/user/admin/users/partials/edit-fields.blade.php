@@ -83,7 +83,7 @@
                     @endif
                 </div>
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="checkbox{{ $errors->has('activated') ? ' has-error' : '' }}">
                             <input type="hidden" value="{{ @$model->id === $currentUser->id ? '1' : '0' }}" name="activated"/>
                             <?php $oldValue = !isset($model) || (bool)$model->isActivated() ? 'checked' : ''; ?>
@@ -100,13 +100,21 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-3">
                         <div class="checkbox{{ $errors->has('has_mail_notifications') ? ' has-error' : '' }}">
                             {!! Form::checkbox('has_mail_notifications', (int)Input::old('has_mail_notifications', @$model->has_mail_notifications), (bool)Input::old('has_mail_notifications', @$model->has_mail_notifications), ['class' => 'flat-blue']) !!}
                             {!! Form::label('has_mail_notifications', $admin->trans('table.has_mail_notifications')) !!}
                             {!! $errors->first('has_mail_notifications', '<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
+                    <div class="col-sm-4">
+                        <div class="checkbox{{ $errors->has('has_sms_notifications') ? ' has-error' : '' }}">
+                            {!! Form::checkbox('has_sms_notifications', (int)Input::old('has_sms_notifications', @$model->has_sms_notifications), (bool)Input::old('has_sms_notifications', @$model->has_sms_notifications), ['class' => 'flat-blue']) !!}
+                            {!! Form::label('has_sms_notifications', $admin->trans('table.has_sms_notifications')) !!}
+                            {!! $errors->first('has_sms_notifications', '<span class="help-block">:message</span>') !!}
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

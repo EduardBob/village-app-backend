@@ -36,7 +36,10 @@ class UserTransformer extends TransformerAbstract
             'last_name' => $user->last_name,
             'email' => $user->email,
             'phone' => $user->phone,
+            'device_token' => $user->device_token,
+            'device_os' => $user->device_os,
             'has_mail_notifications' => (bool) $user->has_mail_notifications,
+            'has_sms_notifications' => (bool) $user->has_sms_notifications,
             'activated' => \Activation::completed($user) ? true : false
         ];
     }

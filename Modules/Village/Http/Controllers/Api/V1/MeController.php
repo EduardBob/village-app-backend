@@ -87,13 +87,13 @@ class MeController extends ApiController
         }
         // Device exists and assignee to user.
         if (is_object($existingDevice) && $existingDevice->user_id === $user->id) {
-            return $this->response->withItem($this->user()->load('building'), new UserTransformer);
+            return;
         }
 
+        $deviceTypes = UserDevice::getTypes();
 
-        $deviceTypes = UserDevice::DEVICE_TYPES;
         $validator   = Validator::make($data, [
-          'type'  => 'required|in:' . $deviceTypes,
+          'type'  => 'required|in:' . implode(',', $deviceTypes),
           'token' => 'required',
         ]);
 
@@ -105,7 +105,7 @@ class MeController extends ApiController
         $userDevice->token = $data['token'];
         $userDevice->type = $data['type'];
         $user->devices()->save($userDevice);
-        return $this->response->withItem($this->user()->load('building'), new UserTransformer);
+        return;
     }
 
     public function deleteDevice(Request $request)
@@ -116,10 +116,8 @@ class MeController extends ApiController
         if ($existingDevice->exists) {
             $existingDevice->delete();
         }
-        return $this->response->withItem($this->user()->load('building'), new UserTransformer);
+        return;
     }
-
-
 
     /**
      * @param Request $request

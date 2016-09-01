@@ -1,4 +1,5 @@
 <div class="box-body">
+
     @if (isset($model) && $model instanceof \Modules\Village\Entities\BaseArticle)
         {!! Form::hidden('base_id', Input::old('base_id', @$model->id)) !!}
     @endif
@@ -29,13 +30,11 @@
         <div class="col-sm-12">
             <div class="form-group{{ $errors->has('published_at') ? ' has-error' : '' }}">
                 {!! Form::label('published_at', $admin->trans('table.published_at')) !!}
-                {!! Form::datetime('published_at',
-                   @$model->published_at?:date('Y-m-d H:i:s')
-                 , ['class' => 'form-control', 'placeholder' => $admin->trans('table.published_at')]) !!}
+                {!! Form::text('published_at', localizeddate(@$model->published_at, 'medium_short') ? : localizeddate('now', 'medium_short')
+                 , ['class' => 'form-control js-date-time-field', 'placeholder' => localizeddate('now', 'medium_short')]) !!}
                 {!! $errors->first('published_at', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
-
         <div class="col-sm-12">
             <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                 {!! Form::label('title', $admin->trans('table.title')) !!}

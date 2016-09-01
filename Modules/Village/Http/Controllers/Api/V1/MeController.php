@@ -4,13 +4,14 @@ namespace Modules\Village\Http\Controllers\Api\V1;
 
 use DB;
 use Hash;
+use JWTAuth;
 use Modules\Village\Entities\Token;
+use Modules\Village\Entities\UserDevice;
 use Modules\Village\Packback\Transformer\UserTransformer;
+use Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
-use JWTAuth;
-use Request;
 use Validator;
 
 class MeController extends ApiController
@@ -73,6 +74,56 @@ class MeController extends ApiController
      *
      * @return mixed
      */
+    public function changeDevice(Request $request)
+    {
+
+        $data = $request::only(['token', 'type']);
+        $user = $this->user()->load('building');
+        $existingDevice = new UserDevice();
+        $existingDevice = $existingDevice->getByToken($data['token']);
+        // Device token is assigned to another user.
+        if (is_object($existingDevice) && $existingDevice->user_id != $user->id) {
+            $existingDevice->delete();
+        }
+        // Device exists and assignee to user.
+        if (is_object($existingDevice) && $existingDevice->user_id === $user->id) {
+            return;
+        }
+
+        $deviceTypes = UserDevice::getTypes();
+
+        $validator   = Validator::make($data, [
+          'type'  => 'required|in:' . implode(',', $deviceTypes),
+          'token' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->response->errorWrongArgs($validator->errors());
+        }
+
+        $userDevice = new UserDevice;
+        $userDevice->token = $data['token'];
+        $userDevice->type = $data['type'];
+        $user->devices()->save($userDevice);
+        return;
+    }
+
+    public function deleteDevice(Request $request)
+    {
+        $data = $request::only(['token', 'type']);
+        $existingDevice = new UserDevice();
+        $existingDevice = $existingDevice->getByToken($data['token']);
+        if ($existingDevice->exists) {
+            $existingDevice->delete();
+        }
+        return;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
     public function changeEmail(Request $request)
     {
         $data = $request::only(['email']);
@@ -121,7 +172,7 @@ class MeController extends ApiController
     public function mailSubscribe(Request $request)
     {
         $data = $request::only(['has_mail_notifications']);
-        $data['has_mail_notifications'] = boolval($data['has_mail_notifications']);
+        $data['has_mail_notifications'] = (bool) $data['has_mail_notifications'];
         $this->user()->update($data);
         return $this->response->withItem($this->user()->load('building'), new UserTransformer);
     }

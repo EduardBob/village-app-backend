@@ -401,7 +401,9 @@
 						"f3343142-2304-7acd-e413-e22044afad78",
 						"a4b1623b-6a6b-0ff0-f305-87cae717b7d8",
 						"1e6ec529-cc57-9065-f28e-05936f67d2d0",
-						"03bc70b4-9759-328c-89b5-2813413da88a"
+						"03bc70b4-9759-328c-89b5-2813413da88a",
+						"0006d958-4954-b211-1482-707b94742aa5",
+						"909a3564-17ff-2ee2-abab-cd17f1179f51"
 					],
 					"createdAt": "2015-10-14T09:09:02.000Z",
 					"updatedAt": "2015-10-14T09:09:07.000Z",
@@ -580,7 +582,7 @@
 			"remoteLinkUpdatedAt": null,
 			"public": false,
 			"createdAt": 1471255836118,
-			"updatedAt": 1472210747242,
+			"updatedAt": 1472658452280,
 			"write": true,
 			"published": false,
 			"favorite": false,
@@ -588,16 +590,54 @@
 			"syncedPermissions": {},
 			"requests": [
 				{
+					"id": "0006d958-4954-b211-1482-707b94742aa5",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/me/device",
+					"preRequestScript": "first_name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);\nlast_name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);\npostman.setEnvironmentVariable(\"me.first_name\", first_name);\npostman.setEnvironmentVariable(\"me.last_name\", last_name);",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "token",
+							"value": "TEST_UNIQUE_TOKEN",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "type",
+							"value": "ios",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\n",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1472658827220,
+					"name": "/api/v1/me/device",
+					"description": "Update user device information if needed",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"responses": []
+				},
+				{
 					"id": "03bc70b4-9759-328c-89b5-2813413da88a",
 					"headers": "Authorization: Bearer  {{token}}\n",
-					"url": "{{domain}}/api/v1/me/has_mail_notifications",
+					"url": "{{domain}}/api/v1/me/mail-notifications",
 					"preRequestScript": "",
 					"pathVariables": {},
 					"method": "POST",
 					"data": [
 						{
 							"key": "has_mail_notifications",
-							"value": "true",
+							"value": "1",
 							"type": "text",
 							"enabled": true
 						}
@@ -607,8 +647,8 @@
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\nresponse.data = 1;\nif (response.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains first_name\"] = responseBody.has(\"first_name\");\n    tests[\"Body contains last_name\"] = responseBody.has(\"last_name\");\n    tests[\"Body contains phone\"] = responseBody.has(\"phone\");\n    tests[\"Body contains activated\"] = responseBody.has(\"activated\");\n    tests[\"Body contains building\"] = responseBody.has(\"building\");\n\n    postman.setEnvironmentVariable(\"me.id\", response.data.id);\n    postman.setEnvironmentVariable(\"me.phone\", response.data.id);\n}\nelse {\n    tests[\"no data\"] = false;\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1472212245424,
-					"name": "/api/v1/me/has_mail_notifications",
+					"time": 1472643955467,
+					"name": "/api/v1/me/mail-notifications",
 					"description": "Subscribe/Unsubsribe to email notifications",
 					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
 					"responses": []
@@ -1290,6 +1330,38 @@
 					"folder": "d8501dab-2e9a-da30-da8b-e373e1b0a98f"
 				},
 				{
+					"id": "909a3564-17ff-2ee2-abab-cd17f1179f51",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/me/device-delete",
+					"preRequestScript": "first_name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);\nlast_name = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);\npostman.setEnvironmentVariable(\"me.first_name\", first_name);\npostman.setEnvironmentVariable(\"me.last_name\", last_name);",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "token",
+							"value": "TEST_UNIQUE_TOKEN",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\n",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1472658831112,
+					"name": "/api/v1/me/device-delete",
+					"description": "Delete device by token",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"responses": []
+				},
+				{
 					"id": "936f5a93-d141-6402-8410-316ab4d7053a",
 					"headers": "",
 					"url": "{{domain}}/api/v1/users/reset",
@@ -1350,7 +1422,7 @@
 					"id": "945b236d-d59f-b8e0-468a-cdf3e51a7336",
 					"headers": "Authorization: Bearer  {{token}}\n",
 					"url": "{{domain}}/api/v1/articles?page={{page}&category_id={{category_id}}",
-					"preRequestScript": "postman.setEnvironmentVariable(\"page\", 1);",
+					"preRequestScript": "postman.setEnvironmentVariable(\"page\", 1);\npostman.setEnvironmentVariable(\"category_id\", 1);",
 					"pathVariables": {},
 					"method": "GET",
 					"data": [
@@ -1372,7 +1444,7 @@
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\nif (response.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains short\"] = responseBody.has(\"short\");\n    tests[\"Body contains text\"] = responseBody.has(\"text\");    \n    postman.setEnvironmentVariable(\"article.id\", response.data[0].id);\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1471444129003,
+					"time": 1472487249613,
 					"name": "/api/v1/articles",
 					"description": "<p>Get articles list</p>",
 					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
@@ -2146,176 +2218,6 @@
 	],
 	"environments": [
 		{
-			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
-			"name": "dev",
-			"values": [
-				{
-					"key": "debug",
-					"type": "text",
-					"value": "true",
-					"enabled": true
-				},
-				{
-					"key": "domain",
-					"type": "text",
-					"value": "http://village.dev",
-					"enabled": true
-				},
-				{
-					"key": "token",
-					"type": "text",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjMsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ3MTQyMzI5MiwiZXhwIjoxNDc0MDE1MjkyLCJuYmYiOjE0NzE0MjMyOTIsImp0aSI6Ijg2NDJlYTE4NTkzOTE0YjJkMmVkYThhMzU2ZGFlNGQ0In0.SVzQhnMZMgnc8OVJzB10qiC44r2kLkgxhZYzrMdh0co",
-					"enabled": true
-				},
-				{
-					"key": "phone",
-					"type": "text",
-					"value": "+7(111)1111112",
-					"enabled": true
-				},
-				{
-					"key": "password",
-					"type": "text",
-					"value": "yj3wev32R6eQJWV",
-					"enabled": true
-				},
-				{
-					"key": "token.code",
-					"type": "text",
-					"value": "49844",
-					"enabled": true
-				},
-				{
-					"key": "token.session",
-					"type": "text",
-					"value": "YBrj6CsSpQ",
-					"enabled": true
-				},
-				{
-					"key": "article.id",
-					"type": "text",
-					"value": "766",
-					"enabled": true
-				},
-				{
-					"key": "me.first_name",
-					"type": "text",
-					"value": "xftiqftkii",
-					"enabled": true
-				},
-				{
-					"key": "me.last_name",
-					"type": "text",
-					"value": "kfxavzvwse",
-					"enabled": true
-				},
-				{
-					"key": "product.id",
-					"type": "text",
-					"value": "262",
-					"enabled": true
-				},
-				{
-					"key": "service.id",
-					"type": "text",
-					"value": "306",
-					"enabled": true
-				},
-				{
-					"key": "page",
-					"type": "text",
-					"value": "1",
-					"enabled": true
-				},
-				{
-					"key": "product.category.id",
-					"type": "text",
-					"value": "156",
-					"enabled": true
-				},
-				{
-					"key": "service.category.id",
-					"type": "text",
-					"value": "107",
-					"enabled": true
-				},
-				{
-					"key": "building.code",
-					"type": "text",
-					"value": "test",
-					"enabled": true
-				},
-				{
-					"key": "building.id",
-					"type": "text",
-					"value": "1",
-					"enabled": true
-				},
-				{
-					"key": "me.password",
-					"type": "text",
-					"value": "1",
-					"enabled": true
-				},
-				{
-					"key": "survey.id",
-					"type": "text",
-					"value": "447",
-					"enabled": true
-				},
-				{
-					"key": "survey.my_vote.choice",
-					"type": "text",
-					"value": "0",
-					"enabled": true
-				},
-				{
-					"key": "survey.choice",
-					"type": "text",
-					"value": "0",
-					"enabled": true
-				},
-				{
-					"key": "me.email",
-					"type": "text",
-					"value": "test@test.test",
-					"enabled": true
-				},
-				{
-					"key": "me.id",
-					"type": "text",
-					"value": "undefined",
-					"enabled": true
-				},
-				{
-					"key": "me.phone",
-					"type": "text",
-					"value": "undefined",
-					"enabled": true
-				},
-				{
-					"key": "service.order.id",
-					"type": "text",
-					"value": "416",
-					"enabled": true
-				},
-				{
-					"key": "service.order.id.for_payment_check",
-					"type": "text",
-					"value": "4",
-					"enabled": true
-				},
-				{
-					"key": "product.order.id.for_payment_check",
-					"type": "text",
-					"value": "438",
-					"enabled": true
-				}
-			],
-			"team": null,
-			"timestamp": 1472214330788
-		},
-		{
 			"id": "a004eb55-888b-ee78-6d20-e55b8d1f5c6b",
 			"name": "production",
 			"values": [
@@ -2454,18 +2356,30 @@
 				{
 					"key": "me.first_name",
 					"type": "text",
-					"value": "akmnyyaqwp",
+					"value": "aktzbyjdlo",
 					"enabled": true
 				},
 				{
 					"key": "me.last_name",
 					"type": "text",
-					"value": "tjzomtienw",
+					"value": "kwbpumyzrm",
+					"enabled": true
+				},
+				{
+					"key": "category",
+					"type": "text",
+					"value": "1",
+					"enabled": true
+				},
+				{
+					"key": "category_id",
+					"type": "text",
+					"value": "1",
 					"enabled": true
 				}
 			],
 			"team": null,
-			"timestamp": 1472214330797
+			"timestamp": 1472654637295
 		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
@@ -2593,7 +2507,177 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1472214330804
+			"timestamp": 1472654637304
+		},
+		{
+			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
+			"name": "dev",
+			"values": [
+				{
+					"key": "debug",
+					"type": "text",
+					"value": "true",
+					"enabled": true
+				},
+				{
+					"key": "domain",
+					"type": "text",
+					"value": "http://village.dev",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"type": "text",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjMsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ3MTQyMzI5MiwiZXhwIjoxNDc0MDE1MjkyLCJuYmYiOjE0NzE0MjMyOTIsImp0aSI6Ijg2NDJlYTE4NTkzOTE0YjJkMmVkYThhMzU2ZGFlNGQ0In0.SVzQhnMZMgnc8OVJzB10qiC44r2kLkgxhZYzrMdh0co",
+					"enabled": true
+				},
+				{
+					"key": "phone",
+					"type": "text",
+					"value": "+7(111)1111112",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"type": "text",
+					"value": "yj3wev32R6eQJWV",
+					"enabled": true
+				},
+				{
+					"key": "token.code",
+					"type": "text",
+					"value": "49844",
+					"enabled": true
+				},
+				{
+					"key": "token.session",
+					"type": "text",
+					"value": "YBrj6CsSpQ",
+					"enabled": true
+				},
+				{
+					"key": "article.id",
+					"type": "text",
+					"value": "554",
+					"enabled": true
+				},
+				{
+					"key": "me.first_name",
+					"type": "text",
+					"value": "ogkaaesorf",
+					"enabled": true
+				},
+				{
+					"key": "me.last_name",
+					"type": "text",
+					"value": "uafojkdqbu",
+					"enabled": true
+				},
+				{
+					"key": "product.id",
+					"type": "text",
+					"value": "262",
+					"enabled": true
+				},
+				{
+					"key": "service.id",
+					"type": "text",
+					"value": "306",
+					"enabled": true
+				},
+				{
+					"key": "page",
+					"type": "text",
+					"value": "1",
+					"enabled": true
+				},
+				{
+					"key": "product.category.id",
+					"type": "text",
+					"value": "156",
+					"enabled": true
+				},
+				{
+					"key": "service.category.id",
+					"type": "text",
+					"value": "107",
+					"enabled": true
+				},
+				{
+					"key": "building.code",
+					"type": "text",
+					"value": "test",
+					"enabled": true
+				},
+				{
+					"key": "building.id",
+					"type": "text",
+					"value": "1",
+					"enabled": true
+				},
+				{
+					"key": "me.password",
+					"type": "text",
+					"value": "1",
+					"enabled": true
+				},
+				{
+					"key": "survey.id",
+					"type": "text",
+					"value": "447",
+					"enabled": true
+				},
+				{
+					"key": "survey.my_vote.choice",
+					"type": "text",
+					"value": "0",
+					"enabled": true
+				},
+				{
+					"key": "survey.choice",
+					"type": "text",
+					"value": "0",
+					"enabled": true
+				},
+				{
+					"key": "me.email",
+					"type": "text",
+					"value": "test@test.test",
+					"enabled": true
+				},
+				{
+					"key": "me.id",
+					"type": "text",
+					"value": "undefined",
+					"enabled": true
+				},
+				{
+					"key": "me.phone",
+					"type": "text",
+					"value": "undefined",
+					"enabled": true
+				},
+				{
+					"key": "service.order.id",
+					"type": "text",
+					"value": "416",
+					"enabled": true
+				},
+				{
+					"key": "service.order.id.for_payment_check",
+					"type": "text",
+					"value": "4",
+					"enabled": true
+				},
+				{
+					"key": "product.order.id.for_payment_check",
+					"type": "text",
+					"value": "438",
+					"enabled": true
+				}
+			],
+			"team": null,
+			"timestamp": 1472658850482
 		}
 	],
 	"headerPresets": [

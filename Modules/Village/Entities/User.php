@@ -18,7 +18,8 @@ class User extends BaseUser implements AuthenticatableContract
         'last_name',
         'phone',
         'building_id',
-        'has_mail_notifications'
+        'has_mail_notifications',
+        'has_sms_notifications'
     ];
 
     public function activation()
@@ -29,6 +30,11 @@ class User extends BaseUser implements AuthenticatableContract
     public function smartHome()
     {
         return $this->hasOne('Modules\Village\Entities\SmartHome');
+    }
+
+    public function devices()
+    {
+        return $this->hasMany('Modules\Village\Entities\UserDevice');
     }
 
     public function village()

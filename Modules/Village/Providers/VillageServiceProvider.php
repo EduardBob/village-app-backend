@@ -187,7 +187,7 @@ class VillageServiceProvider extends ServiceProvider
     {
 
         $user = $this->user($auth);
-        if (!config('village.sms.enabled.on_order_processing_user')) {
+        if (!config('village.sms.enabled.on_order_processing_user') || !$order->user->has_sms_notifications) {
             return;
         }
 

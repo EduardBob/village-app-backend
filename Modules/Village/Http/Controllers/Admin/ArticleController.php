@@ -103,6 +103,10 @@ class ArticleController extends AdminController
               return $article->category->title;
           });
 
+        $dataTable
+          ->addColumn('published_at', function (Article $article) {
+              return localizeddate($article->published_at);
+          });
 
         $dataTable
           ->addColumn('created_at', function (Article $article) {

@@ -68,7 +68,8 @@ return [
         'edit',
         'update',
         'destroy',
-        'baseCopy'
+        'baseCopy',
+        'getChoicesByVillage',
     ],
     'village.productcategories' => [
         'index',
@@ -111,6 +112,7 @@ return [
         'update',
         'destroy',
         'baseCopy',
+        'getChoicesByVillage',
     ],
     'village.servicecategories' => [
         'index',

@@ -133,6 +133,4 @@ class Service extends Model
     {
         return self::where(['village_id' => $village->id, 'base_id' => $baseId])->first();
     }
-
-
 }

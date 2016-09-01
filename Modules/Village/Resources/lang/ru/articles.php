@@ -31,7 +31,8 @@ return [
       'village_chose' => 'Выберите объект',
         'village' => 'Объект',
         'services' => 'Услуги',
-        'products' => 'Товары'
+        'products' => 'Товары',
+        'title' => 'Выберите товар или услугу'
     ],
     'messages' => [
     ],

@@ -188,7 +188,7 @@ class VillageServiceProvider extends ServiceProvider
           $order::STATUS_REJECTED   => 'отклонен',
         );
         $statusText  = $statusTexts[$order->status];
-        if ($order->status == $order::STATUS_REJECTED && $order->decline_reason) {
+        if ($order::STATUS_REJECTED == $order->status && $order->decline_reason) {
             $statusText .= ' (' . $order->decline_reason . ')';
         }
         return $statusText;

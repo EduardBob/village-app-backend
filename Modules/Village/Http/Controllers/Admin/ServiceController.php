@@ -1,5 +1,6 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Modules\User\Repositories\RoleRepository;
@@ -10,9 +11,6 @@ use Modules\Village\Entities\User;
 use Modules\Village\Entities\Village;
 use Modules\Village\Repositories\ServiceCategoryRepository;
 use Modules\Village\Repositories\ServiceRepository;
-use Modules\Village\Entities\ServiceCategory;
-
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Modules\Village\Repositories\UserRoleRepository;
 use Validator;
 use Yajra\Datatables\Engines\EloquentEngine;
@@ -335,5 +333,23 @@ class ServiceController extends AdminController
         }
 
         $service->type = $type;
+    }
+
+    public function getChoicesByVillage($villageId)
+    {
+        $attributes = [];
+        if ($this->getCurrentUser()->inRole('admin')) {
+            $attributes['village_id'] = $villageId;
+        } else {
+            $attributes['village_id'] = $this->getCurrentUser()->village_id;
+        }
+        if ($villageId == 'all' && $this->getCurrentUser()->inRole('admin')) {
+            unset($attributes['village_id']);
+        }
+        $collection = $this->getRepository()->lists($attributes, 'title', 'id', ['title' => 'ASC']);
+        if (\Request::ajax()) {
+            return json_encode($collection);
+        }
+        return $collection;
     }
 }

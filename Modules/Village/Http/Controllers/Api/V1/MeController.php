@@ -113,7 +113,7 @@ class MeController extends ApiController
         $data = $request::only(['token', 'type']);
         $existingDevice = new UserDevice();
         $existingDevice = $existingDevice->getByToken($data['token']);
-        if ($existingDevice->exists) {
+        if (is_object($existingDevice)) {
             $existingDevice->delete();
         }
         return;

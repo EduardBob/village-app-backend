@@ -56,6 +56,18 @@
                 {!! $errors->first('active', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
+        <div class="col-sm-6">
+            <div class="form-group{{ $errors->has('is_important') ? ' has-error' : '' }}">
+                {!! Form::checkbox('is_important', (int)Input::old('is_important', @$model->is_important), (bool)Input::old('is_important', @$model->is_important), ['class' => 'flat-blue']) !!}
+                {!! Form::label('is_important', $admin->trans('table.is_important')) !!}
+                <p>
+                    <i>{!! $admin->trans('form.is_important_description') !!}</i>
+                </p>
+                {!! $errors->first('is_important', '<span class="help-block">:message</span>') !!}
+
+            </div>
+        </div>
+
         @if (!isset($model))
         <div class="col-sm-12">
             <div class="form-group{{ $errors->has('show_all') ? ' has-error' : '' }}">

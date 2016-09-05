@@ -6,6 +6,14 @@
 
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('custom/css/bootstrap-datetimepicker.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('custom/js/chosen/chosen.min.css') }}">
+    <style>
+      .chosen-container .chosen-drop, .chosen-container-active .chosen-drop, .chosen-container.chosen-with-drop .chosen-drop{
+            top: 113px;
+            width: 80%;
+            left: 10px;
+            border: none;
+      }
+    </style>
 @stop
 
 
@@ -24,17 +32,10 @@
                format: 'DD-MM-YYYY HH:mm',
                locale: '{{App::getLocale()}}',
            });
-
-
-
-
-
            // CKEDITOR dynamic plugin.
            CKEDITOR.replace( 'text', {
                extraPlugins: 'abbr',
            });
-
-
            CKEDITOR.plugins.add( 'abbr', {
                icons: 'abbr',
                init: function( editor ) {
@@ -47,44 +48,18 @@
                }
            });
 
+            var villageHtml = '';
             @if($currentUser && $currentUser->inRole('admin'))
-             var villageID = 'all';
-            @else
-             var villageID = {!! $currentUser->village->id  !!};
+               villageHtml = '{{$admin->trans('popup.village')}}: <select id="villages">';
+               villageHtml += '<option>{{$admin->trans('popup.village_chose')}}</option>';
+               @foreach (\Modules\Village\Entities\Village::all()->sortBy('title') as $village)
+                villageHtml += '<option value="{{$village->id}}">{{$village->name}}</option>';
+               @endforeach
+               villageHtml +='</select>';
             @endif
 
            var selectHtml;
-           selectHtml = '<select id="services-products">';
-           selectHtml += '<optgroup label="Услуги">';
-
-           var products = [];
-           $.getJSON( "/backend/village/products/get-choices-by-village/"+villageID, function( data ) {
-               $.each( data, function( key, val ) {
-                   products['%%'+val+':product:'+key+'%%'] = val;
-                   selectHtml += '<option value="%%'+val+':service:'+key+'%%">'+val+'</option>';
-                   console
-               });
-           });
-           selectHtml +='</optgroup>';
-//           var services = [];
-//           $.getJSON( "/backend/village/services/get-choices-by-village/"+villageID, function( data ) {
-//               $.each( data, function( key, val ) {
-//                   services.push([val, '%%'+val+':service:'+key+'%%']);
-//                  // selectHtml += '<option value="%%'+val+':service:'+key+'%%">'+val+'</option>';
-//                   //services.push([val,key]);
-//               });
-//           });
-
-
-
-
-//           for (var i = 0; i < products.length; i++) {
-//               selectHtml += '<option value="'+products[i][1]+'">'+products[i][0]+'</option>';
-//           }
-           selectHtml += '</select>';
-
-         //  console.log(selectHtml);
-
+           selectHtml = '<select id="services-products"></select>';
            CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
                return {
                    title: 'Abbreviation Properties',
@@ -95,56 +70,61 @@
                            id: 'tab-basic',
                            label: 'Basic Settings',
                            elements: [
-//                               {
-//                                   // Text input field for the abbreviation text.
-//                                   type: 'select',
-//                                   id: 'sport',
-//                                   label: 'Select your favourite sport',
-//                                   items: services,
-//                                   'default': 'Value',
-//
-//                               },
+                               {
+                                   type: 'html',
+                                   html: villageHtml
+                               },
                                {
                                    type: 'html',
                                    html: selectHtml
                                }
-
                            ]
                        },
                    ],
-                   // This method is invoked once a user clicks the OK button, confirming the dialog.
                    onOk: function() {
-                       var dialog = this;
-                       var abbr = editor.document.createElement( 'abbr' );
-                       abbr.setAttribute( 'title', dialog.getValueOf( 'tab-basic', 'title' ) );
-                       abbr.setText( dialog.getValueOf( 'tab-basic', 'abbr' ) );
-                       var id = dialog.getValueOf( 'tab-adv', 'id' );
-                       if ( id )
-                           abbr.setAttribute( 'id', id );
-                       editor.insertElement( abbr );
+                       editor.insertHtml($('#services-products').val());
                    }
                };
            });
 
            CKEDITOR.on('dialogDefinition', function (e) {
-               var dialogName = e.data.name;
                var dialog = e.data.definition.dialog;
                dialog.on('show', function () {
-                   console.log( $('.cke_dialog_ui_input_select'));
-                   $('#services-products').chosen();
-                   console.log('dialog ' + dialogName + ' opened. The width is ' + this.getSize().width + 'px.');
-               });
-               dialog.on('hide', function () {
-                   console.log('dialog ' + dialogName + ' closed.');
+                   @if($currentUser && $currentUser->inRole('admin'))
+                       if($('select#village_id').val() > 0){
+                           $('#villages').val($('select#village_id').val());
+                           getProductAndServices($('select#villages').val());
+                       }
+                       $('#villages').on('change', function (e) {
+                           var villageId = $("option:selected", this).val();
+                           getProductAndServices(villageId);
+                       });
+                   @else
+                      getProductAndServices({{$currentUser->village->id}});
+                   @endif
                });
            });
 
-
-
-
-
-
-
+           function getProductAndServices(villageId) {
+               var $popupSelect = $('#services-products');
+               $popupSelect.html('');
+               $popupSelect.chosen('destroy');
+               $.getJSON("/backend/village/services/get-choices-by-village/" + villageId, function (data) {
+                   $popupSelect.append('<optgroup id="services-group" label="{{$admin->trans('popup.services')}}"></optgroup>');
+                   for (var key in data) {
+                       var optionHtml ='<option value=" %%' + data[key] + '^service^' + key + '%% ">' + data[key] + '</option>';
+                       $popupSelect.find('#services-group').append(optionHtml);
+                   }
+                   $.getJSON("/backend/village/products/get-choices-by-village/" + villageId, function (data) {
+                       $popupSelect.append('<optgroup id="products-group" label="{{$admin->trans('popup.products')}}"></optgroup>');
+                       for (var key in data) {
+                           var optionHtml ='<option value=" %%' + data[key] + '^service^' + key + '%% ">' + data[key] + '</option>';
+                           $popupSelect.find('#products-group').append(optionHtml);
+                       }
+                       $popupSelect.chosen();
+                   });
+               });
+           }
        });
    </script>
 @stop

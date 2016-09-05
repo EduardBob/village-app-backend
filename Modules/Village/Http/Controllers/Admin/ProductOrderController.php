@@ -197,6 +197,7 @@ class ProductOrderController extends AbstractOrderController
 
         $builder
             ->addColumn(['data' => 'product_title', 'name' => 'village__products.title', 'title' => $this->trans('table.product')])
+            ->addColumn(['data' => 'comment', 'name' => 'village__product_orders.comment', 'title' => $this->trans('table.comment')])
             ->addColumn(['data' => 'building_address', 'name' => 'village__buildings.address', 'title' => $this->trans('table.address')])
 //            ->addColumn(['data' => 'quantity', 'name' => 'village__product_orders.quantity', 'title' => $this->trans('table.quantity')])
 //            ->addColumn(['data' => 'unit_title', 'name' => 'village__product_orders.unit_title', 'title' => $this->trans('table.unit_title')])
@@ -206,7 +207,6 @@ class ProductOrderController extends AbstractOrderController
             ->addColumn(['data' => 'user_phone', 'name' => 'users.phone', 'title' => $this->trans('table.phone')])
             ->addColumn(['data' => 'payment_type', 'name' => 'village__product_orders.payment_type', 'title' => $this->trans('table.payment_type')])
             ->addColumn(['data' => 'payment_status', 'name' => 'village__product_orders.payment_status', 'title' => $this->trans('table.payment_status')])
-            ->addColumn(['data' => 'comment', 'name' => 'village__product_orders.comment', 'title' => $this->trans('table.comment')])
             ->addColumn(['data' => 'status', 'name' => 'village__product_orders.status', 'title' => $this->trans('table.status')])
             ->addColumn(['data' => 'created_at', 'name' => 'village__product_orders.created_at', 'title' => $this->trans('table.created_at')])
         ;

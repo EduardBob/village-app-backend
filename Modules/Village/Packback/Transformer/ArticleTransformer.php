@@ -40,7 +40,7 @@ class ArticleTransformer extends BaseTransformer
           'category_id'    => $article->category->id,
           'category_title' => $article->category->title,
           'created_at'   => $article->created_at->format('Y-m-d H:i:s'),
-          'published_at' => $article->published_at,
+          'published_at' => $article->published_at->format('Y-m-d H:i:s'),
           'image'        => $this->getImage($article->files()->first()),
         ];
     }

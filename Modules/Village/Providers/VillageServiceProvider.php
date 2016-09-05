@@ -1,9 +1,11 @@
 <?php namespace Modules\Village\Providers;
 
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Contracts\Authentication;
+use Modules\Village\Entities\Article;
 use Modules\Village\Entities\OrderInterface;
 use Modules\Village\Entities\Product;
 use Modules\Village\Entities\ProductOrder;
@@ -13,11 +15,14 @@ use Modules\Village\Entities\ServiceOrder;
 use Modules\Village\Entities\ServiceOrderChange;
 use Modules\Village\Entities\Sms;
 use Modules\Village\Entities\User;
+use Modules\Village\Jobs\SendArticleNotifications;
 use Modules\Village\Services\SentryPaymentGateway;
+use PushNotification;
+
 
 class VillageServiceProvider extends ServiceProvider
 {
-
+    use DispatchesJobs;
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -103,7 +108,7 @@ class VillageServiceProvider extends ServiceProvider
                 if (in_array($productOrder->status, $clientNotifyStatuses)) {
                     $this->sendClientMailOnStatusChange($auth, $productOrder);
                     $this->sendClientSmsOnStatusChange($auth, $productOrder);
-                    //  TODO send push notification.
+                    $this->sendClientPushOnStatusChange($auth, $productOrder);
                 }
             }
         });
@@ -160,23 +165,49 @@ class VillageServiceProvider extends ServiceProvider
                 if (in_array($serviceOrder->status, $clientNotifyStatuses)) {
                     $this->sendClientMailOnStatusChange($auth, $serviceOrder);
                     $this->sendClientSmsOnStatusChange($auth, $serviceOrder);
-                    //  TODO send push notification.
+                    $this->sendClientPushOnStatusChange($auth, $serviceOrder);
                 }
 
             }
         });
+        // Create a queue job for sending push-notifications about important news.
+        Article::saved(function (Article $article) use ($auth) {
+            if ($article->active && $article->is_important && (strtotime($article->published_at) < time())) {
+                $this->dispatch(new SendArticleNotifications($article));
+            }
+        });
+
     }
 
     private function getStatusText(OrderInterface $order)
     {
         $statusTexts = array(
-          $order::STATUS_DONE       => 'был выполен',
-          $order::STATUS_RUNNING    => 'выполняется',
+          $order::STATUS_DONE       => 'был выполнен',
+          $order::STATUS_RUNNING    => 'обрабатывается',
           $order::STATUS_PROCESSING => 'принят',
           $order::STATUS_REJECTED   => 'отклонен',
         );
         $statusText  = $statusTexts[$order->status];
+        if ($order->status == $order::STATUS_REJECTED && $order->decline_reason) {
+            $statusText .= ' (' . $order->decline_reason . ')';
+        }
         return $statusText;
+    }
+
+    /**
+     * @param Authentication $auth
+     * @param OrderInterface $order
+     */
+    private function sendClientPushOnStatusChange(Authentication $auth, OrderInterface $order)
+    {
+        $devices = $order->user->devices;
+        $orderType = $order->getOrderType();
+        $message = 'Заказ  №'.$order->id.' "'.$order->$orderType->title.'" '.$this->getStatusText($order);
+        foreach ($devices as $device) {
+            PushNotification::app($device->type)
+                            ->to($device->token)
+                            ->send($message);
+        }
     }
 
     /**

@@ -3,7 +3,7 @@
 return array(
   'ios' => array(
     'environment' => env('PUSH_ENV'),
-    'certificate' => base_path(env('PUSH_IOS_CERTIFICATE')),
+    'certificate' => base_path('config/push/'.env('PUSH_ENV').'.pem'),
     'passPhrase'  => env('PUSH_IOS_PASS_PHRASE'),
     'service'     => 'apns'
   ),

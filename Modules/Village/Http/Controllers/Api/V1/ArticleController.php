@@ -49,7 +49,15 @@ class ArticleController extends ApiController
      */
     public function show($articleId)
     {
-        $article = Article::api()->where('id', $articleId)->first();
+
+        $article = Article::api();
+        $article->where('id', $articleId);
+        $article->orWhere(function ($query) use ($articleId) {
+            $query->where('id', $articleId)
+                  ->whereNull('village_id');
+        });
+        $article = $article->first();
+
         if (!$article) {
             return $this->response->errorNotFound('Not Found');
         }

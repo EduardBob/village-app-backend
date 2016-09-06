@@ -17,6 +17,12 @@
         .cke_toolgroup .cke_button__abbr_icon{
             background: url("/custom/images/box.png");
         }
+      .chosen-container-single .chosen-drop{
+          display: none;
+      }
+        .chosen-container-single.chosen-container-active .chosen-drop{
+            display:  inline;
+        }
     </style>
 @stop
 @section('scripts')
@@ -122,6 +128,9 @@
                            $popupSelect.find('#products-group').append(optionHtml);
                        }
                        $popupSelect.chosen();
+                       $('#services-products').on('change', function(event, params) {
+                           $(this).next().removeClass('chosen-container-active');
+                       });
                    });
                });
            }

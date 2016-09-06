@@ -43,14 +43,14 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
         });
 
         $router->group(['prefix' => 'villages'], function (Router $router) {
-            $router->post('partner-request',    ['uses' => 'V1\VillageController@partnerRequest', 'as' => 'village.api.village.village.partner_request']);
+            $router->post('partner-request', ['uses' => 'V1\VillageController@partnerRequest', 'as' => 'village.api.village.village.partner_request']);
             $router->post('request',        ['uses' => 'V1\VillageController@request', 'as' => 'village.api.village.village.request']);
         });
     });
 
     // with token
     $router->group(['middleware' => ['jwt.auth']], function (Router $router) {
-        // апи для охранников
+
         $router->group(['prefix' => 'security', 'middleware' => ['role:security']], function (Router $router) {
             $router->group(['prefix' => 'services'], function (Router $router) {
                 $router->group(['prefix' => 'orders'], function (Router $router) {
@@ -63,12 +63,18 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
                 $router->get('',        ['uses' => 'V1\Security\ServiceController@index', 'as' => 'village.security.api.service.service.list']);
             });
         });
+        // User methods.
         $router->group(['prefix' => 'me'], function (Router $router) {
             $router->get('',            ['uses' => 'V1\MeController@me', 'as' => 'village.api.user.me.me']);
             $router->post('name', 		['uses' => 'V1\MeController@changeName', 'as' => 'village.api.user.me.name']);
             $router->post('email', 		['uses' => 'V1\MeController@changeEmail', 'as' => 'village.api.user.me.email']);
             $router->post('password', 	['uses' => 'V1\MeController@changePassword', 'as' => 'village.api.user.me.password']);
             $router->post('phone', 	    ['uses' => 'V1\MeController@changePhone', 'as' => 'village.api.user.me.phone']);
+            // Device token operations.
+            $router->post('device',       ['uses' => 'V1\MeController@changeDevice', 'as' => 'village.api.user.me.change_device']);
+            $router->post('device-delete', ['uses' => 'V1\MeController@deleteDevice', 'as' => 'village.api.user.me.delete_device']);
+            // Subscribe/Unsubsribe user from mail notifications.
+            $router->post('mail-notifications',       ['uses' => 'V1\MeController@mailSubscribe', 'as' => 'village.api.user.me.mail_subscribe']);
         });
 
 //        $router->group(['prefix' => 'users'], function (Router $router) {
@@ -83,11 +89,8 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
             $router->group(['prefix' => 'categories'], function (Router $router) {
                 $router->get('',    ['uses' => 'V1\ArticleCategoryController@index', 'as' => 'village.api.article.category.list']);
             });
-
-
             $router->get('',        ['uses' => 'V1\ArticleController@index', 'as' => 'village.api.article.list']);
             $router->get('{id}', 	['uses' => 'V1\ArticleController@show', 'as' => 'village.api.article.one']);
-
 
         });
         $router->group(['prefix' => 'services'], function (Router $router) {

@@ -35,12 +35,9 @@ class ArticleTransformer extends BaseTransformer
           'id'             => $article->id,
           'title'          => $article->title,
           'short'          => str_replace(array("\r\n", "\r", "\n"), "<br />", strip_tags($article->short)),
-          'text'           => str_replace(array("\r\n", "\r", "\n"), "<br />", strip_tags($article->text)),
-            // TODO remove this on second release.
-          'category_id'    => $article->category->id,
-          'category_title' => $article->category->title,
+          'text'           => $article->text,
           'created_at'   => $article->created_at->format('Y-m-d H:i:s'),
-          'published_at' => $article->published_at,
+          'published_at' => $article->published_at->format('Y-m-d H:i:s'),
           'image'        => $this->getImage($article->files()->first()),
         ];
     }
@@ -54,6 +51,9 @@ class ArticleTransformer extends BaseTransformer
      */
     public function includeCategory(Article $article)
     {
-        return $this->item($article->category, new ArticleCategoryTransformer);
+        if ($article->category) {
+            return $this->item($article->category, new ArticleCategoryTransformer);
+        }
+        return;
     }
 }

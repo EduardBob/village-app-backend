@@ -1,5 +1,6 @@
 <?php namespace Modules\Village\Entities;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Media\Support\Traits\MediaRelation;
 use Modules\Village\Entities\Scope\ApiScope;
@@ -13,8 +14,8 @@ class Article extends Model
     use VillageAdminScope;
 
     protected $table = 'village__articles';
-
-    protected $fillable = ['village_id', 'title', 'text', 'active', 'base_id', 'category_id', 'published_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'published_at'];
+    protected $fillable = ['village_id', 'title', 'text', 'active', 'base_id', 'category_id', 'published_at', 'is_important'];
 
     public function base()
     {
@@ -29,7 +30,6 @@ class Article extends Model
     public function village()
     {
         return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
-
     }
 
     /**
@@ -42,11 +42,17 @@ class Article extends Model
         $this->attributes['village_id'] = ($value == '') ? null : $value;
     }
 
+    public function setPublishedAtAttribute($value)
+    {
+        $this->attributes['published_at'] = (new Carbon($value))->format('Y-m-d H:i:00');
+    }
+
     protected static function boot()
     {
         parent::boot();
 
         static::saving(function (Article $article) {
+
             $article->short = static::generateShort($article->text);
         });
     }
@@ -59,6 +65,16 @@ class Article extends Model
      */
     static public function generateShort($text, $limit = 200)
     {
-        return (mb_strlen($text) <= $limit) ? $text : substr($text, 0, $limit - 3) . '...';
+        $text    = strip_tags($text);
+        $matches = array();
+        preg_match_all('/%%(.*?)%%/', $text, $matches);
+        if (isset($matches[1])) {
+            foreach ($matches[1] as $match) {
+                $replaceString = current(explode("^", $match));
+                $text          = str_replace('%%' . $match . '%%', $replaceString, $text);
+            }
+        }
+        $text = trim($text);
+        return ((mb_strlen($text) <= $limit) ? $text : mb_substr($text, 0, $limit - 3) . '...');
     }
 }

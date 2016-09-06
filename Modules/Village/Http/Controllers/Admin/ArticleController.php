@@ -75,6 +75,7 @@ class ArticleController extends AdminController
           ->addColumn(['data' => 'category_title', 'name' => 'village__article_categories.title', 'title' => $this->trans('table.category')])
           ->addColumn(['data' => 'title', 'name' => 'village__articles.title', 'title' => $this->trans('table.title')])
           ->addColumn(['data' => 'active', 'name' => 'village__articles.active', 'title' => $this->trans('table.active')])
+          ->addColumn(['data' => 'is_important', 'name' => 'village__articles.is_important', 'title' => $this->trans('table.is_important')])
           ->addColumn(['data' => 'created_at', 'name' => 'village__articles.created_at', 'title' => $this->trans('table.created_at')])
           ->addColumn(['data' => 'published_at', 'name' => 'village__articles.published_at', 'title' => $this->trans('table.published_at')]);
     }
@@ -103,6 +104,10 @@ class ArticleController extends AdminController
               return $article->category->title;
           });
 
+        $dataTable
+          ->addColumn('published_at', function (Article $article) {
+              return localizeddate($article->published_at);
+          });
 
         $dataTable
           ->addColumn('created_at', function (Article $article) {
@@ -112,6 +117,15 @@ class ArticleController extends AdminController
         $dataTable
           ->addColumn('active', function (Article $article) {
               if ($article->active) {
+                  return '<span class="label label-success">' . trans('village::admin.table.active.yes') . '</span>';
+              }
+              return '<span class="label label-danger">' . trans('village::admin.table.active.no') . '</span>';
+
+          });
+
+        $dataTable
+          ->addColumn('is_important', function (Article $article) {
+              if ($article->is_important) {
                   return '<span class="label label-success">' . trans('village::admin.table.active.yes') . '</span>';
               }
               return '<span class="label label-danger">' . trans('village::admin.table.active.no') . '</span>';

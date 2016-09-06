@@ -19,23 +19,23 @@ class ArticleController extends ApiController
     {
 
         $articles = Article::api()
-                           ->where('village__articles.published_at', '<=', date('Y-m-d H:i:s'))
+                           ->where('published_at', '<=', date('Y-m-d H:i:s'))
                            ->orWhere(function ($query) {
-                               $query->whereNull('village__articles.village_id')
-                                     ->where('village__articles.published_at', '<=', date('Y-m-d H:i:s'));
+                               $query->whereNull('village_id')
+                                     ->where('published_at', '<=', date('Y-m-d H:i:s'));
                            })
-                           ->orderBy('village__articles.published_at', 'desc')->paginate(10);
+                           ->orderBy('published_at', 'desc')->paginate(10);
 
         if ($categoryId = $request::query('category_id')) {
             $articles = Article::api()
-                               ->where('village__articles.published_at', '<=', date('Y-m-d H:i:s'))
+                               ->where('published_at', '<=', date('Y-m-d H:i:s'))
                                ->where('category_id', '=', (int)$categoryId)
                                ->orWhere(function ($query) use ($categoryId) {
-                                   $query->whereNull('village__articles.village_id')
+                                   $query->whereNull('village_id')
                                          ->where('category_id', '=', (int)$categoryId)
-                                         ->where('village__articles.published_at', '<=', date('Y-m-d H:i:s'));
+                                         ->where('published_at', '<=', date('Y-m-d H:i:s'));
                                })
-                               ->orderBy('village__articles.published_at', 'desc')->paginate(10);
+                               ->orderBy('published_at', 'desc')->paginate(10);
         }
         return $this->response->withCollection($articles, new ArticleTransformer);
     }
@@ -49,7 +49,15 @@ class ArticleController extends ApiController
      */
     public function show($articleId)
     {
-        $article = Article::api()->where('id', $articleId)->first();
+
+        $article = Article::api();
+        $article->where('id', $articleId);
+        $article->orWhere(function ($query) use ($articleId) {
+            $query->where('id', $articleId)
+                  ->whereNull('village_id');
+        });
+        $article = $article->first();
+        
         if (!$article) {
             return $this->response->errorNotFound('Not Found');
         }

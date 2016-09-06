@@ -18,17 +18,24 @@ class User extends BaseUser implements AuthenticatableContract
         'last_name',
         'phone',
         'building_id',
+        'has_mail_notifications',
+        'has_sms_notifications'
     ];
 
     public function activation()
     {
         return $this->hasOne('Cartalyst\Sentinel\Activations\EloquentActivation');
     }
+
     public function smartHome()
     {
         return $this->hasOne('Modules\Village\Entities\SmartHome');
     }
 
+    public function devices()
+    {
+        return $this->hasMany('Modules\Village\Entities\UserDevice');
+    }
 
     public function village()
     {
@@ -54,7 +61,6 @@ class User extends BaseUser implements AuthenticatableContract
             if (!$user->email) {
                 $user->email = null;
             }
-
             if (!$user->village_id) {
                 $user->village_id = null;
             }

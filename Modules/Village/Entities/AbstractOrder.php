@@ -66,6 +66,7 @@ abstract class AbstractOrder extends Model implements OrderInterface
 		return [
 		static::STATUS_DONE,
 		static::STATUS_RUNNING,
+		static::STATUS_REJECTED,
 		];
 	}
 

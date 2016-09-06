@@ -65,6 +65,16 @@ class Article extends Model
      */
     static public function generateShort($text, $limit = 200)
     {
-        return (mb_strlen($text) <= $limit) ? $text : substr($text, 0, $limit - 3) . '...';
+        $text    = strip_tags($text);
+        $matches = array();
+        preg_match_all('/%%(.*?)%%/', $text, $matches);
+        if (isset($matches[1])) {
+            foreach ($matches[1] as $match) {
+                $replaceString = current(explode("^", $match));
+                $text          = str_replace('%%' . $match . '%%', $replaceString, $text);
+            }
+        }
+        $text = trim($text);
+        return ((mb_strlen($text) <= $limit) ? $text : mb_substr($text, 0, $limit - 3) . '...');
     }
 }

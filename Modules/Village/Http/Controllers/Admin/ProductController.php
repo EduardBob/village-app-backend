@@ -269,4 +269,22 @@ class ProductController extends AdminController
 
         return $list;
     }
+
+    public function getChoicesByVillage($villageId)
+    {
+        $attributes = [];
+        if ($this->getCurrentUser()->inRole('admin')) {
+            $attributes['village_id'] = $villageId;
+        } else {
+            $attributes['village_id'] = $this->getCurrentUser()->village_id;
+        }
+        if ($villageId == 'all' && $this->getCurrentUser()->inRole('admin')) {
+            unset($attributes['village_id']);
+        }
+        $collection = $this->getRepository()->lists($attributes, 'title', 'id', ['title' => 'ASC']);
+        if (\Request::ajax()) {
+            return json_encode($collection);
+        }
+        return $collection;
+    }
 }

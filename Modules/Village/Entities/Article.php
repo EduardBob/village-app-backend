@@ -13,12 +13,9 @@ class Article extends Model
     use ApiScope;
     use VillageAdminScope;
 
-//    protected $casts = [
-//      'is_admin' => 'boolean',
-//    ];
     protected $table = 'village__articles';
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'published_at'];
-    protected $fillable = ['village_id', 'title', 'text', 'active', 'base_id', 'category_id', 'published_at'];
+    protected $fillable = ['village_id', 'title', 'text', 'active', 'base_id', 'category_id', 'published_at', 'is_important'];
 
     public function base()
     {
@@ -33,7 +30,6 @@ class Article extends Model
     public function village()
     {
         return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
-
     }
 
     /**

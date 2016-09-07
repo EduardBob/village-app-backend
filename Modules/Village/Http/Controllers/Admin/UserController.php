@@ -102,8 +102,8 @@ class UserController extends AdminController
           ->addColumn(['data' => 'phone', 'name' => 'users.phone', 'title' => trans('village::users.form.phone')])
           ->addColumn(['data' => 'email', 'name' => 'users.email', 'title' => $this->trans('form.email')])
           ->addColumn(['data' => 'building_address', 'name' => 'village__buildings.address', 'title' => trans('village::users.form.building_id')])
-          ->addColumn(['data' => 'has_mail_notifications', 'name' => 'users.has_mail_notifications', 'title' => $this->trans('form.has_mail_notifications')])
-          ->addColumn(['data' => 'has_sms_notifications', 'name' => 'users.has_mail_notifications', 'title' => $this->trans('form.has_sms_notifications')])
+          ->addColumn(['data' => 'has_mail_notifications', 'name' => 'users.has_mail_notifications', 'title' => trans('village::users.form.has_mail_notifications')])
+          ->addColumn(['data' => 'has_sms_notifications', 'name' => 'users.has_mail_notifications', 'title' => trans('village::users.form.has_sms_notifications')])
           ->addColumn(['data' => 'activation_completed', 'name' => 'activations.completed', 'title' => $this->trans('form.status')]);
     }
 

@@ -171,7 +171,7 @@ class ServiceOrderController extends AbstractOrderController
 
         $builder
             ->addColumn(['data' => 'service_title', 'name' => 'village__services.title', 'title' => $this->trans('table.service')])
-            ->addColumn(['data' => 'comment', 'name' => 'village__product_orders.comment', 'title' => $this->trans('table.comment')])
+            ->addColumn(['data' => 'comment', 'name' => 'village__service_orders.comment', 'title' => $this->trans('table.comment')])
             ->addColumn(['data' => 'building_address', 'name' => 'village__buildings.address', 'title' => $this->trans('table.address')])
             ->addColumn(['data' => 'perform_date', 'name' => 'village__service_orders.perform_date', 'title' => $this->trans('table.perform_date')])
             ->addColumn(['data' => 'price', 'name' => 'village__service_orders.price', 'title' => $this->trans('table.price')])

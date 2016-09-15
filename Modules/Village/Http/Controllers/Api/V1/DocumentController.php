@@ -12,7 +12,7 @@ class DocumentController extends ApiController
 {
 
     /**
-     * Get all articles
+     * Get all documents
      *
      * @return Response
      */
@@ -82,7 +82,7 @@ class DocumentController extends ApiController
     /**
      * Get a single Document
      *
-     * @param int $articleId
+     * @param int $documentId
      *
      * @return Response
      */

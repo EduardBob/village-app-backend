@@ -1,8 +1,8 @@
 <?php namespace Modules\Village\Entities;
 
-use Modules\User\Entities\Sentinel\User as BaseUser;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Modules\User\Entities\Sentinel\User as BaseUser;
 use Modules\Village\Entities\Scope\VillageAdminScope;
 
 class User extends BaseUser implements AuthenticatableContract
@@ -40,6 +40,21 @@ class User extends BaseUser implements AuthenticatableContract
     public function village()
     {
         return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
+    }
+    // Users with role 'executor' can be attached by administrator to additional villages.
+    public function additionalVillages()
+    {
+        return $this->belongsToMany('Modules\Village\Entities\Village', 'village__village_user');
+    }
+
+    public function articles()
+    {
+        return $this->belongsToMany('Modules\Village\Entities\Article', 'village__article_user');
+    }
+
+    public function documents()
+    {
+        return $this->belongsToMany('Modules\Village\Entities\Document', 'village__document_user');
     }
 
     public function building()
@@ -93,6 +108,22 @@ class User extends BaseUser implements AuthenticatableContract
             $list[$user->id] = $user->last_name . ' ' . $user->first_name;
         }
 
+        return $list;
+    }
+
+    /**
+     * Get all users array of village_id->role_id->user.
+     * @return array
+     */
+    public function getListWithRoles()
+    {
+        $users = $this->all(['last_name', 'first_name', 'village_id', 'id']);
+        $list  = [];
+        foreach ($users as $key => $user) {
+            foreach ($user->roles as $role) {
+                $list[$user->village_id][$role->id][$user->id] = str_replace('"', '', $user->last_name . ' ' . $user->first_name);
+            }
+        }
         return $list;
     }
 

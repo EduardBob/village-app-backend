@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Jenssegers\Date\Date;
 use Modules\Village\Entities\AbstractOrder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Village\Entities\Village;
 use Modules\Village\Repositories\AbstractOrderRepository;
 use Modules\Village\Entities\Product;
@@ -98,5 +99,31 @@ abstract class AbstractOrderController extends AdminController
 		flash()->success($this->trans('messages.resource payment-and-status-done'));
 
 		return redirect()->route($this->getRoute('index'));
+	}
+	/**
+	 * @param Model $model
+	 *
+	 * @return false|\Illuminate\Http\RedirectResponse
+	 */
+	public function checkPermissionDenied(Model $model)
+	{
+		$currentUser = $this->getCurrentUser();
+
+		if (method_exists($model, 'village') && !$currentUser->inRole('admin')) {
+			// Additional check for executors linked to additional objects(villages).
+			if(!$model->village || $currentUser->inRole('executor') && $currentUser->additionalVillages)
+			{
+				$additionalVillages = $currentUser->additionalVillages()->select(['village_id'])->lists('village_id')->toArray();
+				if (in_array($model->village->id, $additionalVillages)) {
+					return false;
+				}
+				return redirect()->route($this->getRoute('index'));
+			}
+			if (!$model->village || (int)$model->village->id !== (int)$currentUser->village->id) {
+				return redirect()->route($this->getRoute('index'));
+			}
+		}
+
+		return false;
 	}
 }

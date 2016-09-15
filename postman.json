@@ -359,8 +359,8 @@
 					"name": "auth",
 					"description": "",
 					"order": [
-						"dd8e64f3-7cb1-e930-9992-878b27914e6b",
-						"2460d8af-d2a5-1917-e9fb-5bf3392ae4e9"
+						"2460d8af-d2a5-1917-e9fb-5bf3392ae4e9",
+						"dd8e64f3-7cb1-e930-9992-878b27914e6b"
 					],
 					"createdAt": "2015-10-14T09:09:02.000Z",
 					"updatedAt": "2015-10-14T09:09:04.000Z",
@@ -386,6 +386,27 @@
 					"collection_name": "Village",
 					"collection_owner": "161799",
 					"collection_id": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e"
+				},
+				{
+					"owner": "161799",
+					"lastUpdatedBy": "161799",
+					"lastRevision": 66685541,
+					"collection": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"id": "03368139-4fdd-245b-3572-98b3d25f43c1",
+					"name": "documents",
+					"description": "",
+					"order": [
+						"8636778c-85eb-f026-f6fe-7330d5683096",
+						"8a8b4f35-d0e4-0a7c-2cfa-4991b0d2e88b",
+						"4d113410-f59e-c7cb-7421-aacf19987910"
+					],
+					"createdAt": "2015-10-14T09:09:02.000Z",
+					"updatedAt": "2015-10-14T09:09:05.000Z",
+					"write": true,
+					"collection_name": "Village",
+					"collection_owner": "161799",
+					"collection_id": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e"
 				},
 				{
 					"owner": "161799",
@@ -570,6 +591,25 @@
 					"collection_name": "Village",
 					"collection_owner": "161799",
 					"collection_id": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e"
+				},
+				{
+					"owner": "161799",
+					"lastUpdatedBy": "161799",
+					"lastRevision": 66685541,
+					"collection": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"id": "794565f1-0e48-4e7d-8862-72a85ffb006b",
+					"name": "file",
+					"description": "",
+					"order": [
+						"4152de27-ae77-76b7-5c82-92e1564bfc30"
+					],
+					"createdAt": "2015-10-14T09:09:02.000Z",
+					"updatedAt": "2015-10-14T09:09:05.000Z",
+					"write": true,
+					"collection_name": "Village",
+					"collection_owner": "161799",
+					"collection_id": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e"
 				}
 			],
 			"timestamp": 0,
@@ -582,7 +622,7 @@
 			"remoteLinkUpdatedAt": null,
 			"public": false,
 			"createdAt": 1471255836118,
-			"updatedAt": 1472658452280,
+			"updatedAt": 1473932214322,
 			"write": true,
 			"published": false,
 			"favorite": false,
@@ -599,7 +639,7 @@
 					"data": [
 						{
 							"key": "token",
-							"value": "TEST_UNIQUE_TOKEN",
+							"value": "TEST_UNIQUE",
 							"type": "text",
 							"enabled": true
 						},
@@ -618,10 +658,10 @@
 					],
 					"dataMode": "params",
 					"version": 2,
-					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\n",
+					"tests": "",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1472658827220,
+					"time": 1472737666019,
 					"name": "/api/v1/me/device",
 					"description": "Update user device information if needed",
 					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
@@ -637,7 +677,7 @@
 					"data": [
 						{
 							"key": "has_mail_notifications",
-							"value": "1",
+							"value": "0",
 							"type": "text",
 							"enabled": true
 						}
@@ -647,7 +687,7 @@
 					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\nresponse.data = 1;\nif (response.data) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains first_name\"] = responseBody.has(\"first_name\");\n    tests[\"Body contains last_name\"] = responseBody.has(\"last_name\");\n    tests[\"Body contains phone\"] = responseBody.has(\"phone\");\n    tests[\"Body contains activated\"] = responseBody.has(\"activated\");\n    tests[\"Body contains building\"] = responseBody.has(\"building\");\n\n    postman.setEnvironmentVariable(\"me.id\", response.data.id);\n    postman.setEnvironmentVariable(\"me.phone\", response.data.id);\n}\nelse {\n    tests[\"no data\"] = false;\n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1472643955467,
+					"time": 1472739695157,
 					"name": "/api/v1/me/mail-notifications",
 					"description": "Subscribe/Unsubsribe to email notifications",
 					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
@@ -865,6 +905,49 @@
 					"synced": true
 				},
 				{
+					"id": "4152de27-ae77-76b7-5c82-92e1564bfc30",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/file/{{md5_file_path}}",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "product_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_at",
+							"value": "2015-10-11 12:30",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "quantity",
+							"value": "2",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "comment",
+							"value": "test",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains short\"] = responseBody.has(\"short\");\n    tests[\"Body contains text\"] = responseBody.has(\"text\");    \n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1473932250044,
+					"name": "/api/file/{md5_file_path}",
+					"description": "<p>Get file by md5 of it's path</p>",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e"
+				},
+				{
 					"id": "4268a9d3-dfcc-49cf-7eec-1732bf464a83",
 					"owner": "161799",
 					"headers": "Authorization: Bearer  {{token}}\n",
@@ -952,6 +1035,49 @@
 					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
 					"owner": "161799",
 					"folder": "e0d44125-766d-5755-dc74-337a4803e07c"
+				},
+				{
+					"id": "4d113410-f59e-c7cb-7421-aacf19987910",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/documents/{id}",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "product_id",
+							"value": "1",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "perform_at",
+							"value": "2015-10-11 12:30",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "quantity",
+							"value": "2",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "comment",
+							"value": "test",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar data = JSON.parse(responseBody);\nif (data.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains short\"] = responseBody.has(\"short\");\n    tests[\"Body contains text\"] = responseBody.has(\"text\");    \n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1473691712201,
+					"name": "/api/v1/documents/{id}",
+					"description": "<p>Get document by id</p>",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e"
 				},
 				{
 					"id": "58c69a78-8c04-067a-2731-cab30e1ef294",
@@ -1284,6 +1410,38 @@
 					"folder": "666df5be-2ff3-7a50-5cdd-6949d97a14d2"
 				},
 				{
+					"id": "8636778c-85eb-f026-f6fe-7330d5683096",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/documents?page={{page}&category_id=",
+					"preRequestScript": "postman.setEnvironmentVariable(\"page\", 1);\npostman.setEnvironmentVariable(\"category_id\", 1);",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "phone",
+							"value": "{{phone}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\nif (response.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n    tests[\"Body contains short\"] = responseBody.has(\"short\");\n    tests[\"Body contains text\"] = responseBody.has(\"text\");    \n    postman.setEnvironmentVariable(\"article.id\", response.data[0].id);\n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1473844886528,
+					"name": "/api/v1/documents",
+					"description": "<p>Get documents list</p>",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"responses": []
+				},
+				{
 					"id": "88e50d92-512d-bb71-3350-e423e4e9d156",
 					"headers": "",
 					"url": "{{domain}}/api/v1/villages/request",
@@ -1328,6 +1486,38 @@
 					"responses": [],
 					"owner": "161799",
 					"folder": "d8501dab-2e9a-da30-da8b-e373e1b0a98f"
+				},
+				{
+					"id": "8a8b4f35-d0e4-0a7c-2cfa-4991b0d2e88b",
+					"headers": "Authorization: Bearer  {{token}}\n",
+					"url": "{{domain}}/api/v1/documents/categories",
+					"preRequestScript": "postman.setEnvironmentVariable(\"page\", 1);",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [
+						{
+							"key": "phone",
+							"value": "{{phone}}",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "tests[\"Body matches string\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\n\nvar response = JSON.parse(responseBody);\nif (response.data.length > 0) {\n    tests[\"Body contains id\"] = responseBody.has(\"id\");\n    tests[\"Body contains title\"] = responseBody.has(\"title\");\n}",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1473852564583,
+					"name": "/api/v1/documents/categories",
+					"description": "<p>Get all document categories</p>",
+					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
+					"responses": []
 				},
 				{
 					"id": "909a3564-17ff-2ee2-abab-cd17f1179f51",
@@ -1971,13 +2161,13 @@
 					"data": [
 						{
 							"key": "phone",
-							"value": "{{phone}}",
+							"value": "+7(666)1111111",
 							"type": "text",
 							"enabled": true
 						},
 						{
 							"key": "password",
-							"value": "{{password}}",
+							"value": "test123",
 							"type": "text",
 							"enabled": true
 						}
@@ -1987,13 +2177,11 @@
 					"tests": "tests[\"Body contains data\"] = responseBody.has(\"data\");\ntests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Content-Type is application/json\"] = postman.getResponseHeader(\"Content-type\") === 'application/json'\ntests[\"Body contains token\"] = responseBody.has(\"token\");\n\nvar response = JSON.parse(responseBody);\nif (response.data && response.data.token) {\n    postman.setEnvironmentVariable(\"token\", response.data.token);   \n}",
 					"currentHelper": "normal",
 					"helperAttributes": {},
-					"time": 1445611586619,
+					"time": 1472739523693,
 					"name": "/api/v1/auth/token",
 					"description": "Get token by user credentials (phone and password)",
 					"collectionId": "f0cbe64a-6c06-4b0f-7fa9-b1209afde57e",
-					"responses": [],
-					"owner": "161799",
-					"folder": "9e196810-364d-6d78-af81-cb31ea2a333c"
+					"responses": []
 				},
 				{
 					"id": "ddb628a7-2ab2-e2c6-4d8d-228f83844e5f",
@@ -2356,13 +2544,13 @@
 				{
 					"key": "me.first_name",
 					"type": "text",
-					"value": "aktzbyjdlo",
+					"value": "drbgmutoaq",
 					"enabled": true
 				},
 				{
 					"key": "me.last_name",
 					"type": "text",
-					"value": "kwbpumyzrm",
+					"value": "hrnjgwzqpx",
 					"enabled": true
 				},
 				{
@@ -2379,7 +2567,7 @@
 				}
 			],
 			"team": null,
-			"timestamp": 1472654637295
+			"timestamp": 1473929331106
 		},
 		{
 			"id": "fdfc1d48-8ad0-8d6e-ff74-a2c0b4c74448",
@@ -2448,7 +2636,7 @@
 				{
 					"key": "article.id",
 					"type": "text",
-					"value": "566",
+					"value": "579",
 					"enabled": true
 				},
 				{
@@ -2504,10 +2692,28 @@
 					"type": "text",
 					"value": "undefined",
 					"enabled": true
+				},
+				{
+					"key": "me.first_name",
+					"type": "text",
+					"value": "jgytzdveys",
+					"enabled": true
+				},
+				{
+					"key": "me.last_name",
+					"type": "text",
+					"value": "jfecgrioek",
+					"enabled": true
+				},
+				{
+					"key": "category_id",
+					"type": "text",
+					"value": "1",
+					"enabled": true
 				}
 			],
 			"team": null,
-			"timestamp": 1472654637304
+			"timestamp": 1473929331118
 		},
 		{
 			"id": "737b4868-ac75-2c31-9280-ff28bb7d03e8",
@@ -2528,7 +2734,7 @@
 				{
 					"key": "token",
 					"type": "text",
-					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyNjMsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ3MTQyMzI5MiwiZXhwIjoxNDc0MDE1MjkyLCJuYmYiOjE0NzE0MjMyOTIsImp0aSI6Ijg2NDJlYTE4NTkzOTE0YjJkMmVkYThhMzU2ZGFlNGQ0In0.SVzQhnMZMgnc8OVJzB10qiC44r2kLkgxhZYzrMdh0co",
+					"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE4OTYsImlzcyI6Imh0dHA6XC9cL3ZpbGxhZ2UuZGV2XC9hcGlcL3YxXC9hdXRoXC90b2tlbiIsImlhdCI6MTQ3Mzg1MjQ0OCwiZXhwIjoxNDc2NDQ0NDQ4LCJuYmYiOjE0NzM4NTI0NDgsImp0aSI6ImQ5ZWM5NWYxODFjZTc0MTgyYTAzZWQ3MzNhMzE5Y2E4In0.y1YkYDL90nMPQnLD8O4dfZ9o6DgjbeqOSaSfdUVSENw",
 					"enabled": true
 				},
 				{
@@ -2558,19 +2764,19 @@
 				{
 					"key": "article.id",
 					"type": "text",
-					"value": "554",
+					"value": "13",
 					"enabled": true
 				},
 				{
 					"key": "me.first_name",
 					"type": "text",
-					"value": "ogkaaesorf",
+					"value": "weuqxvjgzv",
 					"enabled": true
 				},
 				{
 					"key": "me.last_name",
 					"type": "text",
-					"value": "uafojkdqbu",
+					"value": "bxqxeyllay",
 					"enabled": true
 				},
 				{
@@ -2674,10 +2880,16 @@
 					"type": "text",
 					"value": "438",
 					"enabled": true
+				},
+				{
+					"key": "category_id",
+					"type": "text",
+					"value": "1",
+					"enabled": true
 				}
 			],
 			"team": null,
-			"timestamp": 1472658850482
+			"timestamp": 1473932258021
 		}
 	],
 	"headerPresets": [

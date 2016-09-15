@@ -34,7 +34,8 @@ return [
         'edit',
         'update',
         'destroy',
-        'baseCopy'
+        'baseCopy',
+        'makePersonal',
     ],
     'village.articlecategories' => [
       'index',
@@ -43,6 +44,23 @@ return [
       'edit',
       'update',
       'destroy',
+    ],
+    'village.documentcategories' => [
+      'index',
+      'create',
+      'store',
+      'edit',
+      'update',
+      'destroy',
+    ],
+    'village.documents' => [
+      'index',
+      'create',
+      'store',
+      'edit',
+      'update',
+      'destroy',
+      'makePersonal',
     ],
     'village.margins' => [
         'index',

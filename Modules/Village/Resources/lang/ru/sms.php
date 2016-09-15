@@ -28,7 +28,7 @@ return [
     'widget' => [
         'send' => [
             'village' => [
-                'placeholder' => 'Все посёлки',
+                'placeholder' => 'Все объекты',
             ],
             'title' => 'Отправить sms всем активным пользователям'
         ],

@@ -21,7 +21,15 @@ return [
     | Specify all the allowed file extensions a user can upload on the server
     |--------------------------------------------------------------------------
     */
-    'allowed-types' => '.jpeg,.jpg,.png',
+    'allowed-types' => '.jpeg,.jpg,.png,.pdf,.docx,.xlsx,.xls,.csv',
+
+	/*
+   |--------------------------------------------------------------------------
+   | Specify image types (Fruitware)
+   |--------------------------------------------------------------------------
+   */
+	'imagetypes' => 'jpeg,jpg,png',
+
     /*
     |--------------------------------------------------------------------------
     | Determine the max file size upload rate

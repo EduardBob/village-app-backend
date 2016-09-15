@@ -79,12 +79,7 @@ class ServiceCategoryController extends AdminController
         if ($this->getCurrentUser()->inRole('admin')) {
             $dataTable
                 ->addColumn('active', function (ServiceCategory $serviceCategory) {
-                    if($serviceCategory->active) {
-                        return '<span class="label label-success">'.trans('village::admin.table.active.yes').'</span>';
-                    }
-                    else {
-                        return '<span class="label label-danger">'.trans('village::admin.table.active.no').'</span>';
-                    }
+                    return boolField($serviceCategory->active);
                 })
             ;
         }

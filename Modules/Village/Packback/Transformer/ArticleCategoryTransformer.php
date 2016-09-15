@@ -9,14 +9,14 @@ class ArticleCategoryTransformer extends BaseTransformer
     /**
      * Turn user object into generic array
      *
-     * @param ArticleCategory $ArticleCategory
+     * @param ArticleCategory $category
      * @return array
      */
-    public function transform(ArticleCategory $ArticleCategory)
+    public function transform(ArticleCategory $category)
     {
         return [
-            'id' =>  $ArticleCategory->id,
-            'title' => $ArticleCategory->title,
+          'id'    => $category->id,
+          'title' => $category->title,
         ];
     }
 }

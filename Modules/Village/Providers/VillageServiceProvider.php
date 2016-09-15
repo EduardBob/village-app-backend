@@ -170,13 +170,12 @@ class VillageServiceProvider extends ServiceProvider
 
             }
         });
-        // Create a queue job for sending push-notifications about important news.
+        // Create a queue job for sending push-notifications about important and personal articles.
         Article::saved(function (Article $article) use ($auth) {
-            if ($article->active && $article->is_important && (strtotime($article->published_at) < time())) {
+            if ($article->active && ($article->is_important || $article->is_personal) && (strtotime($article->published_at) < time())) {
                 $this->dispatch(new SendArticleNotifications($article));
             }
         });
-
     }
 
     private function getStatusText(OrderInterface $order)
@@ -465,6 +464,18 @@ class VillageServiceProvider extends ServiceProvider
           'Modules\Village\Repositories\ArticleRepository',
           function () {
               return new \Modules\Village\Repositories\Eloquent\EloquentArticleRepository(new \Modules\Village\Entities\Article());
+          }
+        );
+        $this->app->bind(
+          'Modules\Village\Repositories\DocumentCategoryRepository',
+          function () {
+              return new \Modules\Village\Repositories\Eloquent\EloquentDocumentCategoryRepository(new \Modules\Village\Entities\DocumentCategory());
+          }
+        );
+        $this->app->bind(
+          'Modules\Village\Repositories\DocumentRepository',
+          function () {
+              return new \Modules\Village\Repositories\Eloquent\EloquentDocumentRepository(new \Modules\Village\Entities\Document());
           }
         );
         $this->app->bind(

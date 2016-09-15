@@ -42,6 +42,11 @@ class Village extends Model
         return unserialize($value);
 
     }
+    public function additionalUsers()
+    {
+        return $this->belongsToMany('Modules\Village\Entities\Village', 'village__village_user');
+    }
+
 
     static public function getUnitStepByVillage(Village $village, $unitTitle)
     {

@@ -70,10 +70,10 @@ $router->group(['prefix' => '/village'], function (Router $router) {
         'destroy' => 'admin.village.article.destroy',
       ]
     ]);
+
     $router->group(['prefix' => 'articles'], function (Router $router) {
         $router->get('{id}/base-copy', ['uses' => 'ArticleController@baseCopy', 'as' => 'admin.village.article.baseCopy']);
     });
-
 
     $router->bind('articlecategories', function ($id) {
         return \Modules\Village\Entities\ArticleCategory::withTrashed()->find($id);
@@ -90,17 +90,37 @@ $router->group(['prefix' => '/village'], function (Router $router) {
       ]
     ]);
 
-    $router->bind('articlecategories', function ($id) {
-        return \Modules\Village\Entities\ArticleCategory::withTrashed()->find($id);
+
+    $router->bind('documentcategories', function ($id) {
+        return \Modules\Village\Entities\DocumentCategory::withTrashed()->find($id);
     });
+    $router->resource('documentcategories', 'DocumentCategoryController', [
+      'except' => ['show'],
+      'names'  => [
+        'index'   => 'admin.village.documentcategory.index',
+        'create'  => 'admin.village.documentcategory.create',
+        'store'   => 'admin.village.documentcategory.store',
+        'edit'    => 'admin.village.documentcategory.edit',
+        'update'  => 'admin.village.documentcategory.update',
+        'destroy' => 'admin.village.documentcategory.destroy',
+      ]
+    ]);
 
 
-//    $router->group(['prefix' => 'articlecategories'], function (Router $router) {
-//        $router->get('get-choices-by-village/{byVillageId}', ['uses' => 'ArticleCategoryController@getChoicesByVillage', 'as' => 'admin.village.productcategory.get_choices_by_village']);
-//        $router->get('get-choices-by-village/{byVillageId}/{selectedId}', ['uses' => 'ProductCategoryController@getChoicesByVillage', 'as' => 'admin.village.productcategory.get_choices_by_village']);
-//    });
-//
-
+    $router->bind('documents', function ($id) {
+        return app('Modules\Village\Repositories\DocumentRepository')->find($id);
+    });
+    $router->resource('documents', 'DocumentController', [
+      'except' => ['show'],
+      'names'  => [
+        'index'   => 'admin.village.document.index',
+        'create'  => 'admin.village.document.create',
+        'store'   => 'admin.village.document.store',
+        'edit'    => 'admin.village.document.edit',
+        'update'  => 'admin.village.document.update',
+        'destroy' => 'admin.village.document.destroy',
+      ]
+    ]);
 
     $router->bind('margins', function ($id) {
         return app('Modules\Village\Repositories\MarginRepository')->find($id);

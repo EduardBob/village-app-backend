@@ -1,12 +1,10 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Http\Request;
 use Modules\Village\Entities\ServiceOrder;
 use Modules\Village\Repositories\ServiceOrderRepository;
-use Modules\Village\Entities\Service;
 use Modules\Village\Repositories\ServiceRepository;
-
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Validator;
 use Yajra\Datatables\Engines\EloquentEngine;
 use Yajra\Datatables\Html\Builder as TableBuilder;
@@ -136,6 +134,7 @@ class ServiceOrderController extends AbstractOrderController
      */
     protected function configureQuery(QueryBuilder $query)
     {
+        $currentUser = $this->getCurrentUser();
         $query
             ->leftJoin('village__villages', 'village__service_orders.village_id', '=', 'village__villages.id')
             ->leftJoin('village__services', 'village__service_orders.service_id', '=', 'village__services.id')
@@ -144,7 +143,7 @@ class ServiceOrderController extends AbstractOrderController
             ->with(['village', 'service', 'user', 'user.building'])
         ;
 
-        if (!$this->getCurrentUser()->inRole('admin')) {
+        if (!$currentUser->additionalVillages && !$currentUser->inRole('admin')) {
             $query->where('village__service_orders.village_id', $this->getCurrentUser()->village->id);
         }
         if ($this->getCurrentUser()->inRole('executor')) {
@@ -159,11 +158,12 @@ class ServiceOrderController extends AbstractOrderController
      */
     protected function configureDatagridFields(TableBuilder $builder)
     {
+        $currentUser = $this->getCurrentUser();
         $builder
             ->addColumn(['data' => 'id', 'name' => 'village__service_orders.id', 'title' => $this->trans('table.id')])
         ;
 
-        if ($this->getCurrentUser()->inRole('admin')) {
+        if ($currentUser->inRole('admin') || $currentUser->additionalVillages) {
             $builder
                 ->addColumn(['data' => 'village_name', 'name' => 'village__villages.name', 'title' => trans('village::villages.title.model')])
             ;
@@ -189,7 +189,8 @@ class ServiceOrderController extends AbstractOrderController
      */
     protected function configureDatagridValues(EloquentEngine $dataTable)
     {
-        if ($this->getCurrentUser()->inRole('admin')) {
+        $currentUser = $this->getCurrentUser();
+        if ($currentUser->inRole('admin') || $currentUser->additionalVillages) {
             $dataTable
                 ->editColumn('village_name', function (ServiceOrder $serviceOrder) {
                     if ($this->getCurrentUser()->hasAccess('village.villages.edit')) {

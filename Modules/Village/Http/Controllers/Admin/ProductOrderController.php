@@ -163,6 +163,7 @@ class ProductOrderController extends AbstractOrderController
      */
     protected function configureQuery(QueryBuilder $query)
     {
+        $currentUser = $this->getCurrentUser();
         $query
             ->leftJoin('village__villages', 'village__product_orders.village_id', '=', 'village__villages.id')
             ->leftJoin('village__products', 'village__product_orders.product_id', '=', 'village__products.id')
@@ -171,7 +172,7 @@ class ProductOrderController extends AbstractOrderController
             ->with(['village', 'product', 'user', 'user.building'])
         ;
 
-        if (!$this->getCurrentUser()->inRole('admin')) {
+        if (!$currentUser->additionalVillages && !$currentUser->inRole('admin')) {
             $query->where('village__product_orders.village_id', $this->getCurrentUser()->village->id);
         }
         if ($this->getCurrentUser()->inRole('executor')) {
@@ -185,11 +186,12 @@ class ProductOrderController extends AbstractOrderController
      */
     protected function configureDatagridFields(TableBuilder $builder)
     {
+        $currentUser = $this->getCurrentUser();
         $builder
             ->addColumn(['data' => 'id', 'name' => 'village__product_orders.id', 'title' => $this->trans('table.id')])
         ;
 
-        if ($this->getCurrentUser()->inRole('admin')) {
+        if ($currentUser->inRole('admin') || $currentUser->additionalVillages) {
             $builder
                 ->addColumn(['data' => 'village_name', 'name' => 'village__villages.name', 'title' => trans('village::villages.title.model')])
             ;
@@ -217,7 +219,8 @@ class ProductOrderController extends AbstractOrderController
      */
     protected function configureDatagridValues(EloquentEngine $dataTable)
     {
-        if ($this->getCurrentUser()->inRole('admin')) {
+        $currentUser = $this->getCurrentUser();
+        if ($currentUser->inRole('admin') || $currentUser->additionalVillages) {
             $dataTable
                 ->editColumn('village_name', function (ProductOrder $productOrder) {
                     if ($this->getCurrentUser()->hasAccess('village.villages.edit')) {

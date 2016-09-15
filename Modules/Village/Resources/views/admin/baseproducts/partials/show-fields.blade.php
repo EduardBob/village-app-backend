@@ -53,11 +53,7 @@
             <div class="form-group">
                 {!! Form::label('show_perform_time', $admin->trans('table.show_perform_time')) !!}
                 <div>
-                    @if($model->show_perform_time)
-                        <span class="label label-success">{{ trans('village::admin.table.active.yes') }}</span>
-                    @else
-                        <span class="label label-danger">{{ trans('village::admin.table.active.no') }}</span>
-                    @endif
+                    {!! boolField($model->show_perform_time) !!}
                 </div>
             </div>
         </div>
@@ -67,11 +63,7 @@
             <div class="form-group">
                 {!! Form::label('has_card_payment', $admin->trans('table.has_card_payment')) !!}
                 <div>
-                    @if($model->has_card_payment)
-                        <span class="label label-success">{{ trans('village::admin.table.active.yes') }}</span>
-                    @else
-                        <span class="label label-danger">{{ trans('village::admin.table.active.no') }}</span>
-                    @endif
+                    {!! boolField($model->has_card_payment) !!}
                 </div>
             </div>
         </div>
@@ -82,11 +74,7 @@
             <div class="form-group">
                 {!! Form::label('active', $admin->trans('table.active')) !!}
                 <div>
-                    @if($model->active)
-                        <span class="label label-success">{{ trans('village::admin.table.active.yes') }}</span>
-                    @else
-                        <span class="label label-danger">{{ trans('village::admin.table.active.no') }}</span>
-                    @endif
+                    {!! boolField($model->active) !!}
                 </div>
             </div>
         </div>

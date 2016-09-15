@@ -153,7 +153,7 @@ class SmsController extends AdminController
         if (config('village.sms.enabled.mass')) {
             $smsCollection = [];
             foreach ($users as $user) {
-                // Только если указан посёлок
+                // Только если указан объект
                 if (!$user->village->id) {
                     continue;
                 }

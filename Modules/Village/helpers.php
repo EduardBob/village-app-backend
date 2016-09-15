@@ -6,6 +6,15 @@ if (!function_exists('localizeddate')) {
         return Jenssegers\Date\Date::parse($string)->format(config('village.date.human.'.$format));
     }
 }
+if (!function_exists('boolField')) {
+    function boolField($value)
+    {
+        if ($value) {
+            return '<span class="label label-success">' . trans('village::admin.table.active.yes') . '</span>';
+        }
+        return '<span class="label label-danger">' . trans('village::admin.table.active.no') . '</span>';
+    }
+}
 
 if (!function_exists('smsGate')) {
     /**

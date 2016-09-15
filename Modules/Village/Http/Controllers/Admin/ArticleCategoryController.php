@@ -53,16 +53,10 @@ class ArticleCategoryController extends AdminController
     {
         $dataTable
           ->addColumn('active', function (ArticleCategory $articleCategory) {
-              if ($articleCategory->active) {
-                  return '<span class="label label-success">' . trans('village::admin.table.active.yes') . '</span>';
-              }
-              return '<span class="label label-danger">' . trans('village::admin.table.active.no') . '</span>';
+              return boolField($articleCategory->active);
           })
           ->addColumn('is_global', function (ArticleCategory $articleCategory) {
-              if ($articleCategory->is_global) {
-                  return '<span class="label label-success">' . trans('village::admin.table.active.yes') . '</span>';
-              }
-              return '<span class="label label-danger">' . trans('village::admin.table.active.no') . '</span>';
+              return boolField($articleCategory->is_global);
           });
     }
 

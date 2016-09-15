@@ -81,12 +81,7 @@ class BaseSurveyController extends AdminController
                     }
                 })
                 ->addColumn('active', function (BaseSurvey $survey) {
-                    if($survey->active) {
-                        return '<span class="label label-success">'.trans('village::admin.table.active.yes').'</span>';
-                    }
-                    else {
-                        return '<span class="label label-danger">'.trans('village::admin.table.active.no').'</span>';
-                    }
+                    return boolField($survey->active);
                 })
             ;
         }

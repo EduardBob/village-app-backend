@@ -112,12 +112,7 @@ class SurveyController extends AdminController
                 return localizeddate($survey->ends_at, 'short');
             })
             ->addColumn('active', function (Survey $survey) {
-                if($survey->active) {
-                    return '<span class="label label-success">'.trans('village::admin.table.active.yes').'</span>';
-                }
-                else {
-                    return '<span class="label label-danger">'.trans('village::admin.table.active.no').'</span>';
-                }
+                return boolField($survey->active);
             })
         ;
     }

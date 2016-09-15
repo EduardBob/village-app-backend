@@ -17,6 +17,9 @@ class EventServiceProvider extends ServiceProvider {
 		'Modules\User\Events\UserWasUpdated' => [
 			'App\Observers\UserObserver',
 		],
+		'Modules\Media\Events\FileWasUploaded' => [
+		'App\Observers\FileObserver',
+		],
 	];
 
 

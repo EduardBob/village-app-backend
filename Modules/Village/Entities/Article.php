@@ -13,15 +13,19 @@ class Article extends Model
     use ApiScope;
     use VillageAdminScope;
 
+
     protected $table = 'village__articles';
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'published_at'];
-    protected $fillable = ['village_id', 'title', 'text', 'active', 'base_id', 'category_id', 'published_at', 'is_important'];
+    protected $fillable = ['village_id', 'title', 'text', 'active', 'base_id', 'category_id', 'published_at', 'is_important', 'is_personal', 'is_protected', 'role_id'];
 
     public function base()
     {
         return $this->belongsTo('Modules\Village\Entities\BaseArticle', 'base_id');
     }
-
+    public function users()
+    {
+        return $this->belongsToMany('Modules\Village\Entities\User', 'village__article_user');
+    }
     public function category()
     {
         return $this->belongsTo('Modules\Village\Entities\ArticleCategory', 'category_id');

@@ -16,7 +16,7 @@ use Validator;
 use Yajra\Datatables\Engines\EloquentEngine;
 use Yajra\Datatables\Html\Builder as TableBuilder;
 
-class ServiceController extends AdminController
+class ServiceController extends AbstractGoodsController
 {
     /**
      * @var ServiceCategoryRepository
@@ -128,12 +128,7 @@ class ServiceController extends AdminController
                 }
             })
             ->addColumn('active', function (Service $service) {
-                if($service->active) {
-                    return '<span class="label label-success">'.trans('village::admin.table.active.yes').'</span>';
-                }
-                else {
-                    return '<span class="label label-danger">'.trans('village::admin.table.active.no').'</span>';
-                }
+                return boolField($service->active);
             })
 	        ->editColumn('executor', function (Service $service) {
 		        $executors = [];
@@ -278,46 +273,6 @@ class ServiceController extends AdminController
         }
 
         return $this->categoryRepository->lists($attributes, 'title', 'id', ['order' => 'desc']);
-    }
-
-    /**
-     * @param Village $village
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getExecutors(Village $village = null)
-    {
-        if (!$village) {
-            return [];
-        }
-
-        $userIds = [];
-
-        // исполнители
-        $role = $this->roleRepository->findBySlug('executor');
-        foreach($role->users as $user) {
-            $userIds[] = $user->id;
-        }
-
-        // охрана
-        $role = $this->roleRepository->findBySlug('security');
-        foreach($role->users as $user) {
-            $userIds[] = $user->id;
-        }
-
-        $users = User
-            ::select(['id', 'last_name', 'first_name'])
-            ->where('village_id', $village->id)
-            ->whereIn('id', $userIds)
-            ->get()
-        ;
-
-        $list = [];
-        foreach ($users as $user) {
-            $list[$user->id] = $user->present()->fullname();
-        }
-
-        return $list;
     }
 
     /**

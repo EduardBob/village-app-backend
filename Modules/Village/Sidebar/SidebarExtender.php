@@ -277,7 +277,36 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                       $this->auth->hasAccess('village.articlecategories.index')
                     );
                 });
+            });
 
+            $group->item(trans('village::documents.title.module'), function (Item $item) {
+                $item->icon('fa fa-file');
+                $item->weight(20);
+                $item->authorize(
+                  $this->auth->hasAccess('village.documents.index')
+                );
+                $item->item(trans('village::documents.title.module'), function (Item $item) {
+                    $item->icon('fa fa-cube');
+                    $item->weight(2);
+                    if ($this->auth->hasAccess('village.documents.create')) {
+                        $item->append('admin.village.document.create');
+                    }
+                    $item->route('admin.village.document.index');
+                    $item->authorize(
+                      $this->auth->hasAccess('village.documents.index')
+                    );
+                });
+                $item->item(trans('village::documentcategories.title.module'), function (Item $item) {
+                    $item->icon('fa fa-list');
+                    $item->weight(3);
+                    if ($this->auth->hasAccess('village.documentcategories.create')) {
+                        $item->append('admin.village.documentcategory.create');
+                    }
+                    $item->route('admin.village.documentcategory.index');
+                    $item->authorize(
+                      $this->auth->hasAccess('village.documentcategories.index')
+                    );
+                });
             });
 
             $group->item(trans('village::surveys.title.module'), function (Item $item) {

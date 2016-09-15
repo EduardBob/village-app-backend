@@ -79,11 +79,7 @@ class VillageController extends AdminController
 
         $dataTable
           ->addColumn('active', function (Village $village) {
-              if ($village->active) {
-                  return '<span class="label label-success">' . trans('village::admin.table.active.yes') . '</span>';
-              } else {
-                  return '<span class="label label-danger">' . trans('village::admin.table.active.no') . '</span>';
-              }
+              return boolField($village->active);
           });
     }
 

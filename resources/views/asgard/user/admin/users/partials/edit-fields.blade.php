@@ -7,6 +7,7 @@
         <li class=""><a href="#password_tab" data-toggle="tab">{{ trans('user::users.tabs.new password') }}</a></li>
         @endif
     </ul>
+
     <div class="tab-content">
         <div class="tab-pane active" id="tab_1-1">
             <div class="box-body">
@@ -61,7 +62,34 @@
                             !!}
                             {!! $errors->first('village_id', '<span class="help-block">:message</span>') !!}
                         </div>
+                        {{}}
+                        @if( isset($model) && @$model->inRole('executor'))
+                            <?php $selectedVillages = [] ?>
+                            @if(@$model->additionalVillages)
+                                <?php $selectedVillages = $model->additionalVillages()->select('village_id')->lists('village_id')->toArray() ?>
+                            @endif
+                            <div class="form-group{{ $errors->has('additional_villages') ? ' has-error has-feedback' : '' }}">
+                                {!! Form::label('additional_villages',  trans('village::users.form.additional_villages')) !!}
+
+                                <select class="form-control" multiple="additional_villages" name="additional_villages[]" id="additional_villages">
+                                    @foreach((new Modules\Village\Entities\Village)->lists('name', 'id') as $id => $title)
+                                            @if(@$model->village->id != $id)
+                                            <option  value="{{$id}}" @if(in_array($id, $selectedVillages)) selected="selected"  @endif >{{$title}}</option>
+                                            @endif
+                                        {{--@endforeach--}}
+                                    @endforeach
+                                </select>
+                                <p>
+                                    <i>{{ trans('village::users.form.additional_villages_info') }}</i>
+                                </p>
+
+                                {!! $errors->first('village_id', '<span class="help-block">:message</span>') !!}
+                            </div>
+                        @endif
+
                     </div>
+
+
                     @else
                         {!! Form::hidden('village_id', isset($model) ? $model->village_id : $currentUser->village_id, ['id' => 'village_id']) !!}
                     @endif

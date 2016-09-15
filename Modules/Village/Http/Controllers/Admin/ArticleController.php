@@ -55,6 +55,12 @@ class ArticleController extends AdminController
 
         if (!$this->getCurrentUser()->inRole('admin')) {
             $query->where('village__articles.village_id', $this->getCurrentUser()->village->id);
+            // Global admin can protect articles, articles are hidden from other user groups.
+            $query->where('village__articles.is_protected', 0);
+        }
+
+        if (!$this->getCurrentUser()->hasAccess('village.articles.makePersonal')) {
+            $query->where('village__articles.is_personal', 0);
         }
     }
 
@@ -76,8 +82,12 @@ class ArticleController extends AdminController
           ->addColumn(['data' => 'title', 'name' => 'village__articles.title', 'title' => $this->trans('table.title')])
           ->addColumn(['data' => 'active', 'name' => 'village__articles.active', 'title' => $this->trans('table.active')])
           ->addColumn(['data' => 'is_important', 'name' => 'village__articles.is_important', 'title' => $this->trans('table.is_important')])
+
           ->addColumn(['data' => 'created_at', 'name' => 'village__articles.created_at', 'title' => $this->trans('table.created_at')])
           ->addColumn(['data' => 'published_at', 'name' => 'village__articles.published_at', 'title' => $this->trans('table.published_at')]);
+        if($this->getCurrentUser()->hasAccess('village.articles.makePersonal')){
+            $builder ->addColumn(['data' => 'is_personal', 'name' => 'village__articles.is_personal', 'title' => $this->trans('table.is_personal')]);
+              }
     }
 
     /**
@@ -116,40 +126,62 @@ class ArticleController extends AdminController
 
         $dataTable
           ->addColumn('active', function (Article $article) {
-              if ($article->active) {
-                  return '<span class="label label-success">' . trans('village::admin.table.active.yes') . '</span>';
-              }
-              return '<span class="label label-danger">' . trans('village::admin.table.active.no') . '</span>';
-
+             return boolField($article->active);
           });
 
         $dataTable
           ->addColumn('is_important', function (Article $article) {
-              if ($article->is_important) {
-                  return '<span class="label label-success">' . trans('village::admin.table.active.yes') . '</span>';
-              }
-              return '<span class="label label-danger">' . trans('village::admin.table.active.no') . '</span>';
-
+              return boolField($article->is_important);
           });
+
+        $dataTable
+          ->addColumn('is_personal', function (Article $article) {
+              return boolField($article->is_personal);
+          });
+
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage. Add users to article
      *
      * @param  Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function preStore(Model $model, Request $request)
+    public function postStore(Model $model, Request $request)
     {
         parent::preStore($model, $request);
-
+        if ($request->get('users')) {
+            $users = $request->get('users');
+            $model->users()->attach($users);
+        }
         if ($request->get('show_all')) {
             $baseModel      = new BaseArticle();
             $data           = $model->toArray();
             $data['active'] = 1;
             $baseModel->fill($data)->save();
         }
+    }
+
+    /**
+     * Store a newly created resource in storage. Add users to article
+     *
+     * @param  Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function preUpdate(Model $model, Request $request)
+    {
+        parent::preStore($model, $request);
+        if ($request->get('users')) {
+            $users = $request->get('users');
+            $model->users()->sync($users);
+        }
+        // Attaching all users from selected user group to an article.
+        if ($request->get('is_personal') == 1 && empty($request->get('users'))) {
+            $model->users()->sync([]);
+        }
+
     }
 
     /**
@@ -194,6 +226,17 @@ class ArticleController extends AdminController
         
         if ($this->getCurrentUser()->inRole('admin')) {
              $rules['village_id'] = 'exists:village__villages,id';
+        }
+        if ((bool)$data['is_personal']) {
+            $rules['village_id'] = 'required:village__villages,id';
+            $rules['role_id'] = 'exists:roles,id';
+        }
+        if ((bool)$data['is_personal'] && $data['role_id'] == '') {
+            $rules['users'] = "required|exists:users,id";
+        }
+
+        if ((bool)$data['is_personal'] && empty($data['users'])) {
+            $rules['role_id'] = "required";
         }
 
         return Validator::make($data, $rules);

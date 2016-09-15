@@ -138,23 +138,13 @@ class UserController extends AdminController
               }
           })
           ->editColumn('has_mail_notifications', function (User $user) {
-              if ($user->has_mail_notifications) {
-                  return '<span class="label label-success">' . trans('village::admin.table.active.yes') . '</span>';
-              }
-              return '<span class="label label-danger">' . trans('village::admin.table.active.no') . '</span>';
+              return boolField($user->has_mail_notifications);
           })
           ->editColumn('has_sms_notifications', function (User $user) {
-              if ($user->has_sms_notifications) {
-                  return '<span class="label label-success">' . trans('village::admin.table.active.yes') . '</span>';
-              }
-              return '<span class="label label-danger">' . trans('village::admin.table.active.no') . '</span>';
+              return boolField($user->has_sms_notifications);
           })
           ->editColumn('activation_completed', function (User $user) {
-              if ($user->isActivated()) {
-                  return '<span class="label label-success">' . trans('village::admin.table.active.yes') . '</span>';
-              } else {
-                  return '<span class="label label-danger">' . trans('village::admin.table.active.no') . '</span>';
-              }
+              return boolField($user->isActivated());
           })
           ->addColumn('roles', function (User $user) {
               $inRoles = [];
@@ -238,8 +228,16 @@ class UserController extends AdminController
         }
 
         $data = $this->clearNotPermittedRoles($request->all());
-
         $this->user->updateAndSyncRoles($id, $data, @$data['roles']);
+
+        // Sync addininal village relations for users in "executor" role
+        if ($request->get('additional_villages') && $model->inRole('executor')) {
+            $villages = $request->get('additional_villages');
+            $model->additionalVillages()->sync($villages);
+        }
+        if (empty($request->get('additional_villages')) && $model->inRole('executor')) {
+            $model->additionalVillages()->sync([]);
+        }
 
         flash(trans('user::messages.user updated'));
 
@@ -288,6 +286,7 @@ class UserController extends AdminController
           'email'      => "email|unique:users,email,{$id}",
 //            'password' => 'min:3|confirmed',
           'phone'      => 'required|regex:' . config('village.user.phone.regex'),
+          'additional_villages' => 'exists:village__villages,id'
         ];
 
         if (!$this->getCurrentUser()->inRole('admin')) {

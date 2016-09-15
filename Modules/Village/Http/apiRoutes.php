@@ -3,6 +3,12 @@
 use Illuminate\Routing\Router;
 
 /** @var Router $router */
+
+$router->group(['prefix' => 'file'], function (Router $router) {
+    $router->get('{id}', 	['uses' => 'V1\FileController@show', 'as' => 'village.api.file.one']);
+});
+
+
 $router->group(['prefix' => 'v1'], function (Router $router) {
 
     // without token
@@ -93,6 +99,17 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
             $router->get('{id}', 	['uses' => 'V1\ArticleController@show', 'as' => 'village.api.article.one']);
 
         });
+
+
+        $router->group(['prefix' => 'documents'], function (Router $router) {
+            $router->group(['prefix' => 'categories'], function (Router $router) {
+                $router->get('',    ['uses' => 'V1\DocumentCategoryController@index', 'as' => 'village.api.article.category.list']);
+            });
+            $router->get('',        ['uses' => 'V1\DocumentController@index', 'as' => 'village.api.document.list']);
+            $router->get('{id}', 	['uses' => 'V1\DocumentController@show', 'as' => 'village.api.document.one']);
+
+        });
+
         $router->group(['prefix' => 'services'], function (Router $router) {
             $router->group(['prefix' => 'categories'], function (Router $router) {
                 $router->get('',        ['uses' => 'V1\ServiceCategoryController@index', 'as' => 'village.api.service.category.list']);

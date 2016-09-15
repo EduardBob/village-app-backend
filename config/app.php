@@ -171,6 +171,7 @@ return [
 		\Yajra\Datatables\DatatablesServiceProvider::class,
 		\Jenssegers\Date\DateServiceProvider::class,
 		\Davibennun\LaravelPushNotification\LaravelPushNotificationServiceProvider::class,
+		\Maatwebsite\Excel\ExcelServiceProvider::class,
 //		\Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider::class,
 	],
 
@@ -219,6 +220,8 @@ return [
 		'URL'       => \Illuminate\Support\Facades\URL::class,
 		'Validator' => \Illuminate\Support\Facades\Validator::class,
 		'View'      => \Illuminate\Support\Facades\View::class,
+		'PdfParser' => \Smalot\PdfParser\Parser::class,
+		'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 //      'Sentry' => \Cartalyst\Sentry\Facades\Laravel\Sentry::class,
 
 //		custom

@@ -1,0 +1,36 @@
+.cke_dialog_contents .chosen-container .chosen-drop,
+.cke_dialog_contents .chosen-container-active .chosen-drop,
+.cke_dialog_contents .chosen-container.chosen-with-drop .chosen-drop {
+    top: 113px;
+    width: 80%;
+    left: 10px;
+    border: none;
+}
+
+.cke_toolgroup .cke_button__abbr_icon {
+    background: url("../images/box.png");
+}
+
+.cke_toolgroup .cke_button__users_icon {
+    background: url("../images/add_user.png");
+
+}
+
+.cke_dialog_contents .chosen-container-single .chosen-drop {
+    display: none;
+}
+
+.cke_dialog_contents .chosen-container-single.chosen-container-active .chosen-drop {
+    display: inline;
+}
+
+.users-holder {
+    display: none;
+}
+
+.personal-switch {
+    padding-top: 29px;
+}
+#users_select{
+    height: 33px;
+}

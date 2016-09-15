@@ -211,7 +211,7 @@ class ProductController extends AbstractGoodsController
             'village_id' => 'required|numeric|min:1',
             'price' => 'required|numeric|min:1',
             'unit_title' => 'required|in:'.implode(',', config('village.product.unit.values')),
-//            'text' => 'required|max:255',
+            'text' => 'required|max:765',
             'active' => "boolean",
             'comment_label' => 'required|max:50',
         ];

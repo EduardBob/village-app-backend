@@ -138,7 +138,7 @@ class BaseServiceController extends AdminController
             'category_id' => 'required|exists:village__service_categories,id',
             'title' => "required|max:255",
             'price' => 'required|numeric|min:0', // ноль разрешён http://redmine.fruitware.ru/issues/26453
-//            'text' => 'required|max:255',
+            'text' => 'required|max:765',
             'comment_label' => 'required|max:50',
             'order_button_label' => 'required|max:50',
         ];

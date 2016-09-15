@@ -38,11 +38,12 @@ class DocumentController extends ApiController
                         ->where('published_at', '<=', date('Y-m-d H:i:s'));
               })
               // Getting personal items by user role, item should not be assigned to any user.
-              ->orWhere(function ($query) use ($categoryId, $userRoles) {
+              ->orWhere(function ($query) use ($categoryId, $userRoles, $personalAllDocuments) {
                   $query->where('is_personal', '=', 1)
                         ->where('category_id', '=', (int)$categoryId)
                         ->where('active', '=', 1)
                         ->where('published_at', '<=', date('Y-m-d H:i:s'))
+                        ->whereNotIn('id', $personalAllDocuments)
                         ->whereIn('role_id', $userRoles);
               })
               // Getting personal items by user relation.

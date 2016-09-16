@@ -62,7 +62,6 @@
                             !!}
                             {!! $errors->first('village_id', '<span class="help-block">:message</span>') !!}
                         </div>
-                        {{}}
                         @if( isset($model) && @$model->inRole('executor'))
                             <?php $selectedVillages = [] ?>
                             @if(@$model->additionalVillages)

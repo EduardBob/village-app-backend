@@ -51,6 +51,13 @@ interface OrderInterface
 	public static function canPayInStatuses();
 
 	/**
+	 * Статусы, в которых заказы видны испольнителям
+	 *
+	 * @return array
+	 */
+	public static function getExecutorVisibleStatuses();
+
+	/**
 	 * @return string
 	 */
 	public function getOrderNameForCardPayment();

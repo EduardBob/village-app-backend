@@ -80,4 +80,19 @@ abstract class AbstractOrder extends Model implements OrderInterface
 			static::STATUS_RUNNING,
 		];
 	}
+
+	/**
+	 * Статусы, в которых заказы видны испольнителям
+	 *
+	 * @return array
+	 */
+	public static function getExecutorVisibleStatuses()
+	{
+		return [
+		static::STATUS_PROCESSING,
+		static::STATUS_RUNNING,
+		static::STATUS_DONE,
+		];
+	}
+
 }

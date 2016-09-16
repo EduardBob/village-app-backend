@@ -145,7 +145,7 @@ class BaseProductController extends AdminController
             'title' => "required|max:255",
             'price' => 'required|numeric|min:1',
             'unit_title' => 'required|in:'.implode(',', config('village.product.unit.values')),
-//            'text' => 'required|max:255',
+            'text' => 'max:765',
             'active' => "boolean",
             'comment_label' => 'required|max:50',
         ];

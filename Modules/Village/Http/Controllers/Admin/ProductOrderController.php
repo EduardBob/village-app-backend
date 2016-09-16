@@ -1,15 +1,10 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Jenssegers\Date\Date;
-use Modules\Village\Entities\ProductOrder;
-use Modules\Village\Entities\Village;
-use Modules\Village\Repositories\ProductOrderRepository;
-use Modules\Village\Entities\Product;
-use Modules\Village\Repositories\ProductRepository;
-
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Http\Request;
+use Modules\Village\Entities\ProductOrder;
+use Modules\Village\Repositories\ProductOrderRepository;
+use Modules\Village\Repositories\ProductRepository;
 use Validator;
 use Yajra\Datatables\Engines\EloquentEngine;
 use Yajra\Datatables\Html\Builder as TableBuilder;
@@ -175,9 +170,11 @@ class ProductOrderController extends AbstractOrderController
         if (!$currentUser->additionalVillages && !$currentUser->inRole('admin')) {
             $query->where('village__product_orders.village_id', $this->getCurrentUser()->village->id);
         }
+
         if ($this->getCurrentUser()->inRole('executor')) {
+            $executorStatuses = ProductOrder::getExecutorVisibleStatuses();
             $query->where('village__products.executor_id', $this->getCurrentUser()->id);
-            $query->whereIn('village__product_orders.status', ['processing', 'running']);
+            $query->whereIn('village__product_orders.status', $executorStatuses);
         }
     }
 

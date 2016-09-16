@@ -250,7 +250,7 @@ class ServiceController extends AbstractGoodsController
             'title' => "required|max:255",
             'village_id' => 'required|numeric|min:1|unique:village__services,village_id,'.$id.',id,base_id,'.$baseId,
             'price' => 'required|numeric|min:0', // ноль разрешён http://redmine.fruitware.ru/issues/26453
-            'text' => 'required|max:255',
+            'text' => 'required|max:765',
             'comment_label' => 'required|max:50',
             'order_button_label' => 'required|max:50',
         ];

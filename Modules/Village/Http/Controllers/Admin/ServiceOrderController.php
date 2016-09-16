@@ -147,9 +147,10 @@ class ServiceOrderController extends AbstractOrderController
             $query->where('village__service_orders.village_id', $this->getCurrentUser()->village->id);
         }
         if ($this->getCurrentUser()->inRole('executor')) {
+            $executorStatuses = ServiceOrder::getExecutorVisibleStatuses();
             $query->leftJoin('village__service_executors', 'village__service_executors.service_id', '=', 'village__services.id');
             $query->where('village__service_executors.user_id', $this->getCurrentUser()->id);
-            $query->whereIn('village__service_orders.status', ['processing', 'running']);
+            $query->whereIn('village__service_orders.status', $executorStatuses);
         }
     }
 

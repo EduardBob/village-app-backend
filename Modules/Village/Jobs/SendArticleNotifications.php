@@ -15,12 +15,13 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
 {
 
     use InteractsWithQueue, SerializesModels;
+    /**
+     * @var \Modules\Village\Entities\Article
+     */
     protected $article;
 
     /**
      * Create a new job instance.
-     *
-     * @return void
      */
     public function __construct(Article $article)
     {
@@ -29,7 +30,6 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
 
     /**
      * Execute the job.
-     *
      * @return void
      */
     public function handle()
@@ -40,6 +40,10 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
         }
     }
 
+    /**
+     * Getting users to send notifications.
+     * @return \Modules\Village\Entities\User
+     */
     private function getUsers()
     {
         $users = new User;
@@ -66,13 +70,19 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
         return $users;
     }
 
+    /**
+     * Sending notifications.
+     * @param \Modules\Village\Entities\User $user
+     */
     private function sendNotification(User $user)
     {
         if (is_object($user->devices)) {
             $devices = $user->devices;
-            $message = 'Важная новость! ' . $this->article->title;
+            $message = date('H:i'). ': ';
             if ($this->article->is_personal) {
-                $message = 'Персональная новость! ' . $this->article->title;
+                $message .= 'Персональная новость! ' . PHP_EOL . $this->article->title;
+            } else {
+                $message .= 'Важная новость! ' . PHP_EOL . $this->article->title;
             }
             foreach ($devices as $device) {
                 PushNotification::app($device->type)

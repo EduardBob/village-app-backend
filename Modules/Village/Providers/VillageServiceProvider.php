@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Contracts\Authentication;
 use Modules\Village\Entities\Article;
+use Modules\Village\Entities\Document;
 use Modules\Village\Entities\OrderInterface;
 use Modules\Village\Entities\Product;
 use Modules\Village\Entities\ProductOrder;
@@ -16,6 +17,7 @@ use Modules\Village\Entities\ServiceOrderChange;
 use Modules\Village\Entities\Sms;
 use Modules\Village\Entities\User;
 use Modules\Village\Jobs\SendArticleNotifications;
+use Modules\Village\Jobs\SendDocumentNotifications;
 use Modules\Village\Services\SentryPaymentGateway;
 use PushNotification;
 
@@ -176,14 +178,21 @@ class VillageServiceProvider extends ServiceProvider
                 $this->dispatch(new SendArticleNotifications($article));
             }
         });
+        // Create a queue job for sending push-notifications about personal documents.
+        Document::saved(function (Document $document) use ($auth) {
+            if ($document->active && $document->is_personal && (strtotime($document->published_at) < time())) {
+                $this->dispatch(new SendDocumentNotifications($document));
+            }
+        });
+
     }
 
     private function getStatusText(OrderInterface $order)
     {
         $statusTexts = array(
-          $order::STATUS_DONE       => 'был выполнен',
+          $order::STATUS_DONE       => 'выполнен',
           $order::STATUS_RUNNING    => 'обрабатывается',
-          $order::STATUS_PROCESSING => 'принят',
+          $order::STATUS_PROCESSING => 'был принят в работу',
           $order::STATUS_REJECTED   => 'отклонен',
         );
         $statusText  = $statusTexts[$order->status];
@@ -201,7 +210,9 @@ class VillageServiceProvider extends ServiceProvider
     {
         $devices = $order->user->devices;
         $orderType = $order->getOrderType();
-        $message = 'Заказ  №'.$order->id.' "'.$order->$orderType->title.'" '.$this->getStatusText($order);
+        $message = date('H:i'). ': ';
+        $message .= 'заказ  №'.$order->id.':'.PHP_EOL;
+        $message .= '"'.$order->$orderType->title.'" '.$this->getStatusText($order);
         foreach ($devices as $device) {
             PushNotification::app($device->type)
                             ->to($device->token)

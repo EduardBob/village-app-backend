@@ -78,12 +78,16 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
     {
         if (is_object($user->devices)) {
             $devices = $user->devices;
-            $message = date('H:i'). ': ';
+            $messageText = date('H:i'). ': ';
             if ($this->article->is_personal) {
-                $message .= 'Персональная новость! ' . PHP_EOL . $this->article->title;
+                $messageText .= 'Персональная новость! ' . PHP_EOL . $this->article->title;
             } else {
-                $message .= 'Важная новость! ' . PHP_EOL . $this->article->title;
+                $messageText .= 'Важная новость! ' . PHP_EOL . $this->article->title;
             }
+            // Push notification with custom link inside app.
+            $message = PushNotification::Message($messageText, array(
+              'url' => '/newsitem/' . $this->article->id
+            ));
             foreach ($devices as $device) {
                 PushNotification::app($device->type)
                                 ->to($device->token)

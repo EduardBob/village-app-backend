@@ -210,9 +210,13 @@ class VillageServiceProvider extends ServiceProvider
     {
         $devices = $order->user->devices;
         $orderType = $order->getOrderType();
-        $message = date('H:i'). ': ';
-        $message .= 'заказ  №'.$order->id.':'.PHP_EOL;
-        $message .= '"'.$order->$orderType->title.'" '.$this->getStatusText($order);
+        $messageText = date('H:i'). ': ';
+        $messageText .= 'заказ  №'.$order->id.':'.PHP_EOL;
+        $messageText .= '"'.$order->$orderType->title.'" '.$this->getStatusText($order);
+        // Push notification with custom link inside app.
+        $message = PushNotification::Message($messageText, array(
+          'url' => '/profile/history/?show=' . $orderType
+        ));
         foreach ($devices as $device) {
             PushNotification::app($device->type)
                             ->to($device->token)

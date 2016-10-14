@@ -76,7 +76,7 @@ class SendDocumentNotifications extends Job implements SelfHandling, ShouldQueue
             $messageText .= 'Персональный документ! ' . PHP_EOL . $this->document->title;
             // Push notification with custom link inside app.
             $message = PushNotification::Message($messageText, array(
-              'url' => '/document/' . $this->document->id
+              'category' => '/document/' . $this->document->id
             ));
             foreach ($devices as $device) {
                 PushNotification::app($device->type)

@@ -215,7 +215,8 @@ class VillageServiceProvider extends ServiceProvider
         $messageText .= '"'.$order->$orderType->title.'" '.$this->getStatusText($order);
         // Push notification with custom link inside app.
         $message = PushNotification::Message($messageText, array(
-          'url' => '/profile/history/?show=' . $orderType
+          'category' => '/profile/history',
+          'sound' => $orderType //iOS hard code.
         ));
         foreach ($devices as $device) {
             PushNotification::app($device->type)

@@ -86,7 +86,7 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
             }
             // Push notification with custom link inside app.
             $message = PushNotification::Message($messageText, array(
-              'url' => '/newsitem/' . $this->article->id
+              'category' => '/newsitem/' . $this->article->id
             ));
             foreach ($devices as $device) {
                 PushNotification::app($device->type)

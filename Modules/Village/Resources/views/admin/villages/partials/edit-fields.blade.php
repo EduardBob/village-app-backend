@@ -1,19 +1,3 @@
-<link href="{!! asset('custom/css/multirow.css') !!}" media="all" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="{!! asset('custom/js/jquery.multirow.js') !!}"></script>
-
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('div.multiRowInput').multiRowInput({tipTip: false, labelify: false});
-
-//        $('.content form').submit(function(event){
-//            event.preventDefault;
-//
-//        })
-    });
-</script>
-
-
 <div class="box-body">
     <div class="row">
         @if($currentUser && $currentUser->inRole('admin'))
@@ -111,72 +95,13 @@
                 {!! $errors->first('send_sms_to_executor', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
-            <div class="col-sm-12">
-                <div class="form-group{{ $errors->has('important_contacts') ? ' has-error' : '' }}">
-                    {!! Form::label('important_contacts', $admin->trans('table.important_contacts')) !!}
-                    @if(is_array(@$model->important_contacts))
-                        @foreach ($model->important_contacts as $key => $contact)
-                        <div class="multiRowInput">
-                            <div class="inputRow">
-                                <div class="sideBySide  multirow-input">
-                                    <label for="telephone_title">{{$admin->trans('form.important_contacts.label')}}</label>
-                                    <input type="text" id="telephone_title{{$key}}" name="telephone_title[]" value="{{$contact[0]}}">
-                                </div>
-                                <div class="sideBySide  multirow-input">
-                                    <label for="telephone_number" class="labelify">{{$admin->trans('form.important_contacts.name')}}</label>
-                                    <input type="text" id="telephone_number{{$key}}" name="telephone_number[]" value="{{$contact[1]}}">
-                                </div>
-                                    <div class="sideBySide">
-                                        <a class="add" href="#addressFields" title="Add new row" >
-                                                <a class="add" href="#addressFields" title="Add new row"
-                                                   @if(count($model->important_contacts)  != ($key  + 1))
-                                                   style="display: none;"@endif>
-                                        <span data-toggle="tooltip" title="" class="btn-multirow badge bg-green">
-                                            <i class="fa fa-plus-square"></i>
-                                        </span>
-                                        </a>
-                                    </div>
-                                    <div class="sideBySide">
-                                        <a class="delete" href="#addressFields" title="Remove row" >
-                                        <span data-toggle="tooltip" title="" class="btn-multirow badge bg-red">
-                                            <i class="fa fa-trash-o"></i>
-                                        </span>
-                                        </a>
-                                    </div>
-
-                            </div>
-                        </div>
-                        @endforeach
-                    @else
-                    <div class="multiRowInput">
-                        <div class="inputRow">
-                            <div class="sideBySide  multirow-input">
-                                <label for="telephone_title">{{$admin->trans('form.important_contacts.label')}}</label>
-                                <input type="text" id="telephone_title" name="telephone_title[]" value="">
-                            </div>
-                            <div class="sideBySide  multirow-input">
-                                <label for="telephone_number" class="labelify">{{$admin->trans('form.important_contacts.name')}}</label>
-                                <input type="text" id="telephone_number" name="telephone_number[]" value="">
-                            </div>
-                            <div class="sideBySide">
-                                <a class="add" href="#addressFields" title="Add new row">
-                                    <span data-toggle="tooltip" title="" class="btn-multirow badge bg-green">
-                                        <i class="fa fa-plus-square"></i>
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="sideBySide">
-                                <a class="delete" href="#addressFields" title="Remove row" style="display: none;">
-                                    <span data-toggle="tooltip" title="" class="btn-multirow badge bg-red">
-                                        <i class="fa fa-trash-o"></i>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                        @endif
-                    </div>
-                </div>
+        <div class="col-sm-12">
+            <div class="form-group{{ $errors->has('text') ? ' has-error' : '' }}">
+                {!! Form::label('important_contacts', $admin->trans('table.important_contacts')) !!}
+                {!! Form::textarea('important_contacts', Input::old('text', @$model->important_contacts), ['class' => 'form-control  ckeditor', 'placeholder' => $admin->trans('table.text')]) !!}
+                {!! $errors->first('text', '<span class="help-block">:message</span>') !!}
             </div>
+        </div>
         <div class="col-sm-12">
             <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
                 {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}

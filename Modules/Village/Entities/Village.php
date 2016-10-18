@@ -3,8 +3,9 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Village\Entities\Scope\ApiScope;
+use Modules\Village\Entities\AbstractFacility;
 
-class Village extends Model
+class Village extends AbstractFacility
 {
     use SoftDeletes;
     use ApiScope;
@@ -25,6 +26,10 @@ class Village extends Model
     {
         return $this->belongsTo('Modules\Village\Entities\User', 'main_admin_id');
     }
+    public function getT()
+    {
+        return $this->belongsTo('Modules\Village\Entities\User', 'main_admin_id');
+    }
 
     protected static function boot()
     {
@@ -37,16 +42,10 @@ class Village extends Model
         });
     }
 
-    static public function getImportantContactsAttribute($value)
-    {
-        return unserialize($value);
-
-    }
     public function additionalUsers()
     {
         return $this->belongsToMany('Modules\Village\Entities\Village', 'village__village_user');
     }
-
 
     static public function getUnitStepByVillage(Village $village, $unitTitle)
     {

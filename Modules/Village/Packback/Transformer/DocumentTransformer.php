@@ -63,8 +63,8 @@ class DocumentTransformer extends BaseTransformer
     {
         $user = $this->user()->load('building');
         if ($document->is_personal && strpos($document->text, '##') !== false) {
-            $templates            = ['##first_name##', '##last_name##'];
-            $personalReplacements = [$user->first_name, $user->last_name];
+            $templates            = ['##first_name##', '##last_name##', '##facility##', '##address##'];
+            $personalReplacements = [$user->first_name, $user->last_name, $user->village->name, $user->building->address];
             $document->text       = str_replace($templates, $personalReplacements, $document->text);
             $document->short      = str_replace($templates, $personalReplacements, $document->short);
         }

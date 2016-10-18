@@ -15,18 +15,6 @@ class VillageTransformer extends TransformerAbstract
      */
     public function transform(Village $village)
     {
-        $importantContacts = array();
-        if($village->important_contacts)
-        {
-            foreach($village->important_contacts as $contactItem)
-            {
-                $contact = new \stdClass();
-                $contact->title =  $contactItem[0];
-                $contact->phone = $contactItem[1];
-                $importantContacts[] = $contact;
-            }
-        }
-
         return [
             'id' => $village->id,
             'name' => $village->name,
@@ -40,7 +28,7 @@ class VillageTransformer extends TransformerAbstract
             'product_unit_step_bottle' => $village->product_unit_step_bottle,
             'product_unit_step_piece' => $village->product_unit_step_piece,
             'active' => (bool)$village->active,
-            'important_contacts' => $importantContacts,
+            'important_contacts' => $village->important_contacts,
         ];
     }
 }

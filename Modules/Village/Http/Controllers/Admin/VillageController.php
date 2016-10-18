@@ -83,46 +83,6 @@ class VillageController extends AdminController
           });
     }
 
-    private function getImportantContacts(Request $request)
-    {
-        $data = $request->all();
-        $importantContacts = false;
-        $phones = [];
-        if(count($data['telephone_title']))
-        {
-            foreach($data['telephone_title'] as $key => $phoneTitle)
-            {
-                $phoneTitle = trim($phoneTitle);
-                $phoneNumber = trim($data['telephone_number'][$key]);
-                if(mb_strlen($phoneTitle) && mb_strlen($phoneNumber))
-                   $phones[$key] = [$phoneTitle, $phoneNumber];
-            }
-            if(count($phones)) {
-                $importantContacts = serialize($phones);
-            }
-
-        }
-        return $importantContacts;
-    }
-
-    public function preUpdate(Model $model, Request $request)
-    {
-        if( $importantContacts = $this->getImportantContacts( $request))
-        {
-            $model->important_contacts = $importantContacts;
-        }
-        parent::preUpdate($model, $request);
-    }
-
-    public function preStore(Model $model, Request $request)
-    {
-        if( $importantContacts = $this->getImportantContacts( $request))
-        {
-            $model->important_contacts = $importantContacts;
-        }
-        parent::preStore($model, $request);
-    }
-
     /**
      * @param array    $data
      * @param Village $village

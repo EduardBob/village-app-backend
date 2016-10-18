@@ -212,7 +212,7 @@ class VillageServiceProvider extends ServiceProvider
         $orderType = $order->getOrderType();
         $messageText = date('H:i'). ': ';
         $messageText .= 'заказ  №'.$order->id.':'.PHP_EOL;
-        $messageText .= '"'.$order->$orderType->title.'" '.$this->getStatusText($order);
+        $messageText .= '"'.$order->$orderType->title.'" '.$this->getStatusText($order).'.';
         // Push notification with custom link inside app.
         $message = PushNotification::Message($messageText, array(
           'category' => '/profile/history?type='.$orderType

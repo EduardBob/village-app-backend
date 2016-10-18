@@ -19,9 +19,11 @@
          @if(@$model->users)
         var usersSelected = JSON.parse('{!! json_encode(@$model->users()->select('user_id')->lists('user_id')) !!}');
         @endif;
-        var userTemplates = '<select name="user_templates" id="user_templates">';
-        userTemplates += '<option value=" Дорогой ##first_name## ##last_name##! ">Дорогой Фамилия Имя!</option>';
-        userTemplates += '<option value=" Здравствуйте ##first_name## ##last_name##! ">Здравствуйте Фамилия Имя!</option>';
+        var userTemplates = '{{$admin->trans('popup.title')}}:  <select name="user_templates" id="user_templates">';
+        userTemplates += '<option value=" ##first_name## ">Имя</option>';
+        userTemplates += '<option value=" ##last_name## ">Фамилия</option>';
+        userTemplates += '<option value=" ##facility## ">Объект</option>';
+        userTemplates += '<option value=" ##address## ">Адрес</option>';
         userTemplates += '</select>';
 
         $(document).ready(function () {
@@ -107,7 +109,7 @@
                 init: function (editor) {
                     editor.addCommand('abbr', new CKEDITOR.dialogCommand('abbrDialog'));
                     editor.ui.addButton('Abbr', {
-                        label: '{{$admin->trans('popup.title')}}',
+                        label: '{{$admin->trans('popup.title_placeholder')}}',
                         command: 'abbr',
                         toolbar: 'insert'
                     });
@@ -141,7 +143,7 @@
 
             CKEDITOR.dialog.add('abbrDialog', function (editor) {
                 return {
-                    title: '{{$admin->trans('popup.title')}}',
+                    title: '{{$admin->trans('popup.title_placeholder')}}',
                     minWidth: 400,
                     minHeight: 200,
                     contents: [

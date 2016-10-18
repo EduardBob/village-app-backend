@@ -64,8 +64,8 @@ class ArticleTransformer extends BaseTransformer
     {
         $user = $this->user()->load('building');
         if ($article->is_personal && strpos($article->text, '##') !== false) {
-            $templates            = ['##first_name##', '##last_name##'];
-            $personalReplacements = [$user->first_name, $user->last_name];
+            $templates            = ['##first_name##', '##last_name##', '##facility##', '##address##'];
+            $personalReplacements = [$user->first_name, $user->last_name, $user->village->name, $user->building->address];
             $article->text        = str_replace($templates, $personalReplacements, $article->text);
             $article->short       = str_replace($templates, $personalReplacements, $article->short);
         }

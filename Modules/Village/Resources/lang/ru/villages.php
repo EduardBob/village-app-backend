@@ -30,7 +30,7 @@ return [
         'send_sms_to_executor' => 'Отпрвлять SMS исполнителю о новых заказах',
         'active' => 'Включен',
         'created_at' => 'Создана',
-        'important_contacts' => 'Важные телефоны',
+        'important_contacts' => 'Важная информация',
         'actions' => 'Действия',
     ],
     'form' => [

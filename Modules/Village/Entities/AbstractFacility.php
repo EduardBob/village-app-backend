@@ -11,10 +11,10 @@ abstract class AbstractFacility extends Model implements FacilityInterface
 	public static function getTypes()
 	{
 		return [
-		static::FACILITY_BUSINESS,
-		static::FACILITY_SHOPPING,
-		static::FACILITY_COTTAGE,
-		static::FACILITY_APARTMENT,
+		static::TYPE_BUSINESS,
+		static::TYPE_SHOPPING,
+		static::TYPE_COTTAGE,
+		static::TYPE_APARTMENT,
 		];
 	}
 

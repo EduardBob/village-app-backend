@@ -4,10 +4,10 @@ namespace Modules\Village\Entities;
 interface FacilityInterface
 {
 
-    const FACILITY_BUSINESS = 'Business center';
-    const FACILITY_SHOPPING = 'Shopping center';
-    const FACILITY_COTTAGE = 'Cottage village';
-    const FACILITY_APARTMENT = 'Apartment complex';
+    const TYPE_BUSINESS = 'business';
+    const TYPE_SHOPPING = 'shopping';
+    const TYPE_COTTAGE = 'cottage';
+    const TYPE_APARTMENT = 'apartment';
 
     /**
      * @return array

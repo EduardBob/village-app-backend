@@ -1,13 +1,12 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Village\Entities\Village;
 use Modules\Village\Repositories\VillageRepository;
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Validator;
 use Yajra\Datatables\Engines\EloquentEngine;
 use Yajra\Datatables\Html\Builder as TableBuilder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 
 class VillageController extends AdminController
 {
@@ -81,6 +80,36 @@ class VillageController extends AdminController
           ->addColumn('active', function (Village $village) {
               return boolField($village->active);
           });
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function configureQuery(QueryBuilder $query)
+    {
+        // TODO make a special User Permission for this (edit own, create own).
+        if (!$this->getCurrentUser()->inRole('admin')) {
+            $query->where('village__villages.id', $this->getCurrentUser()->village->id);
+        }
+    }
+
+    /**
+     * @param Model $model
+     *
+     * @return false|\Illuminate\Http\RedirectResponse
+     */
+    protected function checkPermissionDenied(Model $model)
+    {
+        if (method_exists($model, 'village') && !$this->getCurrentUser()->inRole('admin')) {
+            if (!$model->village || (int)$model->village->id !== (int)$this->getCurrentUser()->village->id) {
+                return redirect()->route($this->getRoute('index'));
+            }
+        }
+        // TODO make a special User Permission for this (edit own, create own).
+        if (!$this->getCurrentUser()->inRole('admin') && $model->id != $this->getCurrentUser()->village->id) {
+            return redirect()->route($this->getRoute('index'));
+        }
+        return false;
     }
 
     /**

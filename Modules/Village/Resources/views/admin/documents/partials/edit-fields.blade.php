@@ -2,24 +2,24 @@
     @if($currentUser->hasAccess('village.documents.makePersonal'))
         @inject('roles', 'Cartalyst\Sentinel\Roles\EloquentRole')
     @endif
-    {{--{!! var_dump( $model->files()->first())  !!}--}}
 
     <div class="row">
         @if($currentUser && $currentUser->inRole('admin'))
-        <div class="col-sm-4">
-            <div class="form-group{{ $errors->has('village_id') ? ' has-error has-feedback' : '' }}">
-                {!! Form::label('village_id', trans('village::villages.form.village_id')) !!}
-                {!! Form::select(
-                        'village_id', Input::old('id', (new Modules\Village\Entities\Village)->lists('name', 'id')),
-                        Input::old('village_id', @$model->village_id),
-                        ['class' => 'form-control', 'placeholder' => $admin->trans('table.village_id')]
-                    )
-                !!}
-                {!! $errors->first('village_id', '<span class="help-block">:message</span>') !!}
+            <div class="col-sm-4">
+                <div class="form-group{{ $errors->has('village_id') ? ' has-error has-feedback' : '' }}">
+                    {!! Form::label('village_id', trans('village::villages.form.village_id')) !!}
+                    {!! Form::select(
+                            'village_id', Input::old('id', (new Modules\Village\Entities\Village)->lists('name', 'id')),
+                            Input::old('village_id', @$model->village_id),
+                            ['class' => 'form-control', 'placeholder' => $admin->trans('table.village_id')]
+                        )
+                    !!}
+                    {!! $errors->first('village_id', '<span class="help-block">:message</span>') !!}
+                </div>
             </div>
-        </div>
+        @else
+            <input type="hidden" id="village_id" value="{!! $currentUser->village->id !!}" />
         @endif
-
 
         @if($currentUser->hasAccess('village.documents.makePersonal'))
             <div class="col-sm-2">

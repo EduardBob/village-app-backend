@@ -19,7 +19,7 @@
          @if(@$model->users)
         var usersSelected = JSON.parse('{!! json_encode(@$model->users()->select('user_id')->lists('user_id')) !!}');
         @endif;
-        var userTemplates = '{{$admin->trans('popup.title')}}:  <select name="user_templates" id="user_templates">';
+        var userTemplates = '{{$admin->trans('popup.chose_placeholder')}}:  <select name="user_templates" id="user_templates">';
         userTemplates += '<option value=" ##first_name## ">Имя</option>';
         userTemplates += '<option value=" ##last_name## ">Фамилия</option>';
         userTemplates += '<option value=" ##facility## ">Объект</option>';
@@ -187,7 +187,7 @@
             });
             CKEDITOR.dialog.add('usersDialog', function (editor) {
                 return {
-                    title: '{{$admin->trans('popup.title')}}',
+                    title: '{{$admin->trans('popup.chose_placeholder')}}',
                     minWidth: 400,
                     minHeight: 200,
                     contents: [

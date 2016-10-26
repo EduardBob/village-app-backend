@@ -11,6 +11,6 @@ class PingController extends ApiController
      */
     public function index()
     {
-        return;
+        return json_encode(new \stdClass());
     }
 }

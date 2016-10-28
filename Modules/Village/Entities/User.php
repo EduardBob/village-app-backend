@@ -112,6 +112,24 @@ class User extends BaseUser implements AuthenticatableContract
     }
 
     /**
+     * Get all users array of village_id->role_id->building_id->user.
+     * @return array
+     */
+    public function getListWithRolesAndBuildings()
+    {
+        $users = $this::all((['last_name', 'first_name', 'village_id', 'id', 'building_id']));
+        $list  = [];
+        foreach ($users as $key => $user) {
+            foreach ($user->roles as $role) {
+                $building = intval($user->building_id);
+                $list[$user->village_id][$role->id][$building][$user->id] = str_replace('"', '', $user->last_name . ' ' . $user->first_name);
+            }
+        }
+
+        return $list;
+    }
+
+    /**
      * Get all users array of village_id->role_id->user.
      * @return array
      */

@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Modules\Village\Entities\Article;
+use Modules\Village\Entities\Building;
 use Modules\Village\Entities\User;
 use PushNotification;
 
@@ -49,10 +50,30 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
         $users = new User;
         // Personal articles can be attached to users, or to entire user group.
         if ($this->article->is_personal) {
-            $attachedUsers = $this->article->users()->select('user_id')->lists('user_id');
+            $attachedUsers     = $this->article->users()->select('user_id')->lists('user_id');
+            $attachedBuildings = $this->article->buildings()->select('building_id')->lists('building_id');
             // Getting attached users.
             if (count($attachedUsers)) {
                 $users->find($attachedUsers);
+            } elseif ($attachedBuildings) {
+                $usersWithRoles = (new User)->getListWithRolesAndBuildings();
+                $selectedRole   = $this->article->role_id;
+                $usersIDs       = [];
+                // User role selected
+                if ($selectedRole > 0) {
+                    foreach ($usersWithRoles[$this->article->village->id][$selectedRole] as $building => $usersInBuildings) {
+                        $usersIDs += array_keys($usersInBuildings);
+                    }
+                } else {
+                    foreach ($usersWithRoles[$this->article->village->id] as $role_id => $buildingWithUsers) {
+                        foreach ($buildingWithUsers as $building => $usersInBuildings) {
+                            $usersIDs += array_keys($usersInBuildings);
+                        }
+                    }
+                }
+                if (count($usersIDs)) {
+                    $users->find($usersIDs);
+                }
             } // Getting group users attached to article.
             else {
                 $usersWithRoles = (new User)->getListWithRoles();
@@ -72,13 +93,14 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
 
     /**
      * Sending notifications.
+     *
      * @param \Modules\Village\Entities\User $user
      */
     private function sendNotification(User $user)
     {
         if (is_object($user->devices)) {
-            $devices = $user->devices;
-            $messageText = date('H:i'). ': ';
+            $devices     = $user->devices;
+            $messageText = date('H:i') . ': ';
             if ($this->article->is_personal) {
                 $messageText .= 'Персональная новость! ' . PHP_EOL . $this->article->title;
             } else {

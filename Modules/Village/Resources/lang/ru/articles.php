@@ -33,6 +33,9 @@ return [
     'all_roles'                => 'Все роли',
     'to_all_users'             => 'Всем пользователям',
     'no_users'                 => 'Нет пользователей',
+    'to_all_buildings' => 'Все дома',
+    'buildings' => 'Дома',
+    'no_buildings' => 'Нет домов'
   ],
   'popup'      => [
     'village_chose' => 'Выберите объект',
@@ -42,6 +45,7 @@ return [
     'title'         => 'Вставить плейсхолдер в новость',
     'title_placeholder' => 'Вставить товар или услугу в новость',
     'chose_placeholder' => 'Выберите плейсхолдер для вставки',
+
 
   ],
   'messages'   => [

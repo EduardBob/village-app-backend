@@ -24,6 +24,11 @@ class Document extends Model
         return $this->belongsToMany('Modules\Village\Entities\User', 'village__document_user');
     }
 
+    public function buildings()
+    {
+        return $this->belongsToMany('Modules\Village\Entities\Building', 'village__document_building');
+    }
+
     public function village()
     {
         return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');

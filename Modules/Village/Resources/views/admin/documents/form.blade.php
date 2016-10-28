@@ -14,11 +14,16 @@
     <script type="text/javascript" src={{ URL::asset('custom/js/chosen/chosen.jquery.min.js') }}></script>
     @if($currentUser->hasAccess('village.documents.makePersonal'))
     <script>
-        var users = JSON.parse('{!! json_encode((new Modules\Village\Entities\User)->getListWithRoles()) !!}');
+        var users = JSON.parse('{!! json_encode((new Modules\Village\Entities\User)->getListWithRolesAndBuildings()) !!}');
         var usersSelected = [];
-         @if(@$model->users)
+                @if(@$model->users)
         var usersSelected = JSON.parse('{!! json_encode(@$model->users()->select('user_id')->lists('user_id')) !!}');
         @endif;
+        var buildingsSaved = [];
+                @if(@$model->buildings)
+        var buildingsSaved = JSON.parse('{!! json_encode(@$model->buildings()->select('building_id')->lists('building_id')) !!}');
+        @endif;
+        var buildingsList = JSON.parse('{!! json_encode((new Modules\Village\Entities\Building())->getListWithFacilities()) !!}');
         var userTemplates = '{{$admin->trans('popup.chose_placeholder')}}:  <select name="user_templates" id="user_templates">';
         userTemplates += '<option value=" ##first_name## ">Имя</option>';
         userTemplates += '<option value=" ##last_name## ">Фамилия</option>';
@@ -28,14 +33,25 @@
 
         $(document).ready(function () {
             personalSwitch();
+
+            function sortOptions($select) {
+                var optionsList = $select.find('option');
+                optionsList.sort(function (a, b) {
+                    if (a.text > b.text) return 1;
+                    else if (a.text < b.text) return -1;
+                    else return 0
+                })
+                $select.empty().append(optionsList);
+            }
+
             function personalSwitch() {
                 var isPersonal = $("#hidden_is_personal").val();
                 if (isPersonal == 1) {
                     $('.users-holder').show();
-                    fillUserSelect($("#village_id").val());
                     $('[name="is_important"]').iCheck('uncheck');
                     $('.important-switch').hide();
                     $('.cke_button__users').show();
+                    fillUserSelect();
                 }
                 else {
                     $('.users-holder').hide();
@@ -46,47 +62,102 @@
             }
 
             $("#village_id, #role_id").change(function (event) {
+                clearBuildings();
+                fillUserSelect();
+            });
+
+            $("#buildings").change(function (event) {
                 fillUserSelect();
             });
 
             $("#hidden_is_personal").change(function (event) {
                 personalSwitch();
             });
+
+            function clearBuildings() {
+                var $buildings = $('#buildings');
+                $buildings.html('');
+                $buildings.chosen('destroy');
+            }
+
             function fillUserSelect() {
-                villageId = $('#village_id').val();
-                villageUsers = users[villageId];
-                $userSelect = $('#users_select');
-                var roleSelected = $('#role_id').val();
+                var villageId = $('#village_id').val();
+                var villageUsers = [];
+                villageId = parseInt(villageId);
+                var villageBuildings = [];
+                for (var building in buildingsList[villageId]) {
+                    villageBuildings[building] = buildingsList[villageId][building];
+                }
+                for (var user in users[villageId]) {
+                    villageUsers[user] = users[villageId][user];
+                }
+                var $userSelect = $('#users_select');
+                var $buildingsSelect = $('#buildings');
+                var roleSelected = parseInt($('#role_id').val());
                 $userSelect.html('');
                 $userSelect.chosen('destroy');
-                usersList = []
-                for (var roles in villageUsers) {
-                    var role = villageUsers[roles];
-                    for (var id in role) {
-                        if (
-                                (!(id in usersList) && roleSelected == '') ||
-                                (!(id in usersList) && roleSelected != '' && roles == roleSelected )
-                        ) {
-                            usersList[id] = role[id];
+                var usersList = [];
+                var userToBuilding = [];
+                var roleToBuilding = [];
+                var userToRole = [];
+                // Make data arrays
+                for (var role in villageUsers) {
+                    role = parseInt(role);
+                    var buildings = villageUsers[role];
+                    for (var buildingId in buildings) {
+                        buildingId = parseInt(buildingId);
+                        roleToBuilding[role] = buildingId;
+                        var allUsers = buildings[buildingId];
+                        for (var userId in allUsers) {
+                            userId = parseInt(userId);
+                            userToBuilding[userId] = buildingId;
+                            userToRole[userId] = role;
+                            usersList[userId] = allUsers[userId];
                         }
                     }
-
                 }
-                for (var id in usersList) {
-
-                    $userSelect.append('<option value="' + id + '">' + usersList[id] + '</option>');
+                var buildingsSelected = $buildingsSelect.val();
+                for (var userId in usersList) {
+                    userId = parseInt(userId);
+                    // Remove users not in selected role.
+                    if (roleSelected > 0 && userToRole[userId] != roleSelected) {
+                        delete(usersList[userId]);
+                    }
+                    var userBuildingId = userToBuilding[userId].toString();
+                    // Remove users not in selected buildings.
+                    if (buildingsSelected && $.inArray(userBuildingId, buildingsSelected) == -1) {
+                        delete(usersList[userId]);
+                    }
+                }
+                // Fill user select.
+                for (var userId in usersList) {
+                    userId = parseInt(userId);
+                    $userSelect.append('<option value="' + userId + '">' + usersList[userId] + '</option>');
+                    buildingId = userToBuilding[userId];
+                    if (buildingId > 0 && !$buildingsSelect.find('option[value="' + buildingId + '"]').length) {
+                        $buildingsSelect.append('<option value="' + buildingId + '">' + villageBuildings[buildingId] + '</option>');
+                    }
+                }
+                // Setting saved values on edit page.
+                if (buildingsSaved.length) {
+                    $buildingsSelect.val(buildingsSaved);
+                    buildingsSaved = [];
                 }
                 if (usersSelected.length) {
                     $userSelect.val(usersSelected);
                     usersSelected = [];
                 }
-                if(usersList.length > 0)
-                {
-                    $('.users-holder .search-field input').val('{{$admin->trans('form.to_all_users')}}');
+                if (usersList.length > 0) {
+                    $('.users-holder #users_select_chosen input').val('{{$admin->trans('form.to_all_users')}}');
+                    $('.users-holder #users_select_chosen input').val('{{$admin->trans('form.to_all_buildings')}}');
+                    sortOptions($buildingsSelect);
+                    sortOptions($userSelect);
+                    $buildingsSelect.chosen();
                     $userSelect.chosen();
                 }
-                else{
+                else {
                     $userSelect.html('<option value="">{{$admin->trans('form.no_users')}}</option>');
+                    $buildingsSelect.html('<option value="">{{$admin->trans('form.no_buildings')}}</option>');
                 }
             }
 

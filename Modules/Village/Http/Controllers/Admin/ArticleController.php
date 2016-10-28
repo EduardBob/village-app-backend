@@ -155,6 +155,10 @@ class ArticleController extends AdminController
             $users = $request->get('users');
             $model->users()->attach($users);
         }
+        if ($request->get('buildings')) {
+            $buildings = $request->get('buildings');
+            $model->buildings()->attach($buildings);
+        }
         if ($request->get('show_all')) {
             $baseModel      = new BaseArticle();
             $data           = $model->toArray();
@@ -177,11 +181,17 @@ class ArticleController extends AdminController
             $users = $request->get('users');
             $model->users()->sync($users);
         }
+        if ($request->get('buildings')) {
+            $buildings = $request->get('buildings');
+            $model->buildings()->sync($buildings);
+        }
         // Attaching all users from selected user group to an article.
         if ($request->get('is_personal') == 1 && empty($request->get('users'))) {
             $model->users()->sync([]);
         }
-
+        if ($request->get('is_personal') == 1 && empty($request->get('buildings'))) {
+            $model->buildings()->sync([]);
+        }
     }
 
     /**

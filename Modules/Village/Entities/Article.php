@@ -26,6 +26,10 @@ class Article extends Model
     {
         return $this->belongsToMany('Modules\Village\Entities\User', 'village__article_user');
     }
+    public function buildings()
+    {
+        return $this->belongsToMany('Modules\Village\Entities\Building', 'village__article_building');
+    }
     public function category()
     {
         return $this->belongsTo('Modules\Village\Entities\ArticleCategory', 'category_id');

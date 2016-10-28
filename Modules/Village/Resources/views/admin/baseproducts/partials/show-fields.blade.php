@@ -44,7 +44,7 @@
         <div class="col-sm-12">
             <div class="form-group">
                 {!! Form::label('text', $admin->trans('table.text')) !!}
-                <div>{{ $model->text }}</div>
+                <div>{!! $model->text !!}</div>
             </div>
         </div>
     </div>

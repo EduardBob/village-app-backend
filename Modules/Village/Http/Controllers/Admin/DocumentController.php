@@ -143,6 +143,10 @@ class DocumentController extends AdminController
     public function postStore(Model $model, Request $request)
     {
         parent::preStore($model, $request);
+        if ($request->get('buildings')) {
+            $buildings = $request->get('buildings');
+            $model->buildings()->attach($buildings);
+        }
         if ($request->get('users')) {
             $users = $request->get('users');
             $model->users()->attach($users);
@@ -159,13 +163,19 @@ class DocumentController extends AdminController
     public function preUpdate(Model $model, Request $request)
     {
         parent::preStore($model, $request);
-
+        if ($request->get('buildings')) {
+            $buildings = $request->get('buildings');
+            $model->buildings()->sync($buildings);
+        }
         if ($request->get('users')) {
             $users = $request->get('users');
             $model->users()->sync($users);
         }
         if ($request->get('is_personal') == 1 && empty($request->get('users'))) {
             $model->users()->sync([]);
+        }
+        if ($request->get('is_personal') == 1 && empty($request->get('buildings'))) {
+            $model->buildings()->sync([]);
         }
     }
 

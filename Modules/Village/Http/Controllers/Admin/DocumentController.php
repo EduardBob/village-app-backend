@@ -143,6 +143,10 @@ class DocumentController extends AdminController
     public function postStore(Model $model, Request $request)
     {
         parent::preStore($model, $request);
+        if ($request->get('buildings')) {
+            $buildings = $request->get('buildings');
+            $model->buildings()->attach($buildings);
+        }
         if ($request->get('users')) {
             $users = $request->get('users');
             $model->users()->attach($users);
@@ -159,13 +163,19 @@ class DocumentController extends AdminController
     public function preUpdate(Model $model, Request $request)
     {
         parent::preStore($model, $request);
-
+        if ($request->get('buildings')) {
+            $buildings = $request->get('buildings');
+            $model->buildings()->sync($buildings);
+        }
         if ($request->get('users')) {
             $users = $request->get('users');
             $model->users()->sync($users);
         }
         if ($request->get('is_personal') == 1 && empty($request->get('users'))) {
             $model->users()->sync([]);
+        }
+        if ($request->get('is_personal') == 1 && empty($request->get('buildings'))) {
+            $model->buildings()->sync([]);
         }
     }
 
@@ -197,11 +207,13 @@ class DocumentController extends AdminController
             $rules['village_id'] = 'required:village__villages,id';
             $rules['role_id'] = 'exists:roles,id';
         }
-        if ((bool)$data['is_personal'] && $data['role_id'] == '') {
+        if (count($data['buildings'])) {
+            $rules['buildings'] = "required|exists:village__buildings,id";
+        }
+        if ((bool)$data['is_personal'] && $data['role_id'] == '' && empty($data['buildings'])) {
             $rules['users'] = "required|exists:users,id";
         }
-
-        if ((bool)$data['is_personal'] && empty($data['users'])) {
+        if ((bool)$data['is_personal'] && empty($data['users']) && empty($data['buildings'])) {
             $rules['role_id'] = "required";
         }
 

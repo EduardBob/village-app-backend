@@ -12,6 +12,7 @@ return [
         'phone' => 'Телефон',
         'additional_villages' => 'Дополнительные объекты',
         'additional_villages_info' => 'Редактирование поля доступно глобальным администраторам, только для пользователей роли "Исполнитель"',
+        'cancel_selection' => 'Отменить выбор',
         'building_id' => 'Адрес',
         'building' => [
             'placeholder' => 'Не указан'

@@ -22,6 +22,14 @@ class DocumentController extends ApiController
         $userRoles = $user->roles()->select('id')->lists('id');
         $personalDocuments = $user->documents()->select('document_id')->lists('document_id')->toArray();
         $personalAllDocuments = $users = DB::table('village__document_user')->groupBy('document_id')->lists('document_id');
+        $buildingsAllDocuments = [];
+        if ($user->building) {
+            $buildingsAllDocuments = DB::table('village__article_building')
+                                      ->where('building_id', $user->building->id)
+                                      ->groupBy('article_id')
+                                      ->lists('article_id');
+        }
+
         $categoryId = (int) $request::query('category_id');
 
         $documents = Document::api();
@@ -38,12 +46,13 @@ class DocumentController extends ApiController
                         ->where('published_at', '<=', date('Y-m-d H:i:s'));
               })
               // Getting personal items by user role, item should not be assigned to any user.
-              ->orWhere(function ($query) use ($categoryId, $userRoles, $personalAllDocuments) {
+              ->orWhere(function ($query) use ($categoryId, $userRoles, $personalAllDocuments, $buildingsAllDocuments) {
                   $query->where('is_personal', '=', 1)
                         ->where('category_id', '=', (int)$categoryId)
                         ->where('active', '=', 1)
                         ->where('published_at', '<=', date('Y-m-d H:i:s'))
                         ->whereNotIn('id', $personalAllDocuments)
+                        ->whereNotIn('id', $buildingsAllDocuments)
                         ->whereIn('role_id', $userRoles);
               })
               // Getting personal items by user relation.
@@ -54,6 +63,18 @@ class DocumentController extends ApiController
                         ->where('published_at', '<=', date('Y-m-d H:i:s'));
               });
 
+            // Getting personal items by buildings, item should not be assigned to any user.
+            if (count($buildingsAllDocuments)) {
+                $documents->orWhere(function ($query) use ($categoryId, $userRoles, $personalAllDocuments, $buildingsAllDocuments) {
+                    $query->where('is_personal', '=', 1)
+                          ->where('category_id', '=', (int)$categoryId)
+                          ->where('active', '=', 1)
+                          ->whereNotIn('id', $personalAllDocuments)
+                          ->whereIn('id', $buildingsAllDocuments)
+                          ->where('published_at', '<=', date('Y-m-d H:i:s'));
+                });
+            }
+
         } else {
             $documents
               ->orWhere(function ($query) {
@@ -61,11 +82,12 @@ class DocumentController extends ApiController
                         ->where('active', '=', 1)
                         ->where('published_at', '<=', date('Y-m-d H:i:s'));
               })
-              ->orWhere(function ($query) use ($userRoles, $personalAllDocuments) {
+              ->orWhere(function ($query) use ($userRoles, $personalAllDocuments, $buildingsAllDocuments) {
                   $query->where('is_personal', '=', 1)
                         ->where('published_at', '<=', date('Y-m-d H:i:s'))
                         ->where('active', '=', 1)
                         ->whereNotIn('id', $personalAllDocuments)
+                        ->whereNotIn('id', $buildingsAllDocuments)
                         ->whereIn('role_id', $userRoles);
               })
               ->orWhere(function ($query) use ($personalDocuments) {
@@ -73,6 +95,16 @@ class DocumentController extends ApiController
                         ->where('active', '=', 1)
                         ->where('published_at', '<=', date('Y-m-d H:i:s'));
               });
+            // Getting personal items by buildings, item should not be assigned to any user.
+            if (count($buildingsAllDocuments)) {
+                $documents->orWhere(function ($query) use ($categoryId, $userRoles, $personalAllDocuments, $buildingsAllDocuments) {
+                    $query->where('is_personal', '=', 1)
+                          ->where('active', '=', 1)
+                          ->whereNotIn('id', $personalAllDocuments)
+                          ->whereIn('id', $buildingsAllDocuments)
+                          ->where('published_at', '<=', date('Y-m-d H:i:s'));
+                });
+            }
         }
 
         $documents = $documents->orderBy('published_at', 'desc')->paginate(10);

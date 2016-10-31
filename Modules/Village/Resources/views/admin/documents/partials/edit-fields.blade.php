@@ -52,6 +52,11 @@
                     </select>
                     {!! $errors->first('role_id', '<span class="help-block">:message</span>') !!}
                 </div>
+                <div class="users-holder form-group{{ $errors->has('buildings') ? ' has-error' : '' }}">
+                    {!! Form::label('buildings', $admin->trans('form.buildings')) !!}<br/>
+                    <select data-placeholder="{{$admin->trans('form.to_all_buildings')}}" class="form-control" name="buildings[]" id="buildings" multiple="multiple"></select>
+                    {!! $errors->first('buildings', '<span class="help-block">:message</span>') !!}
+                </div>
                 <div class="users-holder form-group{{ $errors->has('users') ? ' has-error' : '' }}">
                     {!! Form::label('users', $admin->trans('form.users')) !!}<br/>
                     <select data-placeholder="Всем пользователям" class="form-control" name="users[]" id="users_select" multiple="multiple"></select>

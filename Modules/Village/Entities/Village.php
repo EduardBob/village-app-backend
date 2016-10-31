@@ -1,9 +1,7 @@
 <?php namespace Modules\Village\Entities;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Village\Entities\Scope\ApiScope;
-use Modules\Village\Entities\AbstractFacility;
 
 class Village extends AbstractFacility
 {
@@ -31,11 +29,16 @@ class Village extends AbstractFacility
         return $this->belongsTo('Modules\Village\Entities\User', 'main_admin_id');
     }
 
+    public function buildings()
+    {
+        return $this->hasMany('Modules\Village\Entities\Building', 'village_id');
+    }
+
     protected static function boot()
     {
         parent::boot();
 
-        static::saving(function(Village $village) {
+        static::saving(function (Village $village) {
             if (!$village->main_admin_id) {
                 $village->main_admin_id = null;
             }

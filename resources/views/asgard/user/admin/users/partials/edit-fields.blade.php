@@ -69,26 +69,21 @@
                             @endif
                             <div class="form-group{{ $errors->has('additional_villages') ? ' has-error has-feedback' : '' }}">
                                 {!! Form::label('additional_villages',  trans('village::users.form.additional_villages')) !!}
-
                                 <select class="form-control" multiple="additional_villages" name="additional_villages[]" id="additional_villages">
                                     @foreach((new Modules\Village\Entities\Village)->lists('name', 'id') as $id => $title)
                                             @if(@$model->village->id != $id)
-                                            <option  value="{{$id}}" @if(in_array($id, $selectedVillages)) selected="selected"  @endif >{{$title}}</option>
+                                            <option value="{{$id}}" @if(in_array($id, $selectedVillages)) selected="selected"  @endif >{{$title}}</option>
                                             @endif
-                                        {{--@endforeach--}}
                                     @endforeach
                                 </select>
+                                <a href="#null" onclick="$('#additional_villages').val(null);">{{ trans('village::users.form.cancel_selection') }}</a>
                                 <p>
                                     <i>{{ trans('village::users.form.additional_villages_info') }}</i>
                                 </p>
-
                                 {!! $errors->first('village_id', '<span class="help-block">:message</span>') !!}
                             </div>
                         @endif
-
                     </div>
-
-
                     @else
                         {!! Form::hidden('village_id', isset($model) ? $model->village_id : $currentUser->village_id, ['id' => 'village_id']) !!}
                     @endif

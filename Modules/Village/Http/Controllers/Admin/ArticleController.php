@@ -155,6 +155,10 @@ class ArticleController extends AdminController
             $users = $request->get('users');
             $model->users()->attach($users);
         }
+        if ($request->get('buildings')) {
+            $buildings = $request->get('buildings');
+            $model->buildings()->attach($buildings);
+        }
         if ($request->get('show_all')) {
             $baseModel      = new BaseArticle();
             $data           = $model->toArray();
@@ -177,11 +181,17 @@ class ArticleController extends AdminController
             $users = $request->get('users');
             $model->users()->sync($users);
         }
+        if ($request->get('buildings')) {
+            $buildings = $request->get('buildings');
+            $model->buildings()->sync($buildings);
+        }
         // Attaching all users from selected user group to an article.
         if ($request->get('is_personal') == 1 && empty($request->get('users'))) {
             $model->users()->sync([]);
         }
-
+        if ($request->get('is_personal') == 1 && empty($request->get('buildings'))) {
+            $model->buildings()->sync([]);
+        }
     }
 
     /**
@@ -223,7 +233,7 @@ class ArticleController extends AdminController
           'text'   => "required",
           'active' => "required|boolean",
         ];
-        
+
         if ($this->getCurrentUser()->inRole('admin')) {
              $rules['village_id'] = 'exists:village__villages,id';
         }
@@ -231,11 +241,16 @@ class ArticleController extends AdminController
             $rules['village_id'] = 'required:village__villages,id';
             $rules['role_id'] = 'exists:roles,id';
         }
-        if ((bool)$data['is_personal'] && $data['role_id'] == '') {
+        if (count($data['buildings'])) {
+            $rules['buildings'] = "required|exists:village__buildings,id";
+        }
+        if (!empty($data['buildings'])) {
+            $rules['buildings'] = "required|exists:village__buildings,id";
+        }
+        if ((bool)$data['is_personal'] && $data['role_id'] == '' && empty($data['buildings'])) {
             $rules['users'] = "required|exists:users,id";
         }
-
-        if ((bool)$data['is_personal'] && empty($data['users'])) {
+        if ((bool)$data['is_personal'] && empty($data['users']) && empty($data['buildings'])) {
             $rules['role_id'] = "required";
         }
 

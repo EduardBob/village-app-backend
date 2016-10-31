@@ -21,6 +21,22 @@ class Building extends Model
 		return (string)$this->address;
 	}
 
+    /**
+     * Get all users array of village_id->role_id->user.
+     * @return array
+     */
+    public function getListWithFacilities()
+    {
+        $buildings = $this->all(['address', 'village_id', 'id']);
+        $list  = [];
+
+        foreach ($buildings as $key => $building) {
+            $list[$building->village_id][$building->id] = str_replace('"', '', $building->address);
+
+        }
+        return $list;
+    }
+
     protected static function boot()
     {
         parent::boot();

@@ -3,10 +3,10 @@
 namespace Modules\Village\Http\Controllers\Api\V1;
 
 use EllipseSynergie\ApiResponse\Contracts\Response;
+use Illuminate\Support\Facades\DB;
 use Modules\Village\Entities\Article;
 use Modules\Village\Packback\Transformer\ArticleTransformer;
 use Request;
-use Illuminate\Support\Facades\DB;
 
 class ArticleController extends ApiController
 {
@@ -21,6 +21,13 @@ class ArticleController extends ApiController
         $user = $this->user()->load('building');
         $userRoles = $user->roles()->select('id')->lists('id');
         $personalArticles = $user->articles()->select('article_id')->lists('article_id')->toArray();
+        $buildingsAllArticles = [];
+        if ($user->building) {
+            $buildingsAllArticles = DB::table('village__article_building')
+                                      ->where('building_id', $user->building->id)
+                                      ->groupBy('article_id')
+                                      ->lists('article_id');
+        }
         $personalAllArticles = $users = DB::table('village__article_user')->groupBy('article_id')->lists('article_id');
         $categoryId = (int) $request::query('category_id');
 
@@ -38,14 +45,16 @@ class ArticleController extends ApiController
                         ->where('published_at', '<=', date('Y-m-d H:i:s'));
               })
               // Getting personal items by user role, item should not be assigned to any user.
-              ->orWhere(function ($query) use ($categoryId, $userRoles, $personalAllArticles) {
+              ->orWhere(function ($query) use ($categoryId, $userRoles, $personalAllArticles, $buildingsAllArticles) {
                   $query->where('is_personal', '=', 1)
                         ->where('category_id', '=', (int)$categoryId)
                         ->where('active', '=', 1)
                         ->whereNotIn('id', $personalAllArticles)
+                        ->whereNotIn('id', $buildingsAllArticles)
                         ->where('published_at', '<=', date('Y-m-d H:i:s'))
                         ->whereIn('role_id', $userRoles);
               })
+
               // Getting personal items by user relation.
               ->orWhere(function ($query) use ($personalArticles, $categoryId) {
                   $query->whereIn('id', $personalArticles)
@@ -53,6 +62,18 @@ class ArticleController extends ApiController
                         ->where('active', '=', 1)
                         ->where('published_at', '<=', date('Y-m-d H:i:s'));
               });
+
+            // Getting personal items by buildings, item should not be assigned to any user.
+            if (count($buildingsAllArticles)) {
+                $articles->orWhere(function ($query) use ($categoryId, $userRoles, $personalAllArticles, $buildingsAllArticles) {
+                    $query->where('is_personal', '=', 1)
+                          ->where('category_id', '=', (int)$categoryId)
+                          ->where('active', '=', 1)
+                          ->whereNotIn('id', $personalAllArticles)
+                          ->whereIn('id', $buildingsAllArticles)
+                          ->where('published_at', '<=', date('Y-m-d H:i:s'));
+                });
+            }
 
         } else {
             $articles
@@ -62,11 +83,12 @@ class ArticleController extends ApiController
                         ->where('published_at', '<=', date('Y-m-d H:i:s'));
               })
               // Adding personal articles attached to users role.
-              ->orWhere(function ($query) use ($userRoles, $personalAllArticles) {
+              ->orWhere(function ($query) use ($userRoles, $personalAllArticles, $buildingsAllArticles) {
                   $query->where('is_personal', '=', 1)
                         ->where('published_at', '<=', date('Y-m-d H:i:s'))
                         ->where('active', '=', 1)
                         ->whereNotIn('id', $personalAllArticles)
+                        ->whereNotIn('id', $buildingsAllArticles)
                         ->whereIn('role_id', $userRoles);
               })
               ->orWhere(function ($query) use ($personalArticles) {
@@ -74,6 +96,17 @@ class ArticleController extends ApiController
                         ->where('active', '=', 1)
                         ->where('published_at', '<=', date('Y-m-d H:i:s'));
               });
+
+            // Getting personal items by buildings, item should not be assigned to any user.
+            if (count($buildingsAllArticles)) {
+                $articles->orWhere(function ($query) use ($categoryId, $userRoles, $personalAllArticles, $buildingsAllArticles) {
+                    $query->where('is_personal', '=', 1)
+                          ->where('active', '=', 1)
+                          ->whereNotIn('id', $personalAllArticles)
+                          ->whereIn('id', $buildingsAllArticles)
+                          ->where('published_at', '<=', date('Y-m-d H:i:s'));
+                });
+            }
         }
 
         $articles = $articles->orderBy('published_at', 'desc')->paginate(10);

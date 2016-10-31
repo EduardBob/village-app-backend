@@ -27,6 +27,12 @@ class User extends BaseUser implements AuthenticatableContract
         return $this->hasOne('Cartalyst\Sentinel\Activations\EloquentActivation');
     }
 
+    // Only active relation.
+    public function activationCompleted()
+    {
+        return $this->hasOne('Cartalyst\Sentinel\Activations\EloquentActivation')->where('completed', '=', 1);
+    }
+
     public function smartHome()
     {
         return $this->hasOne('Modules\Village\Entities\SmartHome');
@@ -112,16 +118,38 @@ class User extends BaseUser implements AuthenticatableContract
     }
 
     /**
+     * Get all users array of village_id->role_id->building_id->user.
+     * @return array
+     */
+    public function getListWithRolesAndBuildings()
+    {
+        $users = $this::with(['activationCompleted'])->get(['last_name', 'first_name', 'village_id', 'id', 'building_id']);
+        $list  = [];
+        foreach ($users as $key => $user) {
+            foreach ($user->roles as $role) {
+                $building = (int) $user->building_id;
+                $village = (int) $user->village_id;
+                if ($user->activation && $user->activation->completed) {
+                    $list[$village][$role->id][$building][$user->id] = str_replace('"', '', $user->last_name . ' ' . $user->first_name);
+                }
+            }
+        }
+
+        return $list;
+    }
+
+    /**
      * Get all users array of village_id->role_id->user.
      * @return array
      */
     public function getListWithRoles()
     {
-        $users = $this->all(['last_name', 'first_name', 'village_id', 'id']);
+        $users = $this::with(['activationCompleted'])->get(['last_name', 'first_name', 'village_id', 'id']);
         $list  = [];
         foreach ($users as $key => $user) {
             foreach ($user->roles as $role) {
-                $list[$user->village_id][$role->id][$user->id] = str_replace('"', '', $user->last_name . ' ' . $user->first_name);
+                $village = (int) $user->village_id;
+                $list[$village][$role->id][$user->id] = str_replace('"', '', $user->last_name . ' ' . $user->first_name);
             }
         }
         return $list;

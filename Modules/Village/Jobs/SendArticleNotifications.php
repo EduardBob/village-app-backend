@@ -8,7 +8,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Modules\Village\Entities\Article;
-use Modules\Village\Entities\Building;
 use Modules\Village\Entities\User;
 use PushNotification;
 
@@ -55,7 +54,8 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
             // Getting attached users.
             if (count($attachedUsers)) {
                 $users->find($attachedUsers);
-            } elseif ($attachedBuildings) {
+            } // Get items attached to buildings
+            elseif ($attachedBuildings) {
                 $usersWithRoles = (new User)->getListWithRolesAndBuildings();
                 $selectedRole   = $this->article->role_id;
                 $usersIDs       = [];
@@ -86,8 +86,9 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
             $villageId = $this->article->village->id;
             $users->where('village_id', $villageId);
         }
-        $users->where('active', 1);
+        $users->with(['activationCompleted']);
         $users = $users->get();
+
         return $users;
     }
 

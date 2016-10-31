@@ -233,7 +233,7 @@ class ArticleController extends AdminController
           'text'   => "required",
           'active' => "required|boolean",
         ];
-        
+
         if ($this->getCurrentUser()->inRole('admin')) {
              $rules['village_id'] = 'exists:village__villages,id';
         }
@@ -241,11 +241,16 @@ class ArticleController extends AdminController
             $rules['village_id'] = 'required:village__villages,id';
             $rules['role_id'] = 'exists:roles,id';
         }
-        if ((bool)$data['is_personal'] && $data['role_id'] == '') {
+        if (count($data['buildings'])) {
+            $rules['buildings'] = "required|exists:village__buildings,id";
+        }
+        if (!empty($data['buildings'])) {
+            $rules['buildings'] = "required|exists:village__buildings,id";
+        }
+        if ((bool)$data['is_personal'] && $data['role_id'] == '' && empty($data['buildings'])) {
             $rules['users'] = "required|exists:users,id";
         }
-
-        if ((bool)$data['is_personal'] && empty($data['users'])) {
+        if ((bool)$data['is_personal'] && empty($data['users']) && empty($data['buildings'])) {
             $rules['role_id'] = "required";
         }
 

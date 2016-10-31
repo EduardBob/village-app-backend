@@ -47,9 +47,31 @@ class SendDocumentNotifications extends Job implements SelfHandling, ShouldQueue
         $users = new User;
         // Personal documents can be attached to users, or to entire user group.
         $attachedUsers = $this->document->users()->select('user_id')->lists('user_id');
+        $attachedBuildings = $this->document->buildings()->select('building_id')->lists('building_id');
+
         // Getting attached users.
         if (count($attachedUsers)) {
             $users->find($attachedUsers);
+        } // Get items attached to buildings
+        elseif ($attachedBuildings) {
+            $usersWithRoles = (new User)->getListWithRolesAndBuildings();
+            $selectedRole   = $this->document->role_id;
+            $usersIDs       = [];
+            // User role selected
+            if ($selectedRole > 0) {
+                foreach ($usersWithRoles[$this->document->village->id][$selectedRole] as $building => $usersInBuildings) {
+                    $usersIDs += array_keys($usersInBuildings);
+                }
+            } else {
+                foreach ($usersWithRoles[$this->document->village->id] as $role_id => $buildingWithUsers) {
+                    foreach ($buildingWithUsers as $building => $usersInBuildings) {
+                        $usersIDs += array_keys($usersInBuildings);
+                    }
+                }
+            }
+            if (count($usersIDs)) {
+                $users->find($usersIDs);
+            }
         } // Getting group users attached to document.
         else {
             $usersWithRoles = (new User)->getListWithRoles();
@@ -58,7 +80,7 @@ class SendDocumentNotifications extends Job implements SelfHandling, ShouldQueue
                 $users->find(array_keys($usersIDs));
             }
         }
-        $users->where('active', 1);
+        $users->with(['activationCompleted']);
         $users = $users->get();
 
         return $users;

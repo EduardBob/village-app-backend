@@ -87,7 +87,7 @@ class UserController extends ApiController
         }
         $user->update($data);
         $token->delete();
-        $this->response->setStatusCode(202);
+        $this->response->setStatusCode(200);
         $success = [];
         $success['message'] = trans('village::users.messages.password_changed');
         return $this->response->withArray($success);
@@ -128,7 +128,7 @@ class UserController extends ApiController
             Activation::complete($user, $activation->getCode());
             $token->delete();
         });
-        $this->response->setStatusCode(202);
+        $this->response->setStatusCode(200);
         $success = [];
         $success['message'] = trans('village::villages.messages.confirmed');
         return $this->response->withArray($success);

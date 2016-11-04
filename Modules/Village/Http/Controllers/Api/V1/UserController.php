@@ -4,7 +4,6 @@ namespace Modules\Village\Http\Controllers\Api\V1;
 
 use Activation;
 use DB;
-use Fruitware\ProstorSms\Exception\BadSmsStatusException;
 use Hash;
 use Modules\User\Services\UserRegistration;
 use Modules\Village\Entities\Sms;
@@ -43,7 +42,6 @@ class UserController extends ApiController
                 if ($token) {
                     Token::destroy($token->id);
                 }
-
                 return $this->generateRegistrationTokenAndSendSms($user);
             }
             else {
@@ -59,6 +57,81 @@ class UserController extends ApiController
         $user = $userRegistration->register($data);
 
         return $this->generateRegistrationTokenAndSendSms($user);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function resetConfirmByPhone(Request $request)
+    {
+        $data = $request::only(['code', 'phone', 'password', 'password_confirmation']);
+        $validator = Validator::make($data, [
+          'phone'    => 'required|regex:' . config('village.user.phone.regex'),
+          'code'     => 'required',
+          'password' => 'required|min:6|confirmed',
+        ]);
+        if ($validator->fails()) {
+            return $this->response->errorWrongArgs($validator->errors());
+        }
+        $token = Token::findOneByTypeAndPhone(Token::TYPE_RESET_PASSWORD, $data['phone']);
+        if (!$token || $token->code != $data['code']) {
+            return $this->response->errorNotFound(trans('village::users.messages.code_not_found'));
+        }
+        unset($data['code'], $data['phone']);
+        $data['password'] = Hash::make($data['password']);
+        $user = User::where(['phone' => $token['phone']])->first();
+        if (!$user || !$user->inRole('village-admin')) {
+            return $this->response->errorNotFound(trans('village::users.messages.code_not_found'));
+        }
+        $user->update($data);
+        $token->delete();
+        $this->response->setStatusCode(202);
+        $success = [];
+        $success['message'] = trans('village::users.messages.password_changed');
+        return $this->response->withArray($success);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function registrationConfirmByPhone(Request $request)
+    {
+        $data = $request::only(['code', 'phone', 'password', 'password_confirmation']);
+        $validator = Validator::make($data, [
+          'phone'    => 'required|regex:' . config('village.user.phone.regex'),
+          'code'     => 'required',
+          'password' => 'required|min:6|confirmed',
+        ]);
+        if ($validator->fails()) {
+            return $this->response->errorWrongArgs($validator->errors());
+        }
+        $token = Token::findOneByTypeAndPhone(Token::TYPE_REGISTRATION, $data['phone']);
+        if (!$token || $token->code != $data['code']) {
+            return $this->response->errorNotFound(trans('village::villages.messages.token_not_found'));
+        }
+        unset($data['code'], $data['phone']);
+        $data['password'] = Hash::make($data['password']);
+        $user = User::where(['phone' => $token['phone']])->first();
+        if (!$user) {
+            return $this->response->errorNotFound(trans('village::villages.messages.user_not_found'));
+        }
+        $activation = Activation::exists($user);
+        if (!$activation) {
+            $activation = Activation::create($user);
+        }
+        DB::transaction(function () use ($user, $data, $token, $activation) {
+            $user->update($data);
+            Activation::complete($user, $activation->getCode());
+            $token->delete();
+        });
+        $this->response->setStatusCode(202);
+        $success = [];
+        $success['message'] = trans('village::villages.messages.confirmed');
+        return $this->response->withArray($success);
     }
 
     /**
@@ -168,6 +241,39 @@ class UserController extends ApiController
     }
 
     /**
+     * Getting reset code and send it by SMS
+     * Only for facility administrators (used by frontend)
+     *
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function getResetCode(Request $request)
+    {
+        $data = $request::only(['phone']);
+        $validator = Validator::make($data, [
+          'phone' => 'required|regex:' . config('village.user.phone.regex')
+        ]);
+        if ($validator->fails()) {
+            return $this->response->errorWrongArgs($validator->errors());
+        }
+        $user = User::where(['phone' => $data['phone']])->first();
+        /** @var $user User */
+        if (!$user || !$user->inRole('village-admin')) {
+            return $this->response->errorNotFound(trans('village::users.messages.phone_not_found'));
+        }
+        if (!$user->isActivated()) {
+            return $this->response->errorForbidden(trans('village::users.messages.phone_not_activated'));
+        }
+        $this->generateResetTokenAndSendSms($user);
+        $this->response->setStatusCode(200);
+        $success = [];
+        $success['message'] = trans('village::users.messages.reset_code_sent');
+
+        return $this->response->withArray($success);
+    }
+
+    /**
      * @param User $user
      *
      * @return mixed
@@ -193,6 +299,34 @@ class UserController extends ApiController
 
         return $this->response->withItem($token, new TokenTransformer);
     }
+
+    private function generateResetTokenAndSendSms(User $user)
+    {
+
+        $token = Token::findOneByTypeAndPhone(Token::TYPE_RESET_PASSWORD, $user->phone);
+        if ($token) {
+            Token::destroy($token->id);
+        }
+
+        $token = Token::create([
+          'type'  => Token::TYPE_RESET_PASSWORD,
+          'phone' => $user->phone,
+        ]);
+
+        $sms = new Sms();
+        $sms->village()->associate($user->village_id);
+        $sms
+          ->setPhone($user->phone)
+          ->setText('Код подтверждения смены пароля: '.$token->code)
+        ;
+
+        if (($response = $this->sendSms($sms)) !== true) {
+            return $response;
+        }
+
+        return $this->response->withItem($token, new TokenTransformer);
+    }
+
 
 //    /**
 //     * Get all users

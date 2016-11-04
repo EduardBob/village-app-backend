@@ -25,7 +25,13 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
         $router->group(['prefix' => 'ping'], function (Router $router) {
             $router->get('',        ['uses' => 'V1\PingController@index', 'as' => 'village.api.ping']);
         });
-        
+
+        // Register a facility.
+        $router->group(['prefix' => 'facilities'], function (Router $router) {
+                     $router->post('registration', 	['uses' => 'V1\FacilityController@registration', 'as' => 'village.api.faciltity.registration']);
+                     $router->post('confirm', 		['uses' => 'V1\UserController@registrationConfirmByPhone', 'as' => 'village.api.user.user.registration_confirm_phone']);
+        });
+
         $router->group(['prefix' => 'buildings'], function (Router $router) {
             $router->get('{code}',        ['uses' => 'V1\BuildingController@show', 'as' => 'village.api.building.building.one']);
         });
@@ -46,6 +52,8 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
             $router->post('', 		        ['uses' => 'V1\UserController@registration', 'as' => 'village.api.user.user.registration']);
             $router->post('confirm', 		['uses' => 'V1\UserController@registrationConfirm', 'as' => 'village.api.user.user.registration_confirm']);
             $router->post('reset', 	        ['uses' => 'V1\UserController@reset', 'as' => 'village.api.user.user.reset']);
+            $router->post('reset-code', 	['uses' => 'V1\UserController@getResetCode', 'as' => 'village.api.user.user.reset.code']);
+            $router->post('reset-by-code', 	['uses' => 'V1\UserController@resetConfirmByPhone', 'as' => 'village.api.user.user.reset.by_code']);
         });
 
         $router->group(['prefix' => 'tokens'], function (Router $router) {

@@ -13,3 +13,8 @@ $router->group(['prefix' => '/payment', 'middleware' => ['secure']], function (R
 $router->get('/payment/status', [
     'as' => 'sentry.payment.process', 'uses' => 'SentryPaymentController@process'
 ]);
+
+// Register form.
+$router->get('/register', [
+  'as' => 'user.facility.registration', 'uses' => 'Frontend\FacilityRegistrationController@index'
+]);

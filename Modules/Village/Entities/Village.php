@@ -17,7 +17,7 @@ class Village extends AbstractFacility
         'product_payment_info', 'product_bottom_text',
         'product_unit_step_kg', 'product_unit_step_bottle', 'product_unit_step_piece',
         'send_sms_to_village_admin', 'send_sms_to_executor', 'important_contacts',
-        'active'
+        'active', 'type'
     ];
 
     public function mainAdmin()

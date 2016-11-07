@@ -1,0 +1,29 @@
+.slider-form {
+    margin-top: 33px
+}
+.form-control.field-error{
+    border:  1px solid #a94442;
+}
+.message-success{
+    color: #fff;
+}
+#register-facility .message-success{
+    height: 230px
+}
+.message-success a{
+    color: #c39e65;
+}
+span.error, .help-block{
+    color: #a94442;
+    font-size: 12px;
+    padding-top: 7px;
+    display: block
+}
+.alert-danger button{
+    display:  none;
+
+}
+.alert-danger {
+    background: none;
+    border: none;
+}

@@ -74,5 +74,6 @@
             ])
         </div>
         @endif
+        @include('village::admin.base.facility-fields')
     </div>
 </div>

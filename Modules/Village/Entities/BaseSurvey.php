@@ -9,7 +9,7 @@ class BaseSurvey extends Model
 
     protected $table = 'village__base__surveys';
 
-    protected $fillable = ['title', 'options', 'active'];
+    protected $fillable = ['title', 'options', 'active', 'is_business', 'is_shopping', 'is_cottage', 'is_apartment'];
 
     protected static function boot()
     {

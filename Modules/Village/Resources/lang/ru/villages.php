@@ -39,6 +39,10 @@ return [
         'important_contacts' => 'Важная информация',
         'actions' => 'Действия',
     ],
+    'services' => [
+      'create_in' => 'Привязать к объектам (создаются в объекте при регистрации):',
+      'currency_conversion' => 'Стоимость 1000 рублей в монетах'
+    ],
     'form' => [
         'village_id' => 'Объект',
         'village' => [

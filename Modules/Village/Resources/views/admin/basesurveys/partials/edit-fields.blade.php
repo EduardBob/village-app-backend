@@ -68,6 +68,7 @@
                 </div>
             </div>
         </div>
+        @include('village::admin.base.facility-fields')
     </div>
 </div>
 

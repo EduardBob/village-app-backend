@@ -1,11 +1,16 @@
 <?php namespace Modules\Village\Providers;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Contracts\Authentication;
 use Modules\Village\Entities\Article;
+use Modules\Village\Entities\BaseArticle;
+use Modules\Village\Entities\BaseProduct;
+use Modules\Village\Entities\BaseService;
+use Modules\Village\Entities\BaseSurvey;
 use Modules\Village\Entities\Document;
 use Modules\Village\Entities\OrderInterface;
 use Modules\Village\Entities\Product;
@@ -15,7 +20,9 @@ use Modules\Village\Entities\Service;
 use Modules\Village\Entities\ServiceOrder;
 use Modules\Village\Entities\ServiceOrderChange;
 use Modules\Village\Entities\Sms;
+use Modules\Village\Entities\Survey;
 use Modules\Village\Entities\User;
+use Modules\Village\Entities\Village;
 use Modules\Village\Jobs\SendArticleNotifications;
 use Modules\Village\Jobs\SendDocumentNotifications;
 use Modules\Village\Services\SentryPaymentGateway;
@@ -185,6 +192,88 @@ class VillageServiceProvider extends ServiceProvider
             }
         });
 
+        // Create basic content for registered facility.
+        Village::created(function (Village $village) {
+            $baseArticles = (new BaseArticle())->where('is_'.$village->type, 1)->get();
+            $publishedDate = (new Carbon())->format('Y-m-d H:i:00');
+            $articles = [];
+            foreach ($baseArticles as $baseArticle) {
+                $article = new Article();
+                $article->title = $baseArticle->title;
+                $article->text = $baseArticle->text;
+                $article->short = $baseArticle->short;
+                $article->active = 1;
+                $article->published_at = $article->created_at = $article->updated_at = $publishedDate;
+                $article->village()->associate($village->id);
+                $article->base()->associate($baseArticle->id);
+                $articles[] = $article->toArray();
+            }
+            $baseServices = (new BaseService())->where('is_'.$village->type, 1)->get();
+            $services = [];
+            foreach ($baseServices as $baseService) {
+                $service = new Service();
+                $service->title = $baseService->title;
+                $service->text = $baseService->text;
+                $service->price = $baseService->price;
+                $service->comment_label = $baseService->comment_label;
+                $service->order_button_label = $baseService->order_button_label;
+                $service->show_perform_time = $baseService->show_perform_time;
+                $service->has_card_payment = $baseService->has_card_payment;
+                $service->created_at = $service->updated_at = $publishedDate;
+                $service->active = 1;
+                $service->village()->associate($village->id);
+                $service->category()->associate($baseService->category->id);
+                $services[] = $service->toArray();
+            }
+            $baseProducts = (new BaseProduct())->where('is_'.$village->type, 1)->get();
+            $products = [];
+            foreach ($baseProducts as $baseProduct) {
+                $product = new Product();
+                $product->title = $baseProduct->title;
+                $product->price = $baseProduct->price;
+                $product->unit_title = $baseProduct->unit_title;
+                $product->comment_label = $baseProduct->comment_label;
+                $product->show_perform_time = $baseProduct->show_perform_time;
+                $product->has_card_payment = $baseProduct->has_card_payment;
+                $product->created_at = $service->updated_at = $publishedDate;
+                $product->active = 1;
+                $product->village()->associate($village->id);
+                $product->category()->associate($baseProduct->category->id);
+                $products[] = $product->toArray();
+            }
+            $baseSurveys = (new BaseSurvey())->where('is_'.$village->type, 1)->get();
+            $surveys = [];
+            foreach ($baseSurveys as $baseSurvey) {
+                $survey = new Survey();
+                $survey->title = $baseSurvey->title;
+                $survey->active = 1;
+                $survey->options = $baseSurvey->options;
+                $survey->created_at = $survey->updated_at = $publishedDate;
+                $survey->ends_at = (new Carbon())->addDays(30)->format('Y-m-d');
+                $survey->village()->associate($village->id);
+                $surveys[] = $survey->toArray();
+            }
+            $document = new Document();
+            $document->title = 'Тестовый документ';
+            $document->village()->associate($village->id);
+            $document->published_at = $publishedDate;
+            $document->active = 1;
+            \DB::transaction(function () use ($articles, $products, $surveys, $services, $document) {
+                if (count($articles)) {
+                    \DB::table('village__articles')->insert($articles);
+                }
+                if (count($products)) {
+                    \DB::table('village__products')->insert($products);
+                }
+                if (count($surveys)) {
+                    \DB::table('village__surveys')->insert($surveys);
+                }
+                if (count($services)) {
+                    \DB::table('village__services')->insert($services);
+                }
+                $document->save();
+            });
+        });
     }
 
     private function getStatusText(OrderInterface $order)

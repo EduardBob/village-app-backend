@@ -11,7 +11,7 @@ class BaseArticle extends Model
 
     protected $table = 'village__base__articles';
 
-    protected $fillable = ['title', 'text', 'active'];
+    protected $fillable = ['title', 'text', 'active', 'is_business', 'is_shopping', 'is_cottage', 'is_apartment'];
 
     protected static function boot()
     {

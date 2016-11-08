@@ -31,7 +31,7 @@ class BaseproductFacilityCheckboxes extends Migration
         $types = Village::getTypes();
         Schema::table('village__base__products', function (Blueprint $table) use ($types) {
             foreach ($types as $type) {
-                $table->dropColumn('is_'.$type);
+                $table->dropIfExists('is_'.$type);
             }
         });
 

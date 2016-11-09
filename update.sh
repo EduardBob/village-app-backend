@@ -63,7 +63,8 @@ then
     COMPOSER_OPT="-o --no-dev"
 fi;
 
-composer install ${COMPOSER_OPT}
+composer install ${COMPOSER_OPT} --prefer-dist
+composer dump-autoload --optimize ${COMPOSER_OPT}
 
 # console commands
 php artisan migrate --force

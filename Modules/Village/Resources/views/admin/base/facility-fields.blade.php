@@ -1,7 +1,6 @@
 <?php $types =  \Modules\Village\Entities\Village::getTypes(); ?>
-
 <div class="col-sm-12">
-    <h4>{{ trans('village::villages.services.create_in')  }}</h4>
+    <h4>{{ trans('village::villages.services.create_in') }}</h4>
     @foreach ($types as $type)
         <?php $typeProperty = 'is_'.$type; ?>
         <div class="form-group{{ $errors->has($typeProperty) ? ' has-error' : '' }}">

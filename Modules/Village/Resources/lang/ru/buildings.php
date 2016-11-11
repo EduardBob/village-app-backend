@@ -11,6 +11,9 @@ return [
     'button' => [
         'create' => 'Добавить дом',
     ],
+    'messages' => [
+      'limit' => 'Вы не можете создать больше домов, лимит пакета исчерпан, <a href="/backend/#packet">перейдите на другой пакет</a>',
+    ],
     'table' => [
         'id' => 'ID',
         'address' => 'Адрес',
@@ -21,8 +24,6 @@ return [
     'form' => [
         'address' => 'Адрес',
         'code' => 'Код'
-    ],
-    'messages' => [
     ],
     'validation' => [
     ],

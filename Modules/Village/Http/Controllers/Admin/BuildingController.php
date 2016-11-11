@@ -1,10 +1,8 @@
 <?php namespace Modules\Village\Http\Controllers\Admin;
 
-use Modules\Village\Entities\Building;
-use Modules\Village\Entities\Village;
-use Modules\Village\Repositories\BuildingRepository;
-
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Modules\Village\Entities\Building;
+use Modules\Village\Repositories\BuildingRepository;
 use Validator;
 use Yajra\Datatables\Engines\EloquentEngine;
 use Yajra\Datatables\Html\Builder as TableBuilder;
@@ -149,5 +147,26 @@ class BuildingController extends AdminController
         }
 
         return $buildings;
+    }
+
+    public function checkLimit()
+    {
+        $currentUser = $this->getCurrentUser();
+        $village = $currentUser->village;
+        if ($currentUser->inRole('admin')) {
+            return true;
+        }
+        if ($village->is_unlimited) {
+            return true;
+        }
+        $limit = (int)setting('village::village-' .$village->type . '-' . $village->packet . '-buildings');
+        if (!$limit) {
+            return true;
+        }
+        $total = $this->getRepository()->all()->where('village_id', $village->id)->count();
+        if ($limit - $total <= 0) {
+            return false;
+        }
+        return true;
     }
 }

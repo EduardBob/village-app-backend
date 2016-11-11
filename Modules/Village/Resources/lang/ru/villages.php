@@ -19,6 +19,29 @@ return [
       'cottage' => 'Коттеджный Посёлок',
       'apartment' => 'Жилой Комплекс',
     ],
+
+    'packet' => [
+      'chose'             => 'Выбор пакета',
+      'current'           => 'Текущий пакет',
+      'balance'           => 'Баланс',
+      'active_to'         => 'активен до',
+      'money'             => 'монет',
+      'not_active'        => 'не активен',
+      'buildings'         => 'Количество домов',
+      'price'             => 'Цена',
+      'add_balance_title' => 'Пополнить счет',
+      'coins_per_month'   => 'монет в месяц',
+      'add_balance'       => 'Пополнить',
+      'left_buildings'    => 'Осталось неподключенных домов',
+      'current'           => 'Текущий',
+      'move_to_packet'    => 'Перейти на этот пакет',
+      'chose_error'    => 'Выбран некорректный пакет ',
+      'switched_to'    => 'Ваш пакет был переключен на',
+      'balance_refill_left'    => ' на пополнение счета у Вас есть завтрашний день.',
+      'balance_tomorrow'    => ' средсва со счета спишутся завтра.'
+
+    ],
+
     'table' => [
         'id' => 'ID',
         'main_admin_id' => 'Главный администратор объекта',
@@ -38,6 +61,9 @@ return [
         'created_at' => 'Создана',
         'important_contacts' => 'Важная информация',
         'actions' => 'Действия',
+        'payed_until' => 'Оплачено до',
+        'packet' => 'Действующий пакет',
+        'balance' => 'Баланс (монет)'
     ],
     'services' => [
       'create_in' => 'Привязать к объектам (создаются в объекте при регистрации):',
@@ -52,9 +78,9 @@ return [
             'placeholder' => 'Не выбран',
             'help' => 'Получает sms при оплате заказа'
         ],
-       'important_contacts' => [
-           'label' => 'Контакт',
-           'name' => 'Телефон'
+        'important_contacts' => [
+          'label' => 'Контакт',
+          'name'  => 'Телефон'
         ]
     ],
     'messages' => [

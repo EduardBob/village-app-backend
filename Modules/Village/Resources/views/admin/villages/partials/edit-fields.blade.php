@@ -1,15 +1,55 @@
+<script type="text/javascript" src={{ URL::asset('custom/js/moment.min.js') }}></script>
+<script type="text/javascript" src={{ URL::asset('custom/js/bootstrap-datetimepicker.min.js') }}></script>
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('custom/css/bootstrap-datetimepicker.css') }}">
+
+<script>
+    $(document).ready(function () {
+        $('.js-date-time-field').datetimepicker({
+            minDate: new Date(),
+            useCurrent: false,
+            sideBySide: true,
+            format: 'DD-MM-YYYY HH:mm',
+            locale: '{{App::getLocale()}}',
+        });
+    });
+</script>
+
+
 <div class="box-body">
     <div class="row">
         @if($currentUser && $currentUser->inRole('admin'))
-        <div class="col-sm-12">
-            <div class="form-group{{ $errors->has('main_admin_id') ? ' has-error' : '' }}">
-                {!! Form::label('main_admin_id', $admin->trans('table.main_admin_id')) !!}
-                {!! Form::select('main_admin_id', (new Modules\Village\Entities\User)->getVillageAdminList(),
-                Input::old('main_admin_id', @$model->main_admin_id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.main_admin.placeholder')]) !!}
-                <p class="help-block">{{ $admin->trans('form.main_admin.help') }}</p>
-                {!! $errors->first('main_admin_id', '<span class="help-block">:message</span>') !!}
+            <div class="col-sm-12">
+                <div class="form-group{{ $errors->has('main_admin_id') ? ' has-error' : '' }}">
+                    {!! Form::label('main_admin_id', $admin->trans('table.main_admin_id')) !!}
+                    {!! Form::select('main_admin_id', (new Modules\Village\Entities\User)->getVillageAdminList(),
+                    Input::old('main_admin_id', @$model->main_admin_id), ['class' => 'form-control', 'placeholder' => $admin->trans('form.main_admin.placeholder')]) !!}
+                    <p class="help-block">{{ $admin->trans('form.main_admin.help') }}</p>
+                    {!! $errors->first('main_admin_id', '<span class="help-block">:message</span>') !!}
+                </div>
             </div>
-        </div>
+            <div class="col-sm-4">
+                <div class="form-group{{ $errors->has('packet') ? ' has-error' : '' }}">
+                    {!! Form::label('packet', $admin->trans('table.packet')) !!}
+                    {!! Form::select('packet', $model->getPackets(),
+                    @$model->packet?:Input::old('packet'), ['class' => 'form-control'], '') !!}
+                    {!! $errors->first('packet', '<span class="help-block">:message</span>') !!}
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group{{ $errors->has('balance') ? ' has-error' : '' }}">
+                    {!! Form::label('balance', $admin->trans('table.balance')) !!}
+                    {!! Form::number('balance', Input::old('balance', @$model->balance), ['class' => 'form-control', 'placeholder' => $admin->trans('table.balance')]) !!}
+                    {!! $errors->first('balance', '<span class="help-block">:message</span>') !!}
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group{{ $errors->has('payed_until') ? ' has-error' : '' }}">
+                    {!! Form::label('payed_until', $admin->trans('table.payed_until')) !!}
+                    {!! Form::text('payed_until', localizeddate(@$model->payed_until, 'medium_short') ? : localizeddate('now', 'medium_short')
+                     , ['class' => 'form-control js-date-time-field', 'placeholder' => localizeddate('now', 'medium_short')]) !!}
+                    {!! $errors->first('payed_until', '<span class="help-block">:message</span>') !!}
+                </div>
+            </div>
         @endif
         <div class="col-sm-12">
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">

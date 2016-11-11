@@ -14,7 +14,7 @@ while [ $# -gt 0 ]; do
     --help)
       echo "***************************"
       echo "Usage:"
-      echo " ./update.sh [--env=dev|prod|staging|test] [-f]"
+      echo " ./update.sh [--env=dev|prod|testing|test] [-f]"
       echo ""
       echo "Options:"
       echo "  --env     app enviroment (default: \"dev\")"

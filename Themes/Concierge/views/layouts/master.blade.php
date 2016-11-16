@@ -544,7 +544,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="btn-wrapper"><a href="#" class="btn-main">Попробовать бесплатно</a></div>
+                    <div class="btn-wrapper"><a href="#home" class="btn-main">Попробовать бесплатно</a></div>
                 </div>
             </div>
         </div>
@@ -644,22 +644,22 @@
                 <div class="form">
                     <form id="register-facility-wide" method="post" action="">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <input type="text" name="full_name" placeholder="Имя, Фамилия" class="form-control" />
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <input type="email" name="email" placeholder="Email" required="required" class="form-control"/>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <input type="text" name="name" placeholder="Торговый центр “Ривьера”" class="form-control"/>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4 col-md-offset-2">
                                 <div class="form-group">
                                     <select name="type" class="facility-type"  required="required">
                                         @foreach ($facilityTypes as $type)
@@ -668,7 +668,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <input type="text" required="required" name="phone" data-mask="" placeholder="Ваш телефон" data-inputmask='"mask": "{!! config('village.user.phone.mask') !!}"' class="form-control" />
                                 </div>
@@ -699,8 +699,8 @@
                 <div class="col-xs-12">
                     <div class="cotacts-wrapper"><h5>ООО "Консьерж"</h5>
                         <p class="adress">188367, г. Москва,<br> ул. Новый Арбат 20, офис 100</p>
-                        <a href="#" class="phone">+7 (495) 731-74-37</a>
-                        <a href="#" class="email">info@concierge.app</a>
+                        <a href="tel:+74957317437" class="phone">+7 (495) 731-74-37</a>
+                        <a href="mailto:info@concierge.app" class="email">info@concierge.app</a>
                         <p class="metro">"Арбатская 3, 4", "Смоленская 3, 4"</p>
                         <div class="btn-wrapper">
                             <a href="#" data-popup-link="map" class="btn-white">Открыть карту</a>

@@ -102,6 +102,8 @@ class FacilityController extends VillageController
     {
         $facilityName = $user->village->name;
         $messageText = "Здравствуйте! \r\n Конфигурация сервиса Консьерж для объекта $facilityName создана.";
+        $token = (new Token)->findOneByTypeAndPhone(Token::TYPE_REGISTRATION, $user->phone);
+        $messageText .= "\r\n Код активации: ".$token->code;
         Mail::raw($messageText, function ($message) use ($user, $facilityName) {
             $message->to($user->email);
             $message->subject("Ваш Консьерж для ".$facilityName." создана.");
@@ -123,6 +125,7 @@ class FacilityController extends VillageController
             });
         }
     }
+
     private function getUserNames($name)
     {
         $name = trim($name);
@@ -159,5 +162,4 @@ class FacilityController extends VillageController
 
         return $this->response->withItem($token, new TokenTransformer);
     }
-
 }

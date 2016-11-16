@@ -11,9 +11,11 @@ use Modules\Village\Services\SentryPaymentGateway;
 use Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Validator;
+use Modules\Village\Support\Traits\MediaSave;
 
 class ProductOrderController extends ApiController
 {
+	use MediaSave;
     /**
      * Get all productOrders
      *
@@ -54,7 +56,7 @@ class ProductOrderController extends ApiController
      */
     public function store(Request $request)
     {
-        $data = $request::only('product_id', 'quantity', 'perform_date', 'perform_time', 'payment_type', 'comment');
+        $data = $request::only('product_id', 'quantity', 'perform_date', 'perform_time', 'payment_type', 'comment', 'files');
         $data = array_merge([
             'status' => config('village.order.first_status'),
             'user_id' => $this->user()->id,
@@ -66,6 +68,9 @@ class ProductOrderController extends ApiController
         }
 
         $productOrder = ProductOrder::create($data);
+		if (count($data['files'])) {
+			$this->saveFiles($productOrder, $data['files']);
+		}
 
         return $this->response->withItem($productOrder, new ProductOrderTransformer);
     }

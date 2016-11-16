@@ -37,31 +37,32 @@ class PacketWidget extends BaseWidget
     protected function data()
     {
         $user = $this->auth->check();
-        $village = $user->village;
-        $packets = $village->getVillagePackets();
-        $activeTo = '';
+        if($user && $village = $user->village){
+            $packets = $village->getVillagePackets();
+            $activeTo = '';
 
-        if ($village->active) {
-            $payedUntil = new Carbon($village->payed_until);
-            $activeTo .= $payedUntil->format(config('village.date.human.shorter'));
-            $now        = Carbon::now();
-            $difference = $payedUntil->diff($now)->days;
-            if ($difference <= 5) {
-                $activeTo .= ($difference == 0) ? ' (сегодня) ' : ' (' . $difference . ' дней)';
+            if ($village->active) {
+                $payedUntil = new Carbon($village->payed_until);
+                $activeTo .= $payedUntil->format(config('village.date.human.shorter'));
+                $now        = Carbon::now();
+                $difference = $payedUntil->diff($now)->days;
+                if ($difference <= 5) {
+                    $activeTo .= ($difference == 0) ? ' (' . trans('village::villages.packet.today') . ') ' : ' (' . trans_choice('village::villages.packet.days', $difference) . ')';
+                }
+            } else {
+                $activeTo .= ' ' . trans('village::villages.packet.not_active');
             }
-        } else {
-            $activeTo .= ' ' . trans('village::villages.packet.not_active');
-        }
-        $totalBuildings = $village->buildings->count();
-        $buildingsLeft = (int) $packets[$village->packet]['buildings'] - $totalBuildings;
+            $totalBuildings = $village->buildings->count();
+            $buildingsLeft = (int) $packets[$village->packet]['buildings'] - $totalBuildings;
 
-        return [
-          'currentUser'   => $user,
-          'village'       => $village,
-          'packets'       => $packets,
-          'activeTo'      => $activeTo,
-          'buildingsLeft' => $buildingsLeft,
-        ];
+            return [
+              'currentUser'   => $user,
+              'village'       => $village,
+              'packets'       => $packets,
+              'activeTo'      => $activeTo,
+              'buildingsLeft' => $buildingsLeft,
+            ];
+        }
     }
 
     /**
@@ -74,7 +75,7 @@ class PacketWidget extends BaseWidget
         // Minimum widget height for other users.
         $height = '0';
         if ($user && $user->inRole('village-admin') && !$user->village->is_unlimited) {
-            $height = '4';
+            $height = '6';
         }
         return [
             'width' => '12',

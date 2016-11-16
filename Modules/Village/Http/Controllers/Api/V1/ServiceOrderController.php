@@ -2,15 +2,17 @@
 
 namespace Modules\Village\Http\Controllers\Api\V1;
 
-use Modules\Village\Entities\ServiceOrder;
 use EllipseSynergie\ApiResponse\Contracts\Response;
+use Modules\Village\Entities\ServiceOrder;
 use Modules\Village\Packback\Transformer\ServiceOrderTransformer;
 use Modules\Village\Services\SentryPaymentGateway;
+use Modules\Village\Support\Traits\MediaSave;
 use Request;
 use Validator;
 
 class ServiceOrderController extends ApiController
 {
+	use MediaSave;
     /**
      * Get all serviceCategories
      *
@@ -50,7 +52,7 @@ class ServiceOrderController extends ApiController
      */
     public function store(Request $request)
     {
-        $data = $request::only('service_id', 'perform_date', 'perform_time', 'payment_type', 'comment');
+        $data = $request::only('service_id', 'perform_date', 'perform_time', 'payment_type', 'comment', 'files');
         $data = array_merge([
             'status' => config('village.order.first_status'),
             'user_id' => $this->user()->id,
@@ -61,9 +63,10 @@ class ServiceOrderController extends ApiController
         if ($validator->fails()) {
             return $this->response->errorWrongArgs($validator->errors());
         }
-
         $serviceOrder = ServiceOrder::create($data);
-
+		if (count($data['files'])) {
+			$this->saveFiles($serviceOrder, $data['files']);
+		}
         return $this->response->withItem($serviceOrder, new ServiceOrderTransformer);
     }
 

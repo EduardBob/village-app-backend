@@ -2,11 +2,13 @@
 
 use Modules\Village\Entities\Scope\ApiScope;
 use Modules\Village\Entities\Scope\VillageAdminScope;
+use Modules\Media\Support\Traits\MediaRelation;
 
 class ServiceOrder extends AbstractOrder
 {
     use ApiScope;
     use VillageAdminScope;
+    use MediaRelation;
 
     protected $table = 'village__service_orders';
     protected $fillable = [

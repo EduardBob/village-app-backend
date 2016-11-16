@@ -2,11 +2,14 @@
 
 use Modules\Village\Entities\Scope\ApiScope;
 use Modules\Village\Entities\Scope\VillageAdminScope;
+use Modules\Media\Support\Traits\MediaRelation;
+
 
 class ProductOrder extends AbstractOrder
 {
     use ApiScope;
     use VillageAdminScope;
+    use MediaRelation;
 
     protected $table = 'village__product_orders';
     protected $fillable = ['user_id', 'product_id', 'quantity', 'comment', 'status', 'perform_date', 'perform_time', 'decline_reason', 'payment_type', 'payment_status', 'done_at'];

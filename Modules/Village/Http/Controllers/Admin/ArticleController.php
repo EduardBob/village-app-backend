@@ -241,10 +241,7 @@ class ArticleController extends AdminController
             $rules['village_id'] = 'required:village__villages,id';
             $rules['role_id'] = 'exists:roles,id';
         }
-        if (count($data['buildings'])) {
-            $rules['buildings'] = "required|exists:village__buildings,id";
-        }
-        if (!empty($data['buildings'])) {
+        if (!empty($data['buildings']) && count($data['buildings'])) {
             $rules['buildings'] = "required|exists:village__buildings,id";
         }
         if ((bool)$data['is_personal'] && $data['role_id'] == '' && empty($data['buildings'])) {

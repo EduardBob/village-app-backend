@@ -11,8 +11,8 @@ class Kernel extends ConsoleKernel {
 	 * @var array
 	 */
 	protected $commands = [
-		'App\Console\Commands\Inspire',
 		'App\Console\Commands\AutoCancelExpiredOrders',
+		'App\Console\Commands\FacilityBalance'
 	];
 
 	/**
@@ -24,8 +24,6 @@ class Kernel extends ConsoleKernel {
 	protected function schedule(Schedule $schedule)
 	{
 		$schedule->command('queue:work')->everyMinute();
-		$schedule->command('inspire')
-				 ->hourly();
+		$schedule->command('facility:check')->dailyAt('01:00');
 	}
-
 }

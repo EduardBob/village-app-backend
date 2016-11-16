@@ -33,4 +33,13 @@ return [
             },
         ],
     ],
+    'biggerThumb' => [
+      'resize' => [
+        'width' => 1080,
+        'callback' => function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        },
+      ],
+    ],
 ];

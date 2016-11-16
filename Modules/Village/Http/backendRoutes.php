@@ -373,6 +373,11 @@ $router->group(['prefix' => '/village'], function (Router $router) {
     $router->bind('tokens', function ($id) {
         return app('Modules\Village\Repositories\TokenRepository')->find($id);
     });
+    $router->group(['prefix' => 'packet'], function (Router $router) {
+        $router->post('change', ['uses' => 'PacketController@change', 'as' => 'admin.village.packet.change']);
+        $router->post('pay', ['uses' => 'PacketController@pay', 'as' => 'admin.village.packet.pay']);
+    });
+
 
 //    $router->resource('buildings', 'BuildingController', ['except' => ['show', 'index', 'create', 'store', 'edit', 'update', 'destroy'], 'names' => [
 //        'send' => 'admin.village.building.send',

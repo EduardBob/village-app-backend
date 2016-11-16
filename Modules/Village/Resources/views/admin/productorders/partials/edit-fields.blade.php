@@ -93,6 +93,15 @@
                     {!! $errors->first('decline_reason', '<span class="help-block">:message</span>') !!}
                 </div>
             </div>
+            <div class="col-sm-7">
+                @include('media::admin.fields.file-link-multiple', [
+                    'entityClass' => 'Modules\\\\Village\\\\Entities\\\\ProductOrder',
+                    'entityId' =>  @$model->id,
+                    'zone' => 'media',
+                    'mediaFiles' => @$model->files,
+                    'thumbnail' => 'biggerThumb'
+                ])
+            </div>
             <?php endif; ?>
         </div>
     </div>

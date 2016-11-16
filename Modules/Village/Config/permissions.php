@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'village.packet' => [
+       'change',
+       'pay'
+     ],
     'village.villages' => [
         'index',
         'create',
@@ -8,6 +12,7 @@ return [
         'edit',
         'update',
         'destroy',
+        'packetchange'
     ],
     'village.buildings' => [
         'index',

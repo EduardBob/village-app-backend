@@ -24,6 +24,7 @@ $router->group(['prefix' => 'v1'], function (Router $router) {
         // Ping method, used to check app connection. 
         $router->group(['prefix' => 'ping'], function (Router $router) {
             $router->get('',        ['uses' => 'V1\PingController@index', 'as' => 'village.api.ping']);
+            $router->post('sendfiles',        ['uses' => 'V1\PingController@sendfiles', 'as' => 'village.api.ping.files']);
         });
 
         // Register a facility.

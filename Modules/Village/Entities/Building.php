@@ -16,10 +16,10 @@ class Building extends Model
         return $this->belongsTo('Modules\Village\Entities\Village', 'village_id');
     }
 
-	public function __toString()
-	{
-		return (string)$this->address;
-	}
+    public function __toString()
+    {
+        return (string)$this->address;
+    }
 
     /**
      * Get all users array of village_id->role_id->user.
@@ -40,12 +40,12 @@ class Building extends Model
     protected static function boot()
     {
         parent::boot();
-
-        static::creating(function(Building $building) {
+        static::creating(function (Building $building) {
             if (!$building->code) {
                 $building->code = $building->generateCode();
             }
         });
+
     }
 
     /**

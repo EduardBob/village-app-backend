@@ -83,19 +83,28 @@
                     {!! $errors->first('decline_reason', '<span class="help-block">:message</span>') !!}
                 </div>
             </div>
-            <?php endif; ?>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">Дополнительные поля заявки на пропуск заполняемые охранником:</div>
-            <?php if (isset($model) && \Modules\Village\Entities\Service::TYPE_SC === $model->service->type): ?>
-            <div class="col-sm-4">
-                <div class="form-group{{ $errors->has('admin_comment') ? ' has-error' : '' }}">
-                    {!! Form::label('admin_comment', $admin->trans('table.admin_comment')) !!}
-                    {!! Form::textarea('admin_comment', Input::old('admin_comment', @$model->admin_comment), ['class' => 'form-control']) !!}
-                    {!! $errors->first('admin_comment', '<span class="help-block">:message</span>') !!}
-                </div>
+            <div class="col-sm-7">
+                @include('media::admin.fields.file-link-multiple', [
+                    'entityClass' => 'Modules\\\\Village\\\\Entities\\\\ServiceOrder',
+                    'entityId' =>  @$model->id,
+                    'zone' => 'media',
+                    'mediaFiles' => @$model->files,
+                    'thumbnail' => 'biggerThumb'
+                ])
             </div>
             <?php endif; ?>
         </div>
+        <?php if (isset($model) && \Modules\Village\Entities\Service::TYPE_SC === $model->service->type): ?>
+            <div class="row">
+                <div class="col-sm-12">Дополнительные поля заявки на пропуск заполняемые охранником:</div>
+                <div class="col-sm-4">
+                    <div class="form-group{{ $errors->has('admin_comment') ? ' has-error' : '' }}">
+                        {!! Form::label('admin_comment', $admin->trans('table.admin_comment')) !!}
+                        {!! Form::textarea('admin_comment', Input::old('admin_comment', @$model->admin_comment), ['class' => 'form-control']) !!}
+                        {!! $errors->first('admin_comment', '<span class="help-block">:message</span>') !!}
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
 </div>

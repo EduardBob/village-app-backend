@@ -41,6 +41,7 @@ class ServiceTransformer extends BaseTransformer
             'text' => $service->text,
             'image' => $this->getImage($service->files()->first()),
             'type' => $service->type,
+            'allow_media' => $service->allow_media
         ];
     }
 

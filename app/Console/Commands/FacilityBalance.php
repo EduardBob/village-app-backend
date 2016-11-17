@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Modules\Village\Entities\Village;
+use Illuminate\Support\Facades\Log;
 
 class FacilityBalance extends Command
 {
@@ -52,11 +53,15 @@ class FacilityBalance extends Command
                     $facility->payed_until = $payedUntil;
                     $facility->active      = 1;
                     $facility->save();
-                    $this->info('payed ' . $monthlyPayment . ' for ' . $facility->name . ' balance left is ' . $facility->balance);
+                    $message = 'payed ' . $monthlyPayment . ' for ' .$facility->id.' '. $facility->name . ' balance left is ' . $facility->balance;
+                    $this->info($message);
+                    Log::info($message);
                 } else if ($facility->active) {
                     $facility->active = 0;
                     $facility->save();
-                    $this->info('facility ' . $facility->name . ' has been deactivated');
+                    $message = 'facility ' . $facility->id.' '.$facility->name . ' has been deactivated';
+                    $this->info($message);
+                    Log::info($message);
                 }
             }
         }

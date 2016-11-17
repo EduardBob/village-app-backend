@@ -105,6 +105,13 @@
             </div>
         </div>
         <div class="col-sm-12">
+            <div class="form-group{{ $errors->has('allow_media') ? ' has-error' : '' }}">
+                {!! Form::checkbox('allow_media', (int)Input::old('allow_media', @$model->allow_media), (bool)Input::old('allow_media', @$model->allow_media), ['class' => 'flat-blue']) !!}
+                {!! Form::label('allow_media', $admin->trans('table.allow_media')) !!}
+                {!! $errors->first('allow_media', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        <div class="col-sm-12">
             <div class="form-group{{ $errors->has('active') ? ' has-error' : '' }}">
                 {!! Form::checkbox('active', (int)Input::old('active', @$model->active), (bool)Input::old('active', @$model->active), ['class' => 'flat-blue']) !!}
                 {!! Form::label('active', $admin->trans('table.active')) !!}

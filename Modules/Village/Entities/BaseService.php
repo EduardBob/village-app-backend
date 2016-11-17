@@ -15,7 +15,7 @@ class BaseService extends Model
 
     protected $fillable = [
 	    'category_id', 'title', 'price', 'active', 'text', 'comment_label', 'order_button_label', 'show_perform_time',
-	    'has_card_payment', 'is_business', 'is_shopping', 'is_cottage', 'is_apartment'
+	    'has_card_payment', 'is_business', 'is_shopping', 'is_cottage', 'is_apartment', 'allow_media'
     ];
 
 	protected $attributes = ['has_card_payment' => true];

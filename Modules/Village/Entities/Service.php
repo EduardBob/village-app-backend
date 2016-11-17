@@ -23,7 +23,7 @@ class Service extends Model
     protected $fillable = [
         'base_id', 'village_id', 'category_id', 'price', 'active', 'title', 'text',
         'comment_label', 'order_button_label', 'show_perform_time', 'order',
-	    'has_card_payment'
+	    'has_card_payment', 'allow_media'
     ];
 
 	protected $attributes = ['has_card_payment' => true];

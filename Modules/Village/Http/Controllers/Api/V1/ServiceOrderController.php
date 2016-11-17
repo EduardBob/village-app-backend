@@ -64,8 +64,11 @@ class ServiceOrderController extends ApiController
             return $this->response->errorWrongArgs($validator->errors());
         }
         $serviceOrder = ServiceOrder::create($data);
-		if (count($data['files'])) {
-			$this->saveFiles($serviceOrder, $data['files']);
+		if (is_array($data['files'])) {
+			$savedFiles = $this->saveFiles($serviceOrder, $data['files']);
+			if (!$savedFiles) {
+				return $this->response->errorInternalError('file_save_error');
+			}
 		}
         return $this->response->withItem($serviceOrder, new ServiceOrderTransformer);
     }

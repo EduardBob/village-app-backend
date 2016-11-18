@@ -95,7 +95,7 @@ class FacilityController extends VillageController
         } catch (\Exception $e) {
             // return $this->response->errorInternalError('facility_registration_error');
             // More information for debugging.
-            return $this->response->withError($e->getMessage().$e->getTrace(). 500);
+            return $this->response->withError($e->getMessage().$e->getTrace(), 500);
         }
     }
 

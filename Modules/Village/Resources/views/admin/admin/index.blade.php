@@ -96,10 +96,19 @@
     <script src="//cdn.datatables.net/buttons/1.1.2/js/buttons.html5.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.1.2/js/buttons.print.min.js"></script>
     <script src="//cdn.datatables.net/plug-ins/1.10.11/pagination/scrolling.js"></script>
+    <script type="text/javascript" src={{ URL::asset('custom/js/moment.min.js') }}></script>
     {{--<script src="//cdn.datatables.net/buttons/1.1.0/js/buttons.colVis.min.js"></script>--}}
     {{--<script src="/vendor/datatables/buttons.server-side.js"></script>--}}
 
     <script type="text/javascript">
+        $( window ).load(function(){
+            var title = $('.content-header h1').html();
+            title = title.trim();
+            $(document).on("click", '.dt-button', function(event) {
+                var momentNow = moment().format('DD_MM_YYYY_H_mm');
+                $('title').html(title+'_'+momentNow)
+            });
+        });
         $( document ).ready(function() {
             $(document).keypressAction({
                 actions: [

@@ -3,13 +3,15 @@
         @inject('roles', 'Cartalyst\Sentinel\Roles\EloquentRole')
     @endif
 
+    <?php $villages = (new Modules\Village\Entities\Village())->where('active', 1)->lists('name', 'id'); ?>
+
     <div class="row">
         @if($currentUser && $currentUser->inRole('admin'))
             <div class="col-sm-4">
                 <div class="form-group{{ $errors->has('village_id') ? ' has-error has-feedback' : '' }}">
                     {!! Form::label('village_id', trans('village::villages.form.village_id')) !!}
                     {!! Form::select(
-                            'village_id', Input::old('id', (new Modules\Village\Entities\Village)->lists('name', 'id')),
+                            'village_id', Input::old('id', $villages),
                             Input::old('village_id', @$model->village_id),
                             ['class' => 'form-control', 'placeholder' => $admin->trans('table.village_id')]
                         )

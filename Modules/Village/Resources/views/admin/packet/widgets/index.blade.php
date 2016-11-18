@@ -11,13 +11,14 @@
             <div>{{ trans('village::villages.packet.balance') }}: <b>{{ $village->balance }}</b></div>
             <div>{{ trans('village::villages.packet.left_buildings') }}: <b>{!! $buildingsLeft !!}</b></div>
             <p></p>
+            <hr/>
              <div class="row">
                 @foreach($packets as $number =>$packet)
                     <div class="col-sm-4">
                         <h4>{!! $packet['name'] !!}</h4>
                         <div>{{ trans('village::villages.packet.buildings')}}: <b>{!! $packet['buildings'] !!}</b></div>
-                        <div>{{ trans('village::villages.packet.coins_per_month')}}: <b>{!! $packet['price'] !!}</b> ({{ trans('village::villages.packet.money')}})</div>
-                        @if ($number != $village->packet && $packet['buildings'] > $buildingsLeft)
+                        <div>{{ trans('village::villages.packet.coins_per_month')}}: <b>{!! $packet['price'] !!}</b> {{ trans('village::villages.packet.money')}}</div>
+                        @if ($number != $village->packet && $packet['buildings'] >= $totalBuildings)
                             {!! Form::open(['route' => ['admin.village.packet.change'], 'method' => 'post']) !!}
                                 <input type="hidden" name="packet" value="{{$number}}" />
                                 <p></p>
@@ -30,7 +31,7 @@
                     </div>
                 @endforeach
             </div>
-
+            <hr/>
             <div class="row" style="text-align: center">
                 <h3 class="box-title">{{ trans('village::villages.packet.add_balance_title') }}</h3>
                 {!! Form::open(['route' => ['admin.village.packet.pay'], 'method' => 'post']) !!}
@@ -40,7 +41,7 @@
                         @for ($i = 1; $i <= 11; $i++)
                             <?php $discount = ($i >= 6) ? 25 : 0; ?>
                             <option discount="{{$discount}}"  value="{!! $i !!}">
-                                {{ trans('village::villages.packet.for') }} {!! $i !!} {!! trans_choice('village::villages.packet.months',  $i) !!}
+                                {!! $i !!} {!! trans_choice('village::villages.packet.months',  $i) !!}
                                 @if($discount > 0)
                                     {!! trans_choice('village::villages.packet.and_get_more',  $discount) !!}
                                 @endif

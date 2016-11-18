@@ -276,7 +276,7 @@ class VillageServiceProvider extends ServiceProvider
         });
     }
 
-    private function getStatusText(OrderInterface $order)
+    private function getStatusText(OrderInterface $order, $showRejectReason = true)
     {
         $statusTexts = array(
           $order::STATUS_DONE       => 'выполнен',
@@ -285,7 +285,7 @@ class VillageServiceProvider extends ServiceProvider
           $order::STATUS_REJECTED   => 'отклонен',
         );
         $statusText  = $statusTexts[$order->status];
-        if ($order::STATUS_REJECTED == $order->status && $order->decline_reason) {
+        if ($order::STATUS_REJECTED == $order->status && $order->decline_reason && $showRejectReason) {
             $statusText .= ' (' . $order->decline_reason . ')';
         }
         return $statusText;
@@ -297,11 +297,19 @@ class VillageServiceProvider extends ServiceProvider
      */
     private function sendClientPushOnStatusChange(Authentication $auth, OrderInterface $order)
     {
+        //Example: “13.15 : Заказ №1563 : обрабатывается (”Покос газона”.)
         $devices = $order->user->devices;
         $orderType = $order->getOrderType();
-        $messageText = date('H:i'). ': ';
-        $messageText .= 'заказ  №'.$order->id.':'.PHP_EOL;
-        $messageText .= '"'.$order->$orderType->title.'" '.$this->getStatusText($order).'.';
+        $messageText = date('H:i'). ' : ';
+        $messageText .= 'Заказ №'.$order->id.' : '.
+        $messageText .= mb_strtoupper($this->getStatusText($order, false)). ' (\"'.$order->$orderType->title.'\"';
+        if ($order::STATUS_REJECTED == $order->status && $order->decline_reason) {
+            $messageText .= ' ,' . $order->decline_reason;
+        } else {
+            $messageText .= '.';
+        }
+        $messageText .= ')';
+
         // Push notification with custom link inside app.
         $message = PushNotification::Message($messageText, array(
           'category' => '/profile/history?type='.$orderType

@@ -41,7 +41,7 @@ class FacilityController extends VillageController
         $userNames = $this->getUserNames($data['full_name']);
         $firstName = $userNames['first_name'];
         $lastName = $userNames['last_name'];
-        $data['email'] = urldecode($data['email']);
+        $data['email'] = trim(urldecode($data['email']));
 
 
         if ($validator->fails()) {

@@ -86,7 +86,7 @@ class FacilityController extends VillageController
                     }
                 }
             });
-            $this->response->setStatusCode(201);
+            $this->response->setStatusCode(200);
             $success            = [];
             $success['message'] = trans('village::villages.messages.created');
             $this->registrationNotify($user);
@@ -95,7 +95,7 @@ class FacilityController extends VillageController
         } catch (\Exception $e) {
             // return $this->response->errorInternalError('facility_registration_error');
             // More information for debugging.
-            return $this->response->withError($e->getMessage(), 500);
+            return $this->response->withError($e->getMessage().$e->getTrace(), 500);
         }
     }
 

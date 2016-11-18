@@ -44,11 +44,6 @@ class PacketWidget extends BaseWidget
             if ($village->active) {
                 $payedUntil = new Carbon($village->payed_until);
                 $activeTo .= $payedUntil->format(config('village.date.human.shorter'));
-                $now        = Carbon::now();
-                $difference = $payedUntil->diff($now)->days;
-                if ($difference <= 5) {
-                    $activeTo .= ($difference == 0) ? ' (' . trans('village::villages.packet.today') . ') ' : ' (' . trans_choice('village::villages.packet.days', $difference) . ')';
-                }
             } else {
                 $activeTo .= ' ' . trans('village::villages.packet.not_active');
             }
@@ -61,6 +56,7 @@ class PacketWidget extends BaseWidget
               'packets'       => $packets,
               'activeTo'      => $activeTo,
               'buildingsLeft' => $buildingsLeft,
+              'totalBuildings' => $totalBuildings
             ];
         }
     }

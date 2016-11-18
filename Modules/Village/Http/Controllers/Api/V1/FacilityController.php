@@ -41,7 +41,7 @@ class FacilityController extends VillageController
         $userNames = $this->getUserNames($data['full_name']);
         $firstName = $userNames['first_name'];
         $lastName = $userNames['last_name'];
-        $data['email'] = trim(urldecode($data['email']));
+        $data['email'] = htmlspecialchars_decode($data['email']);
 
 
         if ($validator->fails()) {
@@ -93,9 +93,9 @@ class FacilityController extends VillageController
             return $this->response->withArray($success);
 
         } catch (\Exception $e) {
-            // return $this->response->errorInternalError('facility_registration_error');
+            return $this->response->errorInternalError('facility_registration_error');
             // More information for debugging.
-            return $this->response->withError($e->getMessage().$e->getTrace(), 500);
+            //return $this->response->withError($e->getMessage(), 500);
         }
     }
 
@@ -114,7 +114,9 @@ class FacilityController extends VillageController
         })->get();
         $adminEmails = [];
         foreach ($globalAdministrators as $admin) {
-            $adminEmails[] = $admin->email;
+            if ($admin->email) {
+                $adminEmails[] = $admin->email;
+            }
         }
         if (count($adminEmails)) {
             $adminMessage = "Пользователь $user->email запросил тестовый доступ к сервису Консьерж $facilityName";

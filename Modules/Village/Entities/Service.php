@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Media\Support\Traits\MediaRelation;
 use Modules\Village\Entities\Scope\ApiScope;
 use Modules\Village\Entities\Scope\VillageAdminScope;
+use Modules\Village\Entities\User;
 
 class Service extends Model
 {
@@ -74,6 +75,25 @@ class Service extends Model
     public function executors()
     {
         return $this->hasMany('Modules\Village\Entities\ServiceExecutor');
+    }
+
+    /**
+     * Checks if service is Security Pass.
+     * If one of executors is from security user role, than it's a "Security Pass".
+     * @return bool
+     */
+    public function isSecurityPass()
+    {
+        if ($this->executors) {
+            foreach ($this->executors as $executor) {
+                $user = (new User())->find($executor->user_id);
+                if ($user->inRole('security')) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 
     static public function getRewriteFields()

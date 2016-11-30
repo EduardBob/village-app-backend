@@ -79,11 +79,12 @@ class SentryPaymentGateway
      * @param string $orderId
      * @param float  $amount
      * @param string $returnUrl
+     * @param string $pageView DESKTOP|MOBILE
      *
      * @throws \Exception
      * @return string
      */
-    public function generateTransaction($orderId, $amount, $returnUrl)
+    public function generateTransaction($orderId, $amount, $returnUrl, $pageView = 'MOBILE')
     {
         $amount = (float)$amount;
         $this->returnUrl = $returnUrl;
@@ -96,7 +97,7 @@ class SentryPaymentGateway
             'currency'      => $this->currency,
             'returnUrl'     => $returnUrl,
 //            'failUrl'       => $failUrl,
-            'pageView'      => 'MOBILE',
+            'pageView'      => $pageView,
         ];
 
         $url = $this->gatewayUrl.'register.do?'.http_build_query($data, null, '&', PHP_QUERY_RFC3986);

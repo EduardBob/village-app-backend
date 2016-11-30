@@ -3,6 +3,7 @@
 use Modules\Core\Http\Controllers\BasePublicController;
 use Modules\Village\Entities\ProductOrder;
 use Modules\Village\Services\SentryPaymentGateway;
+use Modules\Village\Entities\OrderInterface;
 
 class SentryPaymentController extends BasePublicController
 {
@@ -41,19 +42,34 @@ class SentryPaymentController extends BasePublicController
             }
 
             if (isset($answer['ErrorCode']) && $answer['ErrorCode'] > 0) {
-                $order->status = 'rejected';
+                $order->status = OrderInterface::STATUS_REJECTED;
                 $order->decline_reason = $answer['ErrorMessage'];
                 $order->save();
             }
             elseif (isset($answer['OrderStatus']) && 2 == $answer['OrderStatus']) {
-                $order->payment_type = 'card';
-                $order->payment_status = 'paid';
+                // Packet order is always payed with card.
+                if ($type != 'packet') {
+                    $order->payment_type = OrderInterface::PAYMENT_TYPE_CARD;
+                }
+                $order->payment_status = OrderInterface::PAYMENT_STATUS_PAID;
                 $order->save();
             }
         }
         catch(\Exception $ex) {
         }
 
-        return redirect()->away('village://profile/history');
+        if ($type == 'packet') {
+            if ($order->status == OrderInterface::STATUS_REJECTED) {
+                $rejectMessage = trans('village::villages.packet.pay_reject').' '. $answer['ErrorMessage'];
+                flash()->error($rejectMessage);
+            } else {
+                $successMessage = trans('village::villages.packet.pay_ok');
+                flash()->success($successMessage);
+            }
+            $redirect = redirect()->route('dashboard.index');
+        } else {
+            $redirect = redirect()->away('village://profile/history');
+        }
+        return $redirect;
     }
 }

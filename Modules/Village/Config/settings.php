@@ -1,5 +1,4 @@
-<?php
-use Modules\Village\Entities\Village;
+<?php use Modules\Village\Services\Packet;
 
 $settings = [
   'village-request-send-to-emails' => [
@@ -13,6 +12,7 @@ $settings = [
     'translatable' => false,
   ]
 ];
-$settings +=  Village::getSettings();
+
+$settings += Packet::getSettings();
 
 return $settings;

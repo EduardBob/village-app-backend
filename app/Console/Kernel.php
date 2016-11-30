@@ -23,7 +23,6 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('queue:work')->everyMinute();
 		$schedule->command('facility:check')->dailyAt('01:00');
 	}
 }

@@ -13,6 +13,7 @@ use Modules\Village\Entities\BaseService;
 use Modules\Village\Entities\BaseSurvey;
 use Modules\Village\Entities\Document;
 use Modules\Village\Entities\OrderInterface;
+use Modules\Village\Entities\PacketOrder;
 use Modules\Village\Entities\Product;
 use Modules\Village\Entities\ProductOrder;
 use Modules\Village\Entities\ProductOrderChange;
@@ -97,7 +98,6 @@ class VillageServiceProvider extends ServiceProvider
         ProductOrder::saved(function (ProductOrder $productOrder) use ($auth) {
             if ($productOrder->isDirty('status')) {
                 $user = $this->user($auth);
-
                 ProductOrderChange::create([
                   'order_id'    => $productOrder->id,
                   'user_id'     => $user ? $user->id : null,
@@ -169,9 +169,18 @@ class VillageServiceProvider extends ServiceProvider
                     $this->sendSmsOnProcessingOrder($auth, $serviceOrder);
                 }
                 //  Send notification to client on certain status changes.
-
                 $clientNotifyStatuses = $serviceOrder::getClientNotifyStatuses();
-                if (in_array($serviceOrder->status, $clientNotifyStatuses)) {
+                // New custom logic for security passes.
+                $isSecurityPass = $serviceOrder->service->isSecurityPass();
+                if ($isSecurityPass) {
+                    if (array_key_exists($serviceOrder::STATUS_RUNNING, $clientNotifyStatuses)) {
+                        unset($clientNotifyStatuses[$serviceOrder::STATUS_RUNNING]);
+                    }
+                    if (in_array($serviceOrder->status, $clientNotifyStatuses)) {
+                        $this->sendClientPushOnSecurityPassStatusChange($auth, $serviceOrder);
+                    }
+                }
+                if (in_array($serviceOrder->status, $clientNotifyStatuses) && !$isSecurityPass) {
                     $this->sendClientMailOnStatusChange($auth, $serviceOrder);
                     $this->sendClientSmsOnStatusChange($auth, $serviceOrder);
                     $this->sendClientPushOnStatusChange($auth, $serviceOrder);
@@ -179,6 +188,39 @@ class VillageServiceProvider extends ServiceProvider
 
             }
         });
+
+        // Update village balance if payment is ok.
+        PacketOrder::saved(function (PacketOrder $packetOrder) {
+            if ($packetOrder->isDirty('payment_status') && $packetOrder->payment_status ==  OrderInterface::PAYMENT_STATUS_PAID) {
+                $packetOrder->status =  OrderInterface::STATUS_DONE;
+                $village = $packetOrder->village;
+                $village->balance += $packetOrder->coins;
+                $village->save();
+                $packetOrder->save();
+
+            }
+        });
+
+        PacketOrder::created(function (PacketOrder $packetOrder) {
+            $payment = new SentryPaymentGateway();
+            $orderId = $packetOrder->getOrderNameForCardPayment();
+            try {
+                $transactionId = $payment
+                  ->generateTransaction(
+                    $orderId,
+                    $packetOrder->price,
+                    route('sentry.payment.process', [], true),
+                    'DESKTOP'
+                  );
+                $packetOrder->transaction_id = $transactionId;
+                $packetOrder->save();
+            } catch (\Exception $ex) {
+                $packetOrder->status         = $packetOrder::STATUS_REJECTED;
+                $packetOrder->decline_reason = $ex->getMessage();
+                $packetOrder->save();
+            }
+        });
+
         // Create a queue job for sending push-notifications about important and personal articles.
         Article::saved(function (Article $article) use ($auth) {
             if ($article->active && ($article->is_important || $article->is_personal) && (strtotime($article->published_at) < time())) {
@@ -279,10 +321,10 @@ class VillageServiceProvider extends ServiceProvider
     private function getStatusText(OrderInterface $order, $showRejectReason = true)
     {
         $statusTexts = array(
-          $order::STATUS_DONE       => 'выполнен',
-          $order::STATUS_RUNNING    => 'обрабатывается',
-          $order::STATUS_PROCESSING => 'был принят в работу',
-          $order::STATUS_REJECTED   => 'отклонен',
+          $order::STATUS_DONE       => trans('village::villages.orders.'.$order::STATUS_DONE),
+          $order::STATUS_RUNNING    => trans('village::villages.orders.'.$order::STATUS_RUNNING),
+          $order::STATUS_PROCESSING => trans('village::villages.orders.'.$order::STATUS_PROCESSING),
+          $order::STATUS_REJECTED   => trans('village::villages.orders.'.$order::STATUS_REJECTED),
         );
         $statusText  = $statusTexts[$order->status];
         if ($order::STATUS_REJECTED == $order->status && $order->decline_reason && $showRejectReason) {
@@ -297,18 +339,55 @@ class VillageServiceProvider extends ServiceProvider
      */
     private function sendClientPushOnStatusChange(Authentication $auth, OrderInterface $order)
     {
+
         //Example: “13.15 : Заказ №1563 : обрабатывается (”Покос газона”.)
         $devices = $order->user->devices;
         $orderType = $order->getOrderType();
         $messageText = date('H:i'). ' : ';
-        $messageText .= 'Заказ №'.$order->id.' : '.
-        $messageText .= mb_strtoupper($this->getStatusText($order, false)). ' (\"'.$order->$orderType->title.'\"';
+        $messageText .= trans('village::villages.orders.order_number').$order->id.' : ';
+        $messageText .= mb_strtoupper($this->getStatusText($order, false)). ' ("'.$order->$orderType->title.'"';
         if ($order::STATUS_REJECTED == $order->status && $order->decline_reason) {
-            $messageText .= ' ,' . $order->decline_reason;
+            $messageText .= ', ' . $order->decline_reason;
         } else {
             $messageText .= '.';
         }
         $messageText .= ')';
+
+        // Push notification with custom link inside app.
+        $message = PushNotification::Message($messageText, array(
+          'category' => '/profile/history?type='.$orderType,
+        ));
+        foreach ($devices as $device) {
+            PushNotification::app($device->type)
+                            ->to($device->token)
+                            ->send($message);
+        }
+    }
+
+    /**
+     * @param Authentication $auth
+     * @param OrderInterface $order
+     */
+    private function sendClientPushOnSecurityPassStatusChange(Authentication $auth, OrderInterface $order)
+    {
+
+        //Сообщение: %время_завершения_заказа_пропуска%:  %заметка_покупателя% прошел/заехал.
+        //
+        $devices = $order->user->devices;
+        $orderType = $order->getOrderType();
+        $messageText = date('H:i'). ' : ';
+//        $messageText .= 'Заказ №'.$order->id.' : '.
+        if(mb_strlen($order->comment))
+        {
+            $messageText .= $order->comment .' ';
+        }
+        if($order->status == $order::STATUS_DONE)
+        {
+            $messageText .=  trans('village::villages.orders.security_done');
+        }
+        if ($order::STATUS_REJECTED == $order->status && $order->decline_reason) {
+            $messageText .= ' '.mb_strtoupper($this->getStatusText($order, true));
+        }
 
         // Push notification with custom link inside app.
         $message = PushNotification::Message($messageText, array(
@@ -341,7 +420,7 @@ class VillageServiceProvider extends ServiceProvider
             $statusText = ' ' . $this->getStatusText($order);
             $text       = strtr($format, [
                 // 'user.full_name'        => 'Уважаемый, '.@$order->user->present()->fullname(),
-              'order.completed' => 'Ваш заказ №' . @$order->id . $statusText,
+              'order.completed' => trans('village::villages.orders.your_order_number') . @$order->id . $statusText,
               'village.name'    => @$order->village->name,
               'service.name'    => @$order->{$type}->title
             ]);
@@ -390,7 +469,7 @@ class VillageServiceProvider extends ServiceProvider
                   $toEmails = array_map('trim', $toEmails);
                   $m
                     ->to($toEmails)
-                    ->subject('Ваш заказ №' . $order->id . ' был обновлен.');
+                    ->subject(trans('village::villages.orders.order_number') . $order->id . ' '.trans('village::villages.orders.updated').'.');
               }
             );
         }
@@ -447,7 +526,7 @@ class VillageServiceProvider extends ServiceProvider
               $toEmails = array_map('trim', $toEmails);
               $m
                 ->to($toEmails)
-                ->subject('Новый заказ - ' . $order->village->name . ' ' . $order->created_at->format('d-m-Y H:i:s') . '.');
+                ->subject(trans('village::villages.orders.new_order'),' - ' . $order->village->name . ' ' . $order->created_at->format('d-m-Y H:i:s') . '.');
           }
         );
     }

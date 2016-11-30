@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Village\Entities\OrderInterface;
 use Modules\Village\Entities\ProductOrder;
 use Modules\Village\Entities\ServiceOrder;
+use Modules\Village\Entities\PacketOrder;
 
 class AutoCancelExpiredOrders extends Command
 {
@@ -77,6 +78,21 @@ class AutoCancelExpiredOrders extends Command
 		    }
 	    }
 
-	    $this->info("Syncing good");
+		$orders = PacketOrder
+		::where('transaction_id', '!=', '')
+		->where('status', OrderInterface::STATUS_PROCESSING)
+		->where('payment_status', OrderInterface::PAYMENT_STATUS_NOT_PAID)
+		->where('created_at', '<=', $date)
+		->get()
+		;
+		if (count($orders)) {
+			/** @var Model $order */
+			foreach($orders as $order) {
+				$order->status = OrderInterface::STATUS_REJECTED;
+				$order->save();
+			}
+		}
+
+		$this->info("Syncing good");
     }
 }

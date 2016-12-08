@@ -1,3 +1,7 @@
+<?php
+// Temporary hide landing.
+die();
+?>
 @extends('layouts.master')
 
 @section('title')

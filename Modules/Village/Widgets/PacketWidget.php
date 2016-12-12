@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Modules\Core\Contracts\Authentication;
 use Modules\Dashboard\Foundation\Widgets\BaseWidget;
 use Modules\Village\Entities\Village;
+use Modules\Village\Services\Packet;
 
 class PacketWidget extends BaseWidget
 {
@@ -38,7 +39,9 @@ class PacketWidget extends BaseWidget
     {
         $user = $this->auth->check();
         if($user && $village = $user->village){
-            $packets = $village->getVillagePackets();
+
+            $packets = (new Packet())->getListByType($village->type, $village->packet);
+
             $activeTo = '';
 
             if ($village->active) {

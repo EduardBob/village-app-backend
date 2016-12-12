@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Village\Entities\Scope\ApiScope;
+use Modules\Village\Services\Packet;
 
 
 class Village extends AbstractFacility
@@ -10,7 +11,6 @@ class Village extends AbstractFacility
     use SoftDeletes;
     use ApiScope;
     protected $table = 'village__villages';
-
     protected $dates = ['deleted_at'];
 
 
@@ -29,39 +29,13 @@ class Village extends AbstractFacility
             return false;
         }
 
-        $packet              = [];
-        $packet['name']      = '№' . $this->packet . ' ' . setting('village::village-' . $this->type . '-' . $this->packet . '-name');
-        $packet['price']     = setting('village::village-' . $this->type . '-' . $this->packet . '-price');
-        $packet['buildings'] = setting('village::village-' . $this->type . '-' . $this->packet . '-buildings');
-        $packet['balance'] = $this->balance;
-
-        return $packet;
+        return (new Packet())->getCurrent($this);
     }
 
     public function getPackets()
     {
         $type = $this->type;
-
-        $packets = [];
-        for ($i = 1; $i <= env('VILLAGE_NUMBER_PACKETS'); $i++) {
-            $packets[$i] = '№'.$i.' '.setting('village::village-' . $type . '-' . $i . '-name');
-        }
-        return $packets;
-
-    }
-
-    public function getVillagePackets()
-    {
-        $type    = $this->type;
-        $packets = [];
-        for ($i = 1; $i <= env('VILLAGE_NUMBER_PACKETS'); $i++) {
-            $packets[$i]['name']      = '№' . $i . ' ' . setting('village::village-' . $type . '-' . $i . '-name');
-            $packets[$i]['buildings'] = setting('village::village-' . $type . '-' . $i . '-buildings');
-            $packets[$i]['price']     = setting('village::village-' . $type . '-' . $i . '-price');
-            $packets[$i]['current']   = ($this->packet == $i) ? true : false;
-        }
-        return $packets;
-
+        return (new Packet())->getByType($type);
     }
 
     public function setPayedUntilAttribute($value)
@@ -101,7 +75,7 @@ class Village extends AbstractFacility
 
     static public function getUnitStepByVillage(Village $village, $unitTitle)
     {
-        $field = 'product_unit_step_'.$unitTitle;
+        $field = 'product_unit_step_' . $unitTitle;
 
         return $village->$field;
     }

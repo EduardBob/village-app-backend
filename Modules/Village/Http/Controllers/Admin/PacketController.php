@@ -4,9 +4,13 @@
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Modules\Core\Contracts\Authentication;
+use Modules\Village\Entities\PacketOrder;
+use Modules\Village\Services\Packet;
+use Modules\Village\Services\SentryPaymentGateway;
 
-class PacketController extends  AdminController
+class PacketController extends AdminController
 {
+
     /**
      * @var Authentication
      */
@@ -25,22 +29,46 @@ class PacketController extends  AdminController
     {
     }
 
-    // TODO integrate payment here.
     public function pay(Request $request)
     {
-        flash()->success('In progress');
-        return redirect()->route('dashboard.index');
+        if ($user = $this->auth->check()) {
+            $order = new PacketOrder();
+            $order->village()->associate($user->village);
+            $order->user()->associate($user);
+            $order->packet = (int)$request->get('packet');
+            $order->period = (int)$request->get('period');
+            $this->calculatePrice($order);
+            $order->save();
+            $order->fresh();
+            $payment = new SentryPaymentGateway();
+            $link    = $payment->generateTransactionUrl($order->transaction_id, 'DESKTOP');
+
+            return redirect($link);
+        }
     }
+
+    private function calculatePrice(PacketOrder &$order)
+    {
+        $packetService = new Packet();
+        $type          = $order->village->type;
+        $packet        = $order->packet;
+        $period        = $order->period;
+        $order->price  = $packetService->getCurrencyPrice($type, $packet, $period);
+        $order->coins  = $packetService->getCoinsPrice($type, $packet, $period);
+        return $order;
+    }
+
     /**
      * @param  Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function change(Request $request)
     {
         $user           = $this->auth->check();
         $village        = $user->village;
-        $packets        = $village->getVillagePackets();
-        $packetSelected = (int)trim($request->get('packet'));
+        $packetSelected = (int) trim($request->get('packet'));
+        $packets        = (new Packet())->getListByType($village->type, $packetSelected);
         if (!array_key_exists($packetSelected, $packets)) {
             flash()->error(trans('village::villages.packet.chose_error'));
             return redirect()->route('dashboard.index');

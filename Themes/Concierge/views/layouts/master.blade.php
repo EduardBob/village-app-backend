@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="language-switcher clearfix hide">
                                     <select class="chosen-select-no-single">
-                                        <option>РУ</option>
+                                        <option>Ру</option>
                                         <option>Md</option>
                                         <option>En</option>
                                     </select>
@@ -113,7 +113,7 @@
                                         <div class="form-group">
                                             <select name="type" class="facility-type"  required="required">
                                                 @foreach ($facilityTypes as $type)
-                                                   <option value="{!! $type !!}">{!!  trans('village::villages.type.'.$type) !!}</option>
+                                                    <option value="{!! $type !!}">{!!  trans('village::villages.type.'.$type) !!}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -131,6 +131,8 @@
                 </div>
             </div>
             <div class="owl-carousel">
+
+                <!--Slide 1 start-->
                 <div class="item slider-img">
                     <div class="container">
                         <div class="row">
@@ -145,34 +147,59 @@
                         </div>
                     </div>
                 </div>
+                <!--Slide 1 end-->
+
+                <!--Slide 2 start-->
                 <div class="item slider-img">
                     <div class="container">
                         <div class="row">
                             <div class="slider-content">
                                 <div class="col-md-6 col-sm-12">
                                     <div class="slider-description">
-                                        <h3>Мы делаем жизнь проще!</h3>
-                                        <p>Забудьте о проблемах и недовольстве клиентов. Моментальный отклик на заявки и оперативный менеджмент объекта в один клик</p>
+                                        <h3>Бюрократия в прошлом!</h3>
+                                        <p>Все документы, счета, показания и квитанции всегда под рукой с возможностью отправки через E-mail в одно касание.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!--Slide 2 end-->
+
+                <!--Slide 3 start-->
                 <div class="item slider-img">
                     <div class="container">
                         <div class="row">
                             <div class="slider-content">
                                 <div class="col-md-6 col-sm-12">
                                     <div class="slider-description">
-                                        <h3>Мы делаем жизнь проще!</h3>
-                                        <p>Забудьте о проблемах и недовольстве клиентов. Моментальный отклик на заявки и оперативный менеджмент объекта в один клик</p>
+                                        <h3>Продвигайте услуги сегодня!</h3>
+                                        <p>Продажа товаров, оказание услуг и оперативная поддержка для жильцов и клиентов. Увеличение доходности и расширение бизнеса сейчас.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!--Slide 3 end-->
+
+                <!--Slide 4 start-->
+                <div class="item slider-img">
+                    <div class="container">
+                        <div class="row">
+                            <div class="slider-content">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="slider-description">
+                                        <h3>Новый уровень поддержки!</h3>
+                                        <p>Оказание помощи, ответы на вопросы пользователей, оперативный менеджмент ресурсов, а также новый уровень предоставления услуг вместе с сервисом Консьерж!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Slide 4 end-->
+
             </div>
         </div>
     </header>
@@ -180,11 +207,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
+                    <!--General text start-->
                     <div class="headline">
                         <h3>Консьерж для Вашего бизнеса</h3>
-                        <p>Посмотрите на то, чем торгуют люди, пройдите по городу и досмотрите, что продается: наряды и предметы для объядения. Они с полчаса как кончили работу, так что в этот день мы могли сидеть только пустые каморы. Несмотря на открытые
-                            с двух сторон ворота, в каморе был тяжелый запах теплой крови, пол был весь коричневый, глянцовитый и в углублениях пола стояла сгущающаяся черная кровь.</p>
+                        <p>Хотите сделать управление своим бизнесом или недвижимостью удобнее? Сервис “Консьерж” станет вашим незаменимым помощником. Всего несколько кликов и полный оперативный контроль ресурсов Бизнес-Центра, Жилого Комплекса, Торгового Центра или Коттеджного Посёлка у Вас в руках. Мониторинг текущей обстановки, общение с клиентами и оперативная поддержка, оказание услуг и продажа товаров в режиме онлайн. “Консьерж” - смарт-решения уже сегодня!</p>
                     </div>
+                    <!-- General text end-->
                 </div>
             </div>
             <div class="row">
@@ -235,28 +263,27 @@
                                 <div class="right-block js-equal-height">
                                     <div class="card-open-headline">
                                         <h3>Смарт-Офис - нет ничего проще!</h3>
-                                        <p>Предоставление услуг высшего качества, оперативная связь с арендаторами, удобный инструмент для мониторинга общественного мнения, а также удобная доставка новостей и счетов клиентам в удобном формате. Лучшее
-                                            all-in-one решение для бизнес-центров вместе с сервисом "Консьерж".</p>
+                                        <p>Предоставление услуг высшего качества, оперативная связь с арендаторами, удобный инструмент для мониторинга общественного мнения, а также удобная доставка новостей и счетов клиентам в удобном формате. Лучшее all-in-one решение для бизнес-центров вместе с сервисом "Консьерж".</p>
                                     </div>
                                     <div class="card-open-advantages">
                                         <h3>Преимущества</h3>
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="advantages-block"><i class="icon-grafic sprite"></i>
-                                                    <h4>Качество</h4>
-                                                    <p>А между тем так же, как первое условие доброй жизни есть воздержание, так и первое условие воздержанной жизни.</p>
+                                                    <h4>Оперативная поддержка</h4>
+                                                    <p>Возможность оказания мгновенной поддержки пользователям бизнес-центров от малых офисов до бизнес-парков.</p>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="advantages-block"><i class="icon-tree sprite"></i>
-                                                    <h4>Контроль персонала</h4>
-                                                    <p>А между тем так же, как первое условие доброй жизни есть воздержание, так и первое условие воздержанной жизни.</p>
+                                                    <h4>Управление услугами</h4>
+                                                    <p>Предоставляйте широкий спектр услуг всех видов через удобный мобильный клиент. Всё гениальное просто!</p>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="advantages-block"><i class="icon-sheet sprite"></i>
-                                                    <h4>Управление услугами</h4>
-                                                    <p>А между тем так же, как первое условие доброй жизни есть воздержание, так и первое условие воздержанной жизни.</p>
+                                                    <h4>Контроль под рукой</h4>
+                                                    <p>Быстрая связь с обслуживающим персоналом, сотрудниками и исполнителями. Удобная система оповещений и заявок.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -289,7 +316,7 @@
                                 </div>
                                 <div class="content-wrap clearfix">
                                     <h4>Удобный интерфейс</h4>
-                                    <p>Looking cautiously round, to ascertain that they were not overheard, the two hags cowered nearer to the fire, and chuckled heartily.</p>
+                                    <p>Всё гениальное просто! Удобный и лаконичный интерфейс, максимальная прозрачность функциональности и удобство без границ.</p>
                                 </div>
                             </div>
                         </div>
@@ -301,7 +328,7 @@
                                 </div>
                                 <div class="content-wrap clearfix">
                                     <h4>Онлайн заявки</h4>
-                                    <p>Looking cautiously round, to ascertain that they were not overheard, the two hags cowered nearer to the fire, and chuckled heartily.</p>
+                                    <p>Принимайте, реализуйте и завершайте заявки на услуги и товары в один клик. Удобный административный интерфейс к вашим услугам.</p>
                                 </div>
                             </div>
                         </div>
@@ -312,8 +339,8 @@
                                 <div class="icon-wrap"><i class="icon-phone sprite"></i>
                                 </div>
                                 <div class="content-wrap clearfix">
-                                    <h4>Уведомления</h4>
-                                    <p>Looking cautiously round, to ascertain that they were not overheard, the two hags cowered nearer to the fire, and chuckled heartily.</p>
+                                    <h4>Персональные уведомления</h4>
+                                    <p>Не упускайте ни единой новости, документа или заявки. Гибкий механизм персонализированных оповещений для клиентов, администраторов и исполнителей.</p>
                                 </div>
                             </div>
                         </div>
@@ -325,7 +352,7 @@
                                 </div>
                                 <div class="content-wrap clearfix">
                                     <h4>Гибкая настройка</h4>
-                                    <p>Looking cautiously round, to ascertain that they were not overheard, the two hags cowered nearer to the fire, and chuckled heartily.</p>
+                                    <p>Удобная, функциональная и гибкая в возможностях административная панель - персонализация нового уровня. Будущее уже сейчас.</p>
                                 </div>
                             </div>
                         </div>
@@ -337,7 +364,7 @@
                                 </div>
                                 <div class="content-wrap clearfix">
                                     <h4>Заказ товара онлайн</h4>
-                                    <p>Looking cautiously round, to ascertain that they were not overheard, the two hags cowered nearer to the fire, and chuckled heartily.</p>
+                                    <p>Один клик до заказа товара или услуги. Удобная доставка, оплата онлайн и возможность получать всё с максимальным комфортом.</p>
                                 </div>
                             </div>
                         </div>
@@ -349,7 +376,7 @@
                                 </div>
                                 <div class="content-wrap clearfix">
                                     <h4>Подробная статистика</h4>
-                                    <p>Looking cautiously round, to ascertain that they were not overheard, the two hags cowered nearer to the fire, and chuckled heartily.</p>
+                                    <p>Получайте данные о заказах, предоставляемых услугах, покупках и откликах на заявки жильцов и клиентов в режиме реального времени.</p>
                                 </div>
                             </div>
                         </div>
@@ -361,31 +388,27 @@
                     <div class="btn-wrapper"><a href="#" class="btn-white btn-advantages-open">Узнать больше</a>
                     </div>
                     <div class="advantages-open animated fadeInDown">
-                        <h3>Ваши клиенты всегда будут довольны</h3>
-                        <p>А между тем так же, как первое условие доброй жизни есть воздержание, так и первое условие воздержанной жизни есть пост. Нельзя не радоваться этому так же, как не могли бы не радоваться люди, стремившиеся войти на верх дома
-                            и прежде беспорядочно и тщетно лезшие с разных сторон прямо на стены, когда бы они стали сходиться, наконец, к первой ступени лестницы и все бы теснились у нее, зная, что хода на верх не может быть помимо этой первой ступени
-                            лестницы.</p>
-                        <p>А между тем так же, как первое условие доброй жизни есть воздержание, так и первое условие воздержанной жизни есть пост. Нельзя не радоваться этому так же, как не могли бы не радоваться люди, стремившиеся войти на верх дома
-                            и прежде беспорядочно и тщетно лезшие с разных сторон прямо на стены, когда бы они стали сходиться, наконец, к первой ступени лестницы и все бы теснились у нее, зная, что хода на верх не может быть помимо этой первой ступени
-                            лестницы.</p>
-                        <h3>Другие причины для использования Консьержа</h3>
+                        <h3>Сервис "Консьерж" - будущее сегодня</h3>
+                        <p>А между тем так же, как первое условие доброй жизни есть воздержание, так и первое условие воздержанной жизни есть пост. Нельзя не радоваться этому так же, как не могли бы не радоваться люди, стремившиеся войти на верх дома и прежде беспорядочно и тщетно лезшие с разных сторон прямо на стены, когда бы они стали сходиться, наконец, к первой ступени лестницы и все бы теснились у нее, зная, что хода на верх не может быть помимо этой первой ступени лестницы.</p>
+                        <p>А между тем так же, как первое условие доброй жизни есть воздержание, так и первое условие воздержанной жизни есть пост. Нельзя не радоваться этому так же, как не могли бы не радоваться люди, стремившиеся войти на верх дома и прежде беспорядочно и тщетно лезшие с разных сторон прямо на стены, когда бы они стали сходиться, наконец, к первой ступени лестницы и все бы теснились у нее, зная, что хода на верх не может быть помимо этой первой ступени лестницы.</p>
+                        <h3>Ключевые преимущества сервиса "Консьерж"</h3>
                         <div class="row">
                             <div class="col-md-6">
                                 <ul>
-                                    <li>А между тем так же, как первое условие доброй жизни есть воздержание;</li>
-                                    <li>Так и первое условие воздержанной жизни есть пост;</li>
-                                    <li>Нельзя не радоваться этому так же, как не могли бы не радоваться люди;</li>
-                                    <li>Стремившиеся войти на верх дома и прежде беспорядочно;</li>
-                                    <li>И тщетно лезшие с разных сторон прямо на стены</li>
+                                    <li>Скорость и удобство менеджмента и мониторинга объектов;</li>
+                                    <li>Возможность расширения спектра предоставляемых услуг;</li>
+                                    <li>Информационный портал: лента новостей, документы, опросы;</li>
+                                    <li>Гибкий и функциональный веб-интерфейс администрирования;</li>
+                                    <li>Электронный документооборот для пользователей;</li>
                                 </ul>
                             </div>
                             <div class="col-md-6">
                                 <ul>
-                                    <li>А между тем так же, как первое условие доброй жизни есть воздержание;</li>
-                                    <li>Так и первое условие воздержанной жизни есть пост;</li>
-                                    <li>Нельзя не радоваться этому так же, как не могли бы не радоваться люди;</li>
-                                    <li>Стремившиеся войти на верх дома и прежде беспорядочно;</li>
-                                    <li>И тщетно лезшие с разных сторон прямо на стены</li>
+                                    <li>Механизмы быстрого взаимодействия с арендаторами и жильцами;</li>
+                                    <li>Интегрированный доступ к системам умного дома из приложения;</li>
+                                    <li>Персональные уведомления для пользователей и исполнителей;</li>
+                                    <li>Перспективная возможность интеграции с популярными CRM;</li>
+                                    <li>Поддержка, обновления и постоянное расширение возможностей;</li>
                                 </ul>
                             </div>
                         </div>
@@ -427,24 +450,24 @@
                             <div class="icon-wrap"><i class="chart sprite"></i>
                             </div>
                             <div class="content-wrap clearfix">
-                                <h4>Следите за всеми событиями</h4>
-                                <p>Whether you want to create a blog, eCommerce store, portfolio, or all of the above, you can express your idea with a website powered by our elegant yet intuitive platform.</p>
+                                <h4>Следите за событиями</h4>
+                                <p>Оставайтесь в курсе новостей, услуг, объявлений и опросов благодаря сервису "Консьерж". Удобство и гибкая функциональность в вашем смарт-устройстве.</p>
                             </div>
                         </div>
                         <div class="item-wrap">
                             <div class="icon-wrap"><i class="chart sprite"></i>
                             </div>
                             <div class="content-wrap clearfix">
-                                <h4>Подробный профиль</h4>
-                                <p>From goods to services, every business needs a space online to bring in customers.</p>
+                                <h4>Решение "всё в одном"</h4>
+                                <p>От товаров и услуг, до экстренной помощи и поддержки администрации в режиме онлайн.</p>
                             </div>
                         </div>
                         <div class="item-wrap">
                             <div class="icon-wrap"><i class="chart sprite"></i>
                             </div>
                             <div class="content-wrap clearfix">
-                                <h4>Делайте пометки</h4>
-                                <p>An artist should always have control over their creative process.</p>
+                                <h4>Документы под рукой</h4>
+                                <p>Счета, квитанции, справки и любые другие документы в удобном доступе и всегда под рукой.</p>
                             </div>
                         </div>
                     </div>
@@ -459,7 +482,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h2>Присоединяйтесь</h2>
-                    <p>Уже на данный момент нашими услугами пользуется около 50 000 пользователей. Станьте частью нашего большого сообщества.</p>
+                    <p>Услугами сервиса Консьерж на данный момент нашими услугами пользуется более 1 000 пользователей. Станьте частью нашего большого сообщества.</p>
                     <div class="btn-wrapper"><a href="#home" class="btn-main">ПОЛУЧИТЬ ДОСТУП</a>
                     </div>
                 </div>
@@ -489,7 +512,7 @@
                                     <div class="rates-info"><i></i>
                                         <p>200</p>
                                     </div>
-                                    <p class="rates-user">Система поддерживающая 200 пользователей</p>
+                                    <p class="rates-user">Система поддерживающая до 200 адресов</p>
                                     <p class="rates-price"><span>1599</span>/месяц</p>
                                 </div>
                             </div>
@@ -503,7 +526,7 @@
                                     <div class="rates-info"><i></i>
                                         <p>200</p>
                                     </div>
-                                    <p class="rates-user">Система поддерживающая 200 пользователей</p>
+                                    <p class="rates-user">Система поддерживающая до 200 адресов</p>
                                     <p class="rates-price"><span>1599</span>/месяц</p>
                                 </div>
                             </div>
@@ -517,7 +540,7 @@
                                     <div class="rates-info"><i></i>
                                         <p>200</p>
                                     </div>
-                                    <p class="rates-user">Система поддерживающая 200 пользователей</p>
+                                    <p class="rates-user">Система поддерживающая до 200 адресов</p>
                                     <p class="rates-price"><span>1599</span>/месяц</p>
                                 </div>
                             </div>
@@ -531,7 +554,7 @@
                                     <div class="rates-info"><i></i>
                                         <p>200</p>
                                     </div>
-                                    <p class="rates-user">Система поддерживающая 200 пользователей</p>
+                                    <p class="rates-user">Система поддерживающая до 200 адресов</p>
                                     <p class="rates-price"><span>1599</span>/месяц</p>
                                 </div>
                             </div>
@@ -563,26 +586,20 @@
                     <div class="reviews-card-wrap">
                         <div class="reviews-card active"><p class="reviews-description">Консьерж помог нашему бизнес-центру
                                 качественно улучшить уровень предоставляемых услуг!</p><h5 class="reviews-name">Геннадий
-                                Волыгин1</h5>
+                                Волыгин</h5>
                             <p class="reviews-position">управляющий БЦ “Сити-Люкс”</p>
                             <div class="reviews-img"><img src="{!! $themeUrl !!}/images/reviews-img.png"/></div>
                         </div>
-                        <div class="reviews-card"><p class="reviews-description">Консьерж помог нашему бизнес-центру
-                                качественно улучшить уровень предоставляемых услуг!</p><h5 class="reviews-name">Вася
-                                Пупкин</h5>
-                            <p class="reviews-position">управляющий БЦ “Сити-Люкс”</p>
+                        <div class="reviews-card"><p class="reviews-description">Консьерж стал универсальным решением для управления услугами, персоналом и процессом аренды площадей.</p><h5 class="reviews-name">Андрей Аксёнов</h5>
+                            <p class="reviews-position">директор ТЦ "Галерея"</p>
                             <div class="reviews-img"><img src="{!! $themeUrl !!}/images/reviews-img.png"/></div>
                         </div>
-                        <div class="reviews-card"><p class="reviews-description">Консьерж помог нашему бизнес-центру
-                                качественно улучшить уровень предоставляемых услуг!</p><h5 class="reviews-name">Илья
-                                муромец</h5>
-                            <p class="reviews-position">управляющий БЦ “Сити-Люкс”</p>
+                        <div class="reviews-card"><p class="reviews-description">Консьерж помог избавиться от бумажной волокиты и качественно повысит уровень коммуникаций с жильцами. Отлично!</p><h5 class="reviews-name">Николай Дергачёв</h5>
+                            <p class="reviews-position">застроищик ЖК "Перспектива"</p>
                             <div class="reviews-img"><img src="{!! $themeUrl !!}/images/reviews-img.png"/></div>
                         </div>
-                        <div class="reviews-card"><p class="reviews-description">Консьерж помог нашему бизнес-центру
-                                качественно улучшить уровень предоставляемых услуг!</p><h5 class="reviews-name">Добрыня
-                                Никитич</h5>
-                            <p class="reviews-position">управляющий БЦ “Сити-Люкс”</p>
+                        <div class="reviews-card"><p class="reviews-description">Благодаря внедрению Консьержа нам удалось поднять уровень предоставляемых услуг и поднять популярность бизнес-центра.</p><h5 class="reviews-name">Михаил Антонов</h5>
+                            <p class="reviews-position">владелец БЦ "NextCore"</p>
                             <div class="reviews-img"><img src="{!! $themeUrl !!}/images/reviews-img.png"/></div>
                         </div>
                     </div>
@@ -697,11 +714,11 @@
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="cotacts-wrapper"><h5>ООО "Консьерж"</h5>
-                        <p class="adress">188367, г. Москва,<br> ул. Новый Арбат 20, офис 100</p>
+                    <div class="cotacts-wrapper"><h5>ООО "Е-Центр"</h5>
+                        <p class="adress">108811, г. Москва,<br>Киевское шоссе, д. 1 БП "Румянцево", корпус "Г"</p>
                         <a href="tel:+74957317437" class="phone">+7 (495) 731-74-37</a>
-                        <a href="mailto:info@concierge.app" class="email">info@concierge.app</a>
-                        <p class="metro">"Арбатская 3, 4", "Смоленская 3, 4"</p>
+                        <a href="mailto:concierge@concierge.promo" class="email">concierge@concierge.promo</a>
+                        <p class="metro">"Тропарёво"</p>
                         <div class="btn-wrapper">
                             <a href="#" data-popup-link="map" class="btn-white">Открыть карту</a>
                         </div>
@@ -719,9 +736,9 @@
 <!--
 CMS front page commented at the moment.
 @include('partials.navigation')
-<div class="container">
-    @yield('content')
-</div> -->
+        <div class="container">
+            @yield('content')
+        </div> -->
 @include('partials.footer')
 @include('partials.popups')
 {!! Theme::script('js/libs/jquery-1.11.2.min.js') !!}

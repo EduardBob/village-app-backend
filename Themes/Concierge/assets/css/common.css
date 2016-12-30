@@ -24,3 +24,48 @@ span.error, .help-block{
     background: none;
     border: none;
 }
+.clients{
+    display: none;
+}
+.header-slider #slider2 {
+    background: url(../images/slider-item-2.jpg) no-repeat;
+    background-size: 100%;
+}
+.header-slider #slider3 {
+    background: url(../images/slider-item-3.jpg) repeat;
+}
+.header-slider #slider4 {
+    background: url(../images/slider-item-4.png) repeat;
+}
+
+#card2 .left-block{
+
+    background: url(../images/panel-img-open-3.png) repeat;
+    background-size: cover;
+}
+#card3 .left-block{
+
+    background: url(../images/panel-img-open-2.png) repeat;
+    background-size: cover;
+}
+
+#card4 .left-block{
+    background: url(../images/panel-img-open-4.png) no-repeat;
+    background-size: cover;
+}
+#info{
+    padding-bottom: 0px;
+}
+#card1 .left-block
+{
+    background: url(../images/panel-img-1.png) no-repeat;
+    background-size: cover;
+}
+
+
+@media (min-width: 992px) {
+    .slider-content .col-md-6.col-sm-12 {
+        width: 44%;
+    }
+}
+

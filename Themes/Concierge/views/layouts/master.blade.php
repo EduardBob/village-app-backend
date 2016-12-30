@@ -37,9 +37,28 @@
     {!! Theme::style('css/main.css') !!}
     {!! Theme::style('css/common.css') !!}
     <?php $themeUrl =  Theme::url(); ?>
-    <?php $facilityTypes = \Modules\Village\Entities\AbstractFacility::getTypes()?>
+    <?php
+    $facilityTypes = \Modules\Village\Entities\AbstractFacility::getTypes();
+            var_dump($facilityTypes);
+    $packets = new \Modules\Village\Services\Packet();
+   $sett =  $packets->getSettings();
+      //  var_dump($sett)
+    ?>
+
+            <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-TXXJFNR');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TXXJFNR"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
 <div class="main-wrapper">
     <header class="header" id="home">
         <div class="mobile-header">
@@ -133,7 +152,7 @@
             <div class="owl-carousel">
 
                 <!--Slide 1 start-->
-                <div class="item slider-img">
+                <div class="item slider-img" id="slider1">
                     <div class="container">
                         <div class="row">
                             <div class="slider-content">
@@ -150,7 +169,7 @@
                 <!--Slide 1 end-->
 
                 <!--Slide 2 start-->
-                <div class="item slider-img">
+                <div class="item slider-img" id="slider2">
                     <div class="container">
                         <div class="row">
                             <div class="slider-content">
@@ -167,7 +186,7 @@
                 <!--Slide 2 end-->
 
                 <!--Slide 3 start-->
-                <div class="item slider-img">
+                <div class="item slider-img"  id="slider3">
                     <div class="container">
                         <div class="row">
                             <div class="slider-content">
@@ -184,7 +203,7 @@
                 <!--Slide 3 end-->
 
                 <!--Slide 4 start-->
-                <div class="item slider-img">
+                <div class="item slider-img" id="slider4">
                     <div class="container">
                         <div class="row">
                             <div class="slider-content">
@@ -223,14 +242,14 @@
                                 <div class="vilage-card">
                                     <div class="img-wrapper">
                                         <img src="{!! $themeUrl !!}/images/panel-img-1.png" />
-                                    </div><a href="#" class="img-link"><span>подробнее</span></a>
+                                    </div><a href="#" class="img-link" rel="card1"><span>подробнее</span></a>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="vilage-card">
                                     <div class="img-wrapper">
                                         <img src="{!! $themeUrl !!}/images/panel-img-2.png" />
-                                    </div><a href="#" class="img-link"><span>подробнее</span></a>
+                                    </div><a href="#" class="img-link" rel="card2"><span>подробнее</span></a>
                                 </div>
                             </div>
                         </div>
@@ -239,21 +258,21 @@
                                 <div class="vilage-card">
                                     <div class="img-wrapper">
                                         <img src="{!! $themeUrl !!}/images/panel-img-3.png" />
-                                    </div><a href="#" class="img-link"><span>подробнее</span></a>
+                                    </div><a href="#" rel="card3" class="img-link"><span>подробнее</span></a>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="vilage-card">
                                     <div class="img-wrapper">
                                         <img src="{!! $themeUrl !!}/images/panel-img-4.png" />
-                                    </div><a href="#" class="img-link"><span>подробнее</span></a>
+                                    </div><a href="#" rel="card4" class="img-link"><span>подробнее</span></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="vilage-card-open">
+                    <div id="card1" class="vilage-card-open">
                         <a href="#" class="card-close"></a>
                         <div class="row">
                             <div class="col-md-4 padding-right-none">
@@ -292,7 +311,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="vilage-card-open">
+                    <div id="card2" class="vilage-card-open">
                         <a href="#" class="card-close"></a>
                         <div class="row">
                             <div class="col-md-4 padding-right-none">
@@ -323,6 +342,86 @@
                                                 <div class="advantages-block"><i class="icon-sheet sprite"></i>
                                                     <h4>Контроль под рукой</h4>
                                                     <p>Быстрая связь с обслуживающим персоналом, сотрудниками и исполнителями. Удобная система оповещений и заявок.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="card3" class="vilage-card-open">
+                        <a href="#" class="card-close"></a>
+                        <div class="row">
+                            <div class="col-md-4 padding-right-none">
+                                <div class="left-block js-equal-height"></div>
+                            </div>
+                            <div class="col-md-8 padding-left-none">
+                                <div class="right-block js-equal-height">
+                                    <div class="card-open-headline">
+                                        <h3>Коттеджный Посёлок - новая эра!</h3>
+                                        <p>Безоспасность, удобство предоставления услуг, возможность мониторинга в режиме онлайн и многое другое вместе с сервисом "Консьерж". Смарт-услуги и смарт-сервис, новости и опросы для жильцов, возможность организации электронного охранно-контрольного режима. Будущее цифровых решений.
+                                        </p>
+                                    </div>
+                                    <div class="card-open-advantages">
+                                        <h3>Преимущества</h3>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="advantages-block"><i class="icon-grafic sprite"></i>
+                                                    <h4>Широкие возможности</h4>
+                                                    <p>Поддержка онлайн, магазин товаров и услуг, управление безопасностью и пропускным режимом и многое другое!</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="advantages-block"><i class="icon-tree sprite"></i>
+                                                    <h4>Смарт-Дом</h4>
+                                                    <p>Обеспечьте удобство жильцов благодаря интеграции с умным домом. Вся информация в одно касание.</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="advantages-block"><i class="icon-sheet sprite"></i>
+                                                    <h4>Удобство взаимодействия</h4>
+                                                    <p>Онлайн-документы, персональные оповещения, оперативная связь с пользователями и исполнителями.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="card4" class="vilage-card-open">
+                        <a href="#" class="card-close"></a>
+                        <div class="row">
+                            <div class="col-md-4 padding-right-none">
+                                <div class="left-block js-equal-height"></div>
+                            </div>
+                            <div class="col-md-8 padding-left-none">
+                                <div class="right-block js-equal-height">
+                                    <div class="card-open-headline">
+                                        <h3>Торговый Центр нового поколения!</h3>
+                                        <p>Смарт-продажи нуждаются в смарт-инструментах. Сервис "Консьерж" - многофункциональная интегрированная платформа, позволяющая эффективно администрировать ресурсы и торговые площади в режиме онлайн. Связь с арендаторами в один клик, предоставление онлайн-услуг, электронные документы и др. </p>
+                                    </div>
+                                    <div class="card-open-advantages">
+                                        <h3>Преимущества</h3>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="advantages-block"><i class="icon-grafic sprite"></i>
+                                                    <h4>Больше арендодателей</h4>
+                                                    <p> Услуги высшего уровня и больше клиентов вместе с сервисом "Консьерж". Торговый центр нового поколения!</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="advantages-block"><i class="icon-tree sprite"></i>
+                                                    <h4>Эффективные коммуникации</h4>
+                                                    <p>Уменьшайте время отклика на заявки и увеличивайте лояльность клиентов благодаря быстрой коммуникации.</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="advantages-block"><i class="icon-sheet sprite"></i>
+                                                    <h4>Отсутвтвие волокиты</h4>
+                                                    <p>Модуль онлайн-документирования поможет избежать бумажной волокиты и сделать предоставление услуг комфортным.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -542,7 +641,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="rates-slider">
-                        <div class="item">
+                
+
+                        <div class="item" rel="business">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Базовый</p>
@@ -555,8 +656,9 @@
                                     <p class="rates-price"><span>9800</span>/месяц</p>
                                 </div>
                             </div>
+
                         </div>
-                        <div class="item">
+                        <div class="item" rel="business">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Продвинутый</p>
@@ -570,7 +672,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item">
+                        <div class="item" rel="business">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Профессионал</p>
@@ -584,20 +686,166 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item">
+
+
+
+
+
+
+                        <div class="item" rel="shopping">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Базовый</p>
                                 </div>
                                 <div class="rates-card-body">
                                     <div class="rates-info"><i></i>
+                                        <p>100</p>
+                                    </div>
+                                    <p class="rates-user">Система поддерживающая до 100 адресов</p>
+                                    <p class="rates-price"><span>10400</span>/месяц</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="item" rel="shopping">
+                            <div class="rates-card">
+                                <div class="rates-card-header">
+                                    <p>Продвинутый</p>
+                                </div>
+                                <div class="rates-card-body">
+                                    <div class="rates-info"><i></i>
                                         <p>200</p>
                                     </div>
                                     <p class="rates-user">Система поддерживающая до 200 адресов</p>
-                                    <p class="rates-price"><span>1599</span>/месяц</p>
+                                    <p class="rates-price"><span>13400</span>/месяц</p>
                                 </div>
                             </div>
                         </div>
+                        <div class="item" rel="shopping">
+                            <div class="rates-card">
+                                <div class="rates-card-header">
+                                    <p>Профессионал</p>
+                                </div>
+                                <div class="rates-card-body">
+                                    <div class="rates-info"><i></i>
+                                        <p>400</p>
+                                    </div>
+                                    <p class="rates-user">Система поддерживающая до 400 адресов</p>
+                                    <p class="rates-price"><span>16400</span>/месяц</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+                        <div class="item" rel="apartment">
+                            <div class="rates-card">
+                                <div class="rates-card-header">
+                                    <p>Базовый</p>
+                                </div>
+                                <div class="rates-card-body">
+                                    <div class="rates-info"><i></i>
+                                        <p>500</p>
+                                    </div>
+                                    <p class="rates-user">Система поддерживающая до 500 адресов</p>
+                                    <p class="rates-price"><span>4800</span>/месяц</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="item" rel="apartment">
+                            <div class="rates-card">
+                                <div class="rates-card-header">
+                                    <p>Продвинутый</p>
+                                </div>
+                                <div class="rates-card-body">
+                                    <div class="rates-info"><i></i>
+                                        <p>1000</p>
+                                    </div>
+                                    <p class="rates-user">Система поддерживающая до 1000 адресов</p>
+                                    <p class="rates-price"><span>6800</span>/месяц</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item" rel="apartment">
+                            <div class="rates-card">
+                                <div class="rates-card-header">
+                                    <p>Профессионал</p>
+                                </div>
+                                <div class="rates-card-body">
+                                    <div class="rates-info"><i></i>
+                                        <p>3000</p>
+                                    </div>
+                                    <p class="rates-user">Система поддерживающая до 3000 адресов</p>
+                                    <p class="rates-price"><span>12800</span>/месяц</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+                        <div class="item" rel="cottage">
+                            <div class="rates-card">
+                                <div class="rates-card-header">
+                                    <p>Базовый</p>
+                                </div>
+                                <div class="rates-card-body">
+                                    <div class="rates-info"><i></i>
+                                        <p>100</p>
+                                    </div>
+                                    <p class="rates-user">Система поддерживающая до 100 адресов</p>
+                                    <p class="rates-price"><span>4200</span>/месяц</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="item" rel="cottage">
+                            <div class="rates-card">
+                                <div class="rates-card-header">
+                                    <p>Продвинутый</p>
+                                </div>
+                                <div class="rates-card-body">
+                                    <div class="rates-info"><i></i>
+                                        <p>300</p>
+                                    </div>
+                                    <p class="rates-user">Система поддерживающая до 300 адресов</p>
+                                    <p class="rates-price"><span>8200</span>/месяц</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item" rel="cottage">
+                            <div class="rates-card">
+                                <div class="rates-card-header">
+                                    <p>Профессионал</p>
+                                </div>
+                                <div class="rates-card-body">
+                                    <div class="rates-info"><i></i>
+                                        <p>600</p>
+                                    </div>
+                                    <p class="rates-user">Система поддерживающая до 600 адресов</p>
+                                    <p class="rates-price"><span>10200</span>/месяц</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
                     </div>
                     <div class="rates-sales">
                         <p><span>Специальное условие!</span> Скидки от <span>25%</span> до <span>50%</span> при оплате авансом</p>
@@ -623,42 +871,43 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="reviews-card-wrap">
-                        <div class="reviews-card active"><p class="reviews-description">Консьерж помог нашему бизнес-центру
+                        <div class="reviews-card active">
+                            <p class="reviews-description">Консьерж помог нашему бизнес-центру
                                 качественно улучшить уровень предоставляемых услуг!</p><h5 class="reviews-name">Геннадий
                                 Волыгин</h5>
                             <p class="reviews-position">управляющий БЦ “Сити-Люкс”</p>
-                            <div class="reviews-img"><img src="{!! $themeUrl !!}/images/reviews-img.png"/></div>
+                            <div class="reviews-img"><img src="{!! $themeUrl !!}/images/review-img.png"/></div>
                         </div>
                         <div class="reviews-card"><p class="reviews-description">Консьерж стал универсальным решением для управления услугами, персоналом и процессом аренды площадей.</p><h5 class="reviews-name">Андрей Аксёнов</h5>
                             <p class="reviews-position">директор ТЦ "Галерея"</p>
-                            <div class="reviews-img"><img src="{!! $themeUrl !!}/images/reviews-img.png"/></div>
+                            <div class="reviews-img"><img src="{!! $themeUrl !!}/images/review-img-2.png"/></div>
                         </div>
                         <div class="reviews-card"><p class="reviews-description">Консьерж помог избавиться от бумажной волокиты и качественно повысит уровень коммуникаций с жильцами. Отлично!</p><h5 class="reviews-name">Николай Дергачёв</h5>
                             <p class="reviews-position">застроищик ЖК "Перспектива"</p>
-                            <div class="reviews-img"><img src="{!! $themeUrl !!}/images/reviews-img.png"/></div>
+                            <div class="reviews-img"><img src="{!! $themeUrl !!}/images/review-img-3.png"/></div>
                         </div>
                         <div class="reviews-card"><p class="reviews-description">Благодаря внедрению Консьержа нам удалось поднять уровень предоставляемых услуг и поднять популярность бизнес-центра.</p><h5 class="reviews-name">Михаил Антонов</h5>
                             <p class="reviews-position">владелец БЦ "NextCore"</p>
-                            <div class="reviews-img"><img src="{!! $themeUrl !!}/images/reviews-img.png"/></div>
+                            <div class="reviews-img"><img src="{!! $themeUrl !!}/images/review-img-4.png"/></div>
                         </div>
                     </div>
                     <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3">
                         <div class="reviews-slider">
                             <div class="item">
                                 <div data-index="0" class="client-img js-toggle-review-card"><img
-                                            src="{!! $themeUrl !!}/images/reviews-img.png"/></div>
+                                            src="{!! $themeUrl !!}/images/review-img.png"/></div>
                             </div>
                             <div class="item">
                                 <div data-index="1" class="client-img js-toggle-review-card"><img
-                                            src="{!! $themeUrl !!}/images/reviews-img1.png"/></div>
+                                            src="{!! $themeUrl !!}/images/review-img-2.png"/></div>
                             </div>
                             <div class="item">
                                 <div data-index="2" class="client-img js-toggle-review-card"><img
-                                            src="{!! $themeUrl !!}/images/reviews-img.png"/></div>
+                                            src="{!! $themeUrl !!}/images/review-img-3.png"/></div>
                             </div>
                             <div class="item">
                                 <div data-index="3" class="client-img js-toggle-review-card"><img
-                                            src="{!! $themeUrl !!}/images/reviews-img1.png"/></div>
+                                            src="{!! $themeUrl !!}/images/review-img-4.png"/></div>
                             </div>
                         </div>
                     </div>

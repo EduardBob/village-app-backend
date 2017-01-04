@@ -129,7 +129,4 @@ $(document).ready(function () {
                 }
             });
     });
-
-    //$('#rates .headline span')
 })
-

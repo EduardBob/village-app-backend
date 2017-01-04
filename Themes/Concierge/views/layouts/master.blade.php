@@ -37,13 +37,7 @@
     {!! Theme::style('css/main.css') !!}
     {!! Theme::style('css/common.css') !!}
     <?php $themeUrl =  Theme::url(); ?>
-    <?php
-    $facilityTypes = \Modules\Village\Entities\AbstractFacility::getTypes();
-            var_dump($facilityTypes);
-    $packets = new \Modules\Village\Services\Packet();
-   $sett =  $packets->getSettings();
-      //  var_dump($sett)
-    ?>
+    <?php  $facilityTypes = \Modules\Village\Entities\AbstractFacility::getTypes();  ?>
 
             <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -132,7 +126,7 @@
                                         <div class="form-group">
                                             <select name="type" class="facility-type"  required="required">
                                                 @foreach ($facilityTypes as $type)
-                                                    <option value="{!! $type !!}">{!!  trans('village::villages.type.'.$type) !!}</option>
+                                                    <option value="{!! $type !!}">{!!  trans('village::villages.for_type.'.$type) !!}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -643,7 +637,7 @@
                     <div class="rates-slider">
                 
 
-                        <div class="item" rel="business">
+                        <div class="item" rel="{{ trans('village::villages.for_type.business') }}">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Базовый</p>
@@ -658,7 +652,7 @@
                             </div>
 
                         </div>
-                        <div class="item" rel="business">
+                        <div class="item" rel="{{ trans('village::villages.for_type.business') }}">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Продвинутый</p>
@@ -672,7 +666,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" rel="business">
+                        <div class="item" rel="{{ trans('village::villages.for_type.business') }}">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Профессионал</p>
@@ -692,7 +686,7 @@
 
 
 
-                        <div class="item" rel="shopping">
+                        <div class="item" rel="{{ trans('village::villages.for_type.shopping') }}">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Базовый</p>
@@ -707,7 +701,7 @@
                             </div>
 
                         </div>
-                        <div class="item" rel="shopping">
+                        <div class="item" rel="{{ trans('village::villages.for_type.shopping') }}">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Продвинутый</p>
@@ -721,7 +715,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" rel="shopping">
+                        <div class="item" rel="{{ trans('village::villages.for_type.shopping') }}">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Профессионал</p>
@@ -743,8 +737,7 @@
 
 
 
-
-                        <div class="item" rel="apartment">
+                        <div class="item" rel="{{ trans('village::villages.for_type.apartment') }}">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Базовый</p>
@@ -759,7 +752,7 @@
                             </div>
 
                         </div>
-                        <div class="item" rel="apartment">
+                        <div class="item" rel="{{ trans('village::villages.for_type.apartment') }}">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Продвинутый</p>
@@ -773,7 +766,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" rel="apartment">
+                        <div class="item" rel="{{ trans('village::villages.for_type.apartment') }}">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Профессионал</p>
@@ -787,17 +780,7 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
-
-
-
-
-
-                        <div class="item" rel="cottage">
+                        <div class="item" rel="{{ trans('village::villages.for_type.cottage') }}">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Базовый</p>
@@ -810,9 +793,8 @@
                                     <p class="rates-price"><span>4200</span>/месяц</p>
                                 </div>
                             </div>
-
                         </div>
-                        <div class="item" rel="cottage">
+                        <div class="item" rel="{{ trans('village::villages.for_type.cottage') }}">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Продвинутый</p>
@@ -826,7 +808,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" rel="cottage">
+                        <div class="item" rel="{{ trans('village::villages.for_type.cottage') }}">
                             <div class="rates-card">
                                 <div class="rates-card-header">
                                     <p>Профессионал</p>
@@ -840,12 +822,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
-
                     </div>
                     <div class="rates-sales">
                         <p><span>Специальное условие!</span> Скидки от <span>25%</span> до <span>50%</span> при оплате авансом</p>
@@ -968,7 +944,7 @@
                                 <div class="form-group">
                                     <select name="type" class="facility-type"  required="required">
                                         @foreach ($facilityTypes as $type)
-                                            <option value="{!! $type !!}">{!!  trans('village::villages.type.'.$type) !!}</option>
+                                            <option value="{!! $type !!}">{!!  trans('village::villages.for_type.'.$type) !!}</option>
                                         @endforeach
                                     </select>
                                 </div>

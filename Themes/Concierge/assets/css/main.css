@@ -8923,7 +8923,7 @@ section {
   border-radius: 4px;
   background-color: rgba(245, 246, 248, 0.26);
   box-shadow: 0 0 49px 0 rgba(1, 1, 1, 0.16);
-  padding: 20px 35px;
+  padding: 15px 35px;
   margin-top: 33px;
 }
 /* line 673, ../../sass/main.scss */
@@ -8965,8 +8965,12 @@ section {
   .slider-form {
     margin: 0 auto;
     max-width: 300px;
-    top: 230px;
+    top: 250px;
     position: relative;
+  }
+
+  .header-slider{
+    min-height: 720px;
   }
 }
 /* line 713, ../../sass/main.scss */

@@ -29,7 +29,7 @@ span.error, .help-block{
 }
 .header-slider #slider2 {
     background: url(../images/slider-item-2.jpg) no-repeat;
-    background-size: 100%;
+    background-size: cover;
 }
 .header-slider #slider3 {
     background: url(../images/slider-item-3.jpg) repeat;
@@ -92,7 +92,7 @@ span.error, .help-block{
 
 @media (max-width: 991px){
     #rates .owl-theme .owl-dots {
-        width: 300px;
+        width: 350px;
     }
 
 }

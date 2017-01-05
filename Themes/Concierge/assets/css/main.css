@@ -3580,13 +3580,14 @@ section {
 .owl-theme .owl-dots {
   position: absolute;
   bottom: 70px;
-  width: 100px;
+  width: 100%;
   height: 10px;
   text-align: center;
   display: inline-block;
   margin-left: -25px;
   z-index: 5;
 }
+
 /* line 516, ../../sass/main.scss */
 .owl-theme .owl-dots .owl-dot.active span {
   background-color: #c39e65;

@@ -71,7 +71,7 @@ span.error, .help-block{
 
 
 .ym-advanced-informer {
-  position: absolute;
+    position: absolute;
     left: -10000px;
 }
 
@@ -79,16 +79,30 @@ span.error, .help-block{
 .header-slider .owl-theme .owl-dots{
 
 }
-#rates .owl-theme .owl-dots {
 
-    margin-left: -48px;
+
+#rates .owl-theme .owl-dots {
+    margin: 0 auto;
+    width: 100px;
+    left: 0;
+    right: 0;
+    display: block;
 }
+
+
+@media (max-width: 991px){
+    #rates .owl-theme .owl-dots {
+        width: 300px;
+    }
+
+}
+
 
 
 @media (min-width: 991px) and (max-width: 1024px) {
     /* line 620, ../../sass/main.scss */
     .header-slider .slider-description {
-       margin-left:  20px;
+        margin-left:  20px;
     }
 
 }

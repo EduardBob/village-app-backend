@@ -1,5 +1,20 @@
 $(document).ready(function () {
 
+    $(".img-link").click(function(e){
+        e.preventDefault();
+        cardId = $(this).attr('rel');
+        if($('#'+cardId).length){
+            $card = $('#'+cardId);
+            $('.vilage-card-wrap').hide();
+            $card.show();
+        }
+    });
+    $('.vilage-card-open .card-close').click(function(e){
+        e.preventDefault();
+        $('.vilage-card-wrap').show();
+        $('.vilage-card-open').hide();
+
+    });
     $('[name="phone"]').inputmask();
     $('#register-facility, #register-facility-wide').submit(function (e) {
         e.preventDefault();

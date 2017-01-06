@@ -56,6 +56,13 @@ span.error, .help-block{
 #info{
     padding-bottom: 0px;
 }
+
+@media (max-width: 991px) {
+    #info{
+        padding-top: 740px;
+    }
+}
+
 #card1 .left-block
 {
     background: url(../images/panel-img-1.png) no-repeat;

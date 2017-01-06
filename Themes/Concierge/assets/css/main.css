@@ -3329,7 +3329,7 @@ section {
   /* line 278, ../../sass/main.scss */
   .header .owl-theme .owl-dots {
     position: absolute;
-    top: 340px;
+    top: 350px;
     z-index: 7;
   }
 }
@@ -3598,7 +3598,7 @@ section {
   height: 10px;
   display: inline-block;
   float: left;
-  margin: 0 6px;
+  margin: 0 5px;
   border-radius: 8px;
   background-color: #fff;
   opacity: 0.7;
@@ -4358,7 +4358,7 @@ section {
 @media (max-width: 991px) {
   /* line 1241, ../../sass/main.scss */
   .join-now h2 {
-    font-size: 35px;
+    font-size: 30px;
   }
 }
 /* Join Now */
@@ -4796,6 +4796,15 @@ section {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 }
+
+@media (max-width: 480px) {
+  .contacts .cotacts-wrapper {
+    padding: 35px 28px;
+  }
+}
+
+
+
 /* contacts */
 /* Popup styles */
 /* line 1657, ../../sass/main.scss */

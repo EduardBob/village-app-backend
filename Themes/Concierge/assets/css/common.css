@@ -24,3 +24,105 @@ span.error, .help-block{
     background: none;
     border: none;
 }
+.clients{
+    display: none;
+}
+.header-slider #slider2 {
+    background: url(../images/slider-item-2.jpg) no-repeat;
+    background-size: cover;
+}
+.header-slider #slider3 {
+    background: url(../images/slider-item-3.jpg) repeat;
+}
+.header-slider #slider4 {
+    background: url(../images/slider-item-4.png) repeat;
+}
+
+#card2 .left-block{
+
+    background: url(../images/panel-img-open-3.png) repeat;
+    background-size: cover;
+}
+#card3 .left-block{
+
+    background: url(../images/panel-img-open-2.png) repeat;
+    background-size: cover;
+}
+
+#card4 .left-block{
+    background: url(../images/panel-img-open-4.png) no-repeat;
+    background-size: cover;
+}
+#info{
+    padding-bottom: 0px;
+}
+#card1 .left-block
+{
+    background: url(../images/panel-img-1.png) no-repeat;
+    background-size: cover;
+}
+
+
+@media (min-width: 992px) {
+    .slider-content .col-md-6.col-sm-12 {
+        width: 44%;
+    }
+}
+
+
+.ym-advanced-informer {
+    position: absolute;
+    left: -10000px;
+}
+
+
+.header-slider .owl-theme .owl-dots{
+
+}
+
+
+#rates .owl-theme .owl-dots {
+    margin: 0 auto;
+    width: 100px;
+    left: 0;
+    right: 0;
+    display: block;
+}
+
+
+@media (max-width: 991px){
+    #rates .owl-theme .owl-dots {
+        width: 244px;
+    }
+
+}
+
+
+
+@media (min-width: 991px) and (max-width: 1024px) {
+    /* line 620, ../../sass/main.scss */
+    .header-slider .slider-description {
+        margin-left:  20px;
+    }
+
+}
+@media (max-width: 991px) {
+    .advantages-open ul {
+        margin-bottom: 20px;
+    }
+}
+
+
+@media (max-width: 991px){
+    .form {
+        padding: 0px 15%;
+    }
+}
+
+.header-slider .owl-theme .owl-dots {
+    position: absolute;
+    text-align: center;
+    display: inline-block;
+    margin-left: -35px;
+    z-index: 20;
+}

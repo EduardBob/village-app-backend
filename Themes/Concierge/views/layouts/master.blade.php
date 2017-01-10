@@ -126,7 +126,7 @@
                                         <div class="form-group">
                                             <select name="type" class="facility-type"  required="required">
                                                 @foreach ($facilityTypes as $type)
-                                                    <option value="{!! $type !!}">{!!  trans('village::villages.for_type.'.$type) !!}</option>
+                                                    <option value="{!! $type !!}">{!!  trans('village::villages.type.'.$type) !!}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -322,20 +322,20 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="advantages-block"><i class="icon-grafic sprite"></i>
-                                                    <h4>Оперативная поддержка</h4>
-                                                    <p>Возможность оказания мгновенной поддержки пользователям бизнес-центров от малых офисов до бизнес-парков.</p>
+                                                    <h4>Новый уровень сервиса</h4>
+                                                    <p>Лучшие услуги и товары для жильцов под вашим контролем. Гибкий механизм управления для Жилых Комплексов.</p>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="advantages-block"><i class="icon-tree sprite"></i>
-                                                    <h4>Управление услугами</h4>
-                                                    <p>Предоставляйте широкий спектр услуг всех видов через удобный мобильный клиент. Всё гениальное просто!</p>
+                                                    <h4>Единая система контроля</h4>
+                                                    <p>Один интерфейс для мониторинга статусов, управления заказами и услугами в один клик. Новый уровень взаимодействия!</p>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="advantages-block"><i class="icon-sheet sprite"></i>
-                                                    <h4>Контроль под рукой</h4>
-                                                    <p>Быстрая связь с обслуживающим персоналом, сотрудниками и исполнителями. Удобная система оповещений и заявок.</p>
+                                                    <h4>Оперативность и комфорт</h4>
+                                                    <p>Получение данных коммунального учёта, электронный оборот документов, скорость и комфорт работы без компромиссов.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -614,7 +614,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h2>Присоединяйтесь</h2>
-                    <p>Услугами сервиса Консьерж на данный момент нашими услугами пользуется более 1 000 пользователей. Станьте частью нашего большого сообщества.</p>
+                    <p>Услугами сервиса Консьерж на данный пользуется более 1 000 пользователей. Станьте частью нашего большого сообщества.</p>
                     <div class="btn-wrapper"><a href="#home" class="btn-main">ПОЛУЧИТЬ ДОСТУП</a>
                     </div>
                 </div>
@@ -944,7 +944,7 @@
                                 <div class="form-group">
                                     <select name="type" class="facility-type"  required="required">
                                         @foreach ($facilityTypes as $type)
-                                            <option value="{!! $type !!}">{!!  trans('village::villages.for_type.'.$type) !!}</option>
+                                            <option value="{!! $type !!}">{!!  trans('village::villages.type.'.$type) !!}</option>
                                         @endforeach
                                     </select>
                                 </div>

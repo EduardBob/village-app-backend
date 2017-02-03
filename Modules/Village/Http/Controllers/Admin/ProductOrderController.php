@@ -167,7 +167,7 @@ class ProductOrderController extends AbstractOrderController
             ->with(['village', 'product', 'user', 'user.building'])
         ;
 
-        if (!$currentUser->additionalVillages && !$currentUser->inRole('admin')) {
+        if (!$currentUser->inRole('admin') || !$currentUser->additionalVillages) {
             $query->where('village__product_orders.village_id', $this->getCurrentUser()->village->id);
         }
 

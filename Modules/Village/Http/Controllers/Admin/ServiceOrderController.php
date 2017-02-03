@@ -142,8 +142,7 @@ class ServiceOrderController extends AbstractOrderController
             ->leftJoin('village__buildings', 'users.building_id', '=', 'village__buildings.id')
             ->with(['village', 'service', 'user', 'user.building'])
         ;
-
-        if (!$currentUser->additionalVillages && !$currentUser->inRole('admin')) {
+        if (!$currentUser->inRole('admin') || !$currentUser->additionalVillages) {
             $query->where('village__service_orders.village_id', $this->getCurrentUser()->village->id);
         }
         if ($this->getCurrentUser()->inRole('executor')) {

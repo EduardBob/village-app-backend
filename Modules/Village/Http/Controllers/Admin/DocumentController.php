@@ -207,7 +207,7 @@ class DocumentController extends AdminController
             $rules['village_id'] = 'required:village__villages,id';
             $rules['role_id'] = 'exists:roles,id';
         }
-        if (count($data['buildings'])) {
+        if (array_key_exists('buildings', $data)) {
             $rules['buildings'] = "required|exists:village__buildings,id";
         }
         if ((bool)$data['is_personal'] && $data['role_id'] == '' && empty($data['buildings'])) {

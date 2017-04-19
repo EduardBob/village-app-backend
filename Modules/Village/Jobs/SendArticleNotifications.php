@@ -35,8 +35,10 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
     public function handle()
     {
         $users = $this->getUsers();
-        foreach ($users as $user) {
-            $this->sendNotification($user);
+        if ($users) {
+            foreach ($users as $user) {
+                $this->sendNotification($user);
+            }
         }
     }
 
@@ -46,20 +48,22 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
      */
     private function getUsers()
     {
-        $users = new User;
+        $users       = new User;
+        $sendToUsers = false;
+
         // Personal articles can be attached to users, or to entire user group.
         if ($this->article->is_personal) {
-            $attachedUsers     = $this->article->users()->select('user_id')->lists('user_id');
-            $attachedBuildings = $this->article->buildings()->select('building_id')->lists('building_id');
+            $attachedUsers     = $this->article->users()->select('user_id')->lists('user_id')->all();
+            $attachedBuildings = $this->article->buildings()->select('building_id')->lists('building_id')->all();
             // Getting attached users.
             if (count($attachedUsers)) {
-                $users->find($attachedUsers);
+                $sendToUsers = $users->find($attachedUsers);
             } // Get items attached to buildings
-            elseif ($attachedBuildings) {
+            elseif (count($attachedBuildings)) {
                 $usersWithRoles = (new User)->getListWithRolesAndBuildings();
                 $selectedRole   = $this->article->role_id;
                 $usersIDs       = [];
-                // User role selected
+                // User role selected.
                 if ($selectedRole > 0) {
                     foreach ($usersWithRoles[$this->article->village->id][$selectedRole] as $building => $usersInBuildings) {
                         $usersIDs += array_keys($usersInBuildings);
@@ -72,24 +76,24 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
                     }
                 }
                 if (count($usersIDs)) {
-                    $users->find($usersIDs);
+                    $sendToUsers = $users->find($usersIDs);
                 }
             } // Getting group users attached to article.
             else {
                 $usersWithRoles = (new User)->getListWithRoles();
                 $usersIDs       = $usersWithRoles[$this->article->village->id][$this->article->role_id];
                 if (count($usersIDs)) {
-                    $users->find(array_keys($usersIDs));
+                    $sendToUsers = $users->find(array_keys($usersIDs));
                 }
             }
         } else if (is_object($this->article->village)) {
-            $villageId = $this->article->village->id;
-            $users->where('village_id', $villageId);
-        }
-        $users->with(['activationCompleted']);
-        $users = $users->get();
+            $villageId   = $this->article->village->id;
+            $sendToUsers = $users->where('village_id', $villageId);
+            $sendToUsers = $sendToUsers->get();
 
-        return $users;
+        }
+
+        return $sendToUsers;
     }
 
     /**

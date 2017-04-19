@@ -27,14 +27,15 @@ class SendDocumentNotifications extends Job implements SelfHandling, ShouldQueue
 
     /**
      * Execute the job.
-     *
      * @return void
      */
     public function handle()
     {
         $users = $this->getUsers();
-        foreach ($users as $user) {
-            $this->sendNotification($user);
+        if ($users) {
+            foreach ($users as $user) {
+                $this->sendNotification($user);
+            }
         }
     }
 
@@ -45,15 +46,16 @@ class SendDocumentNotifications extends Job implements SelfHandling, ShouldQueue
     private function getUsers()
     {
         $users = new User;
+        $sendToUsers = false;
         // Personal documents can be attached to users, or to entire user group.
-        $attachedUsers = $this->document->users()->select('user_id')->lists('user_id');
-        $attachedBuildings = $this->document->buildings()->select('building_id')->lists('building_id');
+        $attachedUsers = $this->document->users()->select('user_id')->lists('user_id')->all();
+        $attachedBuildings = $this->document->buildings()->select('building_id')->lists('building_id')->all();
 
         // Getting attached users.
         if (count($attachedUsers)) {
-            $users->find($attachedUsers);
+            $sendToUsers = $users->find($attachedUsers);
         } // Get items attached to buildings
-        elseif ($attachedBuildings) {
+        elseif (count($attachedBuildings)) {
             $usersWithRoles = (new User)->getListWithRolesAndBuildings();
             $selectedRole   = $this->document->role_id;
             $usersIDs       = [];
@@ -70,20 +72,18 @@ class SendDocumentNotifications extends Job implements SelfHandling, ShouldQueue
                 }
             }
             if (count($usersIDs)) {
-                $users->find($usersIDs);
+                $sendToUsers = $users->find($usersIDs);
             }
         } // Getting group users attached to document.
         else {
             $usersWithRoles = (new User)->getListWithRoles();
             $usersIDs       = $usersWithRoles[$this->document->village->id][$this->document->role_id];
             if (count($usersIDs)) {
-                $users->find(array_keys($usersIDs));
+                $sendToUsers = $users->find(array_keys($usersIDs));
             }
         }
-        $users->with(['activationCompleted']);
-        $users = $users->get();
 
-        return $users;
+        return $sendToUsers;
     }
 
     /**

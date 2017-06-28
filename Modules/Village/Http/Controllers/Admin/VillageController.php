@@ -122,8 +122,11 @@ class VillageController extends AdminController
     {
 
         $villageId = $village ? $village->id : '';
+//        $mainAdminId = $village ? $village->main_admin_id : '';
         return Validator::make($data, [
             'name' => "required|max:50|unique:village__villages,name,{$villageId}",
+            'type' => "required",
+            'main_admin_id' => "required|max:50", //|unique:users,name,{$mainAdminId}
             'shop_name' => "required|max:50",
             'shop_address' => "required|max:100",
 //            'service_payment_info' => "required|max:255",

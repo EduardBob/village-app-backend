@@ -27,14 +27,36 @@
                     {!! $errors->first('main_admin_id', '<span class="help-block">:message</span>') !!}
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="form-group{{ $errors->has('packet') ? ' has-error' : '' }}">
-                    {!! Form::label('packet', $admin->trans('table.packet')) !!}
-                    {!! Form::select('packet', $model->getPackets(),
-                    @$model->packet?:Input::old('packet'), ['class' => 'form-control'], '') !!}
-                    {!! $errors->first('packet', '<span class="help-block">:message</span>') !!}
+		    <?php $types =  \Modules\Village\Entities\Village::getTypes(); ?>
+            @if (isset($model))
+                <div class="col-sm-6">
+                    <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
+                        {!! Form::label('type', 'Тип пакета')  !!}
+                        {!! Form::select('type', array_combine(array_values($types), array_values($types)),
+                        Input::old('type', @$model->type), ['class' => 'form-control', 'placeholder' => $admin->trans('form.main_admin.placeholder')]) !!}
+                        {{--<p class="help-block">{{ $admin->trans('form.main_admin.help') }}</p>--}}
+                        {!! $errors->first('type', '<span class="help-block">:message</span>') !!}
+                    </div>
                 </div>
-            </div>
+                <div class="col-sm-6">
+                    <div class="form-group{{ $errors->has('packet') ? ' has-error' : '' }}">
+                        {!! Form::label('packet', $admin->trans('table.packet')) !!}
+                        {!! Form::select('packet', $model->getPackets(),
+                        @$model->packet?:Input::old('packet'), ['class' => 'form-control'], '') !!}
+                        {!! $errors->first('packet', '<span class="help-block">:message</span>') !!}
+                    </div>
+                </div>
+            @else
+                <div class="col-sm-12">
+                    <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
+                        {!! Form::label('type', 'Тип пакета')  !!}
+                        {!! Form::select('type', array_combine(array_values($types), array_values($types)),
+                        Input::old('type', @$model->type), ['class' => 'form-control', 'placeholder' => $admin->trans('form.main_admin.placeholder')]) !!}
+                        <p class="help-block">{{ $admin->trans('form.main_admin.help') }}</p>
+                        {!! $errors->first('type', '<span class="help-block">:message</span>') !!}
+                    </div>
+                </div>
+            @endif
             <div class="col-sm-4">
                 <div class="form-group{{ $errors->has('balance') ? ' has-error' : '' }}">
                     {!! Form::label('balance', $admin->trans('table.balance')) !!}

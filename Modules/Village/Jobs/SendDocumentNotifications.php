@@ -31,11 +31,25 @@ class SendDocumentNotifications extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+        // The document could been deleted
+        if (!$this->document || !$this->document->title) {
+            return;
+        }
+
         $users = $this->getUsers();
-        if ($users) {
-            foreach ($users as $user) {
-                $this->sendNotification($user);
-            }
+        if (!$users) {
+            return;
+        }
+
+        $messageText = date('H:i'). ': ';
+        $messageText .= 'Персональный документ! ' . PHP_EOL . $this->document->title;
+        // Push notification with custom link inside app.
+        $message = PushNotification::Message($messageText, array(
+            'category' => '/document/' . $this->document->id
+        ));
+
+        foreach ($users as $user) {
+            $this->sendNotification($message, $user);
         }
     }
 
@@ -88,22 +102,20 @@ class SendDocumentNotifications extends Job implements SelfHandling, ShouldQueue
 
     /**
      * Sending notifications.
+     *
+     * @param object $message
      * @param \Modules\Village\Entities\User $user
      */
-    private function sendNotification(User $user)
+    private function sendNotification($message, User $user)
     {
         if (is_object($user->devices)) {
             $devices = $user->devices;
-            $messageText = date('H:i'). ': ';
-            $messageText .= 'Персональный документ! ' . PHP_EOL . $this->document->title;
-            // Push notification with custom link inside app.
-            $message = PushNotification::Message($messageText, array(
-              'category' => '/document/' . $this->document->id
-            ));
+
             foreach ($devices as $device) {
                 PushNotification::app($device->type)
-                                ->to($device->token)
-                                ->send($message);
+                    ->to($device->token)
+                    ->send($message)
+                ;
             }
         }
     }

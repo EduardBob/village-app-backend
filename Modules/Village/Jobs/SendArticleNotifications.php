@@ -5,6 +5,7 @@ namespace Modules\Village\Jobs;
 use App\Jobs\Job;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Modules\Village\Entities\Article;
@@ -34,17 +35,30 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+        // The article could been deleted
+        if (!$this->article || !$this->article->title) {
+            return;
+        }
+
         $users = $this->getUsers();
-        if ($users) {
-            foreach ($users as $user) {
-                $this->sendNotification($user);
-            }
+        if (!$users) {
+            return;
+        }
+
+        $messageText = $this->article->title;
+        // Push notification with custom link inside app.
+        $message = PushNotification::Message($messageText, array(
+            'category' => '/newsitem/' . $this->article->id
+        ));
+
+        foreach ($users as $user) {
+            $this->sendNotification($message, $user);
         }
     }
 
     /**
      * Getting users to send notifications.
-     * @return \Modules\Village\Entities\User
+     * @return \Modules\Village\Entities\User[]
      */
     private function getUsers()
     {
@@ -82,6 +96,7 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
             else {
                 $usersWithRoles = (new User)->getListWithRoles();
                 $usersIDs       = $usersWithRoles[$this->article->village->id][$this->article->role_id];
+                unset($usersWithRoles);
                 if (count($usersIDs)) {
                     $sendToUsers = $users->find(array_keys($usersIDs));
                 }
@@ -99,21 +114,18 @@ class SendArticleNotifications extends Job implements SelfHandling, ShouldQueue
     /**
      * Sending notifications.
      *
+     * @param object $message
      * @param \Modules\Village\Entities\User $user
      */
-    private function sendNotification(User $user)
+    private function sendNotification($message, User $user)
     {
         if (is_object($user->devices)) {
-            $devices     = $user->devices;
-            $messageText = $this->article->title;
-            // Push notification with custom link inside app.
-            $message = PushNotification::Message($messageText, array(
-              'category' => '/newsitem/' . $this->article->id
-            ));
+            $devices = $user->devices;
             foreach ($devices as $device) {
                 PushNotification::app($device->type)
-                                ->to($device->token)
-                                ->send($message);
+                    ->to($device->token)
+                    ->send($message)
+                ;
             }
         }
     }

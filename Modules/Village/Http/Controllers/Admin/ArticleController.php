@@ -234,7 +234,7 @@ class ArticleController extends AdminController
           'active' => "required|boolean",
         ];
 
-        if ($this->getCurrentUser()->inRole('admin')) {
+        if (!$this->getCurrentUser()->inRole('admin')) {
              $rules['village_id'] = 'exists:village__villages,id';
         }
         if ((bool)$data['is_personal']) {

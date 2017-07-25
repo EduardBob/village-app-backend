@@ -105,6 +105,7 @@ class BuildingController extends AdminController
 
         $rules = [
             'address' => "required|max:255|unique:village__buildings,address,{$buildingId}",
+            'link' => "required|url|max:255",
         ];
 
         if ($this->getCurrentUser()->inRole('admin')) {

@@ -9,7 +9,7 @@ class Building extends Model
 
     protected $table = 'village__buildings';
 
-    protected $fillable = ['village_id', 'address', 'code'];
+    protected $fillable = ['village_id', 'address', 'link', 'code'];
 
     public function village()
     {

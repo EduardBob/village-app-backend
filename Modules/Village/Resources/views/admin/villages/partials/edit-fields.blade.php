@@ -143,13 +143,6 @@
                 {!! $errors->first('product_unit_step_piece', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
-	    <div class="col-sm-12">
-		    <div class="form-group{{ $errors->has('link') ? ' has-error' : '' }}">
-			    {!! Form::label('link', $admin->trans('table.link')) !!}
-			    {!! Form::text('link', Input::old('link', @$model->link), ['class' => 'form-control', 'placeholder' => $admin->trans('table.link')]) !!}
-			    {!! $errors->first('link', '<span class="help-block">:message</span>') !!}
-		    </div>
-	    </div>
         <div class="col-sm-12">
             <div class="form-group{{ $errors->has('send_sms_to_village_admin') ? ' has-error' : '' }}">
                 {!! Form::checkbox('send_sms_to_village_admin', (int)Input::old('send_sms_to_village_admin', @$model->send_sms_to_village_admin), (bool)Input::old('send_sms_to_village_admin', @$model->send_sms_to_village_admin), ['class' => 'flat-blue']) !!}

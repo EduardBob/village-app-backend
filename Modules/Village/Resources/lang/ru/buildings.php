@@ -17,6 +17,7 @@ return [
     'table' => [
         'id' => 'ID',
         'address' => 'Адрес',
+        'link' => 'Ссылка для экрана Smart в приложении',
         'code' => 'Код',
         'created_at' => 'Создана',
         'actions' => 'Действия',

@@ -22,6 +22,14 @@
             </div>
         </div>
 
+	    <div class="col-sm-12">
+		    <div class="form-group{{ $errors->has('link') ? ' has-error' : '' }}">
+			    {!! Form::label('link', $admin->trans('table.link')) !!}
+			    {!! Form::text('link', Input::old('link', @$model->link), ['class' => 'form-control', 'placeholder' => $admin->trans('table.link')]) !!}
+			    {!! $errors->first('link', '<span class="help-block">:message</span>') !!}
+		    </div>
+	    </div>
+
         <?php if (isset($model)): ?>
         <div class="col-sm-4">
         	<div class="form-group">

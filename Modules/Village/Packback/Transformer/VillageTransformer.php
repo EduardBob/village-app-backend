@@ -29,6 +29,7 @@ class VillageTransformer extends TransformerAbstract
             'product_unit_step_piece' => $village->product_unit_step_piece,
             'active' => (bool)$village->active,
             'important_contacts' => $village->important_contacts,
+            'link' => $village->link,
         ];
     }
 }

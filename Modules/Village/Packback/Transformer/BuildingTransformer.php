@@ -33,6 +33,7 @@ class BuildingTransformer extends TransformerAbstract
         return [
             'id' => (int) $building->id,
             'address' => $building->address,
+            'link' => $building->link,
         ];
     }
 

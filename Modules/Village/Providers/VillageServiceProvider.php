@@ -223,7 +223,7 @@ class VillageServiceProvider extends ServiceProvider
 
         // Create a queue job for sending push-notifications about important and personal articles.
         Article::saved(function (Article $article) use ($auth) {
-            if (isset($_POST['pushArticle']) && $_POST['pushArticle']) {
+            if (isset($_POST['pushArticle']) && $_POST['pushArticle'] && (strtotime($article->published_at) < time())) {
                 $this->dispatch(new SendArticleNotifications($article));
             }
         });

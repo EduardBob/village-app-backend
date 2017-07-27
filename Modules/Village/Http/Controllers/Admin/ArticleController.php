@@ -81,7 +81,7 @@ class ArticleController extends AdminController
           ->addColumn(['data' => 'category_title', 'name' => 'village__article_categories.title', 'title' => $this->trans('table.category')])
           ->addColumn(['data' => 'title', 'name' => 'village__articles.title', 'title' => $this->trans('table.title')])
           ->addColumn(['data' => 'active', 'name' => 'village__articles.active', 'title' => $this->trans('table.active')])
-          ->addColumn(['data' => 'is_important', 'name' => 'village__articles.is_important', 'title' => $this->trans('table.is_important')])
+//          ->addColumn(['data' => 'is_important', 'name' => 'village__articles.is_important', 'title' => $this->trans('table.is_important')])
 
           ->addColumn(['data' => 'created_at', 'name' => 'village__articles.created_at', 'title' => $this->trans('table.created_at')])
           ->addColumn(['data' => 'published_at', 'name' => 'village__articles.published_at', 'title' => $this->trans('table.published_at')]);

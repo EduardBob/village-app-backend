@@ -1,3 +1,12 @@
+@section('buttons')
+  @parent
+
+{!! Form::open(['route' => [$admin->getRoute('edit'), $model->id], 'method' => 'get']) !!}
+<button name="pushDocument" value="1" type="submit" class="btn btn-danger btn-flat pull-right">{{ $admin->trans('button.updateAndPush') }}</button>
+{!! Form::close() !!}
+<span class="pull-right">&nbsp;&nbsp;&nbsp;</span>
+@stop
+
 <div class="box-body">
     @if($currentUser->hasAccess('village.documents.makePersonal'))
         @inject('roles', 'Cartalyst\Sentinel\Roles\EloquentRole')
@@ -109,7 +118,7 @@
                 </div>
         @endif
         @if(isset($model))
-        <div class="col-sm-7">
+        <div class="col-sm-12">
             @include('media::admin.fields.file-link', [
                 'entityClass' => 'Modules\\\\Village\\\\Entities\\\\Document',
                 'entityId' => @$model->id,

@@ -4,8 +4,8 @@
     @parent
 
     @if($currentUser && $currentUser->hasAccess('village.articles.baseCopy'))
-        {!! Form::open(['route' => ['admin.village.article.baseCopy', $model->id], 'method' => 'get']) !!}
-            <button type="submit" class="btn pull-left">{{ $admin->trans('button.base-copy') }}</button>
-        {!! Form::close() !!}
+				<button class="btn pull-left">
+					<a href='{!! route('admin.village.article.baseCopy', [$model->id]) !!}'>{{ $admin->trans('button.base-copy') }}</a>
+				</button>
     @endif
 @stop

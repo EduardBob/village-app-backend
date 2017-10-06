@@ -3,9 +3,9 @@
 @section('buttons')
     @parent
 
-    @if($currentUser && $currentUser->hasAccess('village.surveys.baseCopy'))
-        {!! Form::open(['route' => ['admin.village.survey.baseCopy', $model->id], 'method' => 'get']) !!}
-            <button type="submit" class="btn pull-left">{{ $admin->trans('button.base-copy') }}</button>
-        {!! Form::close() !!}
-    @endif
+		@if($currentUser && $currentUser->hasAccess('village.surveys.baseCopy'))
+			<button class="btn pull-left">
+					<a href='{!! route('admin.village.survey.baseCopy', [$model->id]) !!}'>{{ $admin->trans('button.base-copy') }}</a>
+			</button>
+		@endif
 @stop

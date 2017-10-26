@@ -136,6 +136,8 @@ class VillageController extends AdminController
             'product_unit_step_kg' => "required|numeric|max:10",
             'product_unit_step_bottle' => "required|integer|max:10",
             'product_unit_step_piece' => "required|integer|max:10",
+            'open_door_link' => 'url|max:255',
+            'open_barrier_link' => 'url|max:255',
         ]);
     }
 }

@@ -316,18 +316,24 @@ $router->group(['prefix' => '/village'], function (Router $router) {
         'index' => 'admin.village.serviceordersc.index',
       ]
     ]);
+
+    $router->group(['prefix' => 'serviceordersscnew'], function (Router $router) {
+        $router->any('{id}/status-done-and-open-door', [
+            'uses' => 'ServiceOrderScNewController@setStatusDoneAndOpenDoor', 'as' => 'admin.village.serviceorderscnew.status_done_and_open_door'
+        ]);
+        $router->any('{id}/status-done-and-open-barrier', [
+            'uses' => 'ServiceOrderScNewController@setStatusDoneAndOpenBarrier', 'as' => 'admin.village.serviceorderscnew.status_done_and_open_barrier'
+        ]);
+    });
     $router->resource('serviceordersscnew', 'ServiceOrderScNewController', [
-//        'except' => ['show', 'create', 'store', 'edit', 'update', 'destroy'],
+        'except' => ['show', 'edit', 'update', 'destroy'],
         'names'  => [
             'index' => 'admin.village.serviceorderscnew.index',
-            'show'    => 'admin.village.serviceorderscnew.show',
             'create'  => 'admin.village.serviceorderscnew.create',
             'store'   => 'admin.village.serviceorderscnew.store',
-            'edit'    => 'admin.village.serviceorderscnew.edit',
-            'update'  => 'admin.village.serviceorderscnew.update',
-            'destroy' => 'admin.village.serviceorderscnew.destroy',
         ]
     ]);
+
     $router->resource('serviceorderchanges', 'ServiceOrderChangeController', [
       'except' => ['show', 'create', 'store', 'edit', 'update', 'destroy'],
       'names'  => [

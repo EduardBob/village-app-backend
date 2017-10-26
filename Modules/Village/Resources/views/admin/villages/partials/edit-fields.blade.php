@@ -143,6 +143,20 @@
                 {!! $errors->first('product_unit_step_piece', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
+			<div class="col-sm-12">
+				<div class="form-group{{ $errors->has('open_door_link') ? ' has-error' : '' }}">
+					{!! Form::label('open_door_link', $admin->trans('table.open_door_link')) !!}
+					{!! Form::text('open_door_link', Input::old('open_door_link', @$model->open_door_link), ['class' => 'form-control', 'placeholder' => $admin->trans('table.open_door_link')]) !!}
+					{!! $errors->first('open_door_link', '<span class="help-block">:message</span>') !!}
+				</div>
+			</div>
+				<div class="col-sm-12">
+					<div class="form-group{{ $errors->has('open_barrier_link') ? ' has-error' : '' }}">
+						{!! Form::label('open_barrier_link', $admin->trans('table.open_barrier_link')) !!}
+						{!! Form::text('open_barrier_link', Input::old('open_barrier_link', @$model->open_barrier_link), ['class' => 'form-control', 'placeholder' => $admin->trans('table.open_barrier_link')]) !!}
+						{!! $errors->first('open_barrier_link', '<span class="help-block">:message</span>') !!}
+					</div>
+				</div>
         <div class="col-sm-12">
             <div class="form-group{{ $errors->has('send_sms_to_village_admin') ? ' has-error' : '' }}">
                 {!! Form::checkbox('send_sms_to_village_admin', (int)Input::old('send_sms_to_village_admin', @$model->send_sms_to_village_admin), (bool)Input::old('send_sms_to_village_admin', @$model->send_sms_to_village_admin), ['class' => 'flat-blue']) !!}

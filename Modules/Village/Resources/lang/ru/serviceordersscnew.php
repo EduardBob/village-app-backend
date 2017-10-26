@@ -13,7 +13,8 @@ return [
         'create' => 'Создать заказ услуги',
         'status_running' => 'Начать выполнять',
         'status_done' => 'Выполнен',
-        'status_paid_and_done' => 'Выполнен и оплачен'
+        'status_done_and_open_door' => 'Выполнить и открыть калитку',
+        'status_done_and_open_barrier' => 'Выполнить и открыть шлагбаум',
     ],
     'table' => [
         'id' => 'ID заказа',
@@ -70,5 +71,9 @@ return [
                 'rejected' => 'Отклонён',
             ]
         ]
-    ]
+    ],
+    'messages' => [
+        'resource status-done-and-door-was-opened' => 'Заказ выполнен и калитка открыта',
+        'resource status-done-and-barrier-was-opened' => 'Заказ выполнен и шлагбаум открыт',
+    ],
 ];

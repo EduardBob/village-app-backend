@@ -187,15 +187,90 @@ class ServiceOrderScNewController extends AdminController
                 }
             })
             ->editColumn('action', function (ServiceOrder $serviceOrder) {
-                if ($serviceOrder::STATUS_PROCESSING == $serviceOrder->status && $this->getCurrentUser()->hasAccess('village.serviceorders.setStatusRunning')) {
-                    return '<a class="btn btn-primary pull-left btn-flat label-waring" href="'.route('admin.village.serviceorder.set_status_running', ['id' => $serviceOrder->id]).'">'.$this->trans('button.status_running').'</button>';
+                $actions = '';
+                if ($serviceOrder::STATUS_RUNNING == $serviceOrder->status || $serviceOrder::STATUS_PROCESSING == $serviceOrder->status) {
+                    if ($this->getCurrentUser()->hasAccess($this->getAccess('setStatusDoneAndOpenDoor'))) {
+                        $actions .= '<a class="btn btn-warning pull-left btn-flat label-waring" href="'.route($this->getRoute('status_done_and_open_door'), ['id' => $serviceOrder->id]).'">'.$this->trans('button.status_done_and_open_door').'</a>';
+                    }
+
+                    if ($this->getCurrentUser()->hasAccess($this->getAccess('setStatusDoneAndOpenBarrier'))) {
+                        $actions .='<br><br><a class="btn btn-danger pull-left btn-flat label-waring" href="'.route($this->getRoute('status_done_and_open_barrier'), ['id' => $serviceOrder->id]).'">'.$this->trans('button.status_done_and_open_barrier').'</a>';
+                    }
                 }
 
-                if ($serviceOrder::STATUS_RUNNING == $serviceOrder->status && $this->getCurrentUser()->hasAccess('village.serviceorders.setStatusDone')) {
-                    return '<a class="btn btn-success pull-left btn-flat label-waring" href="'.route('admin.village.serviceorder.set_status_done', ['id' => $serviceOrder->id]).'">'.$this->trans('button.status_done').'</button>';
-                }
+                return $actions;
             })
         ;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function setStatusDoneAndOpenDoor($id)
+    {
+        /** @var ServiceOrder $serviceOrder */
+        $serviceOrder = $this->repository->find((int)$id);
+        if (!$serviceOrder || $serviceOrder->service->type != Service::TYPE_SC || ($serviceOrder->status !== $serviceOrder::STATUS_PROCESSING && $serviceOrder->status !== $serviceOrder::STATUS_RUNNING)) {
+            return redirect()->back(302);
+        }
+
+        $this->setStatusDone($serviceOrder);
+
+        if ($securityUrl = $serviceOrder->village->open_door_link) {
+            $ctx = stream_context_create(array(
+                    'http' => array(
+                        'timeout' => 15
+                    )
+                )
+            );
+            if (false === file_get_contents($securityUrl, false, $ctx)) {
+                die('Калитка не открылась');
+            }
+        }
+
+        flash()->success($this->trans('messages.resource status-done-and-door-was-opened'));
+
+        return redirect()->back(302);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function setStatusDoneAndOpenBarrier($id)
+    {
+        /** @var ServiceOrder $serviceOrder */
+        $serviceOrder = $this->repository->find((int)$id);
+        if (!$serviceOrder || $serviceOrder->service->type != Service::TYPE_SC || ($serviceOrder->status !== $serviceOrder::STATUS_PROCESSING && $serviceOrder->status !== $serviceOrder::STATUS_RUNNING)) {
+            return redirect()->back(302);
+        }
+
+        $this->setStatusDone($serviceOrder);
+
+        if ($securityUrl = $serviceOrder->village->open_barrier_link) {
+            $ctx = stream_context_create(array(
+                    'http' => array(
+                        'timeout' => 15
+                    )
+                )
+            );
+            if (false === file_get_contents($securityUrl, false, $ctx)) {
+                die('Шлагбаум не открылся');
+            }
+        }
+
+        flash()->success($this->trans('messages.resource status-done-and-barrier-was-opened'));
+
+        return redirect()->back(302);
+    }
+
+    private function setStatusDone(ServiceOrder $serviceOrder)
+    {
+        $serviceOrder->status = $serviceOrder::STATUS_DONE;
+        $serviceOrder->save();
     }
 
     /**
@@ -241,11 +316,11 @@ class ServiceOrderScNewController extends AdminController
      */
     public function getServices()
     {
-        if (!method_exists($this->modelClass, 'village') || $this->getCurrentUser()->inRole('admin')){
-            return $this->serviceRepository->lists([
-                'type' => Service::TYPE_SC
-            ], 'title', 'id', ['title' => 'asc']);
-        }
+//        if (!method_exists($this->modelClass, 'village') || $this->getCurrentUser()->inRole('admin')){
+//            return $this->serviceRepository->lists([
+//                'type' => Service::TYPE_SC
+//            ], 'title', 'id', ['title' => 'asc']);
+//        }
 
         return $this->serviceRepository->lists([
             'village_id' => $this->getCurrentUser()->village->id,

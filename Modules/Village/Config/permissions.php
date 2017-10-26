@@ -163,12 +163,10 @@ return [
     ],
     'village.serviceordersscnew' => [
         'index',
-        'show',
         'create',
         'store',
-        'edit',
-        'update',
-        'destroy',
+        'setStatusDoneAndOpenDoor',
+        'setStatusDoneAndOpenBarrier',
     ],
     'village.serviceorderchanges' => [
         'index',

@@ -79,6 +79,8 @@ return [
         'resource status-done' => 'Заказ выполнен',
         'resource payment-done' => 'Заказ оплачен',
         'resource payment-and-status-done' => 'Заказ оплачен и выполнен',
+        'resource status-done-and-door-was-opened' => 'Заказ выполнен и калитка открыта',
+        'resource status-done-and-barrier-was-opened' => 'Заказ выполнен и шлагбаум открыт',
     ],
     'validation' => [
     ],

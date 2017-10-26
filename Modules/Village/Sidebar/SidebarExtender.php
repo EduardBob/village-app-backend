@@ -224,6 +224,15 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                        );
                    });
 
+                   $item->item(trans('village::serviceordersscnew.title.module'), function (Item $item) {
+                       $item->weight(2);
+                       $item->icon('fa fa-shopping-cart');
+                       $item->route('admin.village.serviceorderscnew.index');
+                       $item->authorize(
+                           $this->auth->hasAccess('village.serviceordersscnew.index')
+                       );
+                   });
+
                    if ($this->auth->hasAccess('village.productorderchanges.index')) {
                        $item->item(trans('village::productorderchanges.title.module'), function (Item $item) {
                            $item->weight(3);

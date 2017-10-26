@@ -34,7 +34,8 @@ abstract class AbstractOrderController extends AdminController
 
 		flash()->success($this->trans('messages.resource status-running'));
 
-		return redirect()->route($this->getRoute('index'));
+		return redirect()->back(302);
+//		return redirect()->route($this->getRoute('index'));
 	}
 
 	/**
@@ -55,7 +56,8 @@ abstract class AbstractOrderController extends AdminController
 
 		flash()->success($this->trans('messages.resource status-done'));
 
-		return redirect()->route($this->getRoute('index'));
+        return redirect()->back(302);
+//		return redirect()->route($this->getRoute('index'));
 	}
 
 	/**

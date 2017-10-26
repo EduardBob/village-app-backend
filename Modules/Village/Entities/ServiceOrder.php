@@ -64,18 +64,5 @@ class ServiceOrder extends AbstractOrder
                 $serviceOrder->status = 'processing';
             }
         }, 10);
-
-        static::saving(function(ServiceOrder $serviceOrder) {
-            if ($serviceOrder->perform_time === '') {
-                $serviceOrder->perform_time = null;
-            }
-
-	        if ($serviceOrder::STATUS_DONE === $serviceOrder->status) {
-		        $serviceOrder->done_at = new \DateTime();
-	        }
-	        else {
-		        $serviceOrder->done_at = null;
-	        }
-        }, 10);
     }
 }

@@ -300,9 +300,9 @@ $router->group(['prefix' => '/village'], function (Router $router) {
       ]
     ]);
     $router->group(['prefix' => 'serviceorders'], function (Router $router) {
-        $router->put('{id}/status-running',
+        $router->any('{id}/status-running',
           ['uses' => 'ServiceOrderController@setStatusRunning', 'as' => 'admin.village.serviceorder.set_status_running']);
-        $router->put('{id}/status-done', ['uses' => 'ServiceOrderController@setStatusDone', 'as' => 'admin.village.serviceorder.set_status_done']);
+        $router->any('{id}/status-done', ['uses' => 'ServiceOrderController@setStatusDone', 'as' => 'admin.village.serviceorder.set_status_done']);
         $router->put('{id}/payment-done', ['uses' => 'ServiceOrderController@setPaymentDone', 'as' => 'admin.village.serviceorder.set_payment_done']);
         $router->put('{id}/payment-and-status-done',
           ['uses' => 'ServiceOrderController@setPaymentAndStatusDone', 'as' => 'admin.village.serviceorder.set_payment_and_status_done']);
@@ -315,6 +315,18 @@ $router->group(['prefix' => '/village'], function (Router $router) {
       'names'  => [
         'index' => 'admin.village.serviceordersc.index',
       ]
+    ]);
+    $router->resource('serviceordersscnew', 'ServiceOrderScNewController', [
+//        'except' => ['show', 'create', 'store', 'edit', 'update', 'destroy'],
+        'names'  => [
+            'index' => 'admin.village.serviceorderscnew.index',
+            'show'    => 'admin.village.serviceorderscnew.show',
+            'create'  => 'admin.village.serviceorderscnew.create',
+            'store'   => 'admin.village.serviceorderscnew.store',
+            'edit'    => 'admin.village.serviceorderscnew.edit',
+            'update'  => 'admin.village.serviceorderscnew.update',
+            'destroy' => 'admin.village.serviceorderscnew.destroy',
+        ]
     ]);
     $router->resource('serviceorderchanges', 'ServiceOrderChangeController', [
       'except' => ['show', 'create', 'store', 'edit', 'update', 'destroy'],

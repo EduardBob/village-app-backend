@@ -387,7 +387,12 @@ abstract class AdminController extends AdminBaseController
 
 	    $this->successStoreMessage();
 
-	    return redirect()->route($this->getRoute('edit'), ['id'  => $model->id]);
+        if ($this->getCurrentUser()->hasAccess($this->getAccess('edit'))) {
+            return redirect()->route($this->getRoute('edit'), ['id'  => $model->id]);
+        }
+        else {
+            return redirect()->route($this->getRoute('index'));
+        }
     }
 
     /**

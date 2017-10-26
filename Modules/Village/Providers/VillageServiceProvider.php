@@ -95,6 +95,22 @@ class VillageServiceProvider extends ServiceProvider
             }
         }, -1);
 
+        ProductOrder::saving(function (ProductOrder $productOrder) {
+            if ($productOrder->perform_time === '') {
+                $productOrder->perform_time = null;
+            }
+
+            if ($productOrder::STATUS_DONE !== $productOrder->status) {
+                $productOrder->done_at = null;
+            }
+
+            if ($productOrder->isDirty('status')) {
+                if ($productOrder::STATUS_DONE === $productOrder->status) {
+                    $productOrder->done_at = new \DateTime();
+                }
+            }
+        });
+
         ProductOrder::saved(function (ProductOrder $productOrder) use ($auth) {
             if ($productOrder->isDirty('status')) {
                 $user = $this->user($auth);
@@ -146,6 +162,22 @@ class VillageServiceProvider extends ServiceProvider
                 } else {
                     $serviceOrder->payment_type = $serviceOrder::PAYMENT_TYPE_CASH;
                     $serviceOrder->save();
+                }
+            }
+        });
+
+        ServiceOrder::saving(function (ServiceOrder $serviceOrder) {
+            if ($serviceOrder->perform_time === '') {
+                $serviceOrder->perform_time = null;
+            }
+
+            if ($serviceOrder::STATUS_DONE !== $serviceOrder->status) {
+                $serviceOrder->done_at = null;
+            }
+
+            if ($serviceOrder->isDirty('status')) {
+                if ($serviceOrder::STATUS_DONE === $serviceOrder->status) {
+                    $serviceOrder->done_at = new \DateTime();
                 }
             }
         });
@@ -370,7 +402,6 @@ class VillageServiceProvider extends ServiceProvider
      */
     private function sendClientPushOnSecurityPassStatusChange(Authentication $auth, OrderInterface $order)
     {
-
         //Сообщение: %время_завершения_заказа_пропуска%:  %заметка_покупателя% прошел/заехал.
         //
         $devices = $order->user->devices;

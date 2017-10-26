@@ -161,6 +161,15 @@ return [
     'village.serviceorderssc' => [
         'index',
     ],
+    'village.serviceordersscnew' => [
+        'index',
+        'show',
+        'create',
+        'store',
+        'edit',
+        'update',
+        'destroy',
+    ],
     'village.serviceorderchanges' => [
         'index',
     ],

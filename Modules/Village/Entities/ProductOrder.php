@@ -52,18 +52,5 @@ class ProductOrder extends AbstractOrder
             }
             $productOrder->unit_title = $productOrder->product->unit_title;
         }, 10);
-
-        static::saving(function(ProductOrder $productOrder) {
-            if ($productOrder->perform_time === '') {
-                $productOrder->perform_time = null;
-            }
-
-	        if ($productOrder::STATUS_DONE === $productOrder->status) {
-		        $productOrder->done_at = new \DateTime();
-	        }
-	        else {
-		        $productOrder->done_at = null;
-	        }
-        }, 10);
     }
 }

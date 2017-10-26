@@ -5,8 +5,6 @@ namespace Modules\Village\Packback\Transformer;
 use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 use Modules\Village\Entities\ServiceOrder;
-use Modules\Village\Entities\ServiceOrderChange;
-use Modules\Village\Http\Controllers\Admin\ServiceOrderScController;
 
 class ServiceOrderTransformer extends TransformerAbstract
 {

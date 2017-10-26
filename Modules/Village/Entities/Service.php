@@ -15,6 +15,7 @@ class Service extends Model
     use SoftDeletes;
 
 	const TYPE_DEFAULT = 'default';
+	// для КПП
 	const TYPE_SC = 'sc';
 
     public $table = 'village__services';
